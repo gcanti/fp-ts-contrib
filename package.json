@@ -28,7 +28,9 @@
     "url": "https://github.com/gcanti/fp-ts-contrib/issues"
   },
   "homepage": "https://github.com/gcanti/fp-ts-contrib",
-  "dependencies": {},
+  "dependencies": {
+    "fp-ts": "^1.14.2"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
