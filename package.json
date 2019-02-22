@@ -1,0 +1,56 @@
+{
+  "name": "fp-ts-contrib",
+  "version": "0.0.1",
+  "description": "fp-ts extras",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts",
+    "jest": "jest",
+    "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test}/**/*.ts\"",
+    "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test}/**/*.ts\"",
+    "test": "npm run prettier && npm run dtslint && npm run jest",
+    "clean": "rimraf rm -rf lib/*",
+    "build": "npm run clean && tsc",
+    "dtslint": "dtslint dtslint",
+    "mocha": "mocha -r ts-node/register test/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gcanti/fp-ts-contrib.git"
+  },
+  "author": "Giulio Canti <giulio.canti@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcanti/fp-ts-contrib/issues"
+  },
+  "homepage": "https://github.com/gcanti/fp-ts-contrib",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^23.3.13",
+    "@types/node": "^10.12.18",
+    "dtslint": "github:gcanti/dtslint",
+    "jest": "^23.6.0",
+    "mocha": "^5.2.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3333"
+  },
+  "tags": [
+    "typescript",
+    "fp-ts",
+    "functional-programming"
+  ],
+  "keywords": [
+    "typescript",
+    "fp-ts",
+    "functional-programming"
+  ]
+}
