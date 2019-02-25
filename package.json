@@ -1,7 +1,7 @@
 {
   "name": "fp-ts-contrib",
   "version": "0.0.1",
-  "description": "fp-ts extras",
+  "description": "A community driven utility package for fp-ts",
   "files": [
     "lib"
   ],
