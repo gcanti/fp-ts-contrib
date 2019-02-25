@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { sequenceS } from '../src/sequence-s'
+import { sequenceS } from '../src/sequenceS'
 import {} from 'fp-ts/lib/Apply'
 import {} from 'fp-ts/lib/Applicative'
 import { either, right, left } from 'fp-ts/lib/Either'
