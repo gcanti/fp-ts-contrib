@@ -3,6 +3,35 @@ import { Apply2, Apply, Apply3, Apply2C, Apply3C, Apply1 } from 'fp-ts/lib/Apply
 
 type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
+/**
+ * Like `Apply.sequenceT` but works with structs instead of tuples.
+ *
+ * **Note**. `sequenceS` may return a union when working with type constructors with kind `* -> * -> *` (or higher).
+ * This behaviour may change in next releases without notice, so applying values with different types is not warranted.
+ *
+ * @example
+ * import { either, right, left } from 'fp-ts/lib/Either'
+ * import { sequenceS } from 'fp-ts/lib/sequenceS'
+ *
+ * const ado = sequenceS(either)
+ *
+ * assert.deepStrictEqual(
+ *   ado({
+ *     a: right<string, number>(1), // the left types must align
+ *     b: right<string, boolean>(true) // the left types must align
+ *   }),
+ *   right({ a: 1, b: true })
+ * )
+ * assert.deepStrictEqual(
+ *   ado({
+ *     a: right(1),
+ *     b: left('error')
+ *   }),
+ *   left('error')
+ * )
+ *
+ * @since 0.0.1
+ */
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <R extends Record<string, Type3<F, any, any, any>>>(
