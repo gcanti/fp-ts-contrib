@@ -37,9 +37,8 @@ export function sequenceS<F extends URIS>(
 ): <R extends Record<string, Type<F, any>>>(
   r: EnforceNonEmptyRecord<R>
 ) => Type<F, { [K in keyof R]: R[K] extends Type<F, infer A> ? A : never }>
-export function sequenceS<F extends URIS>(
-  F: Apply<F>
-): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> {
+export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>>
+export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> {
   return r => {
     const keys = Object.keys(r)
     const fst = keys[0]
