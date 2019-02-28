@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts-contrib",
   "dependencies": {
-    "fp-ts": "^1.14.2"
+    "fp-ts": "^1.14.3"
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",
