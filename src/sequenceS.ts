@@ -11,7 +11,7 @@ type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
  *
  * @example
  * import { either, right, left } from 'fp-ts/lib/Either'
- * import { sequenceS } from 'fp-ts/lib/sequenceS'
+ * import { sequenceS } from 'fp-ts-contrib/lib/sequenceS'
  *
  * const ado = sequenceS(either)
  *
