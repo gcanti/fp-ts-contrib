@@ -16,7 +16,8 @@
     "clean": "rimraf rm -rf lib/*",
     "build": "npm run clean && tsc",
     "dtslint": "dtslint dtslint",
-    "mocha": "mocha -r ts-node/register test/*.ts"
+    "mocha": "mocha -r ts-node/register test/*.ts",
+    "docs": "rimraf rm -rf \"docs/!(index.md|_config.yml)\" && ts-node docs.ts && doctoc docs"
   },
   "repository": {
     "type": "git",
@@ -34,11 +35,13 @@
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
+    "docs-ts": "github:gcanti/docs-ts",
+    "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "jest": "^23.6.0",
     "mocha": "^5.2.0",
     "prettier": "^1.16.4",
-    "rimraf": "^2.6.2",
+    "rimraf": "^2.6.3",
     "ts-jest": "^23.10.5",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
