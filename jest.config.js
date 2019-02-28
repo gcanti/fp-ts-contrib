@@ -5,7 +5,7 @@ module.exports = {
   },
   testRegex: 'test',
   moduleFileExtensions: ['ts', 'js'],
-  testPathIgnorePatterns: ['helpers.ts'],
+  testPathIgnorePatterns: [],
   coverageThreshold: {
     global: {
       branches: 100,
