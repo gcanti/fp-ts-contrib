@@ -17,7 +17,7 @@
     "build": "npm run clean && tsc",
     "dtslint": "dtslint dtslint",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "docs": "rimraf rm -rf \"docs/!(index.md|_config.yml)\" && ts-node docs.ts && doctoc docs"
+    "docs": "rimraf rm -rf \"docs/!(index.md|_config.yml)\" && ts-node docs.ts && doctoc docs --title \"**Table of contents**\""
   },
   "repository": {
     "type": "git",
