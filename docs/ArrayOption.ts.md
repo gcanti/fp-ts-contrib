@@ -3,38 +3,32 @@ title: ArrayOption.ts
 nav_order: 1
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [ArrayOption](#arrayoption)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [fold](#fold)
-  - [getOrElse](#getorelse)
-- [URI](#uri-1)
-- [arrayOption](#arrayoption)
-- [none](#none)
-- [some](#some)
-- [fromArray](#fromarray)
-- [fromOption](#fromoption)
+- [URI (type alias)](#uri-type-alias)
+- [ArrayOption (class)](#arrayoption-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [fold (method)](#fold-method)
+  - [getOrElse (method)](#getorelse-method)
+- [URI (constant)](#uri-constant)
+- [arrayOption (constant)](#arrayoption-constant)
+- [none (constant)](#none-constant)
+- [some (constant)](#some-constant)
+- [fromArray (function)](#fromarray-function)
+- [fromOption (function)](#fromoption-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# ArrayOption
+# ArrayOption (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class ArrayOption<A> {
@@ -43,97 +37,97 @@ export class ArrayOption<A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): ArrayOption<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: ArrayOption<(b: B) => C>, fb: ArrayOption<B>): ArrayOption<C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<R>(onNone: R, onSome: (a: A) => R): Array<R> { ... }
 ```
 
-## getOrElse
+## getOrElse (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 getOrElse(a: A): Array<A> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# arrayOption
+# arrayOption (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const arrayOption: Monad1<URI> = ...
 ```
 
-# none
+# none (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const none = ...
 ```
 
-# some
+# some (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const some = ...
 ```
 
-# fromArray
+# fromArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromArray = <A>(ma: Array<A>): ArrayOption<A> => ...
 ```
 
-# fromOption
+# fromOption (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromOption = <A>(ma: Option<A>): ArrayOption<A> => ...

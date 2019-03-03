@@ -3,22 +3,16 @@ title: sequenceS.ts
 nav_order: 7
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [sequenceS](#sequences)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# sequenceS
+- [sequenceS (function)](#sequences-function)# sequenceS (function)
 
 Like `Apply.sequenceT` but works with structs instead of tuples.
 
 **Note**. `sequenceS` may return a union when working with type constructors with kind `* -> * -> *` (or higher).
 This behaviour may change in next releases without notice, so applying values with different types is not warranted.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequenceS<F extends URIS3>(

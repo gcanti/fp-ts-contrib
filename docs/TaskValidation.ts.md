@@ -3,31 +3,25 @@ title: TaskValidation.ts
 nav_order: 11
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [TaskValidation](#taskvalidation)
-  - [map](#map)
-  - [fold](#fold)
-- [URI](#uri-1)
-- [taskValidation](#taskvalidation)
-- [getApplicative](#getapplicative)
+- [URI (type alias)](#uri-type-alias)
+- [TaskValidation (class)](#taskvalidation-class)
+  - [map (method)](#map-method)
+  - [fold (method)](#fold-method)
+- [URI (constant)](#uri-constant)
+- [taskValidation (constant)](#taskvalidation-constant)
+- [getApplicative (function)](#getapplicative-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# TaskValidation
+# TaskValidation (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class TaskValidation<L, A> {
@@ -36,41 +30,41 @@ export class TaskValidation<L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): TaskValidation<L, B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<R>(failure: (l: L) => R, success: (a: A) => R): task.Task<R> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# taskValidation
+# taskValidation (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const taskValidation: Functor2<URI> = ...
 ```
 
-# getApplicative
+# getApplicative (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => ...

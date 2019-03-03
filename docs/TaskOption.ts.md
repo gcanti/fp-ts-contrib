@@ -3,40 +3,34 @@ title: TaskOption.ts
 nav_order: 10
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [TaskOption](#taskoption)
-  - [run](#run)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [fold](#fold)
-  - [getOrElse](#getorelse)
-- [URI](#uri-1)
-- [none](#none)
-- [some](#some)
-- [taskOption](#taskoption)
-- [fromOption](#fromoption)
-- [fromTask](#fromtask)
-- [tryCatch](#trycatch)
+- [URI (type alias)](#uri-type-alias)
+- [TaskOption (class)](#taskoption-class)
+  - [run (method)](#run-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [fold (method)](#fold-method)
+  - [getOrElse (method)](#getorelse-method)
+- [URI (constant)](#uri-constant)
+- [none (constant)](#none-constant)
+- [some (constant)](#some-constant)
+- [taskOption (constant)](#taskoption-constant)
+- [fromOption (function)](#fromoption-function)
+- [fromTask (function)](#fromtask-function)
+- [tryCatch (function)](#trycatch-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# TaskOption
+# TaskOption (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class TaskOption<A> {
@@ -45,113 +39,113 @@ export class TaskOption<A> {
 }
 ```
 
-## run
+## run (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 run(): Promise<Option<A>> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): TaskOption<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: TaskOption<(a: A) => B>): TaskOption<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: TaskOption<(b: B) => C>, fb: TaskOption<B>): TaskOption<C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => TaskOption<B>): TaskOption<B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<R>(onNone: R, onSome: (a: A) => R): Task<R> { ... }
 ```
 
-## getOrElse
+## getOrElse (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 getOrElse(a: A): Task<A> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# none
+# none (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const none = ...
 ```
 
-# some
+# some (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const some = ...
 ```
 
-# taskOption
+# taskOption (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const taskOption: Monad1<URI> = ...
 ```
 
-# fromOption
+# fromOption (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromOption = <A>(ma: Option<A>): TaskOption<A> => ...
 ```
 
-# fromTask
+# fromTask (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromTask = <A>(ma: Task<A>): TaskOption<A> => ...
 ```
 
-# tryCatch
+# tryCatch (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> =>

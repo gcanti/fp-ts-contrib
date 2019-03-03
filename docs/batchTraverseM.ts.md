@@ -3,21 +3,15 @@ title: batchTraverseM.ts
 nav_order: 2
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [batchSequenceM](#batchsequencem)
-- [batchTraverseM](#batchtraversem)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# batchSequenceM
+- [batchSequenceM (function)](#batchsequencem-function)
+- [batchTraverseM (function)](#batchtraversem-function)# batchSequenceM (function)
 
 Like `array.sequence` but actions are batched in chunks.
 You can use `Array.chunksOf` to provide the `as` argument.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function batchSequenceM<M extends URIS3>(
@@ -37,12 +31,12 @@ export function batchSequenceM<M>(M: Monad<M>): <A>(as: Array<Array<HKT<M, A>>>)
 export function batchSequenceM<M>(M: Monad<M>): <A>(as: Array<Array<HKT<M, A>>>) => HKT<M, Array<A>> { ... }
 ```
 
-# batchTraverseM
+# batchTraverseM (function)
 
 Like `array.traverse` but actions are batched in chunks.
 You can use `Array.chunksOf` to provide the `as` argument.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function batchTraverseM<M extends URIS3>(

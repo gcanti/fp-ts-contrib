@@ -3,31 +3,25 @@ title: TheseOption.ts
 nav_order: 12
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [TheseOption](#theseoption)
-- [URI](#uri-1)
-- [getFold](#getfold)
-- [getFromThese](#getfromthese)
-- [getMonad](#getmonad)
-- [getSome](#getsome)
+- [URI (type alias)](#uri-type-alias)
+- [TheseOption (class)](#theseoption-class)
+- [URI (constant)](#uri-constant)
+- [getFold (function)](#getfold-function)
+- [getFromThese (function)](#getfromthese-function)
+- [getMonad (function)](#getmonad-function)
+- [getSome (function)](#getsome-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# TheseOption
+# TheseOption (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class TheseOption<L, A> {
@@ -36,17 +30,17 @@ export class TheseOption<L, A> {
 }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# getFold
+# getFold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFold = <L>(
@@ -54,25 +48,25 @@ export const getFold = <L>(
 ): (<A, R>(r: R, some: (a: A) => R, fa: TheseOption<L, A>) => These<L, R>) => ...
 ```
 
-# getFromThese
+# getFromThese (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFromThese = <L, A>(fa: These<L, A>): TheseOption<L, A> => ...
 ```
 
-# getMonad
+# getMonad (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonad = <L>(M: Monad2C<TheseURI, L>): Monad2C<URI, L> => ...
 ```
 
-# getSome
+# getSome (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSome = <L>(M: Monad2C<URI, L>): (<A>(a: A) => TheseOption<L, A>) => ...

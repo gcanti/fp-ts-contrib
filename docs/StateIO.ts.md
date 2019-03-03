@@ -3,41 +3,35 @@ title: StateIO.ts
 nav_order: 8
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [StateIO](#stateio)
-  - [run](#run)
-  - [eval](#eval)
-  - [exec](#exec)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [stateIO](#stateio)
-- [fromIO](#fromio)
-- [fromState](#fromstate)
-- [get](#get)
-- [gets](#gets)
-- [modify](#modify)
-- [put](#put)
+- [URI (type alias)](#uri-type-alias)
+- [StateIO (class)](#stateio-class)
+  - [run (method)](#run-method)
+  - [eval (method)](#eval-method)
+  - [exec (method)](#exec-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [stateIO (constant)](#stateio-constant)
+- [fromIO (function)](#fromio-function)
+- [fromState (function)](#fromstate-function)
+- [get (function)](#get-function)
+- [gets (function)](#gets-function)
+- [modify (function)](#modify-function)
+- [put (function)](#put-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# StateIO
+# StateIO (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class StateIO<S, A> {
@@ -46,121 +40,121 @@ export class StateIO<S, A> {
 }
 ```
 
-## run
+## run (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 run(s: S): [A, S] { ... }
 ```
 
-## eval
+## eval (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 eval(s: S): A { ... }
 ```
 
-## exec
+## exec (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 exec(s: S): S { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): StateIO<S, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: StateIO<S, (a: A) => B>): StateIO<S, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: StateIO<S, (b: B) => C>, fb: StateIO<S, B>): StateIO<S, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => StateIO<S, B>): StateIO<S, B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# stateIO
+# stateIO (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const stateIO: Monad2<URI> = ...
 ```
 
-# fromIO
+# fromIO (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromIO = <S, A>(fa: IO<A>): StateIO<S, A> => ...
 ```
 
-# fromState
+# fromState (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromState = <S, A>(fa: State<S, A>): StateIO<S, A> => ...
 ```
 
-# get
+# get (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const get = <S>(): StateIO<S, S> => ...
 ```
 
-# gets
+# gets (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => ...
 ```
 
-# modify
+# modify (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => ...
 ```
 
-# put
+# put (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const put = <S>(s: S): StateIO<S, void> => ...

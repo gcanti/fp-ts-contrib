@@ -3,38 +3,32 @@ title: ReaderIO.ts
 nav_order: 6
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [ReaderIO](#readerio)
-  - [map](#map)
-  - [of](#of)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [readerIO](#readerio)
-- [ask](#ask)
-- [asks](#asks)
-- [fromIO](#fromio)
-- [fromReader](#fromreader)
-- [local](#local)
+- [URI (type alias)](#uri-type-alias)
+- [ReaderIO (class)](#readerio-class)
+  - [map (method)](#map-method)
+  - [of (method)](#of-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [readerIO (constant)](#readerio-constant)
+- [ask (function)](#ask-function)
+- [asks (function)](#asks-function)
+- [fromIO (function)](#fromio-function)
+- [fromReader (function)](#fromreader-function)
+- [local (function)](#local-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# ReaderIO
+# ReaderIO (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class ReaderIO<E, A> {
@@ -43,97 +37,97 @@ export class ReaderIO<E, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): ReaderIO<E, B> { ... }
 ```
 
-## of
+## of (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 of<E, B>(b: B): ReaderIO<E, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: ReaderIO<E, (a: A) => B>): ReaderIO<E, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: ReaderIO<E, (b: B) => C>, fb: ReaderIO<E, B>): ReaderIO<E, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# readerIO
+# readerIO (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const readerIO: Monad2<URI> = ...
 ```
 
-# ask
+# ask (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const ask = <E>(): ReaderIO<E, E> => ...
 ```
 
-# asks
+# asks (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => ...
 ```
 
-# fromIO
+# fromIO (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromIO = <E, A>(fa: IO<A>): ReaderIO<E, A> => ...
 ```
 
-# fromReader
+# fromReader (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromReader = <E, A>(fa: Reader<E, A>): ReaderIO<E, A> => ...
 ```
 
-# local
+# local (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => ...

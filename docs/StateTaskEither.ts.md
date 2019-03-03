@@ -3,42 +3,36 @@ title: StateTaskEither.ts
 nav_order: 9
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [StateTaskEither](#statetaskeither)
-  - [run](#run)
-  - [eval](#eval)
-  - [exec](#exec)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [orElse](#orelse)
-- [URI](#uri-1)
-- [stateTaskEither](#statetaskeither)
-- [fromState](#fromstate)
-- [fromTaskEither](#fromtaskeither)
-- [get](#get)
-- [gets](#gets)
-- [modify](#modify)
-- [put](#put)
+- [URI (type alias)](#uri-type-alias)
+- [StateTaskEither (class)](#statetaskeither-class)
+  - [run (method)](#run-method)
+  - [eval (method)](#eval-method)
+  - [exec (method)](#exec-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [orElse (method)](#orelse-method)
+- [URI (constant)](#uri-constant)
+- [stateTaskEither (constant)](#statetaskeither-constant)
+- [fromState (function)](#fromstate-function)
+- [fromTaskEither (function)](#fromtaskeither-function)
+- [get (function)](#get-function)
+- [gets (function)](#gets-function)
+- [modify (function)](#modify-function)
+- [put (function)](#put-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# StateTaskEither
+# StateTaskEither (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class StateTaskEither<S, L, A> {
@@ -47,129 +41,129 @@ export class StateTaskEither<S, L, A> {
 }
 ```
 
-## run
+## run (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 run(s: S): Promise<Either<L, [A, S]>> { ... }
 ```
 
-## eval
+## eval (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 eval(s: S): Promise<Either<L, A>> { ... }
 ```
 
-## exec
+## exec (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 exec(s: S): Promise<Either<L, S>> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): StateTaskEither<S, L, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: StateTaskEither<S, L, (a: A) => B>): StateTaskEither<S, L, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: StateTaskEither<S, L, (b: B) => C>, fb: StateTaskEither<S, L, B>): StateTaskEither<S, L, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => StateTaskEither<S, L, B>): StateTaskEither<S, L, B> { ... }
 ```
 
-## orElse
+## orElse (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 orElse<M>(f: (l: L) => StateTaskEither<S, M, A>): StateTaskEither<S, M, A> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# stateTaskEither
+# stateTaskEither (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const stateTaskEither: Monad3<URI> = ...
 ```
 
-# fromState
+# fromState (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromState = <S, A, L>(fa: State<S, A>): StateTaskEither<S, L, A> => ...
 ```
 
-# fromTaskEither
+# fromTaskEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromTaskEither = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> => ...
 ```
 
-# get
+# get (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const get = <L, S>(): StateTaskEither<S, L, S> => ...
 ```
 
-# gets
+# gets (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> => ...
 ```
 
-# modify
+# modify (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const modify = <L, S>(f: Endomorphism<S>): StateTaskEither<S, L, void> => ...
 ```
 
-# put
+# put (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const put = <L, S>(s: S): StateTaskEither<S, L, void> => ...

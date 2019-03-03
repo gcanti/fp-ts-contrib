@@ -3,39 +3,33 @@ title: ReaderEither.ts
 nav_order: 5
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [ReaderEither](#readereither)
-  - [map](#map)
-  - [of](#of)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [readerEither](#readereither)
-- [alt](#alt)
-- [ask](#ask)
-- [asks](#asks)
-- [fromEither](#fromeither)
-- [fromReader](#fromreader)
-- [local](#local)
+- [URI (type alias)](#uri-type-alias)
+- [ReaderEither (class)](#readereither-class)
+  - [map (method)](#map-method)
+  - [of (method)](#of-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [readerEither (constant)](#readereither-constant)
+- [alt (function)](#alt-function)
+- [ask (function)](#ask-function)
+- [asks (function)](#asks-function)
+- [fromEither (function)](#fromeither-function)
+- [fromReader (function)](#fromreader-function)
+- [local (function)](#local-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# ReaderEither
+# ReaderEither (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class ReaderEither<E, L, A> {
@@ -44,105 +38,105 @@ export class ReaderEither<E, L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): ReaderEither<E, L, B> { ... }
 ```
 
-## of
+## of (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 of<E, B>(b: B): ReaderEither<E, L, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: ReaderEither<E, L, (a: A) => B>): ReaderEither<E, L, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: ReaderEither<E, L, (b: B) => C>, fb: ReaderEither<E, L, B>): ReaderEither<E, L, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => ReaderEither<E, L, B>): ReaderEither<E, L, B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# readerEither
+# readerEither (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const readerEither: Monad3<URI> = ...
 ```
 
-# alt
+# alt (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const alt = <E, L, A>(fx: ReaderEither<E, L, A>, fy: ReaderEither<E, L, A>): ReaderEither<E, L, A> => ...
 ```
 
-# ask
+# ask (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const ask = <E, L>(): ReaderEither<E, L, E> => ...
 ```
 
-# asks
+# asks (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const asks = <E, L, A>(f: (e: E) => A): ReaderEither<E, L, A> => ...
 ```
 
-# fromEither
+# fromEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderEither<E, L, A> => ...
 ```
 
-# fromReader
+# fromReader (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderEither<E, L, A> => ...
 ```
 
-# local
+# local (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderEither<E, L, A>): ReaderEither<E, L, A> => ...

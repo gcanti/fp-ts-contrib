@@ -3,20 +3,14 @@ title: time.ts
 nav_order: 13
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [time](#time)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# time
+- [time (function)](#time-function)# time (function)
 
 Mimics the analogous Unix command: given an action `HKT<M, A>`, we can derive an action `HKT<M, [A, number]>` that
 returns the elapsed time along with the computed value
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function time<M extends URIS3>(M: MonadIO3<M>): <U, L, A>(ma: Type3<M, U, L, A>) => Type3<M, U, L, [A, number]>

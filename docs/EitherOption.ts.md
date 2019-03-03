@@ -3,38 +3,32 @@ title: EitherOption.ts
 nav_order: 3
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [EitherOption](#eitheroption)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [fold](#fold)
-  - [getOrElse](#getorelse)
-- [URI](#uri-1)
-- [eitherOption](#eitheroption)
-- [none](#none)
-- [some](#some)
-- [fromEither](#fromeither)
-- [fromOption](#fromoption)
+- [URI (type alias)](#uri-type-alias)
+- [EitherOption (class)](#eitheroption-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [fold (method)](#fold-method)
+  - [getOrElse (method)](#getorelse-method)
+- [URI (constant)](#uri-constant)
+- [eitherOption (constant)](#eitheroption-constant)
+- [none (constant)](#none-constant)
+- [some (constant)](#some-constant)
+- [fromEither (function)](#fromeither-function)
+- [fromOption (function)](#fromoption-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# EitherOption
+# EitherOption (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class EitherOption<L, A> {
@@ -43,97 +37,97 @@ export class EitherOption<L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): EitherOption<L, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: EitherOption<L, (b: B) => C>, fb: EitherOption<L, B>): EitherOption<L, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<R>(onNone: R, onSome: (a: A) => R): Either<L, R> { ... }
 ```
 
-## getOrElse
+## getOrElse (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 getOrElse(a: A): Either<L, A> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# eitherOption
+# eitherOption (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const eitherOption: Monad2<URI> = ...
 ```
 
-# none
+# none (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const none = ...
 ```
 
-# some
+# some (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const some = ...
 ```
 
-# fromEither
+# fromEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromEither = <L, A>(ma: Either<L, A>): EitherOption<L, A> => ...
 ```
 
-# fromOption
+# fromOption (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromOption = <L, A>(ma: Option<A>): EitherOption<L, A> => ...
