@@ -1,9 +1,12 @@
 ---
 title: StateIO.ts
 nav_order: 8
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [StateIO (class)](#stateio-class)
@@ -21,7 +24,11 @@ nav_order: 8
 - [get (function)](#get-function)
 - [gets (function)](#gets-function)
 - [modify (function)](#modify-function)
-- [put (function)](#put-function)# URI (type alias)
+- [put (function)](#put-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 

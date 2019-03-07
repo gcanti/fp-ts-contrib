@@ -1,9 +1,12 @@
 ---
 title: TaskValidation.ts
 nav_order: 11
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [TaskValidation (class)](#taskvalidation-class)
@@ -11,7 +14,11 @@ nav_order: 11
   - [fold (method)](#fold-method)
 - [URI (constant)](#uri-constant)
 - [taskValidation (constant)](#taskvalidation-constant)
-- [getApplicative (function)](#getapplicative-function)# URI (type alias)
+- [getApplicative (function)](#getapplicative-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 

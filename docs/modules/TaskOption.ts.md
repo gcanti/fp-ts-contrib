@@ -1,9 +1,12 @@
 ---
 title: TaskOption.ts
 nav_order: 10
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [TaskOption (class)](#taskoption-class)
@@ -20,7 +23,11 @@ nav_order: 10
 - [taskOption (constant)](#taskoption-constant)
 - [fromOption (function)](#fromoption-function)
 - [fromTask (function)](#fromtask-function)
-- [tryCatch (function)](#trycatch-function)# URI (type alias)
+- [tryCatch (function)](#trycatch-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 

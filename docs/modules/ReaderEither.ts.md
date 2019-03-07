@@ -1,9 +1,12 @@
 ---
 title: ReaderEither.ts
 nav_order: 5
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [ReaderEither (class)](#readereither-class)
@@ -19,7 +22,11 @@ nav_order: 5
 - [asks (function)](#asks-function)
 - [fromEither (function)](#fromeither-function)
 - [fromReader (function)](#fromreader-function)
-- [local (function)](#local-function)# URI (type alias)
+- [local (function)](#local-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 

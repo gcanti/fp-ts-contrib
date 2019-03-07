@@ -1,12 +1,19 @@
 ---
 title: batchTraverseM.ts
 nav_order: 2
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [batchSequenceM (function)](#batchsequencem-function)
-- [batchTraverseM (function)](#batchtraversem-function)# batchSequenceM (function)
+- [batchTraverseM (function)](#batchtraversem-function)
+
+---
+
+# batchSequenceM (function)
 
 Like `array.sequence` but actions are batched in chunks.
 You can use `Array.chunksOf` to provide the `as` argument.
@@ -27,7 +34,6 @@ export function batchSequenceM<M extends URIS2, L>(
   M: Monad2C<M, L>
 ): <A>(as: Array<Array<Type2<M, L, A>>>) => Type2<M, L, Array<A>>
 export function batchSequenceM<M extends URIS>(M: Monad1<M>): <A>(as: Array<Array<Type<M, A>>>) => Type<M, Array<A>>
-export function batchSequenceM<M>(M: Monad<M>): <A>(as: Array<Array<HKT<M, A>>>) => HKT<M, Array<A>>
 export function batchSequenceM<M>(M: Monad<M>): <A>(as: Array<Array<HKT<M, A>>>) => HKT<M, Array<A>> { ... }
 ```
 
@@ -54,8 +60,5 @@ export function batchTraverseM<M extends URIS2, L>(
 export function batchTraverseM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(as: Array<Array<A>>, f: (a: A) => Type<M, B>) => Type<M, Array<B>>
-export function batchTraverseM<M>(M: Monad<M>): <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) => HKT<M, Array<B>>
-export function batchTraverseM<M>(
-  M: Monad<M>
-): <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) => HKT<M, Array<B>> { ... }
+export function batchTraverseM<M>(M: Monad<M>): <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) => HKT<M, Array<B>> { ... }
 ```

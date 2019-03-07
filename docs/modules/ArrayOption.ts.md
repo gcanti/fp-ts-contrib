@@ -1,12 +1,15 @@
 ---
-title: EitherOption.ts
-nav_order: 3
+title: ArrayOption.ts
+nav_order: 1
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
-- [EitherOption (class)](#eitheroption-class)
+- [ArrayOption (class)](#arrayoption-class)
   - [map (method)](#map-method)
   - [ap (method)](#ap-method)
   - [ap\_ (method)](#ap_-method)
@@ -14,11 +17,15 @@ nav_order: 3
   - [fold (method)](#fold-method)
   - [getOrElse (method)](#getorelse-method)
 - [URI (constant)](#uri-constant)
-- [eitherOption (constant)](#eitheroption-constant)
+- [arrayOption (constant)](#arrayoption-constant)
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
-- [fromEither (function)](#fromeither-function)
-- [fromOption (function)](#fromoption-function)# URI (type alias)
+- [fromArray (function)](#fromarray-function)
+- [fromOption (function)](#fromoption-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 
@@ -26,13 +33,13 @@ nav_order: 3
 export type URI = typeof URI
 ```
 
-# EitherOption (class)
+# ArrayOption (class)
 
 **Signature**
 
 ```ts
-export class EitherOption<L, A> {
-  constructor(readonly value: Either<L, Option<A>>) { ... }
+export class ArrayOption<A> {
+  constructor(readonly value: Array<Option<A>>) { ... }
   ...
 }
 ```
@@ -42,7 +49,7 @@ export class EitherOption<L, A> {
 **Signature**
 
 ```ts
-map<B>(f: (a: A) => B): EitherOption<L, B> { ... }
+map<B>(f: (a: A) => B): ArrayOption<B> { ... }
 ```
 
 ## ap (method)
@@ -50,7 +57,7 @@ map<B>(f: (a: A) => B): EitherOption<L, B> { ... }
 **Signature**
 
 ```ts
-ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> { ... }
+ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> { ... }
 ```
 
 ## ap\_ (method)
@@ -58,7 +65,7 @@ ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> { ... }
 **Signature**
 
 ```ts
-ap_<B, C>(this: EitherOption<L, (b: B) => C>, fb: EitherOption<L, B>): EitherOption<L, C> { ... }
+ap_<B, C>(this: ArrayOption<(b: B) => C>, fb: ArrayOption<B>): ArrayOption<C> { ... }
 ```
 
 ## chain (method)
@@ -66,7 +73,7 @@ ap_<B, C>(this: EitherOption<L, (b: B) => C>, fb: EitherOption<L, B>): EitherOpt
 **Signature**
 
 ```ts
-chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> { ... }
+chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> { ... }
 ```
 
 ## fold (method)
@@ -74,7 +81,7 @@ chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> { ... }
 **Signature**
 
 ```ts
-fold<R>(onNone: R, onSome: (a: A) => R): Either<L, R> { ... }
+fold<R>(onNone: R, onSome: (a: A) => R): Array<R> { ... }
 ```
 
 ## getOrElse (method)
@@ -82,7 +89,7 @@ fold<R>(onNone: R, onSome: (a: A) => R): Either<L, R> { ... }
 **Signature**
 
 ```ts
-getOrElse(a: A): Either<L, A> { ... }
+getOrElse(a: A): Array<A> { ... }
 ```
 
 # URI (constant)
@@ -93,12 +100,12 @@ getOrElse(a: A): Either<L, A> { ... }
 export const URI = ...
 ```
 
-# eitherOption (constant)
+# arrayOption (constant)
 
 **Signature**
 
 ```ts
-export const eitherOption: Monad2<URI> = ...
+export const arrayOption: Monad1<URI> = ...
 ```
 
 # none (constant)
@@ -117,12 +124,12 @@ export const none = ...
 export const some = ...
 ```
 
-# fromEither (function)
+# fromArray (function)
 
 **Signature**
 
 ```ts
-export const fromEither = <L, A>(ma: Either<L, A>): EitherOption<L, A> => ...
+export const fromArray = <A>(ma: Array<A>): ArrayOption<A> => ...
 ```
 
 # fromOption (function)
@@ -130,5 +137,5 @@ export const fromEither = <L, A>(ma: Either<L, A>): EitherOption<L, A> => ...
 **Signature**
 
 ```ts
-export const fromOption = <L, A>(ma: Option<A>): EitherOption<L, A> => ...
+export const fromOption = <A>(ma: Option<A>): ArrayOption<A> => ...
 ```

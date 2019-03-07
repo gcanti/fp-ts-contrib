@@ -1,9 +1,12 @@
 ---
 title: TheseOption.ts
 nav_order: 12
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [TheseOption (class)](#theseoption-class)
@@ -11,7 +14,11 @@ nav_order: 12
 - [getFold (function)](#getfold-function)
 - [getFromThese (function)](#getfromthese-function)
 - [getMonad (function)](#getmonad-function)
-- [getSome (function)](#getsome-function)# URI (type alias)
+- [getSome (function)](#getsome-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 

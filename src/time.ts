@@ -18,7 +18,7 @@ import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C } from 'fp-
  *   return n <= 1 ? 1 : fib(n - 1) + fib(n - 2)
  * }
  *
- * console.log(timeIO(randomInt(30, 35).map(fib)).run()) // [ 14930352, 127 ]
+ * timeIO(randomInt(30, 35).map(fib)).run() // [ 14930352, 127 ]
  *
  * @since 0.0.1
  */

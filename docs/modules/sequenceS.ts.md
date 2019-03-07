@@ -1,11 +1,18 @@
 ---
 title: sequenceS.ts
 nav_order: 7
+parent: Modules
 ---
 
-**Table of contents**
+---
 
-- [sequenceS (function)](#sequences-function)# sequenceS (function)
+<h2 class="text-delta">Table of contents</h2>
+
+- [sequenceS (function)](#sequences-function)
+
+---
+
+# sequenceS (function)
 
 Like `Apply.sequenceT` but works with structs instead of tuples.
 
@@ -49,7 +56,6 @@ export function sequenceS<F extends URIS>(
 ): <R extends Record<string, Type<F, any>>>(
   r: EnforceNonEmptyRecord<R>
 ) => Type<F, { [K in keyof R]: R[K] extends Type<F, infer A> ? A : never }>
-export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>>
 export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> { ... }
 ```
 

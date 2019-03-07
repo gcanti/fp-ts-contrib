@@ -1,9 +1,12 @@
 ---
 title: ReaderIO.ts
 nav_order: 6
+parent: Modules
 ---
 
-**Table of contents**
+---
+
+<h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
 - [ReaderIO (class)](#readerio-class)
@@ -18,7 +21,11 @@ nav_order: 6
 - [asks (function)](#asks-function)
 - [fromIO (function)](#fromio-function)
 - [fromReader (function)](#fromreader-function)
-- [local (function)](#local-function)# URI (type alias)
+- [local (function)](#local-function)
+
+---
+
+# URI (type alias)
 
 **Signature**
 
