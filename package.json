@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
-    "docs-ts": "github:gcanti/docs-ts",
+    "docs-ts": "0.0.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "jest": "^23.6.0",
