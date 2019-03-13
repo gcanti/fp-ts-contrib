@@ -10,8 +10,8 @@ import {
   all,
   Selective2C,
   getValidationSelective,
-  option,
-  task
+  selectiveOption,
+  selectiveTask
 } from '../src/Selective'
 import { some } from 'fp-ts/lib/Option'
 import { left, right } from 'fp-ts/lib/Either'
@@ -26,10 +26,16 @@ describe('Selective', () => {
     const length: Function1<string, number> = a => a.length
     const addSpy = jest.fn(add)
     const lengthSpy = jest.fn(length)
-    assert.deepStrictEqual(branch(option)(some(left<string, number>('foo')), some(lengthSpy), some(addSpy)), some(3))
+    assert.deepStrictEqual(
+      branch(selectiveOption)(some(left<string, number>('foo')), some(lengthSpy), some(addSpy)),
+      some(3)
+    )
     assert.deepStrictEqual(addSpy.mock.calls.length, 0)
     assert.deepStrictEqual(lengthSpy.mock.calls.length, 1)
-    assert.deepStrictEqual(branch(option)(some(right<string, number>(2)), some(lengthSpy), some(addSpy)), some(4))
+    assert.deepStrictEqual(
+      branch(selectiveOption)(some(right<string, number>(2)), some(lengthSpy), some(addSpy)),
+      some(4)
+    )
     assert.deepStrictEqual(addSpy.mock.calls.length, 1)
     assert.deepStrictEqual(lengthSpy.mock.calls.length, 1)
   })
@@ -39,27 +45,41 @@ describe('Selective', () => {
     const two = constant(2)
     const oneSpy = jest.fn(one)
     const twoSpy = jest.fn(two)
-    assert.deepStrictEqual(ifS(option)(some(true), some(oneSpy), some(twoSpy)).map(f => f()), some(one).map(f => f()))
+    assert.deepStrictEqual(
+      ifS(selectiveOption)(some(true), some(oneSpy), some(twoSpy)).map(f => f()),
+      some(one).map(f => f())
+    )
     assert.deepStrictEqual(oneSpy.mock.calls.length, 1)
     assert.deepStrictEqual(twoSpy.mock.calls.length, 0)
-    assert.deepStrictEqual(ifS(option)(some(false), some(oneSpy), some(twoSpy)).map(f => f()), some(two).map(f => f()))
+    assert.deepStrictEqual(
+      ifS(selectiveOption)(some(false), some(oneSpy), some(twoSpy)).map(f => f()),
+      some(two).map(f => f())
+    )
     assert.deepStrictEqual(oneSpy.mock.calls.length, 1)
     assert.deepStrictEqual(twoSpy.mock.calls.length, 1)
   })
 
   it('when', () => {
     const e = jest.fn()
-    assert.deepStrictEqual(when(option)(some(false), some(e)), some(undefined))
+    assert.deepStrictEqual(when(selectiveOption)(some(false), some(e)), some(undefined))
     assert.deepStrictEqual(e.mock.calls.length, 0)
-    assert.deepStrictEqual(when(option)(some(true), some(e)), some(undefined))
+    assert.deepStrictEqual(when(selectiveOption)(some(true), some(e)), some(undefined))
     assert.deepStrictEqual(e.mock.calls.length, 1)
 
-    return Promise.all([when(task)(task.of(false), task.of(e)).run(), task.of(undefined).run()])
+    return Promise.all([
+      when(selectiveTask)(selectiveTask.of(false), selectiveTask.of(e)).run(),
+      selectiveTask.of(undefined).run()
+    ])
       .then(([r1, r2]) => {
         assert.deepStrictEqual(r1, r2)
         assert.deepStrictEqual(e.mock.calls.length, 1)
       })
-      .then(() => Promise.all([when(task)(task.of(true), task.of(e)).run(), task.of(undefined).run()]))
+      .then(() =>
+        Promise.all([
+          when(selectiveTask)(selectiveTask.of(true), selectiveTask.of(e)).run(),
+          selectiveTask.of(undefined).run()
+        ])
+      )
       .then(([r1, r2]) => {
         assert.deepStrictEqual(r1, r2)
         assert.deepStrictEqual(e.mock.calls.length, 2)
@@ -67,29 +87,29 @@ describe('Selective', () => {
   })
 
   it('or', () => {
-    assert.deepStrictEqual(or(option)(some(false), some(false)), some(false))
-    assert.deepStrictEqual(or(option)(some(true), some(false)), some(true))
-    assert.deepStrictEqual(or(option)(some(false), some(true)), some(true))
-    assert.deepStrictEqual(or(option)(some(true), some(true)), some(true))
+    assert.deepStrictEqual(or(selectiveOption)(some(false), some(false)), some(false))
+    assert.deepStrictEqual(or(selectiveOption)(some(true), some(false)), some(true))
+    assert.deepStrictEqual(or(selectiveOption)(some(false), some(true)), some(true))
+    assert.deepStrictEqual(or(selectiveOption)(some(true), some(true)), some(true))
   })
 
   it('and', () => {
-    assert.deepStrictEqual(and(option)(some(false), some(false)), some(false))
-    assert.deepStrictEqual(and(option)(some(true), some(false)), some(false))
-    assert.deepStrictEqual(and(option)(some(false), some(true)), some(false))
-    assert.deepStrictEqual(and(option)(some(true), some(true)), some(true))
+    assert.deepStrictEqual(and(selectiveOption)(some(false), some(false)), some(false))
+    assert.deepStrictEqual(and(selectiveOption)(some(true), some(false)), some(false))
+    assert.deepStrictEqual(and(selectiveOption)(some(false), some(true)), some(false))
+    assert.deepStrictEqual(and(selectiveOption)(some(true), some(true)), some(true))
   })
 
   it('any', () => {
-    assert.deepStrictEqual(any(option)([false, false], option.of), some(false))
-    assert.deepStrictEqual(any(option)([false, true], option.of), some(true))
-    assert.deepStrictEqual(any(option)([true, true], option.of), some(true))
+    assert.deepStrictEqual(any(selectiveOption)([false, false], selectiveOption.of), some(false))
+    assert.deepStrictEqual(any(selectiveOption)([false, true], selectiveOption.of), some(true))
+    assert.deepStrictEqual(any(selectiveOption)([true, true], selectiveOption.of), some(true))
   })
 
   it('all', () => {
-    assert.deepStrictEqual(all(option)([false, false], option.of), some(false))
-    assert.deepStrictEqual(all(option)([false, true], option.of), some(false))
-    assert.deepStrictEqual(all(option)([true, true], option.of), some(true))
+    assert.deepStrictEqual(all(selectiveOption)([false, false], selectiveOption.of), some(false))
+    assert.deepStrictEqual(all(selectiveOption)([false, true], selectiveOption.of), some(false))
+    assert.deepStrictEqual(all(selectiveOption)([true, true], selectiveOption.of), some(true))
   })
 
   it('Validation', () => {

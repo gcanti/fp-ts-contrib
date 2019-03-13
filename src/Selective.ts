@@ -28,8 +28,8 @@ import { Setoid } from 'fp-ts/lib/Setoid'
 import { array } from 'fp-ts/lib/Array'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
 import { URI, Validation, failure, success, getApplicative } from 'fp-ts/lib/Validation'
-import { Option, none, some, option as _option } from 'fp-ts/lib/Option'
-import { Task, task as _task } from 'fp-ts/lib/Task'
+import { Option, none, some, option } from 'fp-ts/lib/Option'
+import { Task, task } from 'fp-ts/lib/Task'
 
 /**
  * @since 1.15.0
@@ -256,15 +256,15 @@ export const getValidationSelective = <L>(S: Semigroup<L>): Selective2C<URI, L> 
 export const selectOption: <A, B>(fa: Option<Either<A, B>>, fab: Option<(a: A) => B>) => Option<B> = (fa, fab) =>
   fa.fold(none, e => e.fold(a => fab.map(f => f(a)), b => some(b)))
 
-export const option: typeof _option & Selective1<typeof _option.URI> = {
-  ..._option,
+export const selectiveOption: typeof option & Selective1<typeof option.URI> = {
+  ...option,
   select: selectOption
 }
 
 export const selectTask: <A, B>(fa: Task<Either<A, B>>, fab: Task<(a: A) => B>) => Task<B> = (fa, fab) =>
   fa.chain(e => fab.map(f => e.fold(f, identity)))
 
-export const task: typeof _task & Selective1<typeof _task.URI> = {
-  ..._task,
+export const selectiveTask: typeof task & Selective1<typeof task.URI> = {
+  ...task,
   select: selectTask
 }
