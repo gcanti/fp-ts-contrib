@@ -15,6 +15,4 @@
 
 # 0.0.1
 
-- **New Feature**
-  - add `sequenceS` (@sledorze)
-  - add `time` (@gcanti)
+Initial release
