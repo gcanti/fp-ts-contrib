@@ -8,6 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
+    "tsc": "tsc",
     "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts",
     "jest": "jest",
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test}/**/*.ts\"",
