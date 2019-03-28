@@ -44,6 +44,7 @@ describe('Do', () => {
     const then = Date.now()
     return user.run().then(u => {
       const now = Date.now()
+      // tslint:disable-next-line: no-console
       console.log('Took: ', now - then, ' milliseconds')
       assert.deepStrictEqual(u, { name: 'bob', email: 'bsmith@example.com', len: 3 })
     })
