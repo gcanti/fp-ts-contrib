@@ -1,3 +1,6 @@
+/**
+ * @file This module provides a simuation of Haskell do notation.
+ */
 import { HKT, Type, Type2, URIS, URIS2, URIS3, Type3 } from 'fp-ts/lib/HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from 'fp-ts/lib/Monad'
 
@@ -70,35 +73,55 @@ export interface Do0<M, S extends object> {
   done: () => HKT<M, S>
 }
 
+/**
+ * This function provides a simuation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
+ * scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that
+ * add nothing to the scope. The `return` function lifts the given callback to the monad context. Finally the `done`
+ * function returns the scope.
+ *
+ * @example
+ * import { option, some } from 'fp-ts/lib/Option'
+ * import { Do } from 'fp-ts-contrib/lib/Do'
+ *
+ * // x: Option<number>
+ * const x = Do(option) // <- a monad instance
+ *   .bindL('foo', () => some('bar'))
+ *   .bindL('baz', () => some(4))
+ *   .return(({ foo, baz }) => foo.length + baz)
+ *
+ * assert.deepStrictEqual(x, some(7))
+ *
+ * @since 0.0.2
+ */
 export function Do<M extends URIS3>(M: Monad3<M>): Do3<M, {}>
 export function Do<M extends URIS3, U, L>(M: Monad3C<M, U, L>): Do3C<M, {}, U, L>
 export function Do<M extends URIS2>(M: Monad2<M>): Do2<M, {}>
 export function Do<M extends URIS2, L>(M: Monad2C<M, L>): Do2C<M, {}, L>
 export function Do<M extends URIS>(M: Monad1<M>): Do1<M, {}>
 export function Do<M>(M: Monad<M>): Do0<M, {}>
-export function Do<M>(_: Monad<M>): Do0<M, {}> {
-  function toDo<A extends object>(ma: HKT<M, A>): Do0<M, A> {
+export function Do<M>(M: Monad<M>): Do0<M, {}> {
+  function toDo<S extends object>(ms: HKT<M, S>): Do0<M, S> {
     return {
-      do(mv: HKT<M, unknown>): Do0<M, A> {
-        return toDo(_.chain(ma, a => _.map(mv, () => a)))
+      do(mv: HKT<M, unknown>): Do0<M, S> {
+        return toDo(M.chain(ms, a => M.map(mv, () => a)))
       },
-      doL(fmv: (s: A) => HKT<M, unknown>): Do0<M, A> {
-        return toDo(_.chain(ma, a => _.map(fmv(a), () => a)))
+      doL(fmv: (s: S) => HKT<M, unknown>): Do0<M, S> {
+        return toDo(M.chain(ms, a => M.map(fmv(a), () => a)))
       },
-      bind<N extends string, B>(name: Exclude<N, keyof A>, mb: HKT<M, B>): Do0<M, A & { [K in N]: B }> {
-        return toDo(_.chain(ma, a => _.map(mb, b => ({ ...(a as object), [name]: b })))) as any
+      bind<N extends string, B>(name: Exclude<N, keyof S>, mb: HKT<M, B>): Do0<M, S & { [K in N]: B }> {
+        return toDo(M.chain(ms, a => M.map(mb, b => ({ ...(a as object), [name]: b })))) as any
       },
-      bindL<N extends string, B>(name: Exclude<N, keyof A>, fmb: (s: A) => HKT<M, B>): Do0<M, A & { [K in N]: B }> {
-        return toDo(_.chain(ma, a => _.map(fmb(a), b => ({ ...(a as object), [name]: b })))) as any
+      bindL<N extends string, B>(name: Exclude<N, keyof S>, fmb: (s: S) => HKT<M, B>): Do0<M, S & { [K in N]: B }> {
+        return toDo(M.chain(ms, a => M.map(fmb(a), b => ({ ...(a as object), [name]: b })))) as any
       },
-      return<B>(f: (s: A) => B): HKT<M, B> {
-        return _.map(ma, f)
+      return<B>(f: (s: S) => B): HKT<M, B> {
+        return M.map(ms, f)
       },
-      done(): HKT<M, A> {
-        return ma
+      done(): HKT<M, S> {
+        return ms
       }
     }
   }
 
-  return toDo(_.of({}))
+  return toDo(M.of({}))
 }
