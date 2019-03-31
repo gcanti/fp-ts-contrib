@@ -5,6 +5,7 @@ import { These, both, this_, that } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'
 import { salign, padZip, padZipWith } from '../src/Align'
 import { alignArray, lpadZipWith, lpadZip, rpadZipWith, rpadZip } from '../src/Align/Array'
+import { alignOption } from '../src/Align/Option'
 
 describe('Align', () => {
   it('salign', () => {
@@ -77,6 +78,23 @@ describe('Align', () => {
       assert.deepStrictEqual(rpadZipWith([1, 2], ['a'], f), ['a1', '*2'])
       assert.deepStrictEqual(rpadZipWith([1], ['a', 'b'], f), ['a1'])
       assert.deepStrictEqual(rpadZipWith([], [], f), [])
+    })
+  })
+
+  describe('Option', () => {
+    it('align', () => {
+      assert.deepStrictEqual(alignOption.align(some(1), some('a')), some(both(1, 'a')))
+      assert.deepStrictEqual(alignOption.align(some(1), alignOption.nil<string>()), some(this_(1)))
+      assert.deepStrictEqual(alignOption.align(alignOption.nil<number>(), some('a')), some(that('a')))
+      assert.deepStrictEqual(alignOption.align(alignOption.nil<number>(), alignOption.nil<string>()), none)
+    })
+
+    it('alignWith', () => {
+      const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => b + a)
+      assert.deepStrictEqual(alignOption.alignWith(some(1), some('a'), f), some('a1'))
+      assert.deepStrictEqual(alignOption.alignWith(some(1), alignOption.nil<string>(), f), some('1'))
+      assert.deepStrictEqual(alignOption.alignWith(alignOption.nil<number>(), some('a'), f), some('a'))
+      assert.deepStrictEqual(alignOption.alignWith(alignOption.nil<number>(), alignOption.nil<string>(), f), none)
     })
   })
 })
