@@ -1,10 +1,34 @@
 import * as assert from 'assert'
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
 import { Option, some, none } from 'fp-ts/lib/Option'
 import { These, both, this_, that } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'
+import { salign, padZip, padZipWith } from '../src/Align'
 import { alignArray, lpadZipWith, lpadZip, rpadZipWith, rpadZip } from '../src/Align/Array'
 
 describe('Align', () => {
+  it('salign', () => {
+    assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2], [4, 5]), [5, 7])
+    assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2], [4]), [5, 2])
+    assert.deepStrictEqual(salign(alignArray, semigroupSum)([1], [4, 5]), [5, 5])
+    assert.deepStrictEqual(salign(alignArray, semigroupSum)([], []), [])
+  })
+
+  it('padZip', () => {
+    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a', 'b']), [[some(1), some('a')], [some(2), some('b')]])
+    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a']), [[some(1), some('a')], [some(2), none]])
+    assert.deepStrictEqual(padZip(alignArray)([1], ['a', 'b']), [[some(1), some('a')], [none, some('b')]])
+    assert.deepStrictEqual(padZip(alignArray)([], []), [])
+  })
+
+  it('padZipWith', () => {
+    const f = (ma: Option<number>, mb: Option<string>) => mb.getOrElse('#') + ma.fold('*', a => a.toString())
+    assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a', 'b'], f), ['a1', 'b2'])
+    assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a'], f), ['a1', '#2'])
+    assert.deepStrictEqual(padZipWith(alignArray)([1], ['a', 'b'], f), ['a1', 'b*'])
+    assert.deepStrictEqual(padZipWith(alignArray)([], [], f), [])
+  })
+
   describe('Array', () => {
     it('align', () => {
       assert.deepStrictEqual(alignArray.align([1, 2], ['a', 'b']), [both(1, 'a'), both(2, 'b')])
