@@ -6,7 +6,7 @@ import * as ReaderTaskEither from 'fp-ts/lib/ReaderTaskEither'
 import * as Th from 'fp-ts/lib/These'
 import { either, right } from 'fp-ts/lib/Either'
 import { Do } from '../../src/Do'
-import * as Sa from '../../src/Semialign'
+import * as alignRecord from '../../src/Align/Record'
 
 //
 // time
@@ -22,15 +22,15 @@ Do(either)
   .bindL('bad', () => right<boolean, number>(54)) // $ExpectError
 
 //
-// Semialign
+// Align/Record
 //
 
 declare const d1: { [key: string]: number }
-declare const d2: Record<string, string>
-declare const r2: Record<'a', number>
-declare const r3: Record<'b', string>
-Sa.record.align(d1, d2) // $ExpectType Record<string, These<number, string>>
-Sa.record.align(r2, r3) // $ExpectType Record<"a" | "b", These<number, string>>
+declare const d2: { [key: string]: string }
+declare const r1: Record<'a', number>
+declare const r2: Record<'b', string>
+alignRecord.align(d1, d2) // $ExpectType Record<string, These<number, string>>
+alignRecord.align(r1, r2) // $ExpectType Record<"a" | "b", These<number, string>>
 
-Sa.record.alignWith(d1, d2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<string, string>
-Sa.record.alignWith(r2, r3, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<"a" | "b", string>
+alignRecord.alignWith(d1, d2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<string, string>
+alignRecord.alignWith(r1, r2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<"a" | "b", string>
