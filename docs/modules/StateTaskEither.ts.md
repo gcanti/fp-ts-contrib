@@ -1,6 +1,6 @@
 ---
 title: StateTaskEither.ts
-nav_order: 10
+nav_order: 16
 parent: Modules
 ---
 
