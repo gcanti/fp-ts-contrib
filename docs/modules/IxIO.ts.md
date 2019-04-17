@@ -1,6 +1,6 @@
 ---
 title: IxIO.ts
-nav_order: 6
+nav_order: 10
 parent: Modules
 ---
 
@@ -40,7 +40,7 @@ export class IxIO<I, O, A> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.0.3
 
 ## run (method)
 
@@ -98,7 +98,7 @@ export const URI = ...
 export const ixIO: IxMonad3<URI> = ...
 ```
 
-Added in v0.3.0
+Added in v0.0.3
 
 # getMonad (function)
 
@@ -108,4 +108,4 @@ Added in v0.3.0
 export const getMonad = <I = never>(): Monad3C<URI, I, I> => ...
 ```
 
-Added in v0.3.0
+Added in v0.0.3
