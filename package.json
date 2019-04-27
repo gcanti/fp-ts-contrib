@@ -34,8 +34,10 @@
     "fp-ts": "^1.14.3"
   },
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
+    "benchmark": "^2.1.4",
     "docs-ts": "0.0.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
