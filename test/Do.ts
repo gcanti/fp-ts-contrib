@@ -1,10 +1,11 @@
 import * as assert from 'assert'
 import { option, some, none } from 'fp-ts/lib/Option'
 import { Do } from '../src/Do'
-import { Task, task } from 'fp-ts/lib/Task'
+import { Task, task, delay } from 'fp-ts/lib/Task'
 import { getMonad, success, failure } from 'fp-ts/lib/Validation'
 import { either, right, left } from 'fp-ts/lib/Either'
 import { getSemigroup, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { time } from '../src/time'
 
 describe('Do', () => {
   it('should compose options', () => {
@@ -93,5 +94,45 @@ describe('Do', () => {
       .bindL('len', () => failure(neOf('error from len')))
       .return(({ name, email, len }) => ({ name, email, len }))
     assert.deepStrictEqual(user2, failure(neOf('error from email')))
+  })
+
+  it('should handle sequenceS', () => {
+    return time(task)(
+      Do(task)
+        .sequenceS({
+          a: delay(100, 'a'),
+          b: delay(150, 'b')
+        })
+        .sequenceS({
+          c: delay(100, 'c'),
+          d: delay(150, 'd')
+        })
+        .done()
+    )
+      .run()
+      .then(([r, n]) => {
+        assert.deepStrictEqual(r, { a: 'a', b: 'b', c: 'c', d: 'd' })
+        assert.strictEqual(n < 350, true)
+      })
+  })
+
+  it('should handle sequenceSL', () => {
+    return time(task)(
+      Do(task)
+        .sequenceSL(() => ({
+          a: delay(100, 'a'),
+          b: delay(150, 'b')
+        }))
+        .sequenceSL(s => ({
+          c: delay(100, 'c' + s.a),
+          d: delay(150, 'd' + s.b)
+        }))
+        .done()
+    )
+      .run()
+      .then(([r, n]) => {
+        assert.deepStrictEqual(r, { a: 'a', b: 'b', c: 'ca', d: 'db' })
+        assert.strictEqual(n < 350, true)
+      })
   })
 })
