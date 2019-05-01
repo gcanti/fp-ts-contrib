@@ -27,6 +27,15 @@ suite
       .bind('e', some('e'))
       .done()
   })
+  .add('Do (lazy)', function() {
+    Do(option)
+      .bindL('a', () => some('a'))
+      .bindL('b', () => some('b'))
+      .bindL('c', () => some('c'))
+      .bindL('d', () => some('d'))
+      .bindL('e', () => some('e'))
+      .done()
+  })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
     console.log(String(event.target))

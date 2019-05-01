@@ -32,6 +32,12 @@ export interface Do0<M, S extends object> {
   doL: (f: (s: S) => HKT<M, unknown>) => Do0<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: HKT<M, A>) => Do0<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => HKT<M, A>) => Do0<M, S & { [K in N]: A }>
+  sequenceS: <R extends Record<string, HKT<M, unknown>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
+  sequenceSL: <R extends Record<string, HKT<M, unknown>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => HKT<M, A>
   done: () => HKT<M, S>
 }
@@ -47,6 +53,12 @@ export interface Do1<M extends URIS, S extends object> {
   doL: (f: (s: S) => Type<M, unknown>) => Do1<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Type<M, A>) => Do1<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => Type<M, A>) => Do1<M, S & { [K in N]: A }>
+  sequenceS: <R extends Record<string, Type<M, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Type<M, infer A>] ? A : never }>
+  sequenceSL: <R extends Record<string, Type<M, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Type<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => Type<M, A>
   done: () => Type<M, S>
 }
@@ -65,6 +77,12 @@ export interface Do2<M extends URIS2, S extends object> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type2<M, L, A>
   ) => Do2C<M, S & { [K in N]: A }, L>
+  sequenceS: <L, R extends Record<string, Type2<M, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & Record<string, Type2<M, L, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
+  sequenceSL: <L, R extends Record<string, Type2<M, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Type2<M, L, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
   return: <A, L>(f: (s: S) => A) => Type2<M, L, A>
   done: <L>() => Type2<M, L, S>
 }
@@ -83,6 +101,12 @@ export interface Do2C<M extends URIS2, S extends object, L> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type2<M, L, A>
   ) => Do2C<M, S & { [K in N]: A }, L>
+  sequenceS: <R extends Record<string, Type2<M, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
+  sequenceSL: <R extends Record<string, Type2<M, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
   return: <A>(f: (s: S) => A) => Type2<M, L, A>
   done: () => Type2<M, L, S>
 }
@@ -104,6 +128,12 @@ export interface Do3<M extends URIS3, S extends object> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type3<M, U, L, A>
   ) => Do3C<M, S & { [K in N]: A }, U, L>
+  sequenceS: <U, L, R extends Record<string, Type3<M, U, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & Record<string, Type3<M, U, L, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
+  sequenceSL: <U, L, R extends Record<string, Type3<M, U, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Type3<M, U, L, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
   return: <A, U, L>(f: (s: S) => A) => Type3<M, U, L, A>
   done: <U, L>() => Type3<M, U, L, S>
 }
@@ -122,6 +152,12 @@ export interface Do3C<M extends URIS3, S extends object, U, L> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type3<M, U, L, A>
   ) => Do3C<M, S & { [K in N]: A }, U, L>
+  sequenceS: <R extends Record<string, Type3<M, U, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
+  sequenceSL: <R extends Record<string, Type3<M, U, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
   return: <A>(f: (s: S) => A) => Type3<M, U, L, A>
   done: () => Type3<M, U, L, S>
 }

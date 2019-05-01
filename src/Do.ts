@@ -3,6 +3,9 @@
  */
 import { HKT, Type, Type2, URIS, URIS2, URIS3, Type3 } from 'fp-ts/lib/HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from 'fp-ts/lib/Monad'
+import { sequenceS } from 'fp-ts/lib/Apply'
+
+type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
 export interface Do3<M extends URIS3, S extends object> {
   do: <U, L>(ma: Type3<M, U, L, unknown>) => Do3C<M, S, U, L>
@@ -15,6 +18,12 @@ export interface Do3<M extends URIS3, S extends object> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type3<M, U, L, A>
   ) => Do3C<M, S & { [K in N]: A }, U, L>
+  sequenceS: <U, L, R extends Record<string, Type3<M, U, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & Record<string, Type3<M, U, L, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
+  sequenceSL: <U, L, R extends Record<string, Type3<M, U, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Type3<M, U, L, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
   return: <A, U, L>(f: (s: S) => A) => Type3<M, U, L, A>
   done: <U, L>() => Type3<M, U, L, S>
 }
@@ -27,6 +36,12 @@ export interface Do3C<M extends URIS3, S extends object, U, L> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type3<M, U, L, A>
   ) => Do3C<M, S & { [K in N]: A }, U, L>
+  sequenceS: <R extends Record<string, Type3<M, U, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
+  sequenceSL: <R extends Record<string, Type3<M, U, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Type3<M, any, any, infer A>] ? A : never }, U, L>
   return: <A>(f: (s: S) => A) => Type3<M, U, L, A>
   done: () => Type3<M, U, L, S>
 }
@@ -39,6 +54,12 @@ export interface Do2<M extends URIS2, S extends object> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type2<M, L, A>
   ) => Do2C<M, S & { [K in N]: A }, L>
+  sequenceS: <L, R extends Record<string, Type2<M, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & Record<string, Type2<M, L, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
+  sequenceSL: <L, R extends Record<string, Type2<M, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Type2<M, L, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
   return: <A, L>(f: (s: S) => A) => Type2<M, L, A>
   done: <L>() => Type2<M, L, S>
 }
@@ -51,6 +72,12 @@ export interface Do2C<M extends URIS2, S extends object, L> {
     name: Exclude<N, keyof S>,
     f: (s: S) => Type2<M, L, A>
   ) => Do2C<M, S & { [K in N]: A }, L>
+  sequenceS: <R extends Record<string, Type2<M, L, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
+  sequenceSL: <R extends Record<string, Type2<M, L, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Type2<M, any, infer A>] ? A : never }, L>
   return: <A>(f: (s: S) => A) => Type2<M, L, A>
   done: () => Type2<M, L, S>
 }
@@ -60,6 +87,12 @@ export interface Do1<M extends URIS, S extends object> {
   doL: (f: (s: S) => Type<M, unknown>) => Do1<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Type<M, A>) => Do1<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => Type<M, A>) => Do1<M, S & { [K in N]: A }>
+  sequenceS: <R extends Record<string, Type<M, any>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Type<M, infer A>] ? A : never }>
+  sequenceSL: <R extends Record<string, Type<M, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Type<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => Type<M, A>
   done: () => Type<M, S>
 }
@@ -69,6 +102,12 @@ export interface Do0<M, S extends object> {
   doL: (f: (s: S) => HKT<M, unknown>) => Do0<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: HKT<M, A>) => Do0<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => HKT<M, A>) => Do0<M, S & { [K in N]: A }>
+  sequenceS: <R extends Record<string, HKT<M, unknown>>>(
+    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
+  sequenceSL: <R extends Record<string, HKT<M, unknown>>>(
+    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
+  ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => HKT<M, A>
   done: () => HKT<M, S>
 }
@@ -102,8 +141,11 @@ type Action<M> =
   | { type: 'doL'; f: (s: unknown) => HKT<M, unknown> }
   | { type: 'bind'; name: string; action: HKT<M, unknown> }
   | { type: 'bindL'; name: string; f: (s: unknown) => HKT<M, unknown> }
+  | { type: 'sequenceS'; r: Record<string, HKT<M, unknown>> }
+  | { type: 'sequenceSL'; f: (s: unknown) => Record<string, HKT<M, unknown>> }
 
 class DoClass<M> {
+  private _sequenceS?: Function = undefined
   constructor(readonly M: Monad<M>, private actions: LinkedList<Action<M>>) {}
   do(action: HKT<M, unknown>): DoClass<M> {
     return new DoClass(this.M, cons({ type: 'do', action }, this.actions))
@@ -116,6 +158,12 @@ class DoClass<M> {
   }
   bindL(name: string, f: (s: unknown) => HKT<M, unknown>): DoClass<M> {
     return new DoClass(this.M, cons({ type: 'bindL', name, f }, this.actions))
+  }
+  sequenceS(r: Record<string, HKT<M, unknown>>): DoClass<M> {
+    return new DoClass(this.M, cons({ type: 'sequenceS', r }, this.actions))
+  }
+  sequenceSL(f: (s: unknown) => Record<string, HKT<M, unknown>>): DoClass<M> {
+    return new DoClass(this.M, cons({ type: 'sequenceSL', f }, this.actions))
   }
   return<B>(f: (s: unknown) => B): HKT<M, B> {
     return this.M.map(this.done(), f)
@@ -151,6 +199,16 @@ class DoClass<M> {
             })
           )
           break
+        case 'sequenceS':
+          const _sequenceS: Function =
+            this._sequenceS === undefined ? (this._sequenceS = sequenceS(M)) : this._sequenceS
+          result = M.chain(result, s => M.map(_sequenceS(a.r), r => Object.assign(s, r)))
+          break
+        case 'sequenceSL':
+          const _sequenceSL: Function =
+            this._sequenceS === undefined ? (this._sequenceS = sequenceS(M)) : this._sequenceS
+          result = M.chain(result, s => M.map(_sequenceSL(a.f(s)), r => Object.assign(s, r)))
+          break
       }
     }
     return result
@@ -183,6 +241,6 @@ export function Do<M extends URIS2>(M: Monad2<M>): Do2<M, {}>
 export function Do<M extends URIS2, L>(M: Monad2C<M, L>): Do2C<M, {}, L>
 export function Do<M extends URIS>(M: Monad1<M>): Do1<M, {}>
 export function Do<M>(M: Monad<M>): Do0<M, {}>
-export function Do<M>(M: Monad<M>): Do0<M, {}> {
-  return new DoClass(M, nil) as any
+export function Do<M>(M: Monad<M>): any {
+  return new DoClass(M, nil)
 }
