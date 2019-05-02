@@ -1,12 +1,8 @@
-import * as array from 'fp-ts/lib/Array'
-import { log } from 'fp-ts/lib/Console'
+import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import { IO, io } from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
-import { ordNumber } from 'fp-ts/lib/Ord'
-import { randomInt } from 'fp-ts/lib/Random'
 import { State } from 'fp-ts/lib/State'
 import * as stateT from 'fp-ts/lib/StateT'
-import { Endomorphism, tuple } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -100,86 +96,3 @@ export const stateIO: Monad2<URI> = {
   ap,
   chain
 }
-
-//
-// Usage (adapted from https://wiki.haskell.org/Simple_StateT_use)
-//
-
-// Example 1
-
-/** pop the next unique off the stack */
-const pop: StateIO<Array<number>, number> = get<Array<number>>().chain(ns =>
-  array.foldL(ns, () => of(0), (h, t) => put(t).chain(() => of(h)))
-)
-
-const program1: StateIO<Array<number>, void> = pop
-  .chain(x => fromIO(log(x)))
-  .chain(() => pop)
-  .chain(y => fromIO(log(y)))
-  .chain(() => of(undefined))
-
-program1.run([1, 2, 3])
-// => 1
-// => 2
-
-// Example 2: a guessing game
-
-function readLine(s: string): IO<string> {
-  return new IO(() => require('readline-sync').question(s))
-}
-
-function guessSession(answer: number): StateIO<number, void> {
-  return fromIO<number, string>(readLine('')).chain(gs => {
-    const g = parseInt(gs, 10)
-    return modify<number>(s => s + 1).chain(() => {
-      switch (ordNumber.compare(g, answer)) {
-        case -1:
-          return fromIO<number, void>(log('Too low')).chain(() => guessSession(answer))
-        case 1:
-          return fromIO<number, void>(log('Too high')).chain(() => guessSession(answer))
-        case 0:
-          return fromIO<number, void>(log('Got it!'))
-      }
-    })
-  })
-}
-
-const program2 = randomInt(1, 100).chain(answer =>
-  log(`I'm thinking of a number between 1 and 100, can you guess it? `).chain(() => {
-    const guesses = guessSession(answer).exec(0)
-    return log(`Success in ${guesses} tries.`)
-  })
-)
-
-program2.run()
-
-// example 3: a global state
-
-type Vars = {
-  var1: number
-  var2: number
-}
-
-type MyState<A> = StateIO<Vars, A>
-
-type Selector<A> = [MyState<A>, (a: A) => MyState<void>]
-
-const s1: Selector<number> = [gets(s => s.var1), var1 => modify(vars => ({ ...vars, var1 }))]
-
-const s2: Selector<number> = [gets(s => s.var2), var2 => modify(vars => ({ ...vars, var2 }))]
-
-function sel<A>(selector: Selector<A>): MyState<A> {
-  return selector[0]
-}
-
-function mods<A>([gf, uf]: Selector<A>, mfun: Endomorphism<A>): MyState<void> {
-  return gf.chain(st => uf(mfun(st)))
-}
-
-const program3 = sel(s1)
-  .chain(a => mods(s2, n => n * a))
-  .chain(() => sel(s2))
-  .chain(b => fromIO(log(b)))
-
-program3.run({ var1: 2, var2: 1.3 })
-// => 2.6
