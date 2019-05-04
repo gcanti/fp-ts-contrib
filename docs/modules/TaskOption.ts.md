@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 17
+nav_order: 19
 parent: Modules
 ---
 
@@ -17,6 +17,7 @@ parent: Modules
   - [chain (method)](#chain-method)
   - [fold (method)](#fold-method)
   - [getOrElse (method)](#getorelse-method)
+  - [withTimeout (method)](#withtimeout-method)
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
@@ -100,6 +101,30 @@ fold<R>(onNone: R, onSome: (a: A) => R): Task<R> { ... }
 
 ```ts
 getOrElse(a: A): Task<A> { ... }
+```
+
+## withTimeout (method)
+
+Returns the `TaskOption` result if it completes within a timeout, or a fallback value instead.
+
+**Signature**
+
+```ts
+withTimeout(onTimeout: Option<A>, millis: number) { ... }
+```
+
+**Example**
+
+```ts
+import { TaskOption } from 'fp-ts-contrib/lib/TaskOption'
+import { delay } from 'fp-ts/lib/Task'
+import { some, none } from 'fp-ts/lib/Option'
+
+const completeAfter2s = new TaskOption(delay(2000, some('result')))
+
+completeAfter2s.withTimeout(some('timeout'), 3000).run() // Promise(some('result'))
+completeAfter2s.withTimeout(none, 1000).run() // Promise(none)
+completeAfter2s.withTimeout(some('timeout'), 1000).run() // Promise(some('timeout'))
 ```
 
 # URI (constant)

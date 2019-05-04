@@ -1,6 +1,6 @@
 ---
 title: TaskValidation.ts
-nav_order: 18
+nav_order: 20
 parent: Modules
 ---
 
@@ -12,6 +12,7 @@ parent: Modules
 - [TaskValidation (class)](#taskvalidation-class)
   - [map (method)](#map-method)
   - [fold (method)](#fold-method)
+  - [withTimeout (method)](#withtimeout-method)
 - [URI (constant)](#uri-constant)
 - [taskValidation (constant)](#taskvalidation-constant)
 - [getApplicative (function)](#getapplicative-function)
@@ -51,6 +52,30 @@ map<B>(f: (a: A) => B): TaskValidation<L, B> { ... }
 
 ```ts
 fold<R>(failure: (l: L) => R, success: (a: A) => R): task.Task<R> { ... }
+```
+
+## withTimeout (method)
+
+Returns the `TaskValidation` result if it completes within a timeout, or a fallback value instead.
+
+**Signature**
+
+```ts
+withTimeout(onTimeout: validation.Validation<L, A>, millis: number) { ... }
+```
+
+**Example**
+
+```ts
+import { TaskValidation } from 'fp-ts-contrib/lib/TaskValidation'
+import { delay } from 'fp-ts/lib/Task'
+import { success, failure } from 'fp-ts/lib/Validation'
+
+const completeAfter2s = new TaskValidation(delay(2000, success('result')))
+
+completeAfter2s.withTimeout(failure('timeout'), 3000).value.run() // Promise(success('result'))
+completeAfter2s.withTimeout(failure('timeout'), 1000).value.run() // Promise(failure('timeout'))
+completeAfter2s.withTimeout(success('timeout'), 1000).value.run() // Promise(success('timeout'))
 ```
 
 # URI (constant)

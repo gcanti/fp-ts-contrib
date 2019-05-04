@@ -4,6 +4,7 @@ import { Semigroup } from 'fp-ts/lib/Semigroup'
 import * as task from 'fp-ts/lib/Task'
 import * as validation from 'fp-ts/lib/Validation'
 import { phantom } from 'fp-ts/lib/function'
+import { withTimeout } from './Task/withTimeout'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -27,6 +28,23 @@ export class TaskValidation<L, A> {
   }
   fold<R>(failure: (l: L) => R, success: (a: A) => R): task.Task<R> {
     return this.value.map(v => v.fold(failure, success))
+  }
+  /**
+   *  Returns the `TaskValidation` result if it completes within a timeout, or a fallback value instead.
+   *
+   * @example
+   * import { TaskValidation  } from 'fp-ts-contrib/lib/TaskValidation'
+   * import { delay } from 'fp-ts/lib/Task'
+   * import { success, failure } from 'fp-ts/lib/Validation'
+   *
+   * const completeAfter2s = new TaskValidation(delay(2000, success('result')))
+   *
+   * completeAfter2s.withTimeout(failure('timeout'), 3000).value.run() // Promise(success('result'))
+   * completeAfter2s.withTimeout(failure('timeout'), 1000).value.run() // Promise(failure('timeout'))
+   * completeAfter2s.withTimeout(success('timeout'), 1000).value.run() // Promise(success('timeout'))
+   */
+  withTimeout(onTimeout: validation.Validation<L, A>, millis: number) {
+    return new TaskValidation(withTimeout(this.value, onTimeout, millis))
   }
 }
 
