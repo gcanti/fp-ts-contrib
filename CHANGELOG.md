@@ -13,6 +13,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.0.6
+
+- **New Feature**
+  - add `Task/withTimeout` (@gabro)
+  - add `TaskEither/withTimeout` (@gabro)
+  - add `TaskOption.withTimeout` (@gabro)
+  - add `TaskValidation.withTimeout` (@gabro)
+- **Bug Fix**
+  - revert 55fe295e5d984a6b54c72005277733fd893f2234 (@gcanti)
+
 # 0.0.5
 
 - **New Feature**
