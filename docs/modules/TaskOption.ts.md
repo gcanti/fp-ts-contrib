@@ -17,7 +17,6 @@ parent: Modules
   - [chain (method)](#chain-method)
   - [fold (method)](#fold-method)
   - [getOrElse (method)](#getorelse-method)
-  - [withTimeout (method)](#withtimeout-method)
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
@@ -25,6 +24,7 @@ parent: Modules
 - [fromOption (function)](#fromoption-function)
 - [fromTask (function)](#fromtask-function)
 - [tryCatch (function)](#trycatch-function)
+- [withTimeout (function)](#withtimeout-function)
 
 ---
 
@@ -103,30 +103,6 @@ fold<R>(onNone: R, onSome: (a: A) => R): Task<R> { ... }
 getOrElse(a: A): Task<A> { ... }
 ```
 
-## withTimeout (method)
-
-Returns the `TaskOption` result if it completes within a timeout, or a fallback value instead.
-
-**Signature**
-
-```ts
-withTimeout(onTimeout: Option<A>, millis: number) { ... }
-```
-
-**Example**
-
-```ts
-import { TaskOption } from 'fp-ts-contrib/lib/TaskOption'
-import { delay } from 'fp-ts/lib/Task'
-import { some, none } from 'fp-ts/lib/Option'
-
-const completeAfter2s = new TaskOption(delay(2000, some('result')))
-
-completeAfter2s.withTimeout(some('timeout'), 3000).run() // Promise(some('result'))
-completeAfter2s.withTimeout(none, 1000).run() // Promise(none)
-completeAfter2s.withTimeout(some('timeout'), 1000).run() // Promise(some('timeout'))
-```
-
 # URI (constant)
 
 **Signature**
@@ -182,4 +158,28 @@ export const fromTask = <A>(ma: Task<A>): TaskOption<A> => ...
 ```ts
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> =>
   new TaskOption(tryCatchTask(f, () => ...
+```
+
+# withTimeout (function)
+
+Returns the `TaskOption` result if it completes within a timeout, or a fallback value instead.
+
+**Signature**
+
+```ts
+export const withTimeout = <A>(fa: TaskOption<A>, onTimeout: Option<A>, millis: number): TaskOption<A> => ...
+```
+
+**Example**
+
+```ts
+import { TaskOption, withTimeout } from 'fp-ts-contrib/lib/TaskOption'
+import { delay } from 'fp-ts/lib/Task'
+import { some, none } from 'fp-ts/lib/Option'
+
+const completeAfter2s = new TaskOption(delay(2000, some('result')))
+
+withTimeout(completeAfter2s, some('timeout'), 3000).run() // Promise(some('result'))
+withTimeout(completeAfter2s, none, 1000).run() // Promise(none)
+withTimeout(completeAfter2s, some('timeout'), 1000).run() // Promise(some('timeout'))
 ```
