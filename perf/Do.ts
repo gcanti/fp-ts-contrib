@@ -18,7 +18,7 @@ const suite = new Benchmark.Suite()
 // )
 
 suite
-  .add('Do', function() {
+  .add('bind', function() {
     Do(option)
       .bind('a', some('a'))
       .bind('b', some('b'))
@@ -27,7 +27,7 @@ suite
       .bind('e', some('e'))
       .done()
   })
-  .add('Do (lazy)', function() {
+  .add('bindL', function() {
     Do(option)
       .bindL('a', () => some('a'))
       .bindL('b', () => some('b'))

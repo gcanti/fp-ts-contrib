@@ -6,8 +6,38 @@ import { getMonad, success, failure } from 'fp-ts/lib/Validation'
 import { either, right, left } from 'fp-ts/lib/Either'
 import { getSemigroup, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { time } from '../src/time'
+import { io, IO } from 'fp-ts/lib/IO'
 
 describe('Do', () => {
+  it('should replay without polluting the scope', () => {
+    let count = 0
+    const action1 = Do(io)
+      .bind(
+        'x',
+        new IO(() => {
+          count += 1
+          return count
+        })
+      )
+      .done()
+    const x1 = action1.run()
+    const x2 = action1.run()
+    assert.deepStrictEqual(x1, { x: 1 })
+    assert.deepStrictEqual(x2, { x: 2 })
+    const action2 = Do(io)
+      .sequenceS({
+        x: new IO(() => {
+          count += 1
+          return count
+        })
+      })
+      .done()
+    const x3 = action2.run()
+    const x4 = action2.run()
+    assert.deepStrictEqual(x3, { x: 3 })
+    assert.deepStrictEqual(x4, { x: 4 })
+  })
+
   it('should compose options', () => {
     const user = Do(option)
       .bindL('name', () => some('bob'))
