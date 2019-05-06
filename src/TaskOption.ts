@@ -3,7 +3,7 @@ import { Option, fromEither, none as optionNone, some as optionSome } from 'fp-t
 import * as optionT from 'fp-ts/lib/OptionT'
 import { Task, task, tryCatch as tryCatchTask } from 'fp-ts/lib/Task'
 import { Lazy, identity } from 'fp-ts/lib/function'
-import { withTimeout } from './Task/withTimeout'
+import { withTimeout as withTimeoutTask } from './Task/withTimeout'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT<A> {
@@ -43,23 +43,6 @@ export class TaskOption<A> {
   getOrElse(a: A): Task<A> {
     return this.fold(a, identity)
   }
-  /**
-   *  Returns the `TaskOption` result if it completes within a timeout, or a fallback value instead.
-   *
-   * @example
-   * import { TaskOption  } from 'fp-ts-contrib/lib/TaskOption'
-   * import { delay } from 'fp-ts/lib/Task'
-   * import { some, none } from 'fp-ts/lib/Option'
-   *
-   * const completeAfter2s = new TaskOption(delay(2000, some('result')))
-   *
-   * completeAfter2s.withTimeout(some('timeout'), 3000).run() // Promise(some('result'))
-   * completeAfter2s.withTimeout(none, 1000).run()            // Promise(none)
-   * completeAfter2s.withTimeout(some('timeout'), 1000).run() // Promise(some('timeout'))
-   */
-  withTimeout(onTimeout: Option<A>, millis: number) {
-    return new TaskOption(withTimeout(this.value, onTimeout, millis))
-  }
 }
 
 const map = <A, B>(fa: TaskOption<A>, f: (a: A) => B): TaskOption<B> => fa.map(f)
@@ -80,6 +63,24 @@ export const fromTask = <A>(ma: Task<A>): TaskOption<A> => new TaskOption(ma.map
 
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> =>
   new TaskOption(tryCatchTask(f, () => undefined).map(fromEither))
+
+/**
+ *  Returns the `TaskOption` result if it completes within a timeout, or a fallback value instead.
+ *
+ * @example
+ * import { TaskOption, withTimeout } from 'fp-ts-contrib/lib/TaskOption'
+ * import { delay } from 'fp-ts/lib/Task'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * const completeAfter2s = new TaskOption(delay(2000, some('result')))
+ *
+ * withTimeout(completeAfter2s, some('timeout'), 3000).run() // Promise(some('result'))
+ * withTimeout(completeAfter2s, none, 1000).run()            // Promise(none)
+ * withTimeout(completeAfter2s, some('timeout'), 1000).run() // Promise(some('timeout'))
+ */
+export const withTimeout = <A>(fa: TaskOption<A>, onTimeout: Option<A>, millis: number): TaskOption<A> => {
+  return new TaskOption(withTimeoutTask(fa.value, onTimeout, millis))
+}
 
 export const taskOption: Monad1<URI> = {
   URI,

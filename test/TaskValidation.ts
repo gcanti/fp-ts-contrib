@@ -1,4 +1,4 @@
-import { TaskValidation, taskValidation, getApplicative } from '../src/TaskValidation'
+import { TaskValidation, taskValidation, getApplicative, withTimeout } from '../src/TaskValidation'
 import { delay, Task } from 'fp-ts/lib/Task'
 import { success, failure } from 'fp-ts/lib/Validation'
 import { getSemigroup, NonEmptyArray, make } from 'fp-ts/lib/NonEmptyArray2v'
@@ -29,12 +29,12 @@ describe('TaskValidation', () => {
 
   describe('withTimeout', () => {
     it('should return successfully within the timeout', () => {
-      const t = new TaskValidation(delay(100, success('value'))).withTimeout(failure('fallback'), 500)
+      const t = withTimeout(new TaskValidation(delay(100, success('value'))), failure('fallback'), 500)
       return t.value.run().then(v => expect(v).toEqual(success('value')))
     })
 
     it('should return the fallback value on timeout', () => {
-      const t = new TaskValidation(delay(500, success('value'))).withTimeout(failure('fallback'), 100)
+      const t = withTimeout(new TaskValidation(delay(500, success('value'))), failure('fallback'), 100)
       return t.value.run().then(v => expect(v).toEqual(failure('fallback')))
     })
   })
