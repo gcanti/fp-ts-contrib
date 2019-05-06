@@ -1,87 +1,89 @@
+import * as assert from 'assert'
+import { none, some } from 'fp-ts/lib/Option'
+import { delay, task } from 'fp-ts/lib/Task'
 import {
-  TaskOption,
-  taskOption,
-  none as taskOptionNone,
   fromOption,
   fromTask,
+  none as taskOptionNone,
+  TaskOption,
+  taskOption,
   tryCatch,
   withTimeout
 } from '../src/TaskOption'
-import { delay, Task } from 'fp-ts/lib/Task'
-import { some, none } from 'fp-ts/lib/Option'
 
 describe('TaskOption', () => {
-  it('map', () => {
+  it('map', async () => {
     const double = (n: number): number => n * 2
-    return taskOption
-      .map(taskOption.of(1), double)
-      .run()
-      .then(e => expect(e).toEqual(some(2)))
+    const e = await taskOption.map(taskOption.of(1), double).run()
+    assert.deepStrictEqual(e, some(2))
   })
 
-  it('ap', () => {
+  it('ap', async () => {
     const double = (n: number): number => n * 2
-    const fab = taskOption.of(double)
-    const fa = taskOption.of(1)
-    return Promise.all([fa.ap(fab).run(), fab.ap_(fa).run(), taskOption.ap(fab, fa).run()]).then(([e1, e2, e3]) => {
-      expect(e1).toEqual(some(2))
-      expect(e1).toEqual(e2)
-      expect(e1).toEqual(e3)
-    })
+    const mab = taskOption.of(double)
+    const ma = taskOption.of(1)
+    const e1 = await ma.ap(mab).run()
+    const e2 = await mab.ap_(ma).run()
+    const e3 = await taskOption.ap(mab, ma).run()
+    assert.deepStrictEqual(e1, some(2))
+    assert.deepStrictEqual(e1, e2)
+    assert.deepStrictEqual(e1, e3)
   })
 
-  it('chain', () => {
+  it('chain', async () => {
     const te1 = taskOption.chain(taskOption.of('foo'), a => (a.length > 2 ? taskOption.of(a.length) : taskOptionNone))
     const te2 = taskOption.chain(taskOption.of<string>('a'), a =>
       a.length > 2 ? taskOption.of(a.length) : taskOptionNone
     )
-    return Promise.all([te1.run(), te2.run()]).then(([e1, e2]) => {
-      expect(e1).toEqual(some(3))
-      expect(e2).toEqual(none)
-    })
+    const e1 = await te1.run()
+    const e2 = await te2.run()
+    assert.deepStrictEqual(e1, some(3))
+    assert.deepStrictEqual(e2, none)
   })
 
-  it('fold', () => {
+  it('fold', async () => {
     const g = (n: number): boolean => n > 2
     const te1 = taskOption.of<number>(1).fold(false, g)
     const te2 = taskOptionNone.fold(true, g)
-    return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
-      expect(b1).toEqual(false)
-      expect(b2).toEqual(true)
-    })
+    const b1 = await te1.run()
+    const b2 = await te2.run()
+    assert.deepStrictEqual(b1, false)
+    assert.deepStrictEqual(b2, true)
   })
 
-  it('getOrElse', () => {
+  it('getOrElse', async () => {
     const v: number = 42
     const te1 = taskOption.of<number>(1).getOrElse(v)
     const te2 = fromOption<number>(none).getOrElse(v)
-    return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
-      expect(b1).toEqual(1)
-      expect(b2).toEqual(42)
-    })
+    const n1 = await te1.run()
+    const n2 = await te2.run()
+    assert.deepStrictEqual(n1, 1)
+    assert.deepStrictEqual(n2, 42)
   })
 
-  it('fromTask', () => {
-    const to1 = fromTask(new Task(() => Promise.resolve(none)))
-    return Promise.all([to1.run, taskOptionNone.run]).then(([b1, b2]) => {
-      expect(b1).toEqual(b2)
-    })
+  it('fromTask', async () => {
+    const ma = fromTask(task.of(1))
+    const n = await ma.run()
+    assert.deepStrictEqual(n, some(1))
   })
 
-  it('tryCatch', () => {
+  it('tryCatch', async () => {
     const to1 = tryCatch(() => Promise.reject())
-    return to1.run().then(b1 => expect(b1).toEqual(none))
+    const ma = await to1.run()
+    assert.deepStrictEqual(ma, none)
   })
 
   describe('withTimeout', () => {
-    it('should return successfully within the timeout', () => {
-      const t = withTimeout(new TaskOption(delay(100, some('value'))), some('fallback'), 500)
-      return t.run().then(v => expect(v).toEqual(some('value')))
+    it('should return successfully within the timeout', async () => {
+      const t = withTimeout(new TaskOption(delay(10, some('value'))), some('fallback'), 50)
+      const v = await t.run()
+      assert.deepStrictEqual(v, some('value'))
     })
 
-    it('should return the fallback value on timeout', () => {
-      const t = withTimeout(new TaskOption(delay(500, some('value'))), some('fallback'), 100)
-      return t.run().then(v => expect(v).toEqual(some('fallback')))
+    it('should return the fallback value on timeout', async () => {
+      const t = withTimeout(new TaskOption(delay(50, some('value'))), some('fallback'), 10)
+      const v = await t.run()
+      assert.deepStrictEqual(v, some('fallback'))
     })
   })
 })

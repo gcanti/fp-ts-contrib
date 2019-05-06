@@ -77,6 +77,8 @@ export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> =>
  * withTimeout(completeAfter2s, some('timeout'), 3000).run() // Promise(some('result'))
  * withTimeout(completeAfter2s, none, 1000).run()            // Promise(none)
  * withTimeout(completeAfter2s, some('timeout'), 1000).run() // Promise(some('timeout'))
+ *
+ * @since 0.0.6
  */
 export const withTimeout = <A>(fa: TaskOption<A>, onTimeout: Option<A>, millis: number): TaskOption<A> => {
   return new TaskOption(withTimeoutTask(fa.value, onTimeout, millis))

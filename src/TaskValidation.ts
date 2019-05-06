@@ -48,6 +48,8 @@ const map = <L, A, B>(fa: TaskValidation<L, A>, f: (a: A) => B): TaskValidation<
  * withTimeout(completeAfter2s, failure('timeout'), 3000).value.run() // Promise(success('result'))
  * withTimeout(completeAfter2s, failure('timeout'), 1000).value.run() // Promise(failure('timeout'))
  * withTimeout(completeAfter2s, success('timeout'), 1000).value.run() // Promise(success('timeout'))
+ *
+ * @since 0.0.6
  */
 export const withTimeout = <L, A>(
   fa: TaskValidation<L, A>,

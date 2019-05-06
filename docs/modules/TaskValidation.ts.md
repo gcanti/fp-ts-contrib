@@ -105,3 +105,5 @@ withTimeout(completeAfter2s, failure('timeout'), 3000).value.run() // Promise(su
 withTimeout(completeAfter2s, failure('timeout'), 1000).value.run() // Promise(failure('timeout'))
 withTimeout(completeAfter2s, success('timeout'), 1000).value.run() // Promise(success('timeout'))
 ```
+
+Added in v0.0.6

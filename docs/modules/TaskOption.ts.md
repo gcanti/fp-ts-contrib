@@ -183,3 +183,5 @@ withTimeout(completeAfter2s, some('timeout'), 3000).run() // Promise(some('resul
 withTimeout(completeAfter2s, none, 1000).run() // Promise(none)
 withTimeout(completeAfter2s, some('timeout'), 1000).run() // Promise(some('timeout'))
 ```
+
+Added in v0.0.6
