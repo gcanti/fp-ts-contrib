@@ -1,66 +1,79 @@
-import { array } from 'fp-ts/lib/Array'
+import { Alt1 } from 'fp-ts/lib/Alt'
+import { array, of } from 'fp-ts/lib/Array'
 import { Monad1 } from 'fp-ts/lib/Monad'
-import { Option, none as optionNone, some as optionSome } from 'fp-ts/lib/Option'
-import * as optionT from 'fp-ts/lib/OptionT'
-import { identity } from 'fp-ts/lib/function'
+import { Option } from 'fp-ts/lib/Option'
+import { getOptionM } from 'fp-ts/lib/OptionT'
+import { pipeable } from 'fp-ts/lib/pipeable'
+
+const T = getOptionM(array)
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     ArrayOption: ArrayOption<A>
   }
 }
 
+/**
+ * @since 0.1.0
+ */
 export const URI = 'ArrayOption'
 
+/**
+ * @since 0.1.0
+ */
 export type URI = typeof URI
 
-const T = optionT.getOptionT2v(array)
-const foldT = optionT.fold(array)
+/**
+ * @since 0.1.0
+ */
+export interface ArrayOption<A> extends Array<Option<A>> {}
 
-export class ArrayOption<A> {
-  readonly _A!: A
-  readonly _URI!: URI
-  constructor(readonly value: Array<Option<A>>) {}
-  map<B>(f: (a: A) => B): ArrayOption<B> {
-    return new ArrayOption(T.map(this.value, f))
-  }
-  ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> {
-    return new ArrayOption(T.ap(fab.value, this.value))
-  }
-  ap_<B, C>(this: ArrayOption<(b: B) => C>, fb: ArrayOption<B>): ArrayOption<C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> {
-    return new ArrayOption(T.chain(this.value, a => f(a).value))
-  }
-  fold<R>(onNone: R, onSome: (a: A) => R): Array<R> {
-    return foldT(onNone, onSome, this.value)
-  }
-  getOrElse(a: A): Array<A> {
-    return this.fold(a, identity)
-  }
+/**
+ * @since 0.1.0
+ */
+export const fromArray: <A>(as: Array<A>) => ArrayOption<A> = T.fromM
+
+/**
+ * @since 0.1.0
+ */
+export const fromOption: <A>(ma: Option<A>) => ArrayOption<A> = of
+
+/**
+ * @since 0.1.0
+ */
+export const none: ArrayOption<never> = T.none()
+
+/**
+ * @since 0.1.0
+ */
+export const some: <A>(a: A) => ArrayOption<A> = T.of
+
+/**
+ * @since 0.1.0
+ */
+export function fold<A, B>(onNone: () => Array<B>, onSome: (a: A) => Array<B>): (as: ArrayOption<A>) => Array<B> {
+  return as => T.fold(as, onNone, onSome)
 }
 
-const map = <A, B>(fa: ArrayOption<A>, f: (a: A) => B): ArrayOption<B> => fa.map(f)
+/**
+ * @since 0.1.0
+ */
+export function getOrElse<A>(onNone: () => Array<A>): (as: ArrayOption<A>) => Array<A> {
+  return as => T.getOrElse(as, onNone)
+}
 
-const of = <A>(a: A): ArrayOption<A> => new ArrayOption(T.of(a))
-
-const ap = <A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> => fa.ap(fab)
-
-const chain = <A, B>(fa: ArrayOption<A>, f: (a: A) => ArrayOption<B>): ArrayOption<B> => fa.chain(f)
-
-export const some = of
-
-export const none = new ArrayOption(array.of(optionNone))
-
-export const fromOption = <A>(ma: Option<A>): ArrayOption<A> => new ArrayOption(array.of(ma))
-
-export const fromArray = <A>(ma: Array<A>): ArrayOption<A> => new ArrayOption(ma.map(optionSome))
-
-export const arrayOption: Monad1<URI> = {
+/**
+ * @since 0.1.0
+ */
+export const arrayOption: Monad1<URI> & Alt1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain
+  map: T.map,
+  of: some,
+  ap: T.ap,
+  chain: T.chain,
+  alt: T.alt
 }
+
+const { alt, ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(arrayOption)
+
+export { alt, ap, apFirst, apSecond, chain, chainFirst, flatten, map }

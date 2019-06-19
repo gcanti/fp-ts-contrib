@@ -1,4 +1,4 @@
-import { NonEmptyArray, nonEmptyArray, URI } from 'fp-ts/lib/NonEmptyArray'
+import { NonEmptyArray, nonEmptyArray, URI, cons, head, tail } from 'fp-ts/lib/NonEmptyArray'
 import { These, both } from 'fp-ts/lib/These'
 import { alignArray } from '../Align/Array'
 import { Semialign1 } from './'
@@ -29,7 +29,7 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * @since 0.0.3
    */
   alignWith: <A, B, C>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>, f: (x: These<A, B>) => C): NonEmptyArray<C> => {
-    return new NonEmptyArray(f(both(fa.head, fb.head)), alignArray.alignWith(fa.tail, fb.tail, f))
+    return cons(f(both(head(fa), head(fb))), alignArray.alignWith(tail(fa), tail(fb), f))
   },
   /**
    * Takes two arrays and returns an array of corresponding pairs combined using the `These` data type.
@@ -46,6 +46,6 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * @since 0.0.3
    */
   align: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>): NonEmptyArray<These<A, B>> => {
-    return new NonEmptyArray(both(fa.head, fb.head), alignArray.align(fa.tail, fb.tail))
+    return cons(both(head(fa), head(fb)), alignArray.align(tail(fa), tail(fb)))
   }
 }

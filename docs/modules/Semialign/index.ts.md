@@ -1,6 +1,6 @@
 ---
 title: Semialign/index.ts
-nav_order: 13
+nav_order: 10
 parent: Modules
 ---
 
@@ -30,7 +30,6 @@ Adapted from http://hackage.haskell.org/package/these-0.8/docs/Data-Align.html
 - [Semialign2 (interface)](#semialign2-interface)
 - [Semialign2C (interface)](#semialign2c-interface)
 - [Semialign3 (interface)](#semialign3-interface)
-- [Semialign3C (interface)](#semialign3c-interface)
 
 ---
 
@@ -53,10 +52,12 @@ Added in v0.3.0
 
 ```ts
 export interface Semialign1<F extends URIS> extends Functor1<F> {
-  readonly align: <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, These<A, B>>
-  readonly alignWith: <A, B, C>(fa: Type<F, A>, fb: Type<F, B>, f: (x: These<A, B>) => C) => Type<F, C>
+  readonly align: <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, These<A, B>>
+  readonly alignWith: <A, B, C>(fa: Kind<F, A>, fb: Kind<F, B>, f: (x: These<A, B>) => C) => Kind<F, C>
 }
 ```
+
+Added in v0.3.0
 
 # Semialign2 (interface)
 
@@ -64,10 +65,12 @@ export interface Semialign1<F extends URIS> extends Functor1<F> {
 
 ```ts
 export interface Semialign2<F extends URIS2> extends Functor2<F> {
-  readonly align: <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, These<A, B>>
-  readonly alignWith: <L, A, B, C>(fa: Type2<F, L, A>, fb: Type2<F, L, B>, f: (x: These<A, B>) => C) => Type2<F, L, C>
+  readonly align: <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, These<A, B>>
+  readonly alignWith: <L, A, B, C>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>, f: (x: These<A, B>) => C) => Kind2<F, L, C>
 }
 ```
+
+Added in v0.3.0
 
 # Semialign2C (interface)
 
@@ -75,10 +78,12 @@ export interface Semialign2<F extends URIS2> extends Functor2<F> {
 
 ```ts
 export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly align: <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, These<A, B>>
-  readonly alignWith: <A, B, C>(fa: Type2<F, L, A>, fb: Type2<F, L, B>, f: (x: These<A, B>) => C) => Type2<F, L, C>
+  readonly align: <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, These<A, B>>
+  readonly alignWith: <A, B, C>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>, f: (x: These<A, B>) => C) => Kind2<F, L, C>
 }
 ```
+
+Added in v0.3.0
 
 # Semialign3 (interface)
 
@@ -86,26 +91,13 @@ export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Semialign3<F extends URIS3> extends Functor3<F> {
-  readonly align: <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, These<A, B>>
+  readonly align: <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, These<A, B>>
   readonly alignWith: <U, L, A, B, C>(
-    fa: Type3<F, U, L, A>,
-    fb: Type3<F, U, L, B>,
+    fa: Kind3<F, U, L, A>,
+    fb: Kind3<F, U, L, B>,
     f: (x: These<A, B>) => C
-  ) => Type3<F, U, L, C>
+  ) => Kind3<F, U, L, C>
 }
 ```
 
-# Semialign3C (interface)
-
-**Signature**
-
-```ts
-export interface Semialign3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly align: <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, These<A, B>>
-  readonly alignWith: <A, B, C>(
-    fa: Type3<F, U, L, A>,
-    fb: Type3<F, U, L, B>,
-    f: (x: These<A, B>) => C
-  ) => Type3<F, U, L, C>
-}
-```
+Added in v0.3.0

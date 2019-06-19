@@ -1,6 +1,6 @@
 ---
 title: StateTaskEither.ts
-nav_order: 16
+nav_order: 13
 parent: Modules
 ---
 
@@ -8,26 +8,42 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [StateTaskEither (interface)](#statetaskeither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [StateTaskEither (class)](#statetaskeither-class)
-  - [run (method)](#run-method)
-  - [eval (method)](#eval-method)
-  - [exec (method)](#exec-method)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [orElse (method)](#orelse-method)
 - [URI (constant)](#uri-constant)
+- [evalState (constant)](#evalstate-constant)
+- [execState (constant)](#execstate-constant)
+- [fromTaskEither (constant)](#fromtaskeither-constant)
+- [get (constant)](#get-constant)
+- [gets (constant)](#gets-constant)
+- [modify (constant)](#modify-constant)
+- [put (constant)](#put-constant)
+- [right (constant)](#right-constant)
+- [rightState (constant)](#rightstate-constant)
 - [stateTaskEither (constant)](#statetaskeither-constant)
-- [fromState (function)](#fromstate-function)
-- [fromTaskEither (function)](#fromtaskeither-function)
-- [get (function)](#get-function)
-- [gets (function)](#gets-function)
-- [modify (function)](#modify-function)
-- [put (function)](#put-function)
+- [stateTaskEitherSeq (constant)](#statetaskeitherseq-constant)
+- [fromIOEither (function)](#fromioeither-function)
+- [left (function)](#left-function)
+- [leftIO (function)](#leftio-function)
+- [leftState (function)](#leftstate-function)
+- [leftTask (function)](#lefttask-function)
+- [rightIO (function)](#rightio-function)
+- [rightTask (function)](#righttask-function)
+- [run (function)](#run-function)
 
 ---
+
+# StateTaskEither (interface)
+
+**Signature**
+
+```ts
+export interface StateTaskEither<S, E, A> {
+  (s: S): TaskEither<E, [A, S]>
+}
+```
+
+Added in v0.1.0
 
 # URI (type alias)
 
@@ -37,80 +53,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# StateTaskEither (class)
-
-**Signature**
-
-```ts
-export class StateTaskEither<S, L, A> {
-  constructor(readonly value: (s: S) => TaskEither<L, [A, S]>) { ... }
-  ...
-}
-```
-
-## run (method)
-
-**Signature**
-
-```ts
-run(s: S): Promise<Either<L, [A, S]>> { ... }
-```
-
-## eval (method)
-
-**Signature**
-
-```ts
-eval(s: S): Promise<Either<L, A>> { ... }
-```
-
-## exec (method)
-
-**Signature**
-
-```ts
-exec(s: S): Promise<Either<L, S>> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): StateTaskEither<S, L, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: StateTaskEither<S, L, (a: A) => B>): StateTaskEither<S, L, B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: StateTaskEither<S, L, (b: B) => C>, fb: StateTaskEither<S, L, B>): StateTaskEither<S, L, C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => StateTaskEither<S, L, B>): StateTaskEither<S, L, B> { ... }
-```
-
-## orElse (method)
-
-**Signature**
-
-```ts
-orElse<M>(f: (l: L) => StateTaskEither<S, M, A>): StateTaskEither<S, M, A> { ... }
-```
+Added in v0.1.0
 
 # URI (constant)
 
@@ -120,58 +63,196 @@ orElse<M>(f: (l: L) => StateTaskEither<S, M, A>): StateTaskEither<S, M, A> { ...
 export const URI = ...
 ```
 
+Added in v0.1.0
+
+# evalState (constant)
+
+**Signature**
+
+```ts
+export const evalState: <S, E, A>(ma: StateTaskEither<S, E, A>, s: S) => TaskEither<E, A> = ...
+```
+
+Added in v0.1.0
+
+# execState (constant)
+
+**Signature**
+
+```ts
+export const execState: <S, E, A>(ma: StateTaskEither<S, E, A>, s: S) => TaskEither<E, S> = ...
+```
+
+Added in v0.1.0
+
+# fromTaskEither (constant)
+
+**Signature**
+
+```ts
+export const fromTaskEither: <S, E, A>(ma: TaskEither<E, A>) => StateTaskEither<S, E, A> = ...
+```
+
+Added in v0.1.0
+
+# get (constant)
+
+**Signature**
+
+```ts
+export const get: <S>() => StateTaskEither<S, never, S> = ...
+```
+
+Added in v0.1.0
+
+# gets (constant)
+
+**Signature**
+
+```ts
+export const gets: <S, A>(f: (s: S) => A) => StateTaskEither<S, never, A> = ...
+```
+
+Added in v0.1.0
+
+# modify (constant)
+
+**Signature**
+
+```ts
+export const modify: <S>(f: (s: S) => S) => StateTaskEither<S, never, void> = ...
+```
+
+Added in v0.1.0
+
+# put (constant)
+
+**Signature**
+
+```ts
+export const put: <S>(s: S) => StateTaskEither<S, never, void> = ...
+```
+
+Added in v0.1.0
+
+# right (constant)
+
+**Signature**
+
+```ts
+export const right: <S, A>(a: A) => StateTaskEither<S, never, A> = ...
+```
+
+Added in v0.1.0
+
+# rightState (constant)
+
+**Signature**
+
+```ts
+export const rightState: <S, A>(ma: State<S, A>) => StateTaskEither<S, never, A> = ...
+```
+
+Added in v0.1.0
+
 # stateTaskEither (constant)
 
 **Signature**
 
 ```ts
-export const stateTaskEither: Monad3<URI> = ...
+export const stateTaskEither: Monad3<URI> & MonadThrow3<URI> = ...
 ```
 
-# fromState (function)
+Added in v0.1.0
+
+# stateTaskEitherSeq (constant)
+
+Like `stateTaskEither` but `ap` is sequential
 
 **Signature**
 
 ```ts
-export const fromState = <S, A, L>(fa: State<S, A>): StateTaskEither<S, L, A> => ...
+export const stateTaskEitherSeq: typeof stateTaskEither = ...
 ```
 
-# fromTaskEither (function)
+Added in v0.1.0
+
+# fromIOEither (function)
 
 **Signature**
 
 ```ts
-export const fromTaskEither = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> => ...
+export function fromIOEither<S, E, A>(ma: IOEither<E, A>): StateTaskEither<S, E, A> { ... }
 ```
 
-# get (function)
+Added in v0.1.0
+
+# left (function)
 
 **Signature**
 
 ```ts
-export const get = <L, S>(): StateTaskEither<S, L, S> => ...
+export function left<S, E>(e: E): StateTaskEither<S, E, never> { ... }
 ```
 
-# gets (function)
+Added in v0.1.0
+
+# leftIO (function)
 
 **Signature**
 
 ```ts
-export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> => ...
+export function leftIO<S, E>(me: IO<E>): StateTaskEither<S, E, never> { ... }
 ```
 
-# modify (function)
+Added in v0.1.0
+
+# leftState (function)
 
 **Signature**
 
 ```ts
-export const modify = <L, S>(f: Endomorphism<S>): StateTaskEither<S, L, void> => ...
+export function leftState<S, E>(me: State<S, E>): StateTaskEither<S, E, never> { ... }
 ```
 
-# put (function)
+Added in v0.1.0
+
+# leftTask (function)
 
 **Signature**
 
 ```ts
-export const put = <L, S>(s: S): StateTaskEither<S, L, void> => ...
+export function leftTask<S, E>(me: Task<E>): StateTaskEither<S, E, never> { ... }
 ```
+
+Added in v0.1.0
+
+# rightIO (function)
+
+**Signature**
+
+```ts
+export function rightIO<S, A>(ma: IO<A>): StateTaskEither<S, never, A> { ... }
+```
+
+Added in v0.1.0
+
+# rightTask (function)
+
+**Signature**
+
+```ts
+export function rightTask<S, A>(ma: Task<A>): StateTaskEither<S, never, A> { ... }
+```
+
+Added in v0.1.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export function run<S, E, A>(ma: StateTaskEither<S, E, A>, s: S): Promise<Either<E, [A, S]>> { ... }
+```
+
+Added in v0.1.0

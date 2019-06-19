@@ -1,83 +1,81 @@
-import { IO, io } from 'fp-ts/lib/IO'
+import * as I from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
+import { pipeable } from 'fp-ts/lib/pipeable'
 import { Reader } from 'fp-ts/lib/Reader'
-import * as readerT from 'fp-ts/lib/ReaderT'
+import { getReaderM } from 'fp-ts/lib/ReaderT'
 
-const readerTIO = readerT.getReaderT2v(io)
+import IO = I.IO
+
+const T = getReaderM(I.io)
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT2<L, A> {
-    ReaderIO: ReaderIO<L, A>
+  interface URItoKind2<E, A> {
+    ReaderIO: ReaderIO<E, A>
   }
 }
 
+/**
+ * @since 0.1.0
+ */
 export const URI = 'ReaderIO'
 
+/**
+ * @since 0.1.0
+ */
 export type URI = typeof URI
 
-export class ReaderIO<E, A> {
-  readonly _A!: A
-  readonly _L!: E
-  readonly _URI!: URI
-  constructor(readonly run: (e: E) => IO<A>) {}
-  map<B>(f: (a: A) => B): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.map(this.run, f))
-  }
-  of<E, B>(b: B): ReaderIO<E, B> {
-    return of(b)
-  }
-  ap<B>(fab: ReaderIO<E, (a: A) => B>): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.ap(fab.run, this.run))
-  }
-  ap_<B, C>(this: ReaderIO<E, (b: B) => C>, fb: ReaderIO<E, B>): ReaderIO<E, C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.chain(this.run, a => f(a).run))
-  }
+/**
+ * @since 0.1.0
+ */
+export interface ReaderIO<R, A> {
+  (r: R): IO<A>
 }
 
-const map = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => B): ReaderIO<E, B> => {
-  return fa.map(f)
+/**
+ * @since 0.1.0
+ */
+export function run<R, A>(ma: ReaderIO<R, A>, r: R): A {
+  return ma(r)()
 }
 
-const of = <E, A>(a: A): ReaderIO<E, A> => {
-  return new ReaderIO(readerTIO.of(a))
+/**
+ * @since 0.1.0
+ */
+export const fromReader: <R, A>(ma: Reader<R, A>) => ReaderIO<R, A> = T.fromReader
+
+/**
+ * @since 0.1.0
+ */
+export const fromIO: <R, A>(ma: IO<A>) => ReaderIO<R, A> = T.fromM
+
+/**
+ * @since 0.1.0
+ */
+export const ask: <R>() => ReaderIO<R, R> = T.ask
+
+/**
+ * @since 0.1.0
+ */
+export const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A> = T.asks
+
+/**
+ * @since 0.1.0
+ */
+export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderIO<R, A>) => ReaderIO<Q, A> {
+  return ma => T.local(ma, f)
 }
 
-const ap = <E, A, B>(fab: ReaderIO<E, (a: A) => B>, fa: ReaderIO<E, A>): ReaderIO<E, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> => {
-  return fa.chain(f)
-}
-
-export const ask = <E>(): ReaderIO<E, E> => {
-  return new ReaderIO(io.of)
-}
-
-export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => {
-  return new ReaderIO(e => io.of(f(e)))
-}
-
-export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => {
-  return new ReaderIO(e => fa.run(f(e)))
-}
-
-export const fromIO = <E, A>(fa: IO<A>): ReaderIO<E, A> => {
-  return new ReaderIO(() => fa)
-}
-
-const readerTfromReader = readerT.fromReader(io)
-export const fromReader = <E, A>(fa: Reader<E, A>): ReaderIO<E, A> => {
-  return new ReaderIO(readerTfromReader(fa))
-}
-
+/**
+ * @since 0.1.0
+ */
 export const readerIO: Monad2<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain
+  map: T.map,
+  of: T.of,
+  ap: T.ap,
+  chain: T.chain
 }
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(readerIO)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }

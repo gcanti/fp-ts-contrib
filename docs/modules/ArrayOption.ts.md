@@ -8,22 +8,28 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [ArrayOption (interface)](#arrayoption-interface)
 - [URI (type alias)](#uri-type-alias)
-- [ArrayOption (class)](#arrayoption-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [fold (method)](#fold-method)
-  - [getOrElse (method)](#getorelse-method)
 - [URI (constant)](#uri-constant)
 - [arrayOption (constant)](#arrayoption-constant)
+- [fromArray (constant)](#fromarray-constant)
+- [fromOption (constant)](#fromoption-constant)
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
-- [fromArray (function)](#fromarray-function)
-- [fromOption (function)](#fromoption-function)
+- [fold (function)](#fold-function)
+- [getOrElse (function)](#getorelse-function)
 
 ---
+
+# ArrayOption (interface)
+
+**Signature**
+
+```ts
+export interface ArrayOption<A> extends Array<Option<A>> {}
+```
+
+Added in v0.1.0
 
 # URI (type alias)
 
@@ -33,64 +39,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# ArrayOption (class)
-
-**Signature**
-
-```ts
-export class ArrayOption<A> {
-  constructor(readonly value: Array<Option<A>>) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): ArrayOption<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: ArrayOption<(b: B) => C>, fb: ArrayOption<B>): ArrayOption<C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<R>(onNone: R, onSome: (a: A) => R): Array<R> { ... }
-```
-
-## getOrElse (method)
-
-**Signature**
-
-```ts
-getOrElse(a: A): Array<A> { ... }
-```
+Added in v0.1.0
 
 # URI (constant)
 
@@ -100,42 +49,74 @@ getOrElse(a: A): Array<A> { ... }
 export const URI = ...
 ```
 
+Added in v0.1.0
+
 # arrayOption (constant)
 
 **Signature**
 
 ```ts
-export const arrayOption: Monad1<URI> = ...
+export const arrayOption: Monad1<URI> & Alt1<URI> = ...
 ```
+
+Added in v0.1.0
+
+# fromArray (constant)
+
+**Signature**
+
+```ts
+export const fromArray: <A>(as: Array<A>) => ArrayOption<A> = ...
+```
+
+Added in v0.1.0
+
+# fromOption (constant)
+
+**Signature**
+
+```ts
+export const fromOption: <A>(ma: Option<A>) => ArrayOption<A> = ...
+```
+
+Added in v0.1.0
 
 # none (constant)
 
 **Signature**
 
 ```ts
-export const none = ...
+export const none: ArrayOption<never> = ...
 ```
+
+Added in v0.1.0
 
 # some (constant)
 
 **Signature**
 
 ```ts
-export const some = ...
+export const some: <A>(a: A) => ArrayOption<A> = ...
 ```
 
-# fromArray (function)
+Added in v0.1.0
+
+# fold (function)
 
 **Signature**
 
 ```ts
-export const fromArray = <A>(ma: Array<A>): ArrayOption<A> => ...
+export function fold<A, B>(onNone: () => Array<B>, onSome: (a: A) => Array<B>): (as: ArrayOption<A>) => Array<B> { ... }
 ```
 
-# fromOption (function)
+Added in v0.1.0
+
+# getOrElse (function)
 
 **Signature**
 
 ```ts
-export const fromOption = <A>(ma: Option<A>): ArrayOption<A> => ...
+export function getOrElse<A>(onNone: () => Array<A>): (as: ArrayOption<A>) => Array<A> { ... }
 ```
+
+Added in v0.1.0

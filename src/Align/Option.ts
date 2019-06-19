@@ -1,5 +1,5 @@
-import { Option, some, none, option, URI } from 'fp-ts/lib/Option'
-import { These, this_, that, both } from 'fp-ts/lib/These'
+import { Option, some, none, option, URI, isSome, isNone } from 'fp-ts/lib/Option'
+import { These, left, right, both } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'
 
 import { Align1 } from './'
@@ -38,12 +38,12 @@ export const alignOption: Align1<URI> = {
    * @since 0.0.3
    */
   alignWith: <A, B, C>(fa: Option<A>, fb: Option<B>, f: (x: These<A, B>) => C): Option<C> => {
-    if (fa.isSome() && fb.isSome()) {
+    if (isSome(fa) && isSome(fb)) {
       return some(f(both(fa.value, fb.value)))
-    } else if (fa.isNone() && fb.isSome()) {
-      return some(f(that(fb.value)))
-    } else if (fa.isSome() && fb.isNone()) {
-      return some(f(this_(fa.value)))
+    } else if (isNone(fa) && isSome(fb)) {
+      return some(f(right(fb.value)))
+    } else if (isSome(fa) && isNone(fb)) {
+      return some(f(left(fa.value)))
     } else {
       return none
     }
@@ -53,12 +53,12 @@ export const alignOption: Align1<URI> = {
    *
    * @example
    * import { some, none } from 'fp-ts/lib/Option'
-   * import { both, this_, that } from 'fp-ts/lib/These'
+   * import { both, left, right } from 'fp-ts/lib/These'
    * import { alignOption } from 'fp-ts-contrib/lib/Align/Option'
    *
    * assert.deepStrictEqual(alignOption.align(some(1), some('a')), some(both(1, 'a')))
-   * assert.deepStrictEqual(alignOption.align(some(1, none), some(this_(1)))
-   * assert.deepStrictEqual(alignOption.align(none, some('a')), some(that('a')))
+   * assert.deepStrictEqual(alignOption.align(some(1, none), some(left(1)))
+   * assert.deepStrictEqual(alignOption.align(none, some('a')), some(right('a')))
    * assert.deepStrictEqual(alignOption.align(none, none), none)
    *
    * @since 0.0.3

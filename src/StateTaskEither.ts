@@ -1,100 +1,174 @@
 import { Either } from 'fp-ts/lib/Either'
+import { IO } from 'fp-ts/lib/IO'
+import { IOEither } from 'fp-ts/lib/IOEither'
 import { Monad3 } from 'fp-ts/lib/Monad'
+import { MonadThrow3 } from 'fp-ts/lib/MonadThrow'
 import { State } from 'fp-ts/lib/State'
-import * as stateT from 'fp-ts/lib/StateT'
-import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
-import { Endomorphism } from 'fp-ts/lib/function'
+import { getStateM } from 'fp-ts/lib/StateT'
+import { Task } from 'fp-ts/lib/Task'
+import * as TE from 'fp-ts/lib/TaskEither'
+import TaskEither = TE.TaskEither
+import { pipeable } from 'fp-ts/lib/pipeable'
+
+const T = getStateM(TE.taskEither)
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT3<U, L, A> {
-    StateTaskEither: StateTaskEither<U, L, A>
+  interface URItoKind3<R, E, A> {
+    StateTaskEither: StateTaskEither<R, E, A>
   }
 }
 
-const T = stateT.getStateT2v(taskEither)
-
+/**
+ * @since 0.1.0
+ */
 export const URI = 'StateTaskEither'
 
+/**
+ * @since 0.1.0
+ */
 export type URI = typeof URI
 
-export class StateTaskEither<S, L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _U!: S
-  readonly _URI!: URI
-  constructor(readonly value: (s: S) => TaskEither<L, [A, S]>) {}
-  run(s: S): Promise<Either<L, [A, S]>> {
-    return this.value(s).run()
-  }
-  eval(s: S): Promise<Either<L, A>> {
-    return this.run(s).then(e => e.map(([a]) => a))
-  }
-  exec(s: S): Promise<Either<L, S>> {
-    return this.run(s).then(e => e.map(([_, s]) => s))
-  }
-  map<B>(f: (a: A) => B): StateTaskEither<S, L, B> {
-    return new StateTaskEither(T.map(this.value, f))
-  }
-  ap<B>(fab: StateTaskEither<S, L, (a: A) => B>): StateTaskEither<S, L, B> {
-    return new StateTaskEither(T.ap(fab.value, this.value))
-  }
-  ap_<B, C>(this: StateTaskEither<S, L, (b: B) => C>, fb: StateTaskEither<S, L, B>): StateTaskEither<S, L, C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => StateTaskEither<S, L, B>): StateTaskEither<S, L, B> {
-    return new StateTaskEither(T.chain(this.value, a => f(a).value))
-  }
-  orElse<M>(f: (l: L) => StateTaskEither<S, M, A>): StateTaskEither<S, M, A> {
-    return new StateTaskEither(s => this.value(s).orElse(l => f(l).value(s)))
-  }
+/**
+ * @since 0.1.0
+ */
+export interface StateTaskEither<S, E, A> {
+  (s: S): TaskEither<E, [A, S]>
 }
 
-const map = <S, L, A, B>(fa: StateTaskEither<S, L, A>, f: (a: A) => B): StateTaskEither<S, L, B> => fa.map(f)
-
-const of = <S, L, A>(a: A): StateTaskEither<S, L, A> => new StateTaskEither(T.of(a))
-
-const ap = <S, L, A, B>(
-  fab: StateTaskEither<S, L, (a: A) => B>,
-  fa: StateTaskEither<S, L, A>
-): StateTaskEither<S, L, B> => fa.ap(fab)
-
-const chain = <S, L, A, B>(
-  fa: StateTaskEither<S, L, A>,
-  f: (a: A) => StateTaskEither<S, L, B>
-): StateTaskEither<S, L, B> => fa.chain(f)
-
-const getT = stateT.get2v(taskEither)
-export const get = <L, S>(): StateTaskEither<S, L, S> => new StateTaskEither<S, L, S>(getT)
-
-const putT = stateT.put(taskEither)
-export const put = <L, S>(s: S): StateTaskEither<S, L, void> => {
-  return new StateTaskEither<S, L, void>(putT(s))
+/**
+ * @since 0.1.0
+ */
+export function run<S, E, A>(ma: StateTaskEither<S, E, A>, s: S): Promise<Either<E, [A, S]>> {
+  return ma(s)()
 }
 
-const modifyT = stateT.modify(taskEither)
-export const modify = <L, S>(f: Endomorphism<S>): StateTaskEither<S, L, void> => {
-  return new StateTaskEither<S, L, void>(modifyT(f))
+/**
+ * @since 0.1.0
+ */
+export const evalState: <S, E, A>(ma: StateTaskEither<S, E, A>, s: S) => TaskEither<E, A> = T.evalState
+
+/**
+ * @since 0.1.0
+ */
+export const execState: <S, E, A>(ma: StateTaskEither<S, E, A>, s: S) => TaskEither<E, S> = T.execState
+
+/**
+ * @since 0.1.0
+ */
+export function left<S, E>(e: E): StateTaskEither<S, E, never> {
+  return fromTaskEither(TE.left(e))
 }
 
-const getsT = stateT.gets(taskEither)
-export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> => {
-  return new StateTaskEither<S, L, A>(getsT(f))
+/**
+ * @since 0.1.0
+ */
+export const right: <S, A>(a: A) => StateTaskEither<S, never, A> = T.of
+
+/**
+ * @since 0.1.0
+ */
+export function rightTask<S, A>(ma: Task<A>): StateTaskEither<S, never, A> {
+  return fromTaskEither(TE.rightTask(ma))
 }
 
-const liftT = stateT.liftF(taskEither)
-export const fromTaskEither = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> => {
-  return new StateTaskEither(liftT(fa))
+/**
+ * @since 0.1.0
+ */
+export function leftTask<S, E>(me: Task<E>): StateTaskEither<S, E, never> {
+  return fromTaskEither(TE.leftTask(me))
 }
 
-const fromStateT = stateT.fromState(taskEither)
-export const fromState = <S, A, L>(fa: State<S, A>): StateTaskEither<S, L, A> => {
-  return new StateTaskEither(fromStateT(fa))
+/**
+ * @since 0.1.0
+ */
+export const fromTaskEither: <S, E, A>(ma: TaskEither<E, A>) => StateTaskEither<S, E, A> = T.fromM
+
+/**
+ * @since 0.1.0
+ */
+export function fromIOEither<S, E, A>(ma: IOEither<E, A>): StateTaskEither<S, E, A> {
+  return fromTaskEither(TE.fromIOEither(ma))
 }
 
-export const stateTaskEither: Monad3<URI> = {
+/**
+ * @since 0.1.0
+ */
+export function rightIO<S, A>(ma: IO<A>): StateTaskEither<S, never, A> {
+  return fromTaskEither(TE.rightIO(ma))
+}
+
+/**
+ * @since 0.1.0
+ */
+export function leftIO<S, E>(me: IO<E>): StateTaskEither<S, E, never> {
+  return fromTaskEither(TE.leftIO(me))
+}
+
+/**
+ * @since 0.1.0
+ */
+export const rightState: <S, A>(ma: State<S, A>) => StateTaskEither<S, never, A> = T.fromState
+
+/**
+ * @since 0.1.0
+ */
+export function leftState<S, E>(me: State<S, E>): StateTaskEither<S, E, never> {
+  return s => TE.left(me(s)[0])
+}
+
+/**
+ * @since 0.1.0
+ */
+export const get: <S>() => StateTaskEither<S, never, S> = T.get
+
+/**
+ * @since 0.1.0
+ */
+export const put: <S>(s: S) => StateTaskEither<S, never, void> = T.put
+
+/**
+ * @since 0.1.0
+ */
+export const modify: <S>(f: (s: S) => S) => StateTaskEither<S, never, void> = T.modify
+
+/**
+ * @since 0.1.0
+ */
+export const gets: <S, A>(f: (s: S) => A) => StateTaskEither<S, never, A> = T.gets
+
+/**
+ * @since 0.1.0
+ */
+export const stateTaskEither: Monad3<URI> & MonadThrow3<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain
+  map: T.map,
+  of: right,
+  ap: T.ap,
+  chain: T.chain,
+  throwError: left
 }
+
+/**
+ * Like `stateTaskEither` but `ap` is sequential
+ * @since 0.1.0
+ */
+export const stateTaskEitherSeq: typeof stateTaskEither = {
+  ...stateTaskEither,
+  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
+}
+
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  filterOrElse,
+  fromEither,
+  fromOption,
+  fromPredicate
+} = pipeable(stateTaskEither)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map, filterOrElse, fromEither, fromOption, fromPredicate }

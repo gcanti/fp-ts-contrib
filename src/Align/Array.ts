@@ -1,6 +1,6 @@
-import { These, this_, that, both } from 'fp-ts/lib/These'
-import { array, URI, catOptions } from 'fp-ts/lib/Array'
-import { Option } from 'fp-ts/lib/Option'
+import { These, left, right, both } from 'fp-ts/lib/These'
+import { array, URI } from 'fp-ts/lib/Array'
+import { Option, option } from 'fp-ts/lib/Option'
 import { identity, tuple } from 'fp-ts/lib/function'
 
 import { Align1, padZipWith } from './'
@@ -44,11 +44,11 @@ export const alignArray: Align1<URI> = {
     }
     if (aLen > bLen) {
       for (let i = bLen; i < aLen; i++) {
-        fc[i] = f(this_<A, B>(fa[i]))
+        fc[i] = f(left(fa[i]))
       }
     } else {
       for (let i = aLen; i < bLen; i++) {
-        fc[i] = f(that<A, B>(fb[i]))
+        fc[i] = f(right(fb[i]))
       }
     }
     return fc
@@ -62,8 +62,8 @@ export const alignArray: Align1<URI> = {
    * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
    *
    * assert.deepStrictEqual(alignArray.align([1, 2], ['a', 'b']), [both(1, 'a'), both(2, 'b')])
-   * assert.deepStrictEqual(alignArray.align([1, 2], ['a']), [both(1, 'a'), this_(2)])
-   * assert.deepStrictEqual(alignArray.align([1], ['a' 'b']), [both(1, 'a'), that('b')])
+   * assert.deepStrictEqual(alignArray.align([1, 2], ['a']), [both(1, 'a'), left(2)])
+   * assert.deepStrictEqual(alignArray.align([1], ['a' 'b']), [both(1, 'a'), right('b')])
    *
    * @since 0.0.3
    */
@@ -79,17 +79,22 @@ export const alignArray: Align1<URI> = {
  * It is similar to `zipWith`, but it doesn't discard elements when the left input array is shorter than the right.
  *
  * @example
- * import { Option } from 'fp-ts/lib/Option'
+ * import * as O from 'fp-ts/lib/Option'
  * import { lpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
+ * import { pipe } from 'fp-ts/lib/pipeable'
  *
- * const f = (ma: Option<number>, b: string) => ma.fold('*', a => a.toString()) + b
+ * const f = (ma: O.Option<number>, b: string) =>
+ *   pipe(
+ *     ma,
+ *     O.fold(() => '*', a => a.toString())
+ *   ) + b
  * assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
  * assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
  *
  * @since 0.0.3
  */
 export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C> {
-  return catOptions(padZipWith(alignArray)(xs, ys, (ma, mb) => mb.map(b => f(ma, b))))
+  return array.compact(padZipWith(alignArray)(xs, ys, (ma, mb) => option.map(mb, b => f(ma, b))))
 }
 
 /**
@@ -118,10 +123,10 @@ export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
  * It is similar to `zipWith`, but it doesn't discard elements when the right input array is shorter than the left.
  *
  * @example
- * import { Option } from 'fp-ts/lib/Option'
+ * import { Option, getOrElse } from 'fp-ts/lib/Option'
  * import { rpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
  *
- * const f = (a: number, mb: Option<string>) => a.toString() + mb.getOrElse('*')
+ * const f = (a: number, mb: Option<string>) => a.toString() + getOrElse(() => '*')(mb)
  * assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])
  * assert.deepStrictEqual(rpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c'])
  *
