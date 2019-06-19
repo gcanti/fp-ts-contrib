@@ -13,6 +13,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.0
+
+- **Breaking Change**
+  - upgrade to `fp-ts@2.x` (@gcanti)
+  - rename `batchTraverseM` to `batchTraverse` (@gcanti)
+  - remove `batchSequenceM` (@gcanti)
+  - make `withTimeout` compatible with both `Task` and `TaskEither` (@gcanti)
+  - remove `TaskEither/withTimeout` (@gcanti)
+
 # 0.0.6
 
 - **New Feature**

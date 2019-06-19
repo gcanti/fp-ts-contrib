@@ -1,5 +1,5 @@
 import * as R from 'fp-ts/lib/Record'
-import { These, this_, that, both } from 'fp-ts/lib/These'
+import { These, left, right, both } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'
 
 export function alignWith<K extends string, P extends string, A, B, C>(
@@ -22,12 +22,12 @@ export function alignWith<A, B, C>(
     if (fb.hasOwnProperty(key)) {
       r[key] = f(both(fa[key], fb[key]))
     } else {
-      r[key] = f(this_(fa[key]))
+      r[key] = f(left(fa[key]))
     }
   }
   for (const key of Object.keys(fb)) {
     if (!fa.hasOwnProperty(key)) {
-      r[key] = f(that(fb[key]))
+      r[key] = f(right(fb[key]))
     }
   }
   return r

@@ -1,20 +1,27 @@
-import { getRaceMonoid, Task, delay } from 'fp-ts/lib/Task'
+import { getRaceMonoid, Task, delay, of } from 'fp-ts/lib/Task'
 
 /**
  * Returns the task result if it completes within a timeout, or a fallback value instead.
  *
  * @example
  * import { withTimeout } from 'fp-ts-contrib/lib/Task/withTimeout'
- * import { delay } from 'fp-ts/lib/Task'
+ * import { delay, of } from 'fp-ts/lib/Task'
  *
- * const completeAfter2s = delay(2000, 'result')
+ * const completeAfter2s = delay(2000)(of('result'))
  *
- * withTimeout(completeAfter2s, 'timeout', 3000).run() // Promise('result')
- * withTimeout(completeAfter2s, 'timeout', 1000).run() // Promise('timeout')
+ * async function f() {
+ *   const a1 = await withTimeout('timeout', 3000)(completeAfter2s)()
+ *   assert.strictEqual(a1, 'result')
+ *   const a2 = await withTimeout('timeout', 1000)(completeAfter2s)()
+ *   assert.strictEqual(a2, 'timeout')
+ * }
  *
- * @since 0.0.6
+ * f()
+ *
+ * @since 0.1.0
  */
-export const withTimeout = <A>(t: Task<A>, onTimeout: A, millis: number): Task<A> => {
-  const timeoutTask = delay(millis, onTimeout)
-  return getRaceMonoid<A>().concat(t, timeoutTask)
+export function withTimeout<A>(onTimeout: A, millis: number): (ma: Task<A>) => Task<A> {
+  const M = getRaceMonoid<A>()
+  const fallback = delay(millis)(of(onTimeout))
+  return ma => M.concat(ma, fallback)
 }

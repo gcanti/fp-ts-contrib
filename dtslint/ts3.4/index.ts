@@ -4,7 +4,7 @@ import * as Task from 'fp-ts/lib/Task'
 import * as TaskEither from 'fp-ts/lib/TaskEither'
 import * as ReaderTaskEither from 'fp-ts/lib/ReaderTaskEither'
 import * as Th from 'fp-ts/lib/These'
-import { either, right } from 'fp-ts/lib/Either'
+import { either, right, Either } from 'fp-ts/lib/Either'
 import { Do } from '../../src/Do'
 import * as alignRecord from '../../src/Align/Record'
 
@@ -23,13 +23,13 @@ time(ReaderTaskEither.readerTaskEither) // $ExpectType <U, L, A>(ma: ReaderTaskE
 
 // should not allow duplicated keys
 Do(either)
-  .bind('a', right<string, string>('a'))
-  .bind('a', right<string, string>('a')) // $ExpectError
+  .bind('a', right('a'))
+  .bind('a', right('a')) // $ExpectError
 
 // should not allow different left types
 Do(either)
-  .bind('a', right<string, string>('a'))
-  .bindL('b', () => right<boolean, number>(54)) // $ExpectError
+  .bind('a', right('a'))
+  .bindL('b', () => right(54) as Either<boolean, number>) // $ExpectError
 
 // sequenceS should not allow empty records
 Do(Task.task).sequenceS({}) // $ExpectError

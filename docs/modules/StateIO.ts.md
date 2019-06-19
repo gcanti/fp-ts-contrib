@@ -1,6 +1,6 @@
 ---
 title: StateIO.ts
-nav_order: 15
+nav_order: 12
 parent: Modules
 ---
 
@@ -8,25 +8,33 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [StateIO (interface)](#stateio-interface)
 - [URI (type alias)](#uri-type-alias)
-- [StateIO (class)](#stateio-class)
-  - [run (method)](#run-method)
-  - [eval (method)](#eval-method)
-  - [exec (method)](#exec-method)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
 - [URI (constant)](#uri-constant)
+- [evalState (constant)](#evalstate-constant)
+- [execState (constant)](#execstate-constant)
+- [fromIO (constant)](#fromio-constant)
+- [fromState (constant)](#fromstate-constant)
+- [get (constant)](#get-constant)
+- [gets (constant)](#gets-constant)
+- [modify (constant)](#modify-constant)
+- [put (constant)](#put-constant)
 - [stateIO (constant)](#stateio-constant)
-- [fromIO (function)](#fromio-function)
-- [fromState (function)](#fromstate-function)
-- [get (function)](#get-function)
-- [gets (function)](#gets-function)
-- [modify (function)](#modify-function)
-- [put (function)](#put-function)
+- [run (function)](#run-function)
 
 ---
+
+# StateIO (interface)
+
+**Signature**
+
+```ts
+export interface StateIO<S, A> {
+  (s: S): IO<[A, S]>
+}
+```
+
+Added in v0.1.0
 
 # URI (type alias)
 
@@ -36,72 +44,7 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# StateIO (class)
-
-**Signature**
-
-```ts
-export class StateIO<S, A> {
-  constructor(readonly value: (s: S) => IO<[A, S]>) { ... }
-  ...
-}
-```
-
-## run (method)
-
-**Signature**
-
-```ts
-run(s: S): [A, S] { ... }
-```
-
-## eval (method)
-
-**Signature**
-
-```ts
-eval(s: S): A { ... }
-```
-
-## exec (method)
-
-**Signature**
-
-```ts
-exec(s: S): S { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): StateIO<S, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: StateIO<S, (a: A) => B>): StateIO<S, B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: StateIO<S, (b: B) => C>, fb: StateIO<S, B>): StateIO<S, C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => StateIO<S, B>): StateIO<S, B> { ... }
-```
+Added in v0.1.0
 
 # URI (constant)
 
@@ -111,6 +54,88 @@ chain<B>(f: (a: A) => StateIO<S, B>): StateIO<S, B> { ... }
 export const URI = ...
 ```
 
+Added in v0.1.0
+
+# evalState (constant)
+
+**Signature**
+
+```ts
+export const evalState: <S, A>(ma: StateIO<S, A>, s: S) => IO<A> = ...
+```
+
+Added in v0.1.0
+
+# execState (constant)
+
+**Signature**
+
+```ts
+export const execState: <S, A>(ma: StateIO<S, A>, s: S) => IO<S> = ...
+```
+
+Added in v0.1.0
+
+# fromIO (constant)
+
+**Signature**
+
+```ts
+export const fromIO: <S, A>(ma: IO<A>) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# fromState (constant)
+
+**Signature**
+
+```ts
+export const fromState: <S, A>(ma: State<S, A>) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# get (constant)
+
+**Signature**
+
+```ts
+export const get: <S>() => StateIO<S, S> = ...
+```
+
+Added in v0.1.0
+
+# gets (constant)
+
+**Signature**
+
+```ts
+export const gets: <S, A>(f: (s: S) => A) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# modify (constant)
+
+**Signature**
+
+```ts
+export const modify: <S>(f: (s: S) => S) => StateIO<S, void> = ...
+```
+
+Added in v0.1.0
+
+# put (constant)
+
+**Signature**
+
+```ts
+export const put: <S>(s: S) => StateIO<S, void> = ...
+```
+
+Added in v0.1.0
+
 # stateIO (constant)
 
 **Signature**
@@ -119,50 +144,14 @@ export const URI = ...
 export const stateIO: Monad2<URI> = ...
 ```
 
-# fromIO (function)
+Added in v0.1.0
+
+# run (function)
 
 **Signature**
 
 ```ts
-export const fromIO = <S, A>(fa: IO<A>): StateIO<S, A> => ...
+export function run<S, A>(ma: StateIO<S, A>, s: S): A { ... }
 ```
 
-# fromState (function)
-
-**Signature**
-
-```ts
-export const fromState = <S, A>(fa: State<S, A>): StateIO<S, A> => ...
-```
-
-# get (function)
-
-**Signature**
-
-```ts
-export const get = <S>(): StateIO<S, S> => ...
-```
-
-# gets (function)
-
-**Signature**
-
-```ts
-export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => ...
-```
-
-# modify (function)
-
-**Signature**
-
-```ts
-export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => ...
-```
-
-# put (function)
-
-**Signature**
-
-```ts
-export const put = <S>(s: S): StateIO<S, void> => ...
-```
+Added in v0.1.0

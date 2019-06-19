@@ -69,10 +69,15 @@ export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A
 **Example**
 
 ```ts
-import { Option } from 'fp-ts/lib/Option'
+import * as O from 'fp-ts/lib/Option'
 import { lpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
+import { pipe } from 'fp-ts/lib/pipeable'
 
-const f = (ma: Option<number>, b: string) => ma.fold('*', a => a.toString()) + b
+const f = (ma: O.Option<number>, b: string) =>
+  pipe(
+    ma,
+    O.fold(() => '*', a => a.toString())
+  ) + b
 assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
 assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
 ```
@@ -120,10 +125,10 @@ export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Op
 **Example**
 
 ```ts
-import { Option } from 'fp-ts/lib/Option'
+import { Option, getOrElse } from 'fp-ts/lib/Option'
 import { rpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
 
-const f = (a: number, mb: Option<string>) => a.toString() + mb.getOrElse('*')
+const f = (a: number, mb: Option<string>) => a.toString() + getOrElse(() => '*')(mb)
 assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])
 assert.deepStrictEqual(rpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c'])
 ```
