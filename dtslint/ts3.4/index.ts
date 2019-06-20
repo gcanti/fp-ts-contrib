@@ -29,7 +29,7 @@ Do(either)
 // should not allow different left types
 Do(either)
   .bind('a', right('a'))
-  .bindL('b', () => right(54) as Either<boolean, number>) // $ExpectError
+  .bindL('b', () => right<boolean, number>(54)) // $ExpectError
 
 // sequenceS should not allow empty records
 Do(Task.task).sequenceS({}) // $ExpectError
