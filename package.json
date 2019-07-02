@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-contrib",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A community driven utility package for fp-ts",
   "files": [
     "lib",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts-contrib",
   "peerDependencies": {
-    "fp-ts": "^2.0.0-rc.6"
+    "fp-ts": "^2.0.0"
   },
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
@@ -45,7 +45,7 @@
     "docs-ts": "0.0.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
-    "fp-ts": "^2.0.0-rc.7",
+    "fp-ts": "^2.0.0",
     "jest": "^23.6.0",
     "mocha": "^5.2.0",
     "prettier": "^1.16.4",
