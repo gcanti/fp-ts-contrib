@@ -167,7 +167,7 @@ class DoClass<M> {
 const init = {}
 
 /**
- * This function provides a simuation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
+ * This function provides a simulation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
  * scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that
  * add nothing to the scope. The `return` function lifts the given callback to the monad context. Finally the `done`
  * function returns the scope.
