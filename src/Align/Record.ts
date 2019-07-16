@@ -2,6 +2,9 @@ import * as R from 'fp-ts/lib/Record'
 import { These, left, right, both } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'
 
+/**
+ * @since 0.1.0
+ */
 export function alignWith<K extends string, P extends string, A, B, C>(
   fa: Record<K, A>,
   fb: Record<P, B>,
@@ -33,6 +36,9 @@ export function alignWith<A, B, C>(
   return r
 }
 
+/**
+ * @since 0.1.0
+ */
 export function align<K extends string, P extends string, A, B>(
   fa: Record<K, A>,
   fb: Record<P, B>
@@ -42,4 +48,9 @@ export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Recor
   return alignWith<A, B, These<A, B>>(fa, fb, identity)
 }
 
-export const nil = <A>(): Record<string, A> => R.empty
+/**
+ * @since 0.1.0
+ */
+export function nil<A>(): Record<string, A> {
+  return R.empty
+}

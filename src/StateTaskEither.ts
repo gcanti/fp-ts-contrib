@@ -171,4 +171,49 @@ const {
   fromPredicate
 } = pipeable(stateTaskEither)
 
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map, filterOrElse, fromEither, fromOption, fromPredicate }
+export {
+  /**
+   * @since 0.1.0
+   */
+  ap,
+  /**
+   * @since 0.1.0
+   */
+  apFirst,
+  /**
+   * @since 0.1.0
+   */
+  apSecond,
+  /**
+   * @since 0.1.0
+   */
+  chain,
+  /**
+   * @since 0.1.0
+   */
+  chainFirst,
+  /**
+   * @since 0.1.0
+   */
+  flatten,
+  /**
+   * @since 0.1.0
+   */
+  map,
+  /**
+   * @since 0.1.0
+   */
+  filterOrElse,
+  /**
+   * @since 0.1.0
+   */
+  fromEither,
+  /**
+   * @since 0.1.0
+   */
+  fromOption,
+  /**
+   * @since 0.1.0
+   */
+  fromPredicate
+}

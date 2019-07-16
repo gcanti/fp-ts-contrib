@@ -18,35 +18,35 @@ import { fold, bimap } from 'fp-ts/lib/These'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 /**
- * @since 0.0.3
+ * @since 0.1.0
  */
 export interface Align<F> extends Semialign<F> {
   readonly nil: <A>() => HKT<F, A>
 }
 
 /**
- * @since 0.0.3
+ * @since 0.1.0
  */
 export interface Align1<F extends URIS> extends Semialign1<F> {
   readonly nil: <A>() => Kind<F, A>
 }
 
 /**
- * @since 0.0.3
+ * @since 0.1.0
  */
 export interface Align2<F extends URIS2> extends Semialign2<F> {
   readonly nil: <L, A>() => Kind2<F, L, A>
 }
 
 /**
- * @since 0.0.3
+ * @since 0.1.0
  */
 export interface Align2C<F extends URIS2, L> extends Semialign2C<F, L> {
   readonly nil: <A>() => Kind2<F, L, A>
 }
 
 /**
- * @since 0.0.3
+ * @since 0.1.0
  */
 export interface Align3<F extends URIS3> extends Semialign3<F> {
   readonly nil: <U, L, A>() => Kind3<F, U, L, A>
@@ -62,7 +62,7 @@ export interface Align3<F extends URIS3> extends Semialign3<F> {
  *
  * assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2, 3], [4, 5]), [5, 7, 3])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function salign<F extends URIS3, A, L>(
   F: Align3<F>,
@@ -94,7 +94,7 @@ export function salign<F, A>(F: Align<F>, S: Semigroup<A>): (fx: HKT<F, A>, fy: 
  *
  * assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [[some(1), some(4)], [some(2), some(5)], [some(3), none]])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function padZip<F extends URIS3, L>(
   F: Align3<F>
@@ -137,7 +137,7 @@ export function padZip<F>(F: Align<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => 
  * assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a'], f), ['1a', '2#'])
  * assert.deepStrictEqual(padZipWith(alignArray)([1], ['a', 'b'], f), ['1a', '*b'])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function padZipWith<F extends URIS3, L>(
   F: Align3<F>

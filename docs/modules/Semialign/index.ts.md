@@ -44,7 +44,7 @@ export interface Semialign<F> extends Functor<F> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.1.0
 
 # Semialign1 (interface)
 
@@ -57,7 +57,7 @@ export interface Semialign1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.1.0
 
 # Semialign2 (interface)
 
@@ -70,7 +70,7 @@ export interface Semialign2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.1.0
 
 # Semialign2C (interface)
 
@@ -83,7 +83,7 @@ export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.1.0
 
 # Semialign3 (interface)
 
@@ -100,4 +100,4 @@ export interface Semialign3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-Added in v0.3.0
+Added in v0.1.0

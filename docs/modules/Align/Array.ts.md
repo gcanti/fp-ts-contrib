@@ -26,7 +26,7 @@ parent: Modules
 export const alignArray: Align1<URI> = ...
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # lpadZip (function)
 
@@ -51,7 +51,7 @@ assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [[some(1), 'a'], [some(
 assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # lpadZipWith (function)
 
@@ -82,7 +82,7 @@ assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '
 assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # rpadZip (function)
 
@@ -107,7 +107,7 @@ assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [[1, some('a')], [2, some
 assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [[1, some('a')], [2, some('b')]])
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # rpadZipWith (function)
 
@@ -133,4 +133,4 @@ assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b
 assert.deepStrictEqual(rpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c'])
 ```
 
-Added in v0.0.3
+Added in v0.1.0

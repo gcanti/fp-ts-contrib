@@ -43,6 +43,8 @@ export interface Do0<M, S extends object> {
 }
 ```
 
+Added in v0.1.0
+
 # Do1 (interface)
 
 **Signature**
@@ -63,6 +65,8 @@ export interface Do1<M extends URIS, S extends object> {
   done: () => Kind<M, S>
 }
 ```
+
+Added in v0.1.0
 
 # Do2 (interface)
 
@@ -88,6 +92,8 @@ export interface Do2<M extends URIS2, S extends object> {
 }
 ```
 
+Added in v0.1.0
+
 # Do2C (interface)
 
 **Signature**
@@ -111,6 +117,8 @@ export interface Do2C<M extends URIS2, S extends object, L> {
   done: () => Kind2<M, L, S>
 }
 ```
+
+Added in v0.1.0
 
 # Do3 (interface)
 
@@ -139,6 +147,8 @@ export interface Do3<M extends URIS3, S extends object> {
 }
 ```
 
+Added in v0.1.0
+
 # Do3C (interface)
 
 **Signature**
@@ -163,9 +173,11 @@ export interface Do3C<M extends URIS3, S extends object, U, L> {
 }
 ```
 
+Added in v0.1.0
+
 # Do (function)
 
-This function provides a simuation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
+This function provides a simulation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
 scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that
 add nothing to the scope. The `return` function lifts the given callback to the monad context. Finally the `done`
 function returns the scope.

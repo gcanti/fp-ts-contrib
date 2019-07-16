@@ -22,4 +22,4 @@ parent: Modules
 export const alignOption: Align1<URI> = ...
 ```
 
-Added in v0.0.3
+Added in v0.1.0

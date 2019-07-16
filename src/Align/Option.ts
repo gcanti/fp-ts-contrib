@@ -7,7 +7,7 @@ import { Align1 } from './'
 /**
  * `Align` instance for `Option`.
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export const alignOption: Align1<URI> = {
   URI,
@@ -15,7 +15,7 @@ export const alignOption: Align1<URI> = {
   /**
    * Unit value in regards to `align`
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   nil: <A>(): Option<A> => none,
   /**
@@ -35,7 +35,7 @@ export const alignOption: Align1<URI> = {
    * assert.deepStrictEqual(alignOption.alignWith(none, some('a'), f), some('a'))
    * assert.deepStrictEqual(alignOption.alignWith(none, none, f), none)
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   alignWith: <A, B, C>(fa: Option<A>, fb: Option<B>, f: (x: These<A, B>) => C): Option<C> => {
     if (isSome(fa) && isSome(fb)) {
@@ -61,7 +61,7 @@ export const alignOption: Align1<URI> = {
    * assert.deepStrictEqual(alignOption.align(none, some('a')), some(right('a')))
    * assert.deepStrictEqual(alignOption.align(none, none), none)
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   align: <A, B>(fa: Option<A>, fb: Option<B>): Option<These<A, B>> => alignOption.alignWith(fa, fb, identity)
 }

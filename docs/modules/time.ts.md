@@ -43,4 +43,4 @@ function fib(n: number): number {
 timeIO(io.map(randomInt(30, 35), fib))() // [ 14930352, 127 ]
 ```
 
-Added in v0.0.1
+Added in v0.1.0

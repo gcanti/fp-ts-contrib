@@ -8,7 +8,7 @@ import { Align1, padZipWith } from './'
 /**
  * `Align` instance for `Array`.
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export const alignArray: Align1<URI> = {
   URI,
@@ -32,7 +32,7 @@ export const alignArray: Align1<URI> = {
    * assert.deepStrictEqual(alignArray.alignWith([1, 2], ['a'], f), ['1a', '2'])
    * assert.deepStrictEqual(alignArray.alignWith([1], ['a' 'b'], f), ['1a', 'b'])
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   alignWith: <A, B, C>(fa: Array<A>, fb: Array<B>, f: (x: These<A, B>) => C): Array<C> => {
     const fc = []
@@ -65,7 +65,7 @@ export const alignArray: Align1<URI> = {
    * assert.deepStrictEqual(alignArray.align([1, 2], ['a']), [both(1, 'a'), left(2)])
    * assert.deepStrictEqual(alignArray.align([1], ['a' 'b']), [both(1, 'a'), right('b')])
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   align: <A, B>(fa: Array<A>, fb: Array<B>): Array<These<A, B>> => {
     return alignArray.alignWith<A, B, These<A, B>>(fa, fb, identity)
@@ -91,7 +91,7 @@ export const alignArray: Align1<URI> = {
  * assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
  * assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C> {
   return array.compact(padZipWith(alignArray)(xs, ys, (ma, mb) => option.map(mb, b => f(ma, b))))
@@ -110,7 +110,7 @@ export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A
  * assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [[some(1), 'a'], [some(2), 'b'], [none, 'c']])
  * assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]> {
   return lpadZipWith(xs, ys, (a, b) => tuple(a, b))
@@ -130,7 +130,7 @@ export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
  * assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])
  * assert.deepStrictEqual(rpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c'])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C> {
   return lpadZipWith(ys, xs, (a, b) => f(b, a))
@@ -149,7 +149,7 @@ export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Op
  * assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [[1, some('a')], [2, some('b')], [3, none]])
  * assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [[1, some('a')], [2, some('b')]])
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]> {
   return rpadZipWith(xs, ys, (a, b) => tuple(a, b))
