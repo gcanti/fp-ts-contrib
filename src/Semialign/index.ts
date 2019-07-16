@@ -19,7 +19,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from 'fp-ts/lib/HKT'
 import { These } from 'fp-ts/lib/These'
 
 /**
- * @since 0.3.0
+ * @since 0.1.0
  */
 export interface Semialign<F> extends Functor<F> {
   readonly align: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, These<A, B>>
@@ -27,7 +27,7 @@ export interface Semialign<F> extends Functor<F> {
 }
 
 /**
- * @since 0.3.0
+ * @since 0.1.0
  */
 export interface Semialign1<F extends URIS> extends Functor1<F> {
   readonly align: <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, These<A, B>>
@@ -35,7 +35,7 @@ export interface Semialign1<F extends URIS> extends Functor1<F> {
 }
 
 /**
- * @since 0.3.0
+ * @since 0.1.0
  */
 export interface Semialign2<F extends URIS2> extends Functor2<F> {
   readonly align: <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, These<A, B>>
@@ -43,7 +43,7 @@ export interface Semialign2<F extends URIS2> extends Functor2<F> {
 }
 
 /**
- * @since 0.3.0
+ * @since 0.1.0
  */
 export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
   readonly align: <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, These<A, B>>
@@ -51,7 +51,7 @@ export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 
 /**
- * @since 0.3.0
+ * @since 0.1.0
  */
 export interface Semialign3<F extends URIS3> extends Functor3<F> {
   readonly align: <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, These<A, B>>

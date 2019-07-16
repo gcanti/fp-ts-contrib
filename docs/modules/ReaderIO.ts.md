@@ -18,6 +18,13 @@ parent: Modules
 - [readerIO (constant)](#readerio-constant)
 - [local (function)](#local-function)
 - [run (function)](#run-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -48,7 +55,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "ReaderIO" = ...
 ```
 
 Added in v0.1.0
@@ -119,6 +126,76 @@ Added in v0.1.0
 
 ```ts
 export function run<R, A>(ma: ReaderIO<R, A>, r: R): A { ... }
+```
+
+Added in v0.1.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: ReaderIO<E, A>) => <B>(fab: ReaderIO<E, (a: A) => B>) => ReaderIO<E, B>
+```
+
+Added in v0.1.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: ReaderIO<E, B>) => <A>(fa: ReaderIO<E, A>) => ReaderIO<E, A>
+```
+
+Added in v0.1.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<e, B>(fb: ReaderIO<e, B>) => <A>(fa: ReaderIO<e, A>) => ReaderIO<e, B>
+```
+
+Added in v0.1.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => ReaderIO<E, B>) => (ma: ReaderIO<E, A>) => ReaderIO<E, B>
+```
+
+Added in v0.1.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => ReaderIO<E, B>) => (ma: ReaderIO<E, A>) => ReaderIO<E, A>
+```
+
+Added in v0.1.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: ReaderIO<E, ReaderIO<E, A>>) => ReaderIO<E, A>
+```
+
+Added in v0.1.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: ReaderIO<E, A>) => ReaderIO<E, B>
 ```
 
 Added in v0.1.0

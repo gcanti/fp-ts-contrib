@@ -18,6 +18,14 @@ parent: Modules
 - [some (constant)](#some-constant)
 - [fold (function)](#fold-function)
 - [getOrElse (function)](#getorelse-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -46,7 +54,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "ArrayOption" = ...
 ```
 
 Added in v0.1.0
@@ -117,6 +125,86 @@ Added in v0.1.0
 
 ```ts
 export function getOrElse<A>(onNone: () => Array<A>): (as: ArrayOption<A>) => Array<A> { ... }
+```
+
+Added in v0.1.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<A>(that: () => ArrayOption<A>) => (fa: ArrayOption<A>) => ArrayOption<A>
+```
+
+Added in v0.1.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: ArrayOption<A>) => <B>(fab: ArrayOption<(a: A) => B>) => ArrayOption<B>
+```
+
+Added in v0.1.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: ArrayOption<B>) => <A>(fa: ArrayOption<A>) => ArrayOption<A>
+```
+
+Added in v0.1.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: ArrayOption<B>) => <A>(fa: ArrayOption<A>) => ArrayOption<B>
+```
+
+Added in v0.1.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => ArrayOption<B>) => (ma: ArrayOption<A>) => ArrayOption<B>
+```
+
+Added in v0.1.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => ArrayOption<B>) => (ma: ArrayOption<A>) => ArrayOption<A>
+```
+
+Added in v0.1.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: ArrayOption<ArrayOption<A>>) => ArrayOption<A>
+```
+
+Added in v0.1.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: ArrayOption<A>) => ArrayOption<B>
 ```
 
 Added in v0.1.0

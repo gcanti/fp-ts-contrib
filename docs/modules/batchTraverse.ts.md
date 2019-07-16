@@ -34,3 +34,5 @@ export function batchTraverse<M extends URIS>(
 ): <A, B>(as: Array<Array<A>>, f: (a: A) => Kind<M, B>) => Kind<M, Array<B>>
 export function batchTraverse<M>(M: Monad<M>): <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) => HKT<M, Array<B>> { ... }
 ```
+
+Added in v0.1.0

@@ -21,6 +21,13 @@ parent: Modules
 - [put (constant)](#put-constant)
 - [stateIO (constant)](#stateio-constant)
 - [run (function)](#run-function)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -51,7 +58,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "StateIO" = ...
 ```
 
 Added in v0.1.0
@@ -152,6 +159,76 @@ Added in v0.1.0
 
 ```ts
 export function run<S, A>(ma: StateIO<S, A>, s: S): A { ... }
+```
+
+Added in v0.1.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: StateIO<E, A>) => <B>(fab: StateIO<E, (a: A) => B>) => StateIO<E, B>
+```
+
+Added in v0.1.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<E, B>(fb: StateIO<E, B>) => <A>(fa: StateIO<E, A>) => StateIO<E, A>
+```
+
+Added in v0.1.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<e, B>(fb: StateIO<e, B>) => <A>(fa: StateIO<e, A>) => StateIO<e, B>
+```
+
+Added in v0.1.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, B>
+```
+
+Added in v0.1.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, A>
+```
+
+Added in v0.1.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: StateIO<E, StateIO<E, A>>) => StateIO<E, A>
+```
+
+Added in v0.1.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: StateIO<E, A>) => StateIO<E, B>
 ```
 
 Added in v0.1.0

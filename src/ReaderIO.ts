@@ -78,4 +78,33 @@ export const readerIO: Monad2<URI> = {
 
 const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(readerIO)
 
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
+export {
+  /**
+   * @since 0.1.0
+   */
+  ap,
+  /**
+   * @since 0.1.0
+   */
+  apFirst,
+  /**
+   * @since 0.1.0
+   */
+  apSecond,
+  /**
+   * @since 0.1.0
+   */
+  chain,
+  /**
+   * @since 0.1.0
+   */
+  chainFirst,
+  /**
+   * @since 0.1.0
+   */
+  flatten,
+  /**
+   * @since 0.1.0
+   */
+  map
+}

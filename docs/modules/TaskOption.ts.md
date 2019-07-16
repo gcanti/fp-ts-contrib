@@ -18,6 +18,14 @@ parent: Modules
 - [taskOption (constant)](#taskoption-constant)
 - [fold (function)](#fold-function)
 - [getOrElse (function)](#getorelse-function)
+- [alt (export)](#alt-export)
+- [ap (export)](#ap-export)
+- [apFirst (export)](#apfirst-export)
+- [apSecond (export)](#apsecond-export)
+- [chain (export)](#chain-export)
+- [chainFirst (export)](#chainfirst-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -46,7 +54,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "TaskOption" = ...
 ```
 
 Added in v0.1.0
@@ -117,6 +125,86 @@ Added in v0.1.0
 
 ```ts
 export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task<A> { ... }
+```
+
+Added in v0.1.0
+
+# alt (export)
+
+**Signature**
+
+```ts
+<A>(that: () => TaskOption<A>) => (fa: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v0.1.0
+
+# ap (export)
+
+**Signature**
+
+```ts
+<A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v0.1.0
+
+# apFirst (export)
+
+**Signature**
+
+```ts
+<B>(fb: TaskOption<B>) => <A>(fa: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v0.1.0
+
+# apSecond (export)
+
+**Signature**
+
+```ts
+<B>(fb: TaskOption<B>) => <A>(fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v0.1.0
+
+# chain (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v0.1.0
+
+# chainFirst (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v0.1.0
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
+```
+
+Added in v0.1.0
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v0.1.0

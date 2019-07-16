@@ -41,7 +41,7 @@ export interface Align<F> extends Semialign<F> {
 }
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # Align1 (interface)
 
@@ -53,7 +53,7 @@ export interface Align1<F extends URIS> extends Semialign1<F> {
 }
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # Align2 (interface)
 
@@ -65,7 +65,7 @@ export interface Align2<F extends URIS2> extends Semialign2<F> {
 }
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # Align2C (interface)
 
@@ -77,7 +77,7 @@ export interface Align2C<F extends URIS2, L> extends Semialign2C<F, L> {
 }
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # Align3 (interface)
 
@@ -89,7 +89,7 @@ export interface Align3<F extends URIS3> extends Semialign3<F> {
 }
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # padZip (function)
 
@@ -125,7 +125,7 @@ import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
 assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [[some(1), some(4)], [some(2), some(5)], [some(3), none]])
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # padZipWith (function)
 
@@ -179,7 +179,7 @@ assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a'], f), ['1a', '2#'])
 assert.deepStrictEqual(padZipWith(alignArray)([1], ['a', 'b'], f), ['1a', '*b'])
 ```
 
-Added in v0.0.3
+Added in v0.1.0
 
 # salign (function)
 
@@ -214,4 +214,4 @@ import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
 assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2, 3], [4, 5]), [5, 7, 3])
 ```
 
-Added in v0.0.3
+Added in v0.1.0

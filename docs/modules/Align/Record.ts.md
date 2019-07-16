@@ -26,6 +26,8 @@ export function align<K extends string, P extends string, A, B>(
 export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Record<string, These<A, B>> { ... }
 ```
 
+Added in v0.1.0
+
 # alignWith (function)
 
 **Signature**
@@ -43,10 +45,14 @@ export function alignWith<A, B, C>(
 ): Record<string, C> { ... }
 ```
 
+Added in v0.1.0
+
 # nil (function)
 
 **Signature**
 
 ```ts
-export const nil = <A>(): Record<string, A> => ...
+export function nil<A>(): Record<string, A> { ... }
 ```
+
+Added in v0.1.0

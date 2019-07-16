@@ -6,7 +6,7 @@ import { Semialign1 } from './'
 /**
  * `Semialign` instance for `NonEmptyArray`.
  *
- * @since 0.0.3
+ * @since 0.1.0
  */
 export const semialignNonEmptyArray: Semialign1<URI> = {
   URI,
@@ -26,7 +26,7 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * assert.deepStrictEqual(semialignNonEmptyArray.alignWith(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b']), f), new NonEmptyArray('1a', ['2b', '3']))
    * assert.deepStrictEqual(semialignNonEmptyArray.alignWith(new NonEmptyArray(1, [2]), new NonEmptyArray('a', ['b', 'c']), f), new NonEmptyArray('1a', ['2b', 'c']))
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   alignWith: <A, B, C>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>, f: (x: These<A, B>) => C): NonEmptyArray<C> => {
     return cons(f(both(head(fa), head(fb))), alignArray.alignWith(tail(fa), tail(fb), f))
@@ -43,7 +43,7 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * assert.deepStrictEqual(semialignNonEmptyArray.align(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b']), new NonEmptyArray(both(1, 'a'), [both(2, 'b'), this_(3)])
    * assert.deepStrictEqual(semialignNonEmptyArray.align(new NonEmptyArray(1, [2]), new NonEmptyArray('a', ['b', 'c']), new NonEmptyArray(both(1, 'a'), [both(2, 'b'), that('c')]))
    *
-   * @since 0.0.3
+   * @since 0.1.0
    */
   align: <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>): NonEmptyArray<These<A, B>> => {
     return cons(both(head(fa), head(fb)), alignArray.align(tail(fa), tail(fb)))

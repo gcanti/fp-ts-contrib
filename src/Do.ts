@@ -7,6 +7,9 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3 } from 'fp-ts/lib/Monad'
 
 type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
+/**
+ * @since 0.1.0
+ */
 export interface Do3<M extends URIS3, S extends object> {
   do: <U, L>(ma: Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
   doL: <U, L>(f: (s: S) => Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
@@ -28,6 +31,9 @@ export interface Do3<M extends URIS3, S extends object> {
   done: <U, L>() => Kind3<M, U, L, S>
 }
 
+/**
+ * @since 0.1.0
+ */
 export interface Do3C<M extends URIS3, S extends object, U, L> {
   do: (ma: Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
   doL: (f: (s: S) => Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
@@ -46,6 +52,9 @@ export interface Do3C<M extends URIS3, S extends object, U, L> {
   done: () => Kind3<M, U, L, S>
 }
 
+/**
+ * @since 0.1.0
+ */
 export interface Do2<M extends URIS2, S extends object> {
   do: <L>(ma: Kind2<M, L, unknown>) => Do2C<M, S, L>
   doL: <L>(f: (s: S) => Kind2<M, L, unknown>) => Do2C<M, S, L>
@@ -64,6 +73,9 @@ export interface Do2<M extends URIS2, S extends object> {
   done: <L>() => Kind2<M, L, S>
 }
 
+/**
+ * @since 0.1.0
+ */
 export interface Do2C<M extends URIS2, S extends object, L> {
   do: (ma: Kind2<M, L, unknown>) => Do2C<M, S, L>
   doL: (f: (s: S) => Kind2<M, L, unknown>) => Do2C<M, S, L>
@@ -82,6 +94,9 @@ export interface Do2C<M extends URIS2, S extends object, L> {
   done: () => Kind2<M, L, S>
 }
 
+/**
+ * @since 0.1.0
+ */
 export interface Do1<M extends URIS, S extends object> {
   do: (ma: Kind<M, unknown>) => Do1<M, S>
   doL: (f: (s: S) => Kind<M, unknown>) => Do1<M, S>
@@ -97,6 +112,9 @@ export interface Do1<M extends URIS, S extends object> {
   done: () => Kind<M, S>
 }
 
+/**
+ * @since 0.1.0
+ */
 export interface Do0<M, S extends object> {
   do: (ma: HKT<M, unknown>) => Do0<M, S>
   doL: (f: (s: S) => HKT<M, unknown>) => Do0<M, S>

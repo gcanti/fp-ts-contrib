@@ -5,6 +5,8 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3 } from 'fp-ts/lib/Monad'
 /**
  * Like `array.traverse` but actions are batched in chunks.
  * You can use `Array.chunksOf` to provide the `as` argument.
+ *
+ * @since 0.1.0
  */
 export function batchTraverse<M extends URIS3>(
   M: Monad3<M>

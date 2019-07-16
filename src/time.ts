@@ -19,7 +19,7 @@ import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3 } from 'fp-ts/lib/Mona
  *
  * timeIO(io.map(randomInt(30, 35), fib))() // [ 14930352, 127 ]
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
 export function time<M extends URIS3>(M: MonadIO3<M>): <U, L, A>(ma: Kind3<M, U, L, A>) => Kind3<M, U, L, [A, number]>
 export function time<M extends URIS2>(M: MonadIO2<M>): <L, A>(ma: Kind2<M, L, A>) => Kind2<M, L, [A, number]>
