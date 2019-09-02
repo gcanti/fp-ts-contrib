@@ -3,12 +3,12 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3 } from 'fp-ts/lib/Monad'
 import { pipeable } from 'fp-ts/lib/pipeable'
 
 /**
- * @since 0.1.2
+ * @since 0.1.3
  */
 export const URI = 'Free'
 
 /**
- * @since 0.1.2
+ * @since 0.1.3
  */
 export type URI = typeof URI
 
@@ -22,7 +22,7 @@ declare module 'fp-ts/lib/HKT' {
  * @data
  * @constructor Pure
  * @constructor Impure
- * @since 0.1.2
+ * @since 0.1.3
  */
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
@@ -40,19 +40,23 @@ interface Impure<F, A, X> {
 const impure = <F, A, X>(fx: HKT<F, X>, f: (x: X) => Free<F, A>): Free<F, A> => ({ _tag: 'Impure', fx, f })
 
 /**
- * @since 0.1.2
+ * Check if given Free instance is Pure
+ *
+ * @since 0.1.3
  */
 export const isPure = <F, A>(fa: Free<F, A>): fa is Pure<F, A> => fa._tag === 'Pure'
 
 /**
- * @since 0.1.2
+ * Check if given Free instance is Impure
+ *
+ * @since 0.1.3
  */
 export const isImpure = <F, A>(fa: Free<F, A>): fa is Impure<F, A, any> => fa._tag === 'Impure'
 
 /**
  * Lift an impure value described by the generating type constructor `F` into the free monad
  *
- * @since 0.1.2
+ * @since 0.1.3
  */
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, a => free.of(a))
 
@@ -71,7 +75,7 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
  *
- * @since 0.1.2
+ * @since 0.1.3
  */
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
   nt: <U, L, A>(fa: Kind3<F, U, L, A>) => Kind3<G, U, L, A>
@@ -88,7 +92,7 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Fr
 }
 
 /**
- * @since 0.1.2
+ * @since 0.1.3
  */
 export interface FoldFree3<M extends URIS3> {
   <F extends URIS3, U, L, A>(nt: <X>(fa: Kind3<F, U, L, X>) => Kind3<M, U, L, X>, fa: Free<F, A>): Kind3<M, U, L, A>
@@ -97,7 +101,7 @@ export interface FoldFree3<M extends URIS3> {
 }
 
 /**
- * @since 0.1.2
+ * @since 0.1.3
  */
 export interface FoldFree2<M extends URIS2> {
   <F extends URIS2, L, A>(nt: <X>(fa: Kind2<F, L, X>) => Kind2<M, L, X>, fa: Free<F, A>): Kind2<M, L, A>
@@ -105,7 +109,7 @@ export interface FoldFree2<M extends URIS2> {
 }
 
 /**
- * @since 0.1.2
+ * @since 0.1.3
  */
 export interface FoldFree2C<M extends URIS2, L> {
   <F extends URIS2, A>(nt: <X>(fa: Kind2<F, L, X>) => Kind2<M, L, X>, fa: Free<F, A>): Kind2<M, L, A>
@@ -113,7 +117,9 @@ export interface FoldFree2C<M extends URIS2, L> {
 }
 
 /**
- * @since 0.1.2
+ * Perform folding of a free monad using given natural transformation as an interpreter
+ *
+ * @since 0.1.3
  */
 export function foldFree<M extends URIS3>(M: Monad3<M>): FoldFree3<M>
 export function foldFree<M extends URIS2>(M: Monad2<M>): FoldFree2<M>
@@ -133,25 +139,27 @@ export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT
 }
 
 /**
- * @since 0.1.2
+ * Monad instance for Free
+ *
+ * @since 0.1.3
  */
 export const free: Monad2<URI> = {
   URI,
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   of: <F, A>(value: A): Free<F, A> => ({ _tag: 'Pure', value }),
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   chain: <F, A, B>(ma: Free<F, A>, f: (a: A) => Free<F, B>): Free<F, B> =>
     isPure(ma) ? f(ma.value) : impure(ma.fx, x => free.chain(ma.f(x), f)),
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   map: (fa, f) => (isPure(fa) ? free.of(f(fa.value)) : impure(fa.fx, x => free.map(fa.f(x), f))),
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   ap: (fab, fa) => free.chain(fab, f => free.map(fa, f))
 }
@@ -160,19 +168,19 @@ const { ap, chain, map, flatten } = pipeable(free)
 
 export {
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   ap,
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   chain,
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   map,
   /**
-   * @since 0.1.2
+   * @since 0.1.3
    */
   flatten
 }
