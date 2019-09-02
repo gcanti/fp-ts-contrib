@@ -34,7 +34,7 @@ export interface FoldFree2<M extends URIS2> {
 }
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # FoldFree2C (interface)
 
@@ -47,7 +47,7 @@ export interface FoldFree2C<M extends URIS2, L> {
 }
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # FoldFree3 (interface)
 
@@ -61,7 +61,7 @@ export interface FoldFree3<M extends URIS3> {
 }
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # Free (type alias)
 
@@ -71,7 +71,7 @@ Added in v0.1.2
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # URI (type alias)
 
@@ -81,7 +81,7 @@ Added in v0.1.2
 export type URI = typeof URI
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # URI (constant)
 
@@ -91,9 +91,11 @@ Added in v0.1.2
 export const URI = ...
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # free (constant)
+
+Monad instance for Free
 
 **Signature**
 
@@ -101,9 +103,11 @@ Added in v0.1.2
 export const free: Monad2<URI> = ...
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # foldFree (function)
+
+Perform folding of a free monad using given natural transformation as an interpreter
 
 **Signature**
 
@@ -117,7 +121,7 @@ export function foldFree<M extends URIS>(
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A> { ... }
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # hoistFree (function)
 
@@ -138,9 +142,11 @@ export function hoistFree<F extends URIS = never, G extends URIS = never>(
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Free<F, A>) => Free<G, A> { ... }
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # isImpure (function)
+
+Check if given Free instance is Impure
 
 **Signature**
 
@@ -148,9 +154,11 @@ Added in v0.1.2
 export const isImpure = <F, A>(fa: Free<F, A>): fa is Impure<F, A, any> => ...
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # isPure (function)
+
+Check if given Free instance is Pure
 
 **Signature**
 
@@ -158,7 +166,7 @@ Added in v0.1.2
 export const isPure = <F, A>(fa: Free<F, A>): fa is Pure<F, A> => ...
 ```
 
-Added in v0.1.2
+Added in v0.1.3
 
 # liftF (function)
 
@@ -170,4 +178,4 @@ Lift an impure value described by the generating type constructor `F` into the f
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, a => ...
 ```
 
-Added in v0.1.2
+Added in v0.1.3
