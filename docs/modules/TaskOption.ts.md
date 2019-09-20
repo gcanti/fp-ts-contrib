@@ -16,8 +16,14 @@ parent: Modules
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
 - [taskOption (constant)](#taskoption-constant)
+- [chainOption (function)](#chainoption-function)
+- [chainTask (function)](#chaintask-function)
 - [fold (function)](#fold-function)
+- [fromNullable (function)](#fromnullable-function)
+- [fromTaskEither (function)](#fromtaskeither-function)
 - [getOrElse (function)](#getorelse-function)
+- [toNullable (function)](#tonullable-function)
+- [toUndefined (function)](#toundefined-function)
 - [alt (export)](#alt-export)
 - [ap (export)](#ap-export)
 - [apFirst (export)](#apfirst-export)
@@ -109,6 +115,26 @@ export const taskOption: Monad1<URI> & Alt1<URI> = ...
 
 Added in v0.1.0
 
+# chainOption (function)
+
+**Signature**
+
+```ts
+export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.4
+
+# chainTask (function)
+
+**Signature**
+
+```ts
+export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.4
+
 # fold (function)
 
 **Signature**
@@ -119,6 +145,26 @@ export function fold<A, B>(onNone: () => Task<B>, onSome: (a: A) => Task<B>): (a
 
 Added in v0.1.0
 
+# fromNullable (function)
+
+**Signature**
+
+```ts
+export function fromNullable<A>(a: A | null | undefined): TaskOption<A> { ... }
+```
+
+Added in v0.1.4
+
+# fromTaskEither (function)
+
+**Signature**
+
+```ts
+export function fromTaskEither<A>(ma: TaskEither<any, A>): TaskOption<A> { ... }
+```
+
+Added in v0.1.4
+
 # getOrElse (function)
 
 **Signature**
@@ -128,6 +174,26 @@ export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task
 ```
 
 Added in v0.1.0
+
+# toNullable (function)
+
+**Signature**
+
+```ts
+export function toNullable<A>(ma: TaskOption<A>): Task<A | null> { ... }
+```
+
+Added in v0.1.4
+
+# toUndefined (function)
+
+**Signature**
+
+```ts
+export function toUndefined<A>(ma: TaskOption<A>): Task<A | undefined> { ... }
+```
+
+Added in v0.1.4
 
 # alt (export)
 
