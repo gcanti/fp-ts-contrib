@@ -2,7 +2,21 @@ import * as assert from 'assert'
 import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { task } from 'fp-ts/lib/Task'
-import { fold, fromOption, fromTask, getOrElse, none as taskOptionNone, taskOption } from '../src/TaskOption'
+import * as TE from 'fp-ts/lib/TaskEither'
+import {
+  fold,
+  fromOption,
+  fromTask,
+  getOrElse,
+  none as taskOptionNone,
+  taskOption,
+  fromNullable,
+  fromTaskEither,
+  toUndefined,
+  toNullable,
+  chainTask,
+  chainOption
+} from '../src/TaskOption'
 
 describe('TaskOption', () => {
   it('fold', async () => {
@@ -41,5 +55,64 @@ describe('TaskOption', () => {
     const ma = fromTask(task.of(1))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(1))
+  })
+
+  test('fromNullable', async () => {
+    const ma1 = fromNullable(null)
+    const ma2 = fromNullable(undefined)
+    const ma3 = fromNullable(42)
+    const n1 = await ma1()
+    const n2 = await ma2()
+    const n3 = await ma3()
+    assert.deepStrictEqual(n1, O.none)
+    assert.deepStrictEqual(n2, O.none)
+    assert.deepStrictEqual(n3, O.some(42))
+  })
+
+  test('fromTaskEither', async () => {
+    const ma1 = fromTaskEither(TE.taskEither.of(42))
+    const ma2 = fromTaskEither(TE.left('ouch!'))
+    const n1 = await ma1()
+    const n2 = await ma2()
+    assert.deepStrictEqual(n1, O.some(42))
+    assert.deepStrictEqual(n2, O.none)
+  })
+
+  test('toUndefined', async () => {
+    const ma1 = toUndefined(taskOption.of(42))
+    const ma2 = toUndefined(taskOptionNone)
+    const n1 = await ma1()
+    const n2 = await ma2()
+    assert.deepStrictEqual(n1, 42)
+    assert.deepStrictEqual(n2, undefined)
+  })
+
+  test('toNullable', async () => {
+    const ma1 = toNullable(taskOption.of(42))
+    const ma2 = toNullable(taskOptionNone)
+    const n1 = await ma1()
+    const n2 = await ma2()
+    assert.deepStrictEqual(n1, 42)
+    assert.deepStrictEqual(n2, null)
+  })
+
+  test('chainTask', async () => {
+    const f = (n: number) => task.of(n * 2)
+    const ma = pipe(
+      taskOption.of(42),
+      chainTask(f)
+    )
+    const n = await ma()
+    assert.deepStrictEqual(n, O.some(84))
+  })
+
+  test('chainOption', async () => {
+    const f = (n: number) => O.some(n - 10)
+    const ma = pipe(
+      taskOption.of(42),
+      chainOption(f)
+    )
+    const n = await ma()
+    assert.deepStrictEqual(n, O.some(32))
   })
 })
