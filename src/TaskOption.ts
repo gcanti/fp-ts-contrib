@@ -1,5 +1,5 @@
 import { Alt1 } from 'fp-ts/lib/Alt'
-import { task, of, Task } from 'fp-ts/lib/Task'
+import { task, of, Task, map as taskMap } from 'fp-ts/lib/Task'
 import { Monad1 } from 'fp-ts/lib/Monad'
 import {
   Option,
@@ -7,11 +7,16 @@ import {
   fromNullable as optionFromNullable,
   toUndefined as optionToUndefined,
   toNullable as optionToNullable,
-  chain as optionChain
+  chain as optionChain,
+  mapNullable as optionMapNullable,
+  filter as optionFilter,
+  some as optionSome,
+  none as optionNone
 } from 'fp-ts/lib/Option'
 import { getOptionM } from 'fp-ts/lib/OptionT'
 import { pipeable } from 'fp-ts/lib/pipeable'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
+import { Predicate, Lazy, Refinement } from 'fp-ts/lib/function'
 
 const T = getOptionM(task)
 
@@ -109,7 +114,30 @@ export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => Ta
  * @since 0.1.4
  */
 export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> {
-  return ma => task.map(ma, optionChain(f))
+  return taskMap(optionChain(f))
+}
+
+/**
+ * @since 0.1.5
+ */
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskOption<A>) => TaskOption<B> {
+  return taskMap(optionMapNullable(f))
+}
+
+/**
+ * @since 0.1.5
+ */
+export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> {
+  return () => f().then(a => optionSome(a), () => optionNone)
+}
+
+/**
+ * @since 0.1.5
+ */
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (ma: TaskOption<A>) => TaskOption<B>
+export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A>
+export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A> {
+  return taskMap(optionFilter(predicate))
 }
 
 /**

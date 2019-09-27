@@ -18,12 +18,15 @@ parent: Modules
 - [taskOption (constant)](#taskoption-constant)
 - [chainOption (function)](#chainoption-function)
 - [chainTask (function)](#chaintask-function)
+- [filter (function)](#filter-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [getOrElse (function)](#getorelse-function)
+- [mapNullable (function)](#mapnullable-function)
 - [toNullable (function)](#tonullable-function)
 - [toUndefined (function)](#toundefined-function)
+- [tryCatch (function)](#trycatch-function)
 - [alt (export)](#alt-export)
 - [ap (export)](#ap-export)
 - [apFirst (export)](#apfirst-export)
@@ -135,6 +138,17 @@ export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => Ta
 
 Added in v0.1.4
 
+# filter (function)
+
+**Signature**
+
+```ts
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (ma: TaskOption<A>) => TaskOption<B>
+export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A> { ... }
+```
+
+Added in v0.1.5
+
 # fold (function)
 
 **Signature**
@@ -175,6 +189,16 @@ export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task
 
 Added in v0.1.0
 
+# mapNullable (function)
+
+**Signature**
+
+```ts
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.5
+
 # toNullable (function)
 
 **Signature**
@@ -194,6 +218,16 @@ export function toUndefined<A>(ma: TaskOption<A>): Task<A | undefined> { ... }
 ```
 
 Added in v0.1.4
+
+# tryCatch (function)
+
+**Signature**
+
+```ts
+export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> { ... }
+```
+
+Added in v0.1.5
 
 # alt (export)
 
