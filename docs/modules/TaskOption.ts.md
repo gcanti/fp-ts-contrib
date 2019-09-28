@@ -18,7 +18,6 @@ parent: Modules
 - [taskOption (constant)](#taskoption-constant)
 - [chainOption (function)](#chainoption-function)
 - [chainTask (function)](#chaintask-function)
-- [filter (function)](#filter-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
@@ -33,8 +32,14 @@ parent: Modules
 - [apSecond (export)](#apsecond-export)
 - [chain (export)](#chain-export)
 - [chainFirst (export)](#chainfirst-export)
+- [compact (export)](#compact-export)
+- [filter (export)](#filter-export)
+- [filterMap (export)](#filtermap-export)
 - [flatten (export)](#flatten-export)
 - [map (export)](#map-export)
+- [partition (export)](#partition-export)
+- [partitionMap (export)](#partitionmap-export)
+- [separate (export)](#separate-export)
 
 ---
 
@@ -113,7 +118,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const taskOption: Monad1<URI> & Alt1<URI> = ...
+export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = ...
 ```
 
 Added in v0.1.0
@@ -137,17 +142,6 @@ export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => Ta
 ```
 
 Added in v0.1.4
-
-# filter (function)
-
-**Signature**
-
-```ts
-export function filter<A, B extends A>(refinement: Refinement<A, B>): (ma: TaskOption<A>) => TaskOption<B>
-export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A> { ... }
-```
-
-Added in v0.1.5
 
 # fold (function)
 
@@ -289,6 +283,36 @@ Added in v0.1.0
 
 Added in v0.1.0
 
+# compact (export)
+
+**Signature**
+
+```ts
+<A>(fa: TaskOption<Option<A>>) => TaskOption<A>
+```
+
+Added in v0.1.5
+
+# filter (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => TaskOption<B>; <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>; }
+```
+
+Added in v0.1.5
+
+# filterMap (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => Option<B>) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v0.1.5
+
 # flatten (export)
 
 **Signature**
@@ -308,3 +332,33 @@ Added in v0.1.0
 ```
 
 Added in v0.1.0
+
+# partition (export)
+
+**Signature**
+
+```ts
+{ <A, B>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>; <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>; }
+```
+
+Added in v0.1.5
+
+# partitionMap (export)
+
+**Signature**
+
+```ts
+<A, B, C>(f: (a: A) => Either<B, C>) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>>
+```
+
+Added in v0.1.5
+
+# separate (export)
+
+**Signature**
+
+```ts
+<A, B>(fa: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
+```
+
+Added in v0.1.5

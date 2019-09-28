@@ -9,14 +9,15 @@ import {
   toNullable as optionToNullable,
   chain as optionChain,
   mapNullable as optionMapNullable,
-  filter as optionFilter,
   some as optionSome,
-  none as optionNone
+  none as optionNone,
+  option
 } from 'fp-ts/lib/Option'
 import { getOptionM } from 'fp-ts/lib/OptionT'
 import { pipeable } from 'fp-ts/lib/pipeable'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { Predicate, Lazy, Refinement } from 'fp-ts/lib/function'
+import { Lazy } from 'fp-ts/lib/function'
+import { Filterable1, getFilterableComposition } from 'fp-ts/lib/Filterable'
 
 const T = getOptionM(task)
 
@@ -132,27 +133,34 @@ export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> {
 }
 
 /**
- * @since 0.1.5
- */
-export function filter<A, B extends A>(refinement: Refinement<A, B>): (ma: TaskOption<A>) => TaskOption<B>
-export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A>
-export function filter<A>(predicate: Predicate<A>): (ma: TaskOption<A>) => TaskOption<A> {
-  return taskMap(optionFilter(predicate))
-}
-
-/**
  * @since 0.1.0
  */
-export const taskOption: Monad1<URI> & Alt1<URI> = {
+export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = {
   URI,
   map: T.map,
   of: some,
   ap: T.ap,
   chain: T.chain,
-  alt: T.alt
+  alt: T.alt,
+  ...getFilterableComposition(task, option)
 }
 
-const { alt, ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(taskOption)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  partition,
+  partitionMap,
+  filter,
+  filterMap,
+  compact,
+  separate
+} = pipeable(taskOption)
 
 export {
   /**
@@ -186,5 +194,29 @@ export {
   /**
    * @since 0.1.0
    */
-  map
+  map,
+  /**
+   * @since 0.1.5
+   */
+  partition,
+  /**
+   * @since 0.1.5
+   */
+  partitionMap,
+  /**
+   * @since 0.1.5
+   */
+  filter,
+  /**
+   * @since 0.1.5
+   */
+  filterMap,
+  /**
+   * @since 0.1.5
+   */
+  compact,
+  /**
+   * @since 0.1.5
+   */
+  separate
 }
