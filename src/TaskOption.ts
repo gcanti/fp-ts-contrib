@@ -1,5 +1,5 @@
 import { Alt1 } from 'fp-ts/lib/Alt'
-import { task, of, Task } from 'fp-ts/lib/Task'
+import { task, of, Task, map as taskMap } from 'fp-ts/lib/Task'
 import { Monad1 } from 'fp-ts/lib/Monad'
 import {
   Option,
@@ -7,11 +7,17 @@ import {
   fromNullable as optionFromNullable,
   toUndefined as optionToUndefined,
   toNullable as optionToNullable,
-  chain as optionChain
+  chain as optionChain,
+  mapNullable as optionMapNullable,
+  some as optionSome,
+  none as optionNone,
+  option
 } from 'fp-ts/lib/Option'
 import { getOptionM } from 'fp-ts/lib/OptionT'
 import { pipeable } from 'fp-ts/lib/pipeable'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
+import { Lazy } from 'fp-ts/lib/function'
+import { Filterable1, getFilterableComposition } from 'fp-ts/lib/Filterable'
 
 const T = getOptionM(task)
 
@@ -109,22 +115,52 @@ export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => Ta
  * @since 0.1.4
  */
 export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> {
-  return ma => task.map(ma, optionChain(f))
+  return taskMap(optionChain(f))
+}
+
+/**
+ * @since 0.1.5
+ */
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskOption<A>) => TaskOption<B> {
+  return taskMap(optionMapNullable(f))
+}
+
+/**
+ * @since 0.1.5
+ */
+export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> {
+  return () => f().then(a => optionSome(a), () => optionNone)
 }
 
 /**
  * @since 0.1.0
  */
-export const taskOption: Monad1<URI> & Alt1<URI> = {
+export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = {
   URI,
   map: T.map,
   of: some,
   ap: T.ap,
   chain: T.chain,
-  alt: T.alt
+  alt: T.alt,
+  ...getFilterableComposition(task, option)
 }
 
-const { alt, ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(taskOption)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  partition,
+  partitionMap,
+  filter,
+  filterMap,
+  compact,
+  separate
+} = pipeable(taskOption)
 
 export {
   /**
@@ -158,5 +194,29 @@ export {
   /**
    * @since 0.1.0
    */
-  map
+  map,
+  /**
+   * @since 0.1.5
+   */
+  partition,
+  /**
+   * @since 0.1.5
+   */
+  partitionMap,
+  /**
+   * @since 0.1.5
+   */
+  filter,
+  /**
+   * @since 0.1.5
+   */
+  filterMap,
+  /**
+   * @since 0.1.5
+   */
+  compact,
+  /**
+   * @since 0.1.5
+   */
+  separate
 }
