@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.5
+
+- **New Feature**
+  - add some combinators to `TaskOption`, #24 (@bwlt)
+
 # 0.1.4
 
 - **New Feature**
