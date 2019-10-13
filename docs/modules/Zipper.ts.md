@@ -38,7 +38,7 @@ Adapted from
 - [insertRight (function)](#insertright-function)
 - [isOutOfBound (function)](#isoutofbound-function)
 - [length (function)](#length-function)
-- [mkZipper (function)](#mkzipper-function)
+- [make (function)](#make-function)
 - [modify (function)](#modify-function)
 - [move (function)](#move-function)
 - [of (function)](#of-function)
@@ -242,14 +242,14 @@ export function length<A>(fa: Zipper<A>): number { ... }
 
 Added in v0.2.0
 
-# mkZipper (function)
+# make (function)
 
 Creates a new zipper.
 
 **Signature**
 
 ```ts
-export function mkZipper<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> { ... }
+export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> { ... }
 ```
 
 Added in v0.2.0

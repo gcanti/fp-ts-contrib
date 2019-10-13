@@ -53,7 +53,7 @@ export interface Zipper<A> {
  * Creates a new zipper.
  * @since 0.2.0
  */
-export function mkZipper<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> {
+export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> {
   return { lefts, focus, rights }
 }
 
@@ -69,7 +69,7 @@ export function length<A>(fa: Zipper<A>): number {
  * @since 0.2.0
  */
 export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
-  return fa => mkZipper(fa.lefts, a, fa.rights)
+  return fa => make(fa.lefts, a, fa.rights)
 }
 
 /**
@@ -135,7 +135,7 @@ export function start<A>(fa: Zipper<A>): Zipper<A> {
   if (A.isEmpty(fa.lefts)) {
     return fa
   } else {
-    return mkZipper(
+    return make(
       A.empty,
       fa.lefts[0],
       A.snoc(
@@ -158,7 +158,7 @@ export function end<A>(fa: Zipper<A>): Zipper<A> {
   if (len === 0) {
     return fa
   } else {
-    return mkZipper(
+    return make(
       A.snoc(fa.lefts, fa.focus).concat(
         pipe(
           fa.rights,
@@ -176,7 +176,7 @@ export function end<A>(fa: Zipper<A>): Zipper<A> {
  * @since 0.2.0
  */
 export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
-  return fa => mkZipper(fa.lefts, a, A.cons(fa.focus, fa.rights))
+  return fa => make(fa.lefts, a, A.cons(fa.focus, fa.rights))
 }
 
 /**
@@ -184,7 +184,7 @@ export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
  * @since 0.2.0
  */
 export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
-  return fa => mkZipper(A.snoc(fa.lefts, fa.focus), a, fa.rights)
+  return fa => make(A.snoc(fa.lefts, fa.focus), a, fa.rights)
 }
 
 /**
@@ -226,7 +226,7 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
     return none
   } else {
     return some(
-      mkZipper(
+      make(
         pipe(
           as,
           A.takeLeft(focusIndex)
@@ -245,14 +245,14 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
  * @since 0.2.0
  */
 export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> {
-  return mkZipper(A.empty, nea[0], nea.slice(1))
+  return make(A.empty, nea[0], nea.slice(1))
 }
 
 /**
  * @since 0.2.0
  */
 export function of<A>(focus: A): Zipper<A> {
-  return mkZipper(A.empty, focus, A.empty)
+  return make(A.empty, focus, A.empty)
 }
 
 /**
@@ -267,7 +267,7 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Zipper<A>, f: (a: A) => HKT<
   return <A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) =>
     F.ap(
       F.ap(
-        F.map(traverseF(ta.lefts, f), lefts => (focus: B) => (rights: Array<B>) => mkZipper(lefts, focus, rights)),
+        F.map(traverseF(ta.lefts, f), lefts => (focus: B) => (rights: Array<B>) => make(lefts, focus, rights)),
         f(ta.focus)
       ),
       traverseF(ta.rights, f)
@@ -282,7 +282,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zi
   return <A>(ta: Zipper<HKT<F, A>>) =>
     F.ap(
       F.ap(
-        F.map(sequenceF(ta.lefts), lefts => (focus: A) => (rights: Array<A>) => mkZipper(lefts, focus, rights)),
+        F.map(sequenceF(ta.lefts), lefts => (focus: A) => (rights: Array<A>) => make(lefts, focus, rights)),
         ta.focus
       ),
       sequenceF(ta.rights)
@@ -302,7 +302,7 @@ function extract<A>(fa: Zipper<A>): A {
 function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
   const lefts = fa.lefts.map((a, i) =>
     f(
-      mkZipper(
+      make(
         pipe(
           fa.lefts,
           A.takeLeft(i)
@@ -320,7 +320,7 @@ function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
   )
   const rights = fa.rights.map((a, i) =>
     f(
-      mkZipper(
+      make(
         A.snoc(fa.lefts, fa.focus).concat(
           pipe(
             fa.rights,
@@ -335,7 +335,7 @@ function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
       )
     )
   )
-  return mkZipper(lefts, f(fa), rights)
+  return make(lefts, f(fa), rights)
 }
 
 /**
@@ -343,7 +343,7 @@ function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> {
   return {
-    concat: (x, y) => mkZipper(x.lefts.concat(y.lefts), S.concat(x.focus, y.focus), x.rights.concat(y.rights))
+    concat: (x, y) => make(x.lefts.concat(y.lefts), S.concat(x.focus, y.focus), x.rights.concat(y.rights))
   }
 }
 
@@ -353,7 +353,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> {
 export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
   return {
     ...getSemigroup(M),
-    empty: mkZipper(A.empty, M.empty, A.empty)
+    empty: make(A.empty, M.empty, A.empty)
   }
 }
 
@@ -362,9 +362,9 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
  */
 export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
-  map: (z, f) => mkZipper(z.lefts.map(f), f(z.focus), z.rights.map(f)),
+  map: (z, f) => make(z.lefts.map(f), f(z.focus), z.rights.map(f)),
   of,
-  ap: (fab, fa) => mkZipper(A.array.ap(fab.lefts, fa.lefts), fab.focus(fa.focus), A.array.ap(fab.rights, fa.rights)),
+  ap: (fab, fa) => make(A.array.ap(fab.lefts, fa.lefts), fab.focus(fa.focus), A.array.ap(fab.rights, fa.rights)),
   extend,
   extract,
   reduce: (fa, b, f) => fa.rights.reduce(f, f(fa.lefts.reduce(f, b), fa.focus)),
