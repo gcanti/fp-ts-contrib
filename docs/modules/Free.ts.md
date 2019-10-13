@@ -20,6 +20,10 @@ parent: Modules
 - [isImpure (function)](#isimpure-function)
 - [isPure (function)](#ispure-function)
 - [liftF (function)](#liftf-function)
+- [ap (export)](#ap-export)
+- [chain (export)](#chain-export)
+- [flatten (export)](#flatten-export)
+- [map (export)](#map-export)
 
 ---
 
@@ -88,7 +92,7 @@ Added in v0.1.3
 **Signature**
 
 ```ts
-export const URI = ...
+export const URI: "Free" = ...
 ```
 
 Added in v0.1.3
@@ -176,6 +180,46 @@ Lift an impure value described by the generating type constructor `F` into the f
 
 ```ts
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, a => ...
+```
+
+Added in v0.1.3
+
+# ap (export)
+
+**Signature**
+
+```ts
+<E, A>(fa: Free<E, A>) => <B>(fab: Free<E, (a: A) => B>) => Free<E, B>
+```
+
+Added in v0.1.3
+
+# chain (export)
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Free<E, B>) => (ma: Free<E, A>) => Free<E, B>
+```
+
+Added in v0.1.3
+
+# flatten (export)
+
+**Signature**
+
+```ts
+<E, A>(mma: Free<E, Free<E, A>>) => Free<E, A>
+```
+
+Added in v0.1.3
+
+# map (export)
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => <E>(fa: Free<E, A>) => Free<E, B>
 ```
 
 Added in v0.1.3
