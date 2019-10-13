@@ -163,7 +163,7 @@ Added in v0.2.0
 **Signature**
 
 ```ts
-export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => ...
+export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> { ... }
 ```
 
 Added in v0.2.0
@@ -173,7 +173,7 @@ Added in v0.2.0
 **Signature**
 
 ```ts
-export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => ...
+export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> { ... }
 ```
 
 Added in v0.2.0
@@ -183,7 +183,7 @@ Added in v0.2.0
 **Signature**
 
 ```ts
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => ...
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> { ... }
 ```
 
 Added in v0.2.0
@@ -234,6 +234,8 @@ Added in v0.2.0
 
 # mkZipper (function)
 
+Creates a new zipper.
+
 **Signature**
 
 ```ts
@@ -244,7 +246,7 @@ Added in v0.2.0
 
 # modify (function)
 
-Apply `f` to the focus and update with the result.
+Applies `f` to the focus and update with the result.
 
 **Signature**
 
@@ -312,7 +314,7 @@ Added in v0.2.0
 
 # update (function)
 
-Update the focus of a zipper.
+Updates the focus of the zipper.
 
 **Signature**
 

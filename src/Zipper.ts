@@ -51,6 +51,7 @@ export interface Zipper<A> {
 }
 
 /**
+ * Creates a new zipper.
  * @since 0.2.0
  */
 export function mkZipper<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> {
@@ -58,7 +59,7 @@ export function mkZipper<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper
 }
 
 /**
- * Update the focus of a zipper.
+ * Updates the focus of the zipper.
  * @since 0.2.0
  */
 export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
@@ -66,7 +67,7 @@ export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
 }
 
 /**
- * Apply `f` to the focus and update with the result.
+ * Applies `f` to the focus and update with the result.
  * @since 0.2.0
  */
 export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> {
@@ -237,7 +238,7 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 /**
  * @since 0.2.0
  */
-export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => {
+export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> {
   return mkZipper(A.empty, nea[0], nea.slice(1))
 }
 
@@ -285,14 +286,14 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zi
 /**
  * @since 0.2.0
  */
-const extract = <A>(fa: Zipper<A>): A => {
+function extract<A>(fa: Zipper<A>): A {
   return fa.focus
 }
 
 /**
  * @since 0.2.0
  */
-const extend = <A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> => {
+function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
   const lefts = fa.lefts.map((a, i) =>
     f(
       mkZipper(
@@ -334,7 +335,7 @@ const extend = <A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> => {
 /**
  * @since 0.2.0
  */
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => {
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> {
   return {
     concat: (x, y) => mkZipper(x.lefts.concat(y.lefts), S.concat(x.focus, y.focus), x.rights.concat(y.rights))
   }
@@ -343,7 +344,7 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => {
 /**
  * @since 0.2.0
  */
-export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
+export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
   return {
     ...getSemigroup(M),
     empty: mkZipper(A.empty, M.empty, A.empty)
