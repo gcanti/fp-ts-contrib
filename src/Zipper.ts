@@ -47,7 +47,6 @@ export interface Zipper<A> {
   readonly lefts: Array<A>
   readonly focus: A
   readonly rights: Array<A>
-  readonly length: number
 }
 
 /**
@@ -55,7 +54,14 @@ export interface Zipper<A> {
  * @since 0.2.0
  */
 export function mkZipper<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> {
-  return { lefts, focus, rights, length: lefts.length + 1 + rights.length }
+  return { lefts, focus, rights }
+}
+
+/**
+ * @since 0.2.0
+ */
+export function length<A>(fa: Zipper<A>): number {
+  return fa.lefts.length + 1 + fa.rights.length
 }
 
 /**
@@ -89,7 +95,7 @@ export function toArray<A>(fa: Zipper<A>): Array<A> {
  * @since 0.2.0
  */
 export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean {
-  return index < 0 || index >= fa.length
+  return index < 0 || index >= length(fa)
 }
 
 /**

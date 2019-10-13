@@ -16,10 +16,14 @@ describe('Zipper', () => {
     const expected: Z.Zipper<string> = {
       lefts: ['a', 'b'],
       focus: 'c',
-      rights: ['d', 'e'],
-      length: 5
+      rights: ['d', 'e']
     }
     assert.deepStrictEqual(Z.mkZipper(['a', 'b'], 'c', ['d', 'e']), expected)
+  })
+
+  it('length', () => {
+    const fa = Z.mkZipper(['a', 'b'], 'c', ['d', 'e'])
+    assert.deepStrictEqual(Z.length(fa), 5)
   })
 
   it('update', () => {

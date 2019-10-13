@@ -37,6 +37,7 @@ Adapted from
 - [insertLeft (function)](#insertleft-function)
 - [insertRight (function)](#insertright-function)
 - [isOutOfBound (function)](#isoutofbound-function)
+- [length (function)](#length-function)
 - [mkZipper (function)](#mkzipper-function)
 - [modify (function)](#modify-function)
 - [move (function)](#move-function)
@@ -62,7 +63,6 @@ export interface Zipper<A> {
   readonly lefts: Array<A>
   readonly focus: A
   readonly rights: Array<A>
-  readonly length: number
 }
 ```
 
@@ -228,6 +228,16 @@ Added in v0.2.0
 
 ```ts
 export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean { ... }
+```
+
+Added in v0.2.0
+
+# length (function)
+
+**Signature**
+
+```ts
+export function length<A>(fa: Zipper<A>): number { ... }
 ```
 
 Added in v0.2.0
