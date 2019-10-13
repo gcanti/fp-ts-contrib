@@ -255,13 +255,6 @@ export function of<A>(focus: A): Zipper<A> {
   return make(A.empty, focus, A.empty)
 }
 
-/**
- * @since 0.2.0
- */
-
-/**
- * @since 0.2.0
- */
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) => HKT<F, Zipper<B>> {
   const traverseF = A.array.traverse(F)
   return <A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) =>
@@ -274,9 +267,6 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Zipper<A>, f: (a: A) => HKT<
     )
 }
 
-/**
- * @since 0.2.0
- */
 function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zipper<A>> {
   const sequenceF = A.array.sequence(F)
   return <A>(ta: Zipper<HKT<F, A>>) =>
@@ -289,16 +279,6 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zi
     )
 }
 
-/**
- * @since 0.2.0
- */
-function extract<A>(fa: Zipper<A>): A {
-  return fa.focus
-}
-
-/**
- * @since 0.2.0
- */
 function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
   const lefts = fa.lefts.map((a, i) =>
     f(
@@ -366,7 +346,7 @@ export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Co
   of,
   ap: (fab, fa) => make(A.array.ap(fab.lefts, fa.lefts), fab.focus(fa.focus), A.array.ap(fab.rights, fa.rights)),
   extend,
-  extract,
+  extract: <A>(fa: Zipper<A>): A => fa.focus,
   reduce: (fa, b, f) => fa.rights.reduce(f, f(fa.lefts.reduce(f, b), fa.focus)),
   reduceRight: (fa, b, f) => {
     const rights = fa.rights.reduceRight((acc, a) => f(a, acc), b)
