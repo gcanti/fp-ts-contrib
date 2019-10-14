@@ -31,17 +31,17 @@ declare module 'fp-ts/lib/HKT' {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export const URI = 'Zipper'
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export type URI = typeof URI
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export interface Zipper<A> {
   readonly lefts: Array<A>
@@ -51,14 +51,14 @@ export interface Zipper<A> {
 
 /**
  * Creates a new zipper.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> {
   return { lefts, focus, rights }
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function length<A>(fa: Zipper<A>): number {
   return fa.lefts.length + 1 + fa.rights.length
@@ -66,7 +66,7 @@ export function length<A>(fa: Zipper<A>): number {
 
 /**
  * Updates the focus of the zipper.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
   return fa => make(fa.lefts, a, fa.rights)
@@ -74,7 +74,7 @@ export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
 
 /**
  * Applies `f` to the focus and update with the result.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> {
   return fa =>
@@ -85,14 +85,14 @@ export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function toArray<A>(fa: Zipper<A>): Array<A> {
   return A.snoc(fa.lefts, fa.focus).concat(fa.rights)
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean {
   return index < 0 || index >= length(fa)
@@ -100,7 +100,7 @@ export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean {
 
 /**
  * Moves focus in the zipper, or `None` if there is no such element.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function move<A>(f: (currentIndex: number) => number, fa: Zipper<A>): Option<Zipper<A>> {
   const newIndex = f(fa.lefts.length)
@@ -113,7 +113,7 @@ export function move<A>(f: (currentIndex: number) => number, fa: Zipper<A>): Opt
 
 /**
  * Moves focus of the zipper up.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function up<A>(fa: Zipper<A>): Option<Zipper<A>> {
   return move(decrement, fa)
@@ -121,7 +121,7 @@ export function up<A>(fa: Zipper<A>): Option<Zipper<A>> {
 
 /**
  * Moves focus of the zipper down.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function down<A>(fa: Zipper<A>): Option<Zipper<A>> {
   return move(increment, fa)
@@ -129,7 +129,7 @@ export function down<A>(fa: Zipper<A>): Option<Zipper<A>> {
 
 /**
  * Moves focus to the start of the zipper.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function start<A>(fa: Zipper<A>): Zipper<A> {
   if (A.isEmpty(fa.lefts)) {
@@ -151,7 +151,7 @@ export function start<A>(fa: Zipper<A>): Zipper<A> {
 
 /**
  * Moves focus to the end of the zipper.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function end<A>(fa: Zipper<A>): Zipper<A> {
   const len = fa.rights.length
@@ -173,7 +173,7 @@ export function end<A>(fa: Zipper<A>): Zipper<A> {
 
 /**
  * Inserts an element to the left of the focus and focuses on the new element.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
   return fa => make(fa.lefts, a, A.cons(fa.focus, fa.rights))
@@ -181,7 +181,7 @@ export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
 
 /**
  * Inserts an element to the right of the focus and focuses on the new element.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
   return fa => make(A.snoc(fa.lefts, fa.focus), a, fa.rights)
@@ -190,7 +190,7 @@ export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
 /**
  * Deletes the element at focus and moves the focus to the left. If there is no element on the left,
  * the focus is moved to the right.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function deleteLeft<A>(fa: Zipper<A>): Option<Zipper<A>> {
   const len = fa.lefts.length
@@ -200,7 +200,7 @@ export function deleteLeft<A>(fa: Zipper<A>): Option<Zipper<A>> {
 /**
  * Deletes the element at focus and moves the focus to the right. If there is no element on the right,
  * the focus is moved to the left.
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function deleteRight<A>(fa: Zipper<A>): Option<Zipper<A>> {
   const lenl = fa.lefts.length
@@ -209,7 +209,7 @@ export function deleteRight<A>(fa: Zipper<A>): Option<Zipper<A>> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function getShow<A>(S: Show<A>): Show<Zipper<A>> {
   const SA = A.getShow(S)
@@ -219,7 +219,7 @@ export function getShow<A>(S: Show<A>): Show<Zipper<A>> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> {
   if (A.isEmpty(as) || A.isOutOfBound(focusIndex, as)) {
@@ -242,14 +242,14 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> {
   return make(A.empty, nea[0], nea.slice(1))
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function of<A>(focus: A): Zipper<A> {
   return make(A.empty, focus, A.empty)
@@ -319,7 +319,7 @@ function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> {
   return {
@@ -328,7 +328,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
   return {
@@ -338,7 +338,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
 }
 
 /**
- * @since 0.2.0
+ * @since 0.1.6
  */
 export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
@@ -366,23 +366,23 @@ const { ap, foldMap, map, reduce, reduceRight } = pipeable(zipper)
 
 export {
   /**
-   * @since 0.2.0
+   * @since 0.1.6
    */
   ap,
   /**
-   * @since 0.2.0
+   * @since 0.1.6
    */
   foldMap,
   /**
-   * @since 0.2.0
+   * @since 0.1.6
    */
   map,
   /**
-   * @since 0.2.0
+   * @since 0.1.6
    */
   reduce,
   /**
-   * @since 0.2.0
+   * @since 0.1.6
    */
   reduceRight
 }

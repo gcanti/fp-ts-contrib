@@ -66,7 +66,7 @@ export interface Zipper<A> {
 }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # URI (type alias)
 
@@ -76,7 +76,7 @@ Added in v0.2.0
 export type URI = typeof URI
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # URI (constant)
 
@@ -86,7 +86,7 @@ Added in v0.2.0
 export const URI: "Zipper" = ...
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # zipper (constant)
 
@@ -96,7 +96,7 @@ Added in v0.2.0
 export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # deleteLeft (function)
 
@@ -109,7 +109,7 @@ the focus is moved to the right.
 export function deleteLeft<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # deleteRight (function)
 
@@ -122,7 +122,7 @@ the focus is moved to the left.
 export function deleteRight<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # down (function)
 
@@ -134,7 +134,7 @@ Moves focus of the zipper down.
 export function down<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # end (function)
 
@@ -146,7 +146,7 @@ Moves focus to the end of the zipper.
 export function end<A>(fa: Zipper<A>): Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # fromArray (function)
 
@@ -156,7 +156,7 @@ Added in v0.2.0
 export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # fromNonEmptyArray (function)
 
@@ -166,7 +166,7 @@ Added in v0.2.0
 export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # getMonoid (function)
 
@@ -176,7 +176,7 @@ Added in v0.2.0
 export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # getSemigroup (function)
 
@@ -186,7 +186,7 @@ Added in v0.2.0
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # getShow (function)
 
@@ -196,7 +196,7 @@ Added in v0.2.0
 export function getShow<A>(S: Show<A>): Show<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # insertLeft (function)
 
@@ -208,7 +208,7 @@ Inserts an element to the left of the focus and focuses on the new element.
 export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # insertRight (function)
 
@@ -220,7 +220,7 @@ Inserts an element to the right of the focus and focuses on the new element.
 export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # isOutOfBound (function)
 
@@ -230,7 +230,7 @@ Added in v0.2.0
 export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # length (function)
 
@@ -240,7 +240,7 @@ Added in v0.2.0
 export function length<A>(fa: Zipper<A>): number { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # make (function)
 
@@ -252,7 +252,7 @@ Creates a new zipper.
 export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # modify (function)
 
@@ -264,7 +264,7 @@ Applies `f` to the focus and update with the result.
 export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # move (function)
 
@@ -276,7 +276,7 @@ Moves focus in the zipper, or `None` if there is no such element.
 export function move<A>(f: (currentIndex: number) => number, fa: Zipper<A>): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # of (function)
 
@@ -286,7 +286,7 @@ Added in v0.2.0
 export function of<A>(focus: A): Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # start (function)
 
@@ -298,7 +298,7 @@ Moves focus to the start of the zipper.
 export function start<A>(fa: Zipper<A>): Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # toArray (function)
 
@@ -308,7 +308,7 @@ Added in v0.2.0
 export function toArray<A>(fa: Zipper<A>): Array<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # up (function)
 
@@ -320,7 +320,7 @@ Moves focus of the zipper up.
 export function up<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # update (function)
 
@@ -332,7 +332,7 @@ Updates the focus of the zipper.
 export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # ap (export)
 
@@ -342,7 +342,7 @@ Added in v0.2.0
 <A>(fa: Zipper<A>) => <B>(fab: Zipper<(a: A) => B>) => Zipper<B>
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # foldMap (export)
 
@@ -352,7 +352,7 @@ Added in v0.2.0
 ;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Zipper<A>) => M
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # map (export)
 
@@ -362,7 +362,7 @@ Added in v0.2.0
 <A, B>(f: (a: A) => B) => (fa: Zipper<A>) => Zipper<B>
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # reduce (export)
 
@@ -372,7 +372,7 @@ Added in v0.2.0
 ;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B
 ```
 
-Added in v0.2.0
+Added in v0.1.6
 
 # reduceRight (export)
 
@@ -382,4 +382,4 @@ Added in v0.2.0
 ;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B
 ```
 
-Added in v0.2.0
+Added in v0.1.6
