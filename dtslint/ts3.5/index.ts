@@ -7,6 +7,8 @@ import * as Th from 'fp-ts/lib/These'
 import { either, right, Either } from 'fp-ts/lib/Either'
 import { Do } from '../../src/Do'
 import * as alignRecord from '../../src/Align/Record'
+import * as TO from '../../src/TaskOption'
+import { flow } from 'fp-ts/lib/function'
 
 //
 // time
@@ -81,3 +83,18 @@ alignRecord.align(r1, r2) // $ExpectType Record<"a" | "b", These<number, string>
 
 alignRecord.alignWith(d1, d2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<string, string>
 alignRecord.alignWith(r1, r2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<"a" | "b", string>
+
+//
+// TaskOption
+//
+
+// fromNullable
+declare const fromNullableTest1: number | null | undefined
+TO.fromNullable(fromNullableTest1) // $ExpectType TaskOption<number>
+
+interface fromNullableTest2 {
+  foo: number | undefined
+}
+declare const fromNullableTest3: <Key extends keyof fromNullableTest2>(key: Key) => fromNullableTest2[Key]
+// $ExpectType TaskOption<number>
+flow(fromNullableTest3, TO.fromNullable)('foo')
