@@ -133,10 +133,16 @@ export interface Do0<M, S extends object> {
 class DoClass<M> {
   constructor(readonly M: Monad<M>, private result: HKT<M, any>) {}
   do(action: HKT<M, unknown>): DoClass<M> {
-    return new DoClass(this.M, this.M.chain(this.result, s => this.M.map(action, () => s)))
+    return new DoClass(
+      this.M,
+      this.M.chain(this.result, s => this.M.map(action, () => s))
+    )
   }
   doL(f: (s: unknown) => HKT<M, unknown>): DoClass<M> {
-    return new DoClass(this.M, this.M.chain(this.result, s => this.M.map(f(s), () => s)))
+    return new DoClass(
+      this.M,
+      this.M.chain(this.result, s => this.M.map(f(s), () => s))
+    )
   }
   bind(name: string, action: HKT<M, unknown>): DoClass<M> {
     return new DoClass(

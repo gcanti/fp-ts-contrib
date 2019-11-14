@@ -28,24 +28,12 @@ describe('Zipper', () => {
 
   it('update', () => {
     const fa = Z.make(['a', 'b'], 'c', ['d'])
-    assert.deepStrictEqual(
-      pipe(
-        fa,
-        Z.update('e')
-      ),
-      Z.make(['a', 'b'], 'e', ['d'])
-    )
+    assert.deepStrictEqual(pipe(fa, Z.update('e')), Z.make(['a', 'b'], 'e', ['d']))
   })
 
   it('modify', () => {
     const fa = Z.make(['a', 'b'], 'c', ['d'])
-    assert.deepStrictEqual(
-      pipe(
-        fa,
-        Z.modify(append('!'))
-      ),
-      Z.make(['a', 'b'], 'c!', ['d'])
-    )
+    assert.deepStrictEqual(pipe(fa, Z.modify(append('!'))), Z.make(['a', 'b'], 'c!', ['d']))
   })
 
   it('toArray', () => {
@@ -86,20 +74,14 @@ describe('Zipper', () => {
 
   it('insertLeft', () => {
     assert.deepStrictEqual(
-      pipe(
-        Z.make(['a', 'b'], 'c', ['d', 'e']),
-        Z.insertLeft('f')
-      ),
+      pipe(Z.make(['a', 'b'], 'c', ['d', 'e']), Z.insertLeft('f')),
       Z.make(['a', 'b'], 'f', ['c', 'd', 'e'])
     )
   })
 
   it('insertRight', () => {
     assert.deepStrictEqual(
-      pipe(
-        Z.make(['a', 'b'], 'c', ['d', 'e']),
-        Z.insertRight('f')
-      ),
+      pipe(Z.make(['a', 'b'], 'c', ['d', 'e']), Z.insertRight('f')),
       Z.make(['a', 'b', 'c'], 'f', ['d', 'e'])
     )
   })
@@ -168,7 +150,10 @@ describe('Zipper', () => {
 
   it('reduce', () => {
     const fa = Z.make(['a', 'b'], 'c', ['d'])
-    assert.deepStrictEqual(Z.zipper.reduce(fa, '', (b: string, a: string) => b + a), 'abcd')
+    assert.deepStrictEqual(
+      Z.zipper.reduce(fa, '', (b: string, a: string) => b + a),
+      'abcd'
+    )
   })
 
   it('foldMap', () => {
@@ -189,7 +174,10 @@ describe('Zipper', () => {
   it('traverse', () => {
     const fa = Z.make(['a', 'b'], 'c', ['d'])
     assert.deepStrictEqual(Z.zipper.traverse(O.option)(fa, O.some), O.some(fa))
-    assert.deepStrictEqual(Z.zipper.traverse(O.option)(fa, a => (a === 'a' ? O.none : O.some(a))), O.none)
+    assert.deepStrictEqual(
+      Z.zipper.traverse(O.option)(fa, a => (a === 'a' ? O.none : O.some(a))),
+      O.none
+    )
   })
 
   it('sequence', () => {

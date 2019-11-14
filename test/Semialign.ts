@@ -23,7 +23,11 @@ describe('Semialign', () => {
     })
 
     it('alignWith', () => {
-      const f = fold<number, string, string>(a => a.toString(), identity, (a, b) => b + a)
+      const f = fold<number, string, string>(
+        a => a.toString(),
+        identity,
+        (a, b) => b + a
+      )
       assert.deepStrictEqual(
         semialignNonEmptyArray.alignWith(cons(1, [2, 3]), cons('a', ['b', 'c']), f),
         cons('a1', ['b2', 'c3'])

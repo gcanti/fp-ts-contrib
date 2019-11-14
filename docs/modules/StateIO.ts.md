@@ -188,7 +188,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-<e, B>(fb: StateIO<e, B>) => <A>(fa: StateIO<e, A>) => StateIO<e, B>
+<E, B>(fb: StateIO<E, B>) => <A>(fa: StateIO<E, A>) => StateIO<E, B>
 ```
 
 Added in v0.1.0

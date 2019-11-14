@@ -122,7 +122,11 @@ import { some, none } from 'fp-ts/lib/Option'
 import { padZip } from 'fp-ts-contrib/lib/Align'
 import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
 
-assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [[some(1), some(4)], [some(2), some(5)], [some(3), none]])
+assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [
+  [some(1), some(4)],
+  [some(2), some(5)],
+  [some(3), none]
+])
 ```
 
 Added in v0.1.0
@@ -168,7 +172,10 @@ import { pipe } from 'fp-ts/lib/pipeable'
 const f = (ma: Option<number>, mb: Option<string>) =>
   pipe(
     ma,
-    fold(() => '*', a => a.toString())
+    fold(
+      () => '*',
+      a => a.toString()
+    )
   ) +
   pipe(
     mb,

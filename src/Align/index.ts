@@ -166,7 +166,11 @@ export function padZipWith<F>(
       pipe(
         ab,
         bimap(some, some),
-        fold(a => f(a, none), b => f(none, b), (a, b) => f(a, b))
+        fold(
+          a => f(a, none),
+          b => f(none, b),
+          (a, b) => f(a, b)
+        )
       )
     )
 }

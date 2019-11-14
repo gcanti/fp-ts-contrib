@@ -155,7 +155,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-<e, B>(fb: ReaderIO<e, B>) => <A>(fa: ReaderIO<e, A>) => ReaderIO<e, B>
+<E, B>(fb: ReaderIO<E, B>) => <A>(fa: ReaderIO<E, A>) => ReaderIO<E, B>
 ```
 
 Added in v0.1.0

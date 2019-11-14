@@ -101,20 +101,14 @@ describe('TaskOption', () => {
 
   test('chainTask', async () => {
     const f = (n: number) => task.of(n * 2)
-    const ma = pipe(
-      taskOption.of(42),
-      chainTask(f)
-    )
+    const ma = pipe(taskOption.of(42), chainTask(f))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(84))
   })
 
   test('chainOption', async () => {
     const f = (n: number) => O.some(n - 10)
-    const ma = pipe(
-      taskOption.of(42),
-      chainOption(f)
-    )
+    const ma = pipe(taskOption.of(42), chainOption(f))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(32))
   })
@@ -170,26 +164,8 @@ describe('TaskOption', () => {
 
   test('filter', async () => {
     const predicate = (a: number) => a === 2
-    assert.deepStrictEqual(
-      await pipe(
-        taskOptionNone,
-        filter(predicate)
-      )(),
-      O.none
-    )
-    assert.deepStrictEqual(
-      await pipe(
-        taskOption.of(1),
-        filter(predicate)
-      )(),
-      O.none
-    )
-    assert.deepStrictEqual(
-      await pipe(
-        taskOption.of(2),
-        filter(predicate)
-      )(),
-      O.some(2)
-    )
+    assert.deepStrictEqual(await pipe(taskOptionNone, filter(predicate))(), O.none)
+    assert.deepStrictEqual(await pipe(taskOption.of(1), filter(predicate))(), O.none)
+    assert.deepStrictEqual(await pipe(taskOption.of(2), filter(predicate))(), O.some(2))
   })
 })
