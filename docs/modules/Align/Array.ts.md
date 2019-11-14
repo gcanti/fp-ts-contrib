@@ -47,8 +47,15 @@ export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
 import { some, none } from 'fp-ts/lib/Option'
 import { lpadZip } from 'fp-ts-contrib/lib/Align/Array'
 
-assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [[some(1), 'a'], [some(2), 'b'], [none, 'c']])
-assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
+assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [
+  [some(1), 'a'],
+  [some(2), 'b'],
+  [none, 'c']
+])
+assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [
+  [some(1), 'a'],
+  [some(2), 'b']
+])
 ```
 
 Added in v0.1.0
@@ -76,7 +83,10 @@ import { pipe } from 'fp-ts/lib/pipeable'
 const f = (ma: O.Option<number>, b: string) =>
   pipe(
     ma,
-    O.fold(() => '*', a => a.toString())
+    O.fold(
+      () => '*',
+      a => a.toString()
+    )
   ) + b
 assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
 assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
@@ -103,8 +113,15 @@ export function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]>
 import { some, none } from 'fp-ts/lib/Option'
 import { rpadZip } from 'fp-ts-contrib/lib/Align/Array'
 
-assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [[1, some('a')], [2, some('b')], [3, none]])
-assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [[1, some('a')], [2, some('b')]])
+assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [
+  [1, some('a')],
+  [2, some('b')],
+  [3, none]
+])
+assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [
+  [1, some('a')],
+  [2, some('b')]
+])
 ```
 
 Added in v0.1.0

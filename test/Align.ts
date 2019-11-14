@@ -18,9 +18,18 @@ describe('Align', () => {
   })
 
   it('padZip', () => {
-    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a', 'b']), [[O.some(1), O.some('a')], [O.some(2), O.some('b')]])
-    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a']), [[O.some(1), O.some('a')], [O.some(2), O.none]])
-    assert.deepStrictEqual(padZip(alignArray)([1], ['a', 'b']), [[O.some(1), O.some('a')], [O.none, O.some('b')]])
+    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a', 'b']), [
+      [O.some(1), O.some('a')],
+      [O.some(2), O.some('b')]
+    ])
+    assert.deepStrictEqual(padZip(alignArray)([1, 2], ['a']), [
+      [O.some(1), O.some('a')],
+      [O.some(2), O.none]
+    ])
+    assert.deepStrictEqual(padZip(alignArray)([1], ['a', 'b']), [
+      [O.some(1), O.some('a')],
+      [O.none, O.some('b')]
+    ])
     assert.deepStrictEqual(padZip(alignArray)([], []), [])
   })
 
@@ -32,7 +41,10 @@ describe('Align', () => {
       ) +
       pipe(
         ma,
-        O.fold(() => '*', (a: number) => a.toString())
+        O.fold(
+          () => '*',
+          (a: number) => a.toString()
+        )
       )
     assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a', 'b'], f), ['a1', 'b2'])
     assert.deepStrictEqual(padZipWith(alignArray)([1, 2], ['a'], f), ['a1', '#2'])
@@ -51,7 +63,11 @@ describe('Align', () => {
     })
 
     it('alignWith', () => {
-      const f = fold<number, string, string>(a => a.toString(), identity, (a, b) => b + a)
+      const f = fold<number, string, string>(
+        a => a.toString(),
+        identity,
+        (a, b) => b + a
+      )
       assert.deepStrictEqual(alignArray.alignWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
       assert.deepStrictEqual(alignArray.alignWith([1, 2], ['a'], f), ['a1', '2'])
       assert.deepStrictEqual(alignArray.alignWith([1], ['a', 'b'], f), ['a1', 'b'])
@@ -61,9 +77,15 @@ describe('Align', () => {
     })
 
     it('lpadZip', () => {
-      assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b']), [[O.some(1), 'a'], [O.some(2), 'b']])
+      assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b']), [
+        [O.some(1), 'a'],
+        [O.some(2), 'b']
+      ])
       assert.deepStrictEqual(lpadZip([1, 2], ['a']), [[O.some(1), 'a']])
-      assert.deepStrictEqual(lpadZip([1], ['a', 'b']), [[O.some(1), 'a'], [O.none, 'b']])
+      assert.deepStrictEqual(lpadZip([1], ['a', 'b']), [
+        [O.some(1), 'a'],
+        [O.none, 'b']
+      ])
       assert.deepStrictEqual(lpadZip([], []), [])
     })
 
@@ -72,7 +94,10 @@ describe('Align', () => {
         b +
         pipe(
           ma,
-          O.fold(() => '*', a => a.toString())
+          O.fold(
+            () => '*',
+            a => a.toString()
+          )
         )
       assert.deepStrictEqual(lpadZipWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
       assert.deepStrictEqual(lpadZipWith([1, 2], ['a'], f), ['a1'])
@@ -81,8 +106,14 @@ describe('Align', () => {
     })
 
     it('rpadZip', () => {
-      assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b']), [[1, O.some('a')], [2, O.some('b')]])
-      assert.deepStrictEqual(rpadZip([1, 2], ['a']), [[1, O.some('a')], [2, O.none]])
+      assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b']), [
+        [1, O.some('a')],
+        [2, O.some('b')]
+      ])
+      assert.deepStrictEqual(rpadZip([1, 2], ['a']), [
+        [1, O.some('a')],
+        [2, O.none]
+      ])
       assert.deepStrictEqual(rpadZip([1], ['a', 'b']), [[1, O.some('a')]])
       assert.deepStrictEqual(rpadZip([], []), [])
     })
@@ -109,7 +140,11 @@ describe('Align', () => {
     })
 
     it('alignWith', () => {
-      const f = fold<number, string, string>(a => a.toString(), identity, (a, b) => b + a)
+      const f = fold<number, string, string>(
+        a => a.toString(),
+        identity,
+        (a, b) => b + a
+      )
       assert.deepStrictEqual(alignOption.alignWith(O.some(1), O.some('a'), f), O.some('a1'))
       assert.deepStrictEqual(alignOption.alignWith(O.some(1), alignOption.nil<string>(), f), O.some('1'))
       assert.deepStrictEqual(alignOption.alignWith(alignOption.nil<number>(), O.some('a'), f), O.some('a'))
@@ -131,7 +166,11 @@ describe('Align', () => {
     })
 
     it('alignWith', () => {
-      const f = fold<number, string, string>(a => a.toString(), identity, (a, b) => b + a)
+      const f = fold<number, string, string>(
+        a => a.toString(),
+        identity,
+        (a, b) => b + a
+      )
       assert.deepStrictEqual(alignRecord.alignWith({ a: 1, b: 2 }, { a: 'a', b: 'b' }, f), { a: 'a1', b: 'b2' })
       assert.deepStrictEqual(alignRecord.alignWith({ a: 1, b: 2 }, { a: 'a' }, f), { a: 'a1', b: '2' })
       assert.deepStrictEqual(alignRecord.alignWith({ a: 1 }, { a: 'a', b: 'b' }, f), { a: 'a1', b: 'b' })

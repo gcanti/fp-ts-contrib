@@ -129,7 +129,11 @@ export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskO
  * @since 0.1.5
  */
 export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> {
-  return () => f().then(a => optionSome(a), () => optionNone)
+  return () =>
+    f().then(
+      a => optionSome(a),
+      () => optionNone
+    )
 }
 
 /**

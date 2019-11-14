@@ -77,11 +77,7 @@ export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> {
  * @since 0.1.6
  */
 export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> {
-  return fa =>
-    pipe(
-      fa,
-      update(f(fa.focus))
-    )
+  return fa => pipe(fa, update(f(fa.focus)))
 }
 
 /**
@@ -135,17 +131,7 @@ export function start<A>(fa: Zipper<A>): Zipper<A> {
   if (A.isEmpty(fa.lefts)) {
     return fa
   } else {
-    return make(
-      A.empty,
-      fa.lefts[0],
-      A.snoc(
-        pipe(
-          fa.lefts,
-          A.dropLeft(1)
-        ),
-        fa.focus
-      ).concat(fa.rights)
-    )
+    return make(A.empty, fa.lefts[0], A.snoc(pipe(fa.lefts, A.dropLeft(1)), fa.focus).concat(fa.rights))
   }
 }
 
@@ -158,16 +144,7 @@ export function end<A>(fa: Zipper<A>): Zipper<A> {
   if (len === 0) {
     return fa
   } else {
-    return make(
-      A.snoc(fa.lefts, fa.focus).concat(
-        pipe(
-          fa.rights,
-          A.takeLeft(len - 1)
-        )
-      ),
-      fa.rights[len - 1],
-      A.empty
-    )
+    return make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(len - 1))), fa.rights[len - 1], A.empty)
   }
 }
 
@@ -225,19 +202,7 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
   if (A.isEmpty(as) || A.isOutOfBound(focusIndex, as)) {
     return none
   } else {
-    return some(
-      make(
-        pipe(
-          as,
-          A.takeLeft(focusIndex)
-        ),
-        as[focusIndex],
-        pipe(
-          as,
-          A.dropLeft(focusIndex + 1)
-        )
-      )
-    )
+    return some(make(pipe(as, A.takeLeft(focusIndex)), as[focusIndex], pipe(as, A.dropLeft(focusIndex + 1))))
   }
 }
 
@@ -281,39 +246,10 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zi
 
 function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
   const lefts = fa.lefts.map((a, i) =>
-    f(
-      make(
-        pipe(
-          fa.lefts,
-          A.takeLeft(i)
-        ),
-        a,
-        A.snoc(
-          pipe(
-            fa.lefts,
-            A.dropLeft(i + 1)
-          ),
-          fa.focus
-        ).concat(fa.rights)
-      )
-    )
+    f(make(pipe(fa.lefts, A.takeLeft(i)), a, A.snoc(pipe(fa.lefts, A.dropLeft(i + 1)), fa.focus).concat(fa.rights)))
   )
   const rights = fa.rights.map((a, i) =>
-    f(
-      make(
-        A.snoc(fa.lefts, fa.focus).concat(
-          pipe(
-            fa.rights,
-            A.takeLeft(i)
-          )
-        ),
-        a,
-        pipe(
-          fa.rights,
-          A.dropLeft(i + 1)
-        )
-      )
-    )
+    f(make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(i))), a, pipe(fa.rights, A.dropLeft(i + 1))))
   )
   return make(lefts, f(fa), rights)
 }

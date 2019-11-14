@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts-contrib",
   "peerDependencies": {
-    "fp-ts": "^2.0.0"
+    "fp-ts": "^2.1.2"
   },
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
@@ -45,16 +45,16 @@
     "docs-ts": "^0.2.1",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
-    "fp-ts": "^2.0.0",
+    "fp-ts": "^2.1.2",
     "jest": "^24.8.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.16.4",
+    "prettier": "^1.19.1",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.5.1"
+    "typescript": "^3.7.2"
   },
   "tags": [
     "typescript",
