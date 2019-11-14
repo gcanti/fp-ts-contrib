@@ -158,7 +158,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export function fromNullable<A>(a: A | null | undefined): TaskOption<A> { ... }
+export function fromNullable<A>(a: A): TaskOption<NonNullable<A>> { ... }
 ```
 
 Added in v0.1.4

@@ -79,7 +79,7 @@ export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task
 /**
  * @since 0.1.4
  */
-export function fromNullable<A>(a: A | null | undefined): TaskOption<A> {
+export function fromNullable<A>(a: A): TaskOption<NonNullable<A>> {
   return fromOption(optionFromNullable(a))
 }
 
