@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-contrib",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A community driven utility package for fp-ts",
   "files": [
     "lib",
@@ -12,7 +12,7 @@
   "sideEffects": false,
   "scripts": {
     "tsc": "tsc",
-    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "lint": "tslint -p tsconfig.tslint.json",
     "jest": "jest",
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test}/**/*.ts\"",

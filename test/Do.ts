@@ -77,7 +77,7 @@ describe('Do', () => {
     assert.deepStrictEqual(user, E.right({ name: 'bob', email: 'bsmith@example.com', len: 3 }))
 
     const user2 = Do(E.either)
-      .do(E.right('nothing') as E.Either<string, string>)
+      .do(E.right<string, string>('nothing'))
       .doL(() => E.right('nothing'))
       .bind('name', E.right('bob'))
       .bind('email', E.left('error from email'))
