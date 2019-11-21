@@ -88,13 +88,13 @@ describe('Free', () => {
 
     it('foldFree', () => {
       const result = foldFree(id)(idEval, program)
-      assert.equal(result, 5)
+      assert.strictEqual(result, 5)
     })
 
     it('hoistFree', () => {
       const programId = hoistFree<URI, IdURI>(idEval)(program)
       const result = foldFree(id)(identity, programId)
-      assert.equal(result, 5)
+      assert.strictEqual(result, 5)
     })
   })
 })
