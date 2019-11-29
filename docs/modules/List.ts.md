@@ -52,7 +52,7 @@ export interface Cons<A> {
 }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # Nil (interface)
 
@@ -64,7 +64,7 @@ export interface Nil {
 }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # List (type alias)
 
@@ -74,7 +74,7 @@ Added in v2.1.1
 export type List<A> = Nil | Cons<A>
 ```
 
-Added in v2.1.1
+Added in v###
 
 # URI (type alias)
 
@@ -84,7 +84,7 @@ Added in v2.1.1
 export type URI = typeof URI
 ```
 
-Added in v2.1.1
+Added in v###
 
 # URI (constant)
 
@@ -94,7 +94,7 @@ Added in v2.1.1
 export const URI: "List" = ...
 ```
 
-Added in v2.1.1
+Added in v###
 
 # list (constant)
 
@@ -104,7 +104,7 @@ Added in v2.1.1
 export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
 ```
 
-Added in v2.1.1
+Added in v###
 
 # nil (constant)
 
@@ -114,7 +114,7 @@ Added in v2.1.1
 export const nil: List<never> = ...
 ```
 
-Added in v2.1.1
+Added in v###
 
 # cons (function)
 
@@ -124,7 +124,7 @@ Added in v2.1.1
 export function cons<A>(head: A, tail: List<A>): List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # dropLeft (function)
 
@@ -136,7 +136,7 @@ Drops the specified number of elements from the front of a list.
 export function dropLeft(n: number): <A>(fa: List<A>) => List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # dropLeftWhile (function)
 
@@ -149,7 +149,7 @@ export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa
 export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # findIndex (function)
 
@@ -161,7 +161,7 @@ Finds the first index for which a predicate holds.
 export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # foldLeft (function)
 
@@ -173,7 +173,7 @@ Breaks a list into its first element and the remaining elements.
 export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # fromArray (function)
 
@@ -185,7 +185,7 @@ Creates a list from an array
 export function fromArray<A>(as: Array<A>): List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # head (function)
 
@@ -197,7 +197,7 @@ Gets the first element in a list, or `None` if the list is empty.
 export function head<A>(fa: List<A>): O.Option<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # isCons (function)
 
@@ -207,7 +207,7 @@ Added in v2.1.1
 export function isCons<A>(a: List<A>): a is Cons<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # isNil (function)
 
@@ -217,7 +217,7 @@ Added in v2.1.1
 export function isNil<A>(a: List<A>): a is Nil { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # length (function)
 
@@ -229,7 +229,7 @@ Gets the length of a list.
 export function length<A>(fa: List<A>): number { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # reverse (function)
 
@@ -241,7 +241,7 @@ Reverse a list.
 export function reverse<A>(fa: List<A>): List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # singleton (function)
 
@@ -253,7 +253,7 @@ Creates a list with a single element.
 export function singleton<A>(head: A): List<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # tail (function)
 
@@ -265,7 +265,7 @@ Gets all but the first element of a list, or `None` if the list is empty.
 export function tail<A>(fa: List<A>): O.Option<List<A>> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # toArray (function)
 
@@ -277,7 +277,7 @@ Gets an array from a list.
 export function toArray<A>(fa: List<A>): Array<A> { ... }
 ```
 
-Added in v2.1.1
+Added in v###
 
 # foldMap (export)
 
@@ -287,7 +287,7 @@ Added in v2.1.1
 ;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M
 ```
 
-Added in v2.1.1
+Added in v###
 
 # map (export)
 
@@ -297,7 +297,7 @@ Added in v2.1.1
 <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
 ```
 
-Added in v2.1.1
+Added in v###
 
 # reduce (export)
 
@@ -307,7 +307,7 @@ Added in v2.1.1
 ;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B
 ```
 
-Added in v2.1.1
+Added in v###
 
 # reduceRight (export)
 
@@ -317,4 +317,4 @@ Added in v2.1.1
 ;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
 ```
 
-Added in v2.1.1
+Added in v###

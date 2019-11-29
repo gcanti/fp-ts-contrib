@@ -19,24 +19,24 @@ declare module 'fp-ts/lib/HKT' {
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export const URI = 'List'
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export type URI = typeof URI
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export interface Nil {
   readonly type: 'Nil'
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export interface Cons<A> {
   readonly type: 'Cons'
@@ -45,17 +45,17 @@ export interface Cons<A> {
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export type List<A> = Nil | Cons<A>
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export const nil: List<never> = { type: 'Nil' }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export function cons<A>(head: A, tail: List<A>): List<A> {
   return { type: 'Cons', head, tail }
@@ -63,7 +63,8 @@ export function cons<A>(head: A, tail: List<A>): List<A> {
 
 /**
  * Creates a list with a single element.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function singleton<A>(head: A): List<A> {
   return cons(head, nil)
@@ -71,21 +72,22 @@ export function singleton<A>(head: A): List<A> {
 
 /**
  * Gets the length of a list.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function length<A>(fa: List<A>): number {
   return list.reduce(fa, 0, b => b + 1)
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export function isNil<A>(a: List<A>): a is Nil {
   return a.type === 'Nil'
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export function isCons<A>(a: List<A>): a is Cons<A> {
   return a.type === 'Cons'
@@ -93,7 +95,8 @@ export function isCons<A>(a: List<A>): a is Cons<A> {
 
 /**
  * Gets the first element in a list, or `None` if the list is empty.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function head<A>(fa: List<A>): O.Option<A> {
   return isCons(fa) ? O.some(fa.head) : O.none
@@ -101,7 +104,8 @@ export function head<A>(fa: List<A>): O.Option<A> {
 
 /**
  * Gets all but the first element of a list, or `None` if the list is empty.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function tail<A>(fa: List<A>): O.Option<List<A>> {
   if (isNil(fa)) return O.none
@@ -110,7 +114,8 @@ export function tail<A>(fa: List<A>): O.Option<List<A>> {
 
 /**
  * Breaks a list into its first element and the remaining elements.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B {
   return fa => (isNil(fa) ? onNil() : onCons(fa.head, fa.tail))
@@ -118,7 +123,8 @@ export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) 
 
 /**
  * Finds the first index for which a predicate holds.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> {
   let l: List<A> = fa
@@ -133,7 +139,8 @@ export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<num
 
 /**
  * Reverse a list.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function reverse<A>(fa: List<A>): List<A> {
   let out: List<A> = nil
@@ -147,7 +154,8 @@ export function reverse<A>(fa: List<A>): List<A> {
 
 /**
  * Drops the specified number of elements from the front of a list.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function dropLeft(n: number): <A>(fa: List<A>) => List<A> {
   return <A>(fa: List<A>) => {
@@ -165,7 +173,8 @@ export function dropLeft(n: number): <A>(fa: List<A>) => List<A> {
 
 /**
  * Drops those elements from the front of a list which match a predicate.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
 export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A>
@@ -183,7 +192,8 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List
 
 /**
  * Gets an array from a list.
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function toArray<A>(fa: List<A>): Array<A> {
   const out: Array<A> = []
@@ -197,14 +207,15 @@ export function toArray<A>(fa: List<A>): Array<A> {
 
 /**
  * Creates a list from an array
- * @since 2.1.1
+ *
+ * @since ###
  */
 export function fromArray<A>(as: Array<A>): List<A> {
   return A.array.reduceRight<A, List<A>>(as, nil, cons)
 }
 
 /**
- * @since 2.1.1
+ * @since ###
  */
 export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
@@ -251,19 +262,19 @@ const { map, reduce, foldMap, reduceRight } = pipeable(list)
 
 export {
   /**
-   * @since 2.1.1
+   * @since ###
    */
   map,
   /**
-   * @since 2.1.1
+   * @since ###
    */
   reduce,
   /**
-   * @since 2.1.1
+   * @since ###
    */
   foldMap,
   /**
-   * @since 2.1.1
+   * @since ###
    */
   reduceRight
 }
