@@ -19,50 +19,24 @@ Adapted from https://github.com/purescript/purescript-lists
 - [URI (constant)](#uri-constant)
 - [list (constant)](#list-constant)
 - [nil (constant)](#nil-constant)
-- [alterAt (function)](#alterat-function)
 - [cons (function)](#cons-function)
-- [deleteAt (function)](#deleteat-function)
 - [dropLeft (function)](#dropleft-function)
 - [dropLeftWhile (function)](#dropleftwhile-function)
-- [dropRight (function)](#dropright-function)
 - [findIndex (function)](#findindex-function)
-- [findLastIndex (function)](#findlastindex-function)
-- [flatten (function)](#flatten-function)
 - [foldLeft (function)](#foldleft-function)
-- [foldRight (function)](#foldright-function)
 - [fromArray (function)](#fromarray-function)
 - [head (function)](#head-function)
-- [init (function)](#init-function)
-- [insert (function)](#insert-function)
-- [insertAt (function)](#insertat-function)
-- [insertBy (function)](#insertby-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
-- [last (function)](#last-function)
 - [length (function)](#length-function)
-- [lookup (function)](#lookup-function)
-- [modifyAt (function)](#modifyat-function)
-- [range (function)](#range-function)
 - [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
-- [snoc (function)](#snoc-function)
-- [sort (function)](#sort-function)
 - [tail (function)](#tail-function)
-- [takeLeft (function)](#takeleft-function)
-- [takeLeftWhile (function)](#takeleftwhile-function)
-- [takeRight (function)](#takeright-function)
 - [toArray (function)](#toarray-function)
-- [updateAt (function)](#updateat-function)
-- [compact (export)](#compact-export)
-- [filter (export)](#filter-export)
-- [filterMap (export)](#filtermap-export)
 - [foldMap (export)](#foldmap-export)
 - [map (export)](#map-export)
-- [partition (export)](#partition-export)
-- [partitionMap (export)](#partitionmap-export)
 - [reduce (export)](#reduce-export)
 - [reduceRight (export)](#reduceright-export)
-- [separate (export)](#separate-export)
 
 ---
 
@@ -127,7 +101,7 @@ Added in v2.1.1
 **Signature**
 
 ```ts
-export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = ...
+export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
 ```
 
 Added in v2.1.1
@@ -142,38 +116,12 @@ export const nil: List<never> = ...
 
 Added in v2.1.1
 
-# alterAt (function)
-
-Updates or deletes the element at the specified index by applying a function
-to the current value, returning a new list or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function alterAt<A>(index: number, f: (a: A) => O.Option<A>, fa: List<A>): O.Option<List<A>> { ... }
-```
-
-Added in v2.1.1
-
 # cons (function)
 
 **Signature**
 
 ```ts
 export function cons<A>(head: A, tail: List<A>): List<A> { ... }
-```
-
-Added in v2.1.1
-
-# deleteAt (function)
-
-Deletes an element from a list at the specified index, returning a new
-list or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function deleteAt<A>(index: number, fa: List<A>): O.Option<List<A>> { ... }
 ```
 
 Added in v2.1.1
@@ -203,18 +151,6 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List
 
 Added in v2.1.1
 
-# dropRight (function)
-
-Takes the specified number of elements from the end of a list.
-
-**Signature**
-
-```ts
-export function dropRight(n: number): <A>(fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
 # findIndex (function)
 
 Finds the first index for which a predicate holds.
@@ -227,30 +163,6 @@ export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<num
 
 Added in v2.1.1
 
-# findLastIndex (function)
-
-Finds the last index for which a predicate holds.
-
-**Signature**
-
-```ts
-export function findLastIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> { ... }
-```
-
-Added in v2.1.1
-
-# flatten (function)
-
-Flattens a list of lists.
-
-**Signature**
-
-```ts
-export function flatten<A>(mma: List<List<A>>): List<A> { ... }
-```
-
-Added in v2.1.1
-
 # foldLeft (function)
 
 Breaks a list into its first element and the remaining elements.
@@ -259,18 +171,6 @@ Breaks a list into its first element and the remaining elements.
 
 ```ts
 export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B { ... }
-```
-
-Added in v2.1.1
-
-# foldRight (function)
-
-Breaks a list into its last element and the preceding elements.
-
-**Signature**
-
-```ts
-export function foldRight<A, B>(onNil: () => B, onCons: (init: List<A>, last: A) => B): (fa: List<A>) => B { ... }
 ```
 
 Added in v2.1.1
@@ -299,56 +199,6 @@ export function head<A>(fa: List<A>): O.Option<A> { ... }
 
 Added in v2.1.1
 
-# init (function)
-
-Gets all but the last element of a list, or `None` if the list is empty.
-
-**Signature**
-
-```ts
-export function init<A>(fa: List<A>): O.Option<List<A>> { ... }
-```
-
-Added in v2.1.1
-
-# insert (function)
-
-Insert an element into a sorted list.
-
-**Signature**
-
-```ts
-export function insert<A>(ord: Ord<A>): (a: A) => (fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
-# insertAt (function)
-
-Inserts an element into a list at the specified index, returning a new list or `None`
-if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function insertAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> { ... }
-```
-
-Added in v2.1.1
-
-# insertBy (function)
-
-Insert an element into a sorted list, using the specified function
-to determine the ordering of elements.
-
-**Signature**
-
-```ts
-export function insertBy<A>(compare: Ord<A>['compare']): (a: A) => (fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
 # isCons (function)
 
 **Signature**
@@ -369,18 +219,6 @@ export function isNil<A>(a: List<A>): a is Nil { ... }
 
 Added in v2.1.1
 
-# last (function)
-
-Gets the last element in a list, or `None` if the list is empty.
-
-**Signature**
-
-```ts
-export function last<A>(fa: List<A>): O.Option<A> { ... }
-```
-
-Added in v2.1.1
-
 # length (function)
 
 Gets the length of a list.
@@ -389,43 +227,6 @@ Gets the length of a list.
 
 ```ts
 export function length<A>(fa: List<A>): number { ... }
-```
-
-Added in v2.1.1
-
-# lookup (function)
-
-Gets the element at the specified index, or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function lookup<A>(index: number, fa: List<A>): O.Option<A> { ... }
-```
-
-Added in v2.1.1
-
-# modifyAt (function)
-
-Update the element at the specified index by applying a function
-to the current value, returning a new list or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function modifyAt<A>(index: number, f: (a: A) => A, fa: List<A>): O.Option<List<A>> { ... }
-```
-
-Added in v2.1.1
-
-# range (function)
-
-Create a list containing a range of integers, including both endpoints.
-
-**Signature**
-
-```ts
-export function range(start: number, end: number): List<number> { ... }
 ```
 
 Added in v2.1.1
@@ -454,31 +255,6 @@ export function singleton<A>(head: A): List<A> { ... }
 
 Added in v2.1.1
 
-# snoc (function)
-
-Appends an element to the end of a list, creating a new list.
-
-**Signature**
-
-```ts
-export function snoc<A>(fa: List<A>, a: A): List<A> { ... }
-```
-
-Added in v2.1.1
-
-# sort (function)
-
-Sort the elements of a list in increasing order, where elements
-are compared using the specified ordering.
-
-**Signature**
-
-```ts
-export function sort<A>(O: Ord<A>): (fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
 # tail (function)
 
 Gets all but the first element of a list, or `None` if the list is empty.
@@ -491,43 +267,6 @@ export function tail<A>(fa: List<A>): O.Option<List<A>> { ... }
 
 Added in v2.1.1
 
-# takeLeft (function)
-
-Takes the specified number of elements from the front of a list.
-
-**Signature**
-
-```ts
-export function takeLeft(n: number): <A>(fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
-# takeLeftWhile (function)
-
-Takes those elements from the front of a list which match a predicate.
-
-**Signature**
-
-```ts
-export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
-# takeRight (function)
-
-Takes the specified number of elements from the end of a list.
-
-**Signature**
-
-```ts
-export function takeRight(n: number): <A>(fa: List<A>) => List<A> { ... }
-```
-
-Added in v2.1.1
-
 # toArray (function)
 
 Gets an array from a list.
@@ -536,49 +275,6 @@ Gets an array from a list.
 
 ```ts
 export function toArray<A>(fa: List<A>): Array<A> { ... }
-```
-
-Added in v2.1.1
-
-# updateAt (function)
-
-Updates an element from a list at the specified index, returning a new
-list or `None` if the index is out-of-bounds.
-
-**Signature**
-
-```ts
-export function updateAt<A>(index: number, a: A, fa: List<A>): O.Option<List<A>> { ... }
-```
-
-Added in v2.1.1
-
-# compact (export)
-
-**Signature**
-
-```ts
-<A>(fa: List<O.Option<A>>) => List<A>
-```
-
-Added in v2.1.1
-
-# filter (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>; <A>(predicate: Predicate<A>): (fa: List<A>) => List<A>; }
-```
-
-Added in v2.1.1
-
-# filterMap (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => O.Option<B>) => (fa: List<A>) => List<B>
 ```
 
 Added in v2.1.1
@@ -603,26 +299,6 @@ Added in v2.1.1
 
 Added in v2.1.1
 
-# partition (export)
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: List<A>) => Separated<List<A>, List<B>>; <A>(predicate: Predicate<A>): (fa: List<A>) => Separated<List<A>, List<A>>; }
-```
-
-Added in v2.1.1
-
-# partitionMap (export)
-
-**Signature**
-
-```ts
-<A, B, C>(f: (a: A) => E.Either<B, C>) => (fa: List<A>) => Separated<List<B>, List<C>>
-```
-
-Added in v2.1.1
-
 # reduce (export)
 
 **Signature**
@@ -639,16 +315,6 @@ Added in v2.1.1
 
 ```ts
 ;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
-```
-
-Added in v2.1.1
-
-# separate (export)
-
-**Signature**
-
-```ts
-<A, B>(fa: List<E.Either<A, B>>) => Separated<List<A>, List<B>>
 ```
 
 Added in v2.1.1
