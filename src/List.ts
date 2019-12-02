@@ -108,8 +108,7 @@ export function head<A>(fa: List<A>): O.Option<A> {
  * @since ###
  */
 export function tail<A>(fa: List<A>): O.Option<List<A>> {
-  if (isNil(fa)) return O.none
-  return isCons(fa.tail) ? O.some(fa.tail) : O.none
+  return isCons(fa) && isCons(fa.tail) ? O.some(fa.tail) : O.none
 }
 
 /**
