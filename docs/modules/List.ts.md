@@ -32,6 +32,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [singleton (function)](#singleton-function)
 - [tail (function)](#tail-function)
 - [toArray (function)](#toarray-function)
+- [toReversedArray (function)](#toreversedarray-function)
 - [foldMap (export)](#foldmap-export)
 - [map (export)](#map-export)
 - [reduce (export)](#reduce-export)
@@ -264,6 +265,18 @@ Gets an array from a list.
 
 ```ts
 export function toArray<A>(fa: List<A>): Array<A> { ... }
+```
+
+Added in v###
+
+# toReversedArray (function)
+
+Gets an array from a list in a reversed order.
+
+**Signature**
+
+```ts
+export function toReversedArray<A>(fa: List<A>): Array<A> { ... }
 ```
 
 Added in v###

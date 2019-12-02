@@ -199,6 +199,22 @@ export function toArray<A>(fa: List<A>): Array<A> {
 }
 
 /**
+ * Gets an array from a list in a reversed order.
+ *
+ * @since ###
+ */
+export function toReversedArray<A>(fa: List<A>): Array<A> {
+  const length = fa.length
+  const out: Array<A> = new Array(length)
+  let l: List<A> = fa
+  for (let i = 0; i < length; i++) {
+    out[length - i - 1] = (l as Cons<A>).head
+    l = (l as Cons<A>).tail
+  }
+  return out
+}
+
+/**
  * Creates a list from an array
  *
  * @since ###

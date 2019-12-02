@@ -106,6 +106,10 @@ describe('List', () => {
     assert.deepStrictEqual(L.toArray(L.cons('b', L.singleton('a'))), ['b', 'a'])
   })
 
+  it('toReversedArray', () => {
+    assert.deepStrictEqual(L.toReversedArray(L.cons('b', L.singleton('a'))), ['a', 'b'])
+  })
+
   it('fromArray', () => {
     assert.deepStrictEqual(L.fromArray([]), L.nil)
     assert.deepStrictEqual(L.fromArray(['a']), L.singleton('a'))
