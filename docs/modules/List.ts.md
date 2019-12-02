@@ -28,7 +28,6 @@ Adapted from https://github.com/purescript/purescript-lists
 - [head (function)](#head-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
-- [length (function)](#length-function)
 - [reverse (function)](#reverse-function)
 - [singleton (function)](#singleton-function)
 - [tail (function)](#tail-function)
@@ -49,6 +48,7 @@ export interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
   readonly tail: List<A>
+  readonly length: number
 }
 ```
 
@@ -61,6 +61,7 @@ Added in v###
 ```ts
 export interface Nil {
   readonly type: 'Nil'
+  readonly length: 0
 }
 ```
 
@@ -215,18 +216,6 @@ Added in v###
 
 ```ts
 export function isNil<A>(a: List<A>): a is Nil { ... }
-```
-
-Added in v###
-
-# length (function)
-
-Gets the length of a list.
-
-**Signature**
-
-```ts
-export function length<A>(fa: List<A>): number { ... }
 ```
 
 Added in v###

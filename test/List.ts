@@ -11,21 +11,17 @@ describe('List', () => {
   })
 
   it('cons', () => {
-    assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil })
+    assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
     assert.deepStrictEqual(L.cons('a', L.singleton('b')), {
       type: 'Cons',
       head: 'a',
-      tail: { type: 'Cons', head: 'b', tail: L.nil }
+      tail: { type: 'Cons', head: 'b', tail: L.nil, length: 1 },
+      length: 2
     })
   })
 
   it('singleton', () => {
-    assert.deepStrictEqual(L.singleton('a'), { type: 'Cons', head: 'a', tail: L.nil })
-  })
-
-  it('length', () => {
-    assert.strictEqual(L.length(L.nil), 0)
-    assert.strictEqual(L.length(L.cons('a', L.singleton('b'))), 2)
+    assert.deepStrictEqual(L.singleton('a'), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
   })
 
   it('isNil', () => {

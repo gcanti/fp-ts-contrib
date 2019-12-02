@@ -33,6 +33,7 @@ export type URI = typeof URI
  */
 export interface Nil {
   readonly type: 'Nil'
+  readonly length: 0
 }
 
 /**
@@ -42,6 +43,7 @@ export interface Cons<A> {
   readonly type: 'Cons'
   readonly head: A
   readonly tail: List<A>
+  readonly length: number
 }
 
 /**
@@ -52,13 +54,13 @@ export type List<A> = Nil | Cons<A>
 /**
  * @since ###
  */
-export const nil: List<never> = { type: 'Nil' }
+export const nil: List<never> = { type: 'Nil', length: 0 }
 
 /**
  * @since ###
  */
 export function cons<A>(head: A, tail: List<A>): List<A> {
-  return { type: 'Cons', head, tail }
+  return { type: 'Cons', head, tail, length: 1 + tail.length }
 }
 
 /**
@@ -68,15 +70,6 @@ export function cons<A>(head: A, tail: List<A>): List<A> {
  */
 export function singleton<A>(head: A): List<A> {
   return cons(head, nil)
-}
-
-/**
- * Gets the length of a list.
- *
- * @since ###
- */
-export function length<A>(fa: List<A>): number {
-  return list.reduce(fa, 0, b => b + 1)
 }
 
 /**
@@ -195,11 +188,12 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List
  * @since ###
  */
 export function toArray<A>(fa: List<A>): Array<A> {
-  const out: Array<A> = []
+  const length = fa.length
+  const out: Array<A> = new Array(length)
   let l: List<A> = fa
-  while (isCons(l)) {
-    out.push(l.head)
-    l = l.tail
+  for (let i = 0; i < length; i++) {
+    out[i] = (l as Cons<A>).head
+    l = (l as Cons<A>).tail
   }
   return out
 }
