@@ -160,7 +160,7 @@ Finds the first index for which a predicate holds.
 **Signature**
 
 ```ts
-export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> { ... }
+export function findIndex<A>(predicate: Predicate<A>): (fa: List<A>) => O.Option<number> { ... }
 ```
 
 Added in v###

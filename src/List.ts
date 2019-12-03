@@ -101,7 +101,7 @@ export function head<A>(fa: List<A>): O.Option<A> {
  * @since ###
  */
 export function tail<A>(fa: List<A>): O.Option<List<A>> {
-  return isCons(fa) && isCons(fa.tail) ? O.some(fa.tail) : O.none
+  return isCons(fa) ? O.some(fa.tail) : O.none
 }
 
 /**
@@ -118,15 +118,17 @@ export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) 
  *
  * @since ###
  */
-export function findIndex<A>(predicate: Predicate<A>, fa: List<A>): O.Option<number> {
-  let l: List<A> = fa
-  let i = 0
-  while (isCons(l)) {
-    if (predicate(l.head)) return O.some(i)
-    l = l.tail
-    i++
+export function findIndex<A>(predicate: Predicate<A>): (fa: List<A>) => O.Option<number> {
+  return fa => {
+    let l: List<A> = fa
+    let i = 0
+    while (isCons(l)) {
+      if (predicate(l.head)) return O.some(i)
+      l = l.tail
+      i++
+    }
+    return O.none
   }
-  return O.none
 }
 
 /**

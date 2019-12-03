@@ -1,5 +1,6 @@
 import * as assert from 'assert'
 import * as O from 'fp-ts/lib/Option'
+import * as A from 'fp-ts/lib/Array'
 import * as L from '../src/List'
 import { monoidString } from 'fp-ts/lib/Monoid'
 import { identity } from 'fp-ts/lib/function'
@@ -35,71 +36,89 @@ describe('List', () => {
   })
 
   it('head', () => {
-    assert.deepStrictEqual(L.head(L.nil), O.none)
-    assert.deepStrictEqual(L.head(L.cons('x', L.singleton('a'))), O.some('x'))
+    const assertProperty = <A>(l: L.List<A>) => assert.deepStrictEqual(L.head(l), A.head(L.toArray(l)))
+
+    assertProperty(L.nil)
+    assertProperty(L.cons('x', L.singleton('a')))
   })
 
   it('tail', () => {
-    assert.deepStrictEqual(L.tail(L.nil), O.none)
-    assert.deepStrictEqual(L.tail(L.singleton('a')), O.none)
-    assert.deepStrictEqual(L.tail(L.cons('x', L.singleton('a'))), O.some(L.singleton('a')))
+    const assertProperty = <A>(l: L.List<A>) =>
+      assert.deepStrictEqual(L.tail(l), pipe(l, L.toArray, A.tail, O.map(L.fromArray)))
+
+    assertProperty(L.nil)
+    assertProperty(L.singleton('a'))
+    assertProperty(L.cons('x', L.singleton('a')))
   })
 
   it('foldLeft', () => {
-    const len: <A>(as: L.List<A>) => number = L.foldLeft(
+    const lLen: <A>(as: L.List<A>) => number = L.foldLeft(
       () => 0,
-      (_, tail) => 1 + len(tail)
+      (_, tail) => 1 + lLen(tail)
     )
-    assert.deepStrictEqual(len(L.cons('a', L.singleton('b'))), 2)
+    const aLen: <A>(as: Array<A>) => number = A.foldLeft(
+      () => 0,
+      (_, tail) => 1 + aLen(tail)
+    )
+    const l: L.List<string> = L.cons('a', L.singleton('b'))
+    assert.deepStrictEqual(lLen(l), aLen(L.toArray(l)))
   })
 
   it('findIndex', () => {
     const f = (a: number): boolean => a % 2 === 0
-    assert.deepStrictEqual(L.findIndex(f, L.nil), O.none)
-    assert.deepStrictEqual(L.findIndex(f, L.cons(1, L.singleton(2))), O.some(1))
-    assert.deepStrictEqual(L.findIndex(f, L.cons(1, L.nil)), O.none)
+    const assertProperty = (l: L.List<number>) =>
+      assert.deepStrictEqual(L.findIndex(f)(l), A.findIndex(f)(L.toArray(l)))
+
+    assertProperty(L.nil)
+    assertProperty(L.cons(1, L.singleton(2)))
+    assertProperty(L.cons(1, L.nil))
   })
 
   it('dropLeft', () => {
-    assert.deepStrictEqual(L.dropLeft(1)(L.nil), L.nil)
-    assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.singleton(2))), L.singleton(2))
-    assert.deepStrictEqual(L.dropLeft(3)(L.cons(1, L.singleton(2))), L.nil)
+    const assertProperty = <A>(n: number, l: L.List<A>) =>
+      assert.deepStrictEqual(L.dropLeft(n)(l), pipe(l, L.toArray, A.dropLeft(n), L.fromArray))
+
+    assertProperty(1, L.nil)
+    assertProperty(1, L.cons(1, L.singleton(2)))
+    assertProperty(3, L.cons(1, L.singleton(2)))
   })
 
   it('dropLeftWhile', () => {
     const isLTThree = (n: number) => n < 3
-    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.nil), L.nil)
-    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.cons(2, L.singleton(3)))), L.singleton(3))
-    assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.singleton(2))), L.nil)
+    const assertProperty = (l: L.List<number>) =>
+      assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(l), pipe(l, L.toArray, A.dropLeftWhile(isLTThree), L.fromArray))
+
+    assertProperty(L.nil)
+    assertProperty(L.cons(1, L.cons(2, L.singleton(3))))
+    assertProperty(L.cons(1, L.singleton(2)))
   })
 
   it('reverse', () => {
-    assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.singleton(3)))), L.cons(3, L.cons(2, L.singleton(1))))
+    const l: L.List<number> = L.cons(1, L.cons(2, L.singleton(3)))
+    assert.deepStrictEqual(L.reverse(l), pipe(l, L.toArray, A.reverse, L.fromArray))
   })
+
   it('map', () => {
-    assert.deepStrictEqual(pipe(L.singleton('a'), L.map(identity)), L.singleton('a'))
-    assert.deepStrictEqual(
-      pipe(
-        L.cons('aaa', L.singleton('a')),
-        L.map(s => s.length)
-      ),
-      L.cons(3, L.singleton(1))
-    )
+    const assertProperty = <A, B>(f: (a: A) => B, l: L.List<A>) =>
+      assert.deepStrictEqual(pipe(l, L.map(f)), pipe(l, L.toArray, A.map(f), L.fromArray))
+
+    assertProperty(identity, L.singleton('a'))
+    assertProperty((s: string) => s.length, L.cons('aaa', L.singleton('a')))
   })
 
   it('reduce', () => {
-    assert.strictEqual(
-      pipe(
-        L.cons('b', L.singleton('a')),
-        L.reduce('', (b, a) => b + a)
-      ),
-      'ba'
-    )
+    const l: L.List<string> = L.cons('b', L.singleton('a'))
+    const f = (b: string, a: string): string => b + a
+
+    assert.strictEqual(pipe(l, L.reduce('', f)), pipe(l, L.toArray, A.reduce('', f)))
   })
 
   it('foldMap', () => {
-    const foldMap = L.foldMap(monoidString)
-    assert.strictEqual(pipe(L.cons('b', L.singleton('a')), foldMap(identity)), 'ba')
+    const l: L.List<string> = L.cons('b', L.singleton('a'))
+    assert.strictEqual(
+      pipe(l, L.foldMap(monoidString)(identity)),
+      pipe(l, L.toArray, A.foldMap(monoidString)(identity))
+    )
   })
 
   it('toArray', () => {
@@ -117,30 +136,32 @@ describe('List', () => {
   })
 
   it('reduceRight', () => {
-    assert.strictEqual(
-      pipe(
-        L.cons('b', L.singleton('a')),
-        L.reduceRight('', (a, b) => a + b)
-      ),
-      'ba'
-    )
+    const l: L.List<string> = L.cons('b', L.singleton('a'))
+    const f = (a: string, b: string): string => a + b
+
+    assert.strictEqual(pipe(l, L.reduceRight('', f)), pipe(l, L.toArray, A.reduceRight('', f)))
   })
 
   it('traverse', () => {
-    const tfanone: L.List<number> = L.cons(2, L.singleton(1))
     const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
-    const fasnone = L.list.traverse(O.option)(tfanone, f)
-    assert.ok(O.isNone(fasnone))
-    const tfa: L.List<number> = L.cons(3, L.singleton(1))
-    const fas = L.list.traverse(O.option)(tfa, f)
-    assert.deepStrictEqual(fas, O.some(tfa))
+    const assertProperty = (tfa: L.List<number>) =>
+      assert.deepStrictEqual(
+        L.list.traverse(O.option)(tfa, f),
+        pipe(A.array.traverse(O.option)(L.toArray(tfa), f), O.map(L.fromArray))
+      )
+
+    assertProperty(L.cons(2, L.singleton(1)))
+    assertProperty(L.cons(3, L.singleton(1)))
   })
 
   it('sequence', () => {
-    assert.deepStrictEqual(
-      L.list.sequence(O.option)(L.cons(O.some(1), L.singleton(O.some(3)))),
-      O.some(L.cons(1, L.singleton(3)))
-    )
-    assert.deepStrictEqual(L.list.sequence(O.option)(L.cons(O.some(1), L.singleton(O.none))), O.none)
+    const assertProperty = (l: L.List<O.Option<number>>) =>
+      assert.deepStrictEqual(
+        L.list.sequence(O.option)(l),
+        pipe(l, L.toArray, A.array.sequence(O.option), O.map(L.fromArray))
+      )
+
+    assertProperty(L.cons(O.some(1), L.singleton(O.some(3))))
+    assertProperty(L.cons(O.some(1), L.singleton(O.none)))
   })
 })
