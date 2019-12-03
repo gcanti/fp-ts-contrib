@@ -68,7 +68,7 @@ export function cons<A>(head: A, tail: List<A>): List<A> {
  *
  * @since ###
  */
-export function singleton<A>(head: A): List<A> {
+export function of<A>(head: A): List<A> {
   return cons(head, nil)
 }
 

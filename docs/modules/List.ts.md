@@ -28,8 +28,8 @@ Adapted from https://github.com/purescript/purescript-lists
 - [head (function)](#head-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
+- [of (function)](#of-function)
 - [reverse (function)](#reverse-function)
-- [singleton (function)](#singleton-function)
 - [tail (function)](#tail-function)
 - [toArray (function)](#toarray-function)
 - [toReversedArray (function)](#toreversedarray-function)
@@ -221,6 +221,18 @@ export function isNil<A>(a: List<A>): a is Nil { ... }
 
 Added in v###
 
+# of (function)
+
+Creates a list with a single element.
+
+**Signature**
+
+```ts
+export function of<A>(head: A): List<A> { ... }
+```
+
+Added in v###
+
 # reverse (function)
 
 Reverse a list.
@@ -229,18 +241,6 @@ Reverse a list.
 
 ```ts
 export function reverse<A>(fa: List<A>): List<A> { ... }
-```
-
-Added in v###
-
-# singleton (function)
-
-Creates a list with a single element.
-
-**Signature**
-
-```ts
-export function singleton<A>(head: A): List<A> { ... }
 ```
 
 Added in v###
