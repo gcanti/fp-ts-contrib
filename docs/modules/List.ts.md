@@ -54,7 +54,7 @@ export interface Cons<A> {
 }
 ```
 
-Added in v###
+Added in v0.1.8
 
 # Nil (interface)
 
@@ -67,7 +67,7 @@ export interface Nil {
 }
 ```
 
-Added in v###
+Added in v0.1.8
 
 # List (type alias)
 
@@ -77,7 +77,7 @@ Added in v###
 export type List<A> = Nil | Cons<A>
 ```
 
-Added in v###
+Added in v0.1.8
 
 # URI (type alias)
 
@@ -87,7 +87,7 @@ Added in v###
 export type URI = typeof URI
 ```
 
-Added in v###
+Added in v0.1.8
 
 # URI (constant)
 
@@ -97,7 +97,7 @@ Added in v###
 export const URI: "List" = ...
 ```
 
-Added in v###
+Added in v0.1.8
 
 # list (constant)
 
@@ -107,7 +107,7 @@ Added in v###
 export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
 ```
 
-Added in v###
+Added in v0.1.8
 
 # nil (constant)
 
@@ -117,7 +117,7 @@ Added in v###
 export const nil: List<never> = ...
 ```
 
-Added in v###
+Added in v0.1.8
 
 # cons (function)
 
@@ -137,7 +137,7 @@ import * as L from 'fp-ts-contrib/lib/List'
 assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
 ```
 
-Added in v###
+Added in v0.1.8
 
 # dropLeft (function)
 
@@ -159,7 +159,7 @@ assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.of(2))), L.of(2))
 assert.deepStrictEqual(L.dropLeft(3)(L.cons(1, L.of(2))), L.nil)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # dropLeftWhile (function)
 
@@ -183,7 +183,7 @@ assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.cons(2, L.of(3))))
 assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.of(2))), L.nil)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # findIndex (function)
 
@@ -208,7 +208,7 @@ assert.deepStrictEqual(findIndexEven(L.cons(1, L.of(2))), O.some(1))
 assert.deepStrictEqual(findIndexEven(L.of(1)), O.none)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # foldLeft (function)
 
@@ -232,7 +232,7 @@ const len: <A>(as: L.List<A>) => number = L.foldLeft(
 assert.deepStrictEqual(len(L.cons('a', L.of('b'))), 2)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # fromArray (function)
 
@@ -253,7 +253,7 @@ assert.deepStrictEqual(L.fromArray([]), L.nil)
 assert.deepStrictEqual(L.fromArray(['a', 'b']), L.cons('a', L.of('b')))
 ```
 
-Added in v###
+Added in v0.1.8
 
 # getEq (function)
 
@@ -279,7 +279,7 @@ assert.strictEqual(E.equals(L.cons('a', L.of('b')), L.cons('a', L.of('b'))), tru
 assert.strictEqual(E.equals(L.of('x'), L.nil), false)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # head (function)
 
@@ -301,7 +301,7 @@ assert.deepStrictEqual(L.head(L.nil), O.none)
 assert.deepStrictEqual(L.head(L.cons('x', L.of('a'))), O.some('x'))
 ```
 
-Added in v###
+Added in v0.1.8
 
 # isCons (function)
 
@@ -322,7 +322,7 @@ assert.strictEqual(L.isCons(L.nil), false)
 assert.strictEqual(L.isCons(L.of(1)), true)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # isNil (function)
 
@@ -343,7 +343,7 @@ assert.strictEqual(L.isNil(L.nil), true)
 assert.strictEqual(L.isNil(L.of(6)), false)
 ```
 
-Added in v###
+Added in v0.1.8
 
 # of (function)
 
@@ -363,7 +363,7 @@ import * as L from 'fp-ts-contrib/lib/List'
 assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
 ```
 
-Added in v###
+Added in v0.1.8
 
 # reverse (function)
 
@@ -383,7 +383,7 @@ import * as L from 'fp-ts-contrib/lib/List'
 assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.of(3)))), L.cons(3, L.cons(2, L.of(1))))
 ```
 
-Added in v###
+Added in v0.1.8
 
 # tail (function)
 
@@ -406,7 +406,7 @@ assert.deepStrictEqual(L.tail(L.of('a')), O.some(L.nil))
 assert.deepStrictEqual(L.tail(L.cons('x', L.of('a'))), O.some(L.of('a')))
 ```
 
-Added in v###
+Added in v0.1.8
 
 # toArray (function)
 
@@ -426,7 +426,7 @@ import * as L from 'fp-ts-contrib/lib/List'
 assert.deepStrictEqual(L.toArray(L.cons('a', L.of('b'))), ['a', 'b'])
 ```
 
-Added in v###
+Added in v0.1.8
 
 # toReversedArray (function)
 
@@ -446,7 +446,7 @@ import * as L from 'fp-ts-contrib/lib/List'
 assert.deepStrictEqual(L.toReversedArray(L.cons('a', L.of('b'))), ['b', 'a'])
 ```
 
-Added in v###
+Added in v0.1.8
 
 # foldMap (export)
 
@@ -456,7 +456,7 @@ Added in v###
 ;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M
 ```
 
-Added in v###
+Added in v0.1.8
 
 # map (export)
 
@@ -466,7 +466,7 @@ Added in v###
 <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
 ```
 
-Added in v###
+Added in v0.1.8
 
 # reduce (export)
 
@@ -476,7 +476,7 @@ Added in v###
 ;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B
 ```
 
-Added in v###
+Added in v0.1.8
 
 # reduceRight (export)
 
@@ -486,4 +486,4 @@ Added in v###
 ;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
 ```
 
-Added in v###
+Added in v0.1.8

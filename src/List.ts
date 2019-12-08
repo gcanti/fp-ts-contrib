@@ -20,17 +20,17 @@ declare module 'fp-ts/lib/HKT' {
 }
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export const URI = 'List'
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export type URI = typeof URI
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export interface Nil {
   readonly type: 'Nil'
@@ -38,7 +38,7 @@ export interface Nil {
 }
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export interface Cons<A> {
   readonly type: 'Cons'
@@ -48,12 +48,12 @@ export interface Cons<A> {
 }
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export type List<A> = Nil | Cons<A>
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export const nil: List<never> = { type: 'Nil', length: 0 }
 
@@ -65,7 +65,7 @@ export const nil: List<never> = { type: 'Nil', length: 0 }
  *
  * assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
  *
- * @since ###
+ * @since 0.1.8
  */
 export function cons<A>(head: A, tail: List<A>): List<A> {
   return { type: 'Cons', head, tail, length: 1 + tail.length }
@@ -79,7 +79,7 @@ export function cons<A>(head: A, tail: List<A>): List<A> {
  *
  * assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
  *
- * @since ###
+ * @since 0.1.8
  */
 export function of<A>(head: A): List<A> {
   return cons(head, nil)
@@ -94,7 +94,7 @@ export function of<A>(head: A): List<A> {
  * assert.strictEqual(L.isNil(L.nil), true)
  * assert.strictEqual(L.isNil(L.of(6)), false)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function isNil<A>(a: List<A>): a is Nil {
   return a.type === 'Nil'
@@ -109,7 +109,7 @@ export function isNil<A>(a: List<A>): a is Nil {
  * assert.strictEqual(L.isCons(L.nil), false)
  * assert.strictEqual(L.isCons(L.of(1)), true)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function isCons<A>(a: List<A>): a is Cons<A> {
   return a.type === 'Cons'
@@ -125,7 +125,7 @@ export function isCons<A>(a: List<A>): a is Cons<A> {
  * assert.deepStrictEqual(L.head(L.nil), O.none)
  * assert.deepStrictEqual(L.head(L.cons('x', L.of('a'))), O.some('x'))
  *
- * @since ###
+ * @since 0.1.8
  */
 export function head<A>(fa: List<A>): O.Option<A> {
   return isCons(fa) ? O.some(fa.head) : O.none
@@ -142,7 +142,7 @@ export function head<A>(fa: List<A>): O.Option<A> {
  * assert.deepStrictEqual(L.tail(L.of('a')), O.some(L.nil))
  * assert.deepStrictEqual(L.tail(L.cons('x', L.of('a'))), O.some(L.of('a')))
  *
- * @since ###
+ * @since 0.1.8
  */
 export function tail<A>(fa: List<A>): O.Option<List<A>> {
   return isCons(fa) ? O.some(fa.tail) : O.none
@@ -159,7 +159,7 @@ export function tail<A>(fa: List<A>): O.Option<List<A>> {
  *   (_, tail) => 1 + len(tail)
  * )
  * assert.deepStrictEqual(len(L.cons('a', L.of('b'))), 2)
- * @since ###
+ * @since 0.1.8
  */
 export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B): (fa: List<A>) => B {
   return fa => (isNil(fa) ? onNil() : onCons(fa.head, fa.tail))
@@ -178,7 +178,7 @@ export function foldLeft<A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) 
  * assert.deepStrictEqual(findIndexEven(L.cons(1, L.of(2))), O.some(1))
  * assert.deepStrictEqual(findIndexEven(L.of(1)), O.none)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function findIndex<A>(predicate: Predicate<A>): (fa: List<A>) => O.Option<number> {
   return fa => {
@@ -201,7 +201,7 @@ export function findIndex<A>(predicate: Predicate<A>): (fa: List<A>) => O.Option
  *
  * assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.of(3)))), L.cons(3, L.cons(2, L.of(1))))
  *
- * @since ###
+ * @since 0.1.8
  */
 export function reverse<A>(fa: List<A>): List<A> {
   let out: List<A> = nil
@@ -223,7 +223,7 @@ export function reverse<A>(fa: List<A>): List<A> {
  * assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.of(2))), L.of(2))
  * assert.deepStrictEqual(L.dropLeft(3)(L.cons(1, L.of(2))), L.nil)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function dropLeft(n: number): <A>(fa: List<A>) => List<A> {
   return <A>(fa: List<A>) => {
@@ -250,7 +250,7 @@ export function dropLeft(n: number): <A>(fa: List<A>) => List<A> {
  * assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.cons(2, L.of(3)))), L.of(3))
  * assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.of(2))), L.nil)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
 export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A>
@@ -274,7 +274,7 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List
  *
  * assert.deepStrictEqual(L.toArray(L.cons('a', L.of('b'))), ['a', 'b'])
  *
- * @since ###
+ * @since 0.1.8
  */
 export function toArray<A>(fa: List<A>): Array<A> {
   const length = fa.length
@@ -295,7 +295,7 @@ export function toArray<A>(fa: List<A>): Array<A> {
  *
  * assert.deepStrictEqual(L.toReversedArray(L.cons('a', L.of('b'))), ['b', 'a'])
  *
- * @since ###
+ * @since 0.1.8
  */
 export function toReversedArray<A>(fa: List<A>): Array<A> {
   const length = fa.length
@@ -317,7 +317,7 @@ export function toReversedArray<A>(fa: List<A>): Array<A> {
  * assert.deepStrictEqual(L.fromArray([]), L.nil)
  * assert.deepStrictEqual(L.fromArray(['a', 'b']), L.cons('a', L.of('b')))
  *
- * @since ###
+ * @since 0.1.8
  */
 export function fromArray<A>(as: Array<A>): List<A> {
   return A.array.reduceRight<A, List<A>>(as, nil, cons)
@@ -337,7 +337,7 @@ export function fromArray<A>(as: Array<A>): List<A> {
  * assert.strictEqual(E.equals(L.cons('a', L.of('b')), L.cons('a', L.of('b'))), true)
  * assert.strictEqual(E.equals(L.of('x'), L.nil), false)
  *
- * @since ###
+ * @since 0.1.8
  */
 export function getEq<A>(E: Eq.Eq<A>): Eq.Eq<List<A>> {
   return {
@@ -356,7 +356,7 @@ export function getEq<A>(E: Eq.Eq<A>): Eq.Eq<List<A>> {
 }
 
 /**
- * @since ###
+ * @since 0.1.8
  */
 export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
@@ -403,19 +403,19 @@ const { map, reduce, foldMap, reduceRight } = pipeable(list)
 
 export {
   /**
-   * @since ###
+   * @since 0.1.8
    */
   map,
   /**
-   * @since ###
+   * @since 0.1.8
    */
   reduce,
   /**
-   * @since ###
+   * @since 0.1.8
    */
   foldMap,
   /**
-   * @since ###
+   * @since 0.1.8
    */
   reduceRight
 }
