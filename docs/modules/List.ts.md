@@ -25,6 +25,7 @@ Adapted from https://github.com/purescript/purescript-lists
 - [findIndex (function)](#findindex-function)
 - [foldLeft (function)](#foldleft-function)
 - [fromArray (function)](#fromarray-function)
+- [getEq (function)](#geteq-function)
 - [head (function)](#head-function)
 - [isCons (function)](#iscons-function)
 - [isNil (function)](#isnil-function)
@@ -185,6 +186,21 @@ Creates a list from an array
 
 ```ts
 export function fromArray<A>(as: Array<A>): List<A> { ... }
+```
+
+Added in v###
+
+# getEq (function)
+
+Derives an `Eq` over the `List` of a given element type from the `Eq` of that type.
+The derived `Eq` defines two lists as equal if all elements of both lists
+are compared equal pairwise with the given `E`. In case of lists of different
+lengths, the result is non equality.
+
+**Signature**
+
+```ts
+export function getEq<A>(E: Eq.Eq<A>): Eq.Eq<List<A>> { ... }
 ```
 
 Added in v###

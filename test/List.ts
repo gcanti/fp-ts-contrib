@@ -12,21 +12,7 @@ const elementArb = fc.integer()
 const arrayArb = fc.array(elementArb)
 const listArb = arrayArb.map(L.fromArray)
 
-const eqList = <A>(eq: Eq.Eq<A>): Eq.Eq<L.List<A>> => ({
-  equals: (x, y) => {
-    if (x.length !== y.length) return false
-    let lx = x
-    let ly = y
-    while (L.isCons(lx) && L.isCons(ly)) {
-      if (!eq.equals(lx.head, ly.head)) return false
-      lx = lx.tail
-      ly = ly.tail
-    }
-    return true
-  }
-})
-
-const eqListElement = eqList(Eq.eqNumber)
+const eqListElement = L.getEq(Eq.eqNumber)
 const eqArrayElement = A.getEq(Eq.eqNumber)
 
 describe('List', () => {
@@ -104,10 +90,7 @@ describe('List', () => {
 
     fc.assert(
       fc.property(listArb, l =>
-        eqListElement.equals(
-          L.dropLeftWhile(isLTThree)(l),
-          pipe(l, L.toArray, A.dropLeftWhile(isLTThree), L.fromArray)
-        )
+        eqListElement.equals(L.dropLeftWhile(isLTThree)(l), pipe(l, L.toArray, A.dropLeftWhile(isLTThree), L.fromArray))
       )
     )
   })
@@ -181,6 +164,21 @@ describe('List', () => {
 
     fc.assert(
       fc.property(listArb, l => eq.equals(listSequenceO(l), pipe(l, L.toArray, arraySequenceO, O.map(L.fromArray))))
+    )
+  })
+
+  it('getEq', () => {
+    const listEq = L.getEq(Eq.eqNumber)
+    const arrayEq = A.getEq(Eq.eqNumber)
+
+    fc.assert(
+      fc.property(listArb, listArb, (lx, ly) => {
+        const xs = L.toArray(lx)
+        return (
+          Eq.eqBoolean.equals(listEq.equals(lx, lx), arrayEq.equals(xs, xs)) &&
+          Eq.eqBoolean.equals(listEq.equals(lx, ly), arrayEq.equals(xs, L.toArray(ly)))
+        )
+      })
     )
   })
 })

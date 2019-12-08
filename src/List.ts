@@ -11,6 +11,7 @@ import { HKT } from 'fp-ts/lib/HKT'
 import * as O from 'fp-ts/lib/Option'
 import { pipeable } from 'fp-ts/lib/pipeable'
 import { Predicate, Refinement } from 'fp-ts/lib/function'
+import * as Eq from 'fp-ts/lib/Eq'
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
@@ -223,6 +224,30 @@ export function toReversedArray<A>(fa: List<A>): Array<A> {
  */
 export function fromArray<A>(as: Array<A>): List<A> {
   return A.array.reduceRight<A, List<A>>(as, nil, cons)
+}
+
+/**
+ * Derives an `Eq` over the `List` of a given element type from the `Eq` of that type.
+ * The derived `Eq` defines two lists as equal if all elements of both lists
+ * are compared equal pairwise with the given `E`. In case of lists of different
+ * lengths, the result is non equality.
+ *
+ * @since ###
+ */
+export function getEq<A>(E: Eq.Eq<A>): Eq.Eq<List<A>> {
+  return {
+    equals: (x, y) => {
+      if (x.length !== y.length) return false
+      let lx = x
+      let ly = y
+      while (isCons(lx) && isCons(ly)) {
+        if (!E.equals(lx.head, ly.head)) return false
+        lx = lx.tail
+        ly = ly.tail
+      }
+      return true
+    }
+  }
 }
 
 /**
