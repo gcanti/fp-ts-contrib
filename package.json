@@ -17,7 +17,7 @@
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
-    "clean": "rimraf rm -rf lib/*",
+    "clean": "rimraf rm -rf lib/* es6/*",
     "build": "npm run clean && tsc && tsc -p tsconfig.es6.json",
     "prepublish": "npm run build",
     "dtslint": "dtslint dtslint",
