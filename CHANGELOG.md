@@ -16,8 +16,9 @@
 # 0.1.8
 
 - **New Feature**
-  - add `Task/getLine` module (@gcanti)
   - add `collectUntil` module (@gcanti)
+  - add `List` module (@DenisFrezzato)
+  - add `Task/getLine` module (@gcanti)
 
 # 0.1.7
 
