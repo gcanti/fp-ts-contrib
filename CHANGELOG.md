@@ -17,6 +17,7 @@
 
 - **New Feature**
   - add `Task/getLine` module (@gcanti)
+  - add `collectUntil` module (@gcanti)
 
 # 0.1.7
 
