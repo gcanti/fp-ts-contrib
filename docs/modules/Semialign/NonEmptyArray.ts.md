@@ -1,6 +1,6 @@
 ---
 title: Semialign/NonEmptyArray.ts
-nav_order: 14
+nav_order: 15
 parent: Modules
 ---
 
