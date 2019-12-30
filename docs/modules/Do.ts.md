@@ -28,14 +28,14 @@ This module provides a simuation of Haskell do notation.
 
 ```ts
 export interface Do0<M, S extends object> {
-  do: (ma: HKT<M, unknown>) => Do0<M, S>
-  doL: (f: (s: S) => HKT<M, unknown>) => Do0<M, S>
+  do: (ma: HKT<M, any>) => Do0<M, S>
+  doL: (f: (s: S) => HKT<M, any>) => Do0<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: HKT<M, A>) => Do0<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => HKT<M, A>) => Do0<M, S & { [K in N]: A }>
-  sequenceS: <R extends Record<string, HKT<M, unknown>>>(
+  sequenceS: <R extends Record<string, HKT<M, any>>>(
     r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
   ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
-  sequenceSL: <R extends Record<string, HKT<M, unknown>>>(
+  sequenceSL: <R extends Record<string, HKT<M, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
   ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => HKT<M, A>
@@ -51,16 +51,16 @@ Added in v0.1.0
 
 ```ts
 export interface Do1<M extends URIS, S extends object> {
-  do: (ma: Kind<M, unknown>) => Do1<M, S>
-  doL: (f: (s: S) => Kind<M, unknown>) => Do1<M, S>
+  do: (ma: Kind<M, any>) => Do1<M, S>
+  doL: (f: (s: S) => Kind<M, any>) => Do1<M, S>
   bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Kind<M, A>) => Do1<M, S & { [K in N]: A }>
   bindL: <N extends string, A>(name: Exclude<N, keyof S>, f: (s: S) => Kind<M, A>) => Do1<M, S & { [K in N]: A }>
   sequenceS: <R extends Record<string, Kind<M, any>>>(
     r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
   ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Kind<M, infer A>] ? A : never }>
-  sequenceSL: <R extends Record<string, Kind<M, any>>>(
-    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
-  ) => Do1<M, S & { [K in keyof R]: [R[K]] extends [Kind<M, infer A>] ? A : never }>
+  sequenceSL: <I extends Record<string, Kind<M, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
+  ) => Do1<M, S & { [K in keyof I]: [I[K]] extends [Kind<M, infer A>] ? A : never }>
   return: <A>(f: (s: S) => A) => Kind<M, A>
   done: () => Kind<M, S>
 }
@@ -74,21 +74,21 @@ Added in v0.1.0
 
 ```ts
 export interface Do2<M extends URIS2, S extends object> {
-  do: <L>(ma: Kind2<M, L, unknown>) => Do2C<M, S, L>
-  doL: <L>(f: (s: S) => Kind2<M, L, unknown>) => Do2C<M, S, L>
-  bind: <N extends string, A, L>(name: Exclude<N, keyof S>, ma: Kind2<M, L, A>) => Do2C<M, S & { [K in N]: A }, L>
-  bindL: <N extends string, A, L>(
+  do: <E>(ma: Kind2<M, E, any>) => Do2C<M, S, E>
+  doL: <E>(f: (s: S) => Kind2<M, E, any>) => Do2C<M, S, E>
+  bind: <N extends string, A, E>(name: Exclude<N, keyof S>, ma: Kind2<M, E, A>) => Do2C<M, S & { [K in N]: A }, E>
+  bindL: <N extends string, A, E>(
     name: Exclude<N, keyof S>,
-    f: (s: S) => Kind2<M, L, A>
-  ) => Do2C<M, S & { [K in N]: A }, L>
-  sequenceS: <L, R extends Record<string, Kind2<M, L, any>>>(
-    r: EnforceNonEmptyRecord<R> & Record<string, Kind2<M, L, any>> & { [K in keyof S]?: never }
-  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Kind2<M, any, infer A>] ? A : never }, L>
-  sequenceSL: <L, R extends Record<string, Kind2<M, L, any>>>(
-    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Kind2<M, L, any>> & { [K in keyof S]?: never }
-  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Kind2<M, any, infer A>] ? A : never }, L>
-  return: <A, L>(f: (s: S) => A) => Kind2<M, L, A>
-  done: <L>() => Kind2<M, L, S>
+    f: (s: S) => Kind2<M, E, A>
+  ) => Do2C<M, S & { [K in N]: A }, E>
+  sequenceS: <E, I extends Record<string, Kind2<M, E, any>>>(
+    r: EnforceNonEmptyRecord<I> & Record<string, Kind2<M, E, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  sequenceSL: <E, I extends Record<string, Kind2<M, E, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<I> & Record<string, Kind2<M, E, any>> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  return: <E, A>(f: (s: S) => A) => Kind2<M, E, A>
+  done: <E>() => Kind2<M, E, S>
 }
 ```
 
@@ -99,22 +99,22 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export interface Do2C<M extends URIS2, S extends object, L> {
-  do: (ma: Kind2<M, L, unknown>) => Do2C<M, S, L>
-  doL: (f: (s: S) => Kind2<M, L, unknown>) => Do2C<M, S, L>
-  bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Kind2<M, L, A>) => Do2C<M, S & { [K in N]: A }, L>
+export interface Do2C<M extends URIS2, S extends object, E> {
+  do: (ma: Kind2<M, E, any>) => Do2C<M, S, E>
+  doL: (f: (s: S) => Kind2<M, E, any>) => Do2C<M, S, E>
+  bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Kind2<M, E, A>) => Do2C<M, S & { [K in N]: A }, E>
   bindL: <N extends string, A>(
     name: Exclude<N, keyof S>,
-    f: (s: S) => Kind2<M, L, A>
-  ) => Do2C<M, S & { [K in N]: A }, L>
-  sequenceS: <R extends Record<string, Kind2<M, L, any>>>(
-    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
-  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Kind2<M, any, infer A>] ? A : never }, L>
-  sequenceSL: <R extends Record<string, Kind2<M, L, any>>>(
-    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
-  ) => Do2C<M, S & { [K in keyof R]: [R[K]] extends [Kind2<M, any, infer A>] ? A : never }, L>
-  return: <A>(f: (s: S) => A) => Kind2<M, L, A>
-  done: () => Kind2<M, L, S>
+    f: (s: S) => Kind2<M, E, A>
+  ) => Do2C<M, S & { [K in N]: A }, E>
+  sequenceS: <I extends Record<string, Kind2<M, E, any>>>(
+    r: EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  sequenceSL: <I extends Record<string, Kind2<M, E, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
+  ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  return: <A>(f: (s: S) => A) => Kind2<M, E, A>
+  done: () => Kind2<M, E, S>
 }
 ```
 
@@ -126,24 +126,24 @@ Added in v0.1.0
 
 ```ts
 export interface Do3<M extends URIS3, S extends object> {
-  do: <U, L>(ma: Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
-  doL: <U, L>(f: (s: S) => Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
-  bind: <N extends string, A, U, L>(
+  do: <R, E>(ma: Kind3<M, R, E, any>) => Do3C<M, S, R, E>
+  doL: <R, E>(f: (s: S) => Kind3<M, R, E, any>) => Do3C<M, S, R, E>
+  bind: <N extends string, A, R, E>(
     name: Exclude<N, keyof S>,
-    ma: Kind3<M, U, L, A>
-  ) => Do3C<M, S & { [K in N]: A }, U, L>
-  bindL: <N extends string, A, U, L>(
+    ma: Kind3<M, R, E, A>
+  ) => Do3C<M, S & { [K in N]: A }, R, E>
+  bindL: <N extends string, A, R, E>(
     name: Exclude<N, keyof S>,
-    f: (s: S) => Kind3<M, U, L, A>
-  ) => Do3C<M, S & { [K in N]: A }, U, L>
-  sequenceS: <U, L, R extends Record<string, Kind3<M, U, L, any>>>(
-    r: EnforceNonEmptyRecord<R> & Record<string, Kind3<M, U, L, any>> & { [K in keyof S]?: never }
-  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, U, L>
-  sequenceSL: <U, L, R extends Record<string, Kind3<M, U, L, any>>>(
-    f: (s: S) => EnforceNonEmptyRecord<R> & Record<string, Kind3<M, U, L, any>> & { [K in keyof S]?: never }
-  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, U, L>
-  return: <A, U, L>(f: (s: S) => A) => Kind3<M, U, L, A>
-  done: <U, L>() => Kind3<M, U, L, S>
+    f: (s: S) => Kind3<M, R, E, A>
+  ) => Do3C<M, S & { [K in N]: A }, R, E>
+  sequenceS: <R, E, I extends Record<string, Kind3<M, R, E, any>>>(
+    r: EnforceNonEmptyRecord<I> & Record<string, Kind3<M, R, E, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  sequenceSL: <R, E, I extends Record<string, Kind3<M, R, E, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<I> & Record<string, Kind3<M, R, E, any>> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  return: <R, E, A>(f: (s: S) => A) => Kind3<M, R, E, A>
+  done: <R, E>() => Kind3<M, R, E, S>
 }
 ```
 
@@ -154,22 +154,22 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export interface Do3C<M extends URIS3, S extends object, U, L> {
-  do: (ma: Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
-  doL: (f: (s: S) => Kind3<M, U, L, unknown>) => Do3C<M, S, U, L>
-  bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Kind3<M, U, L, A>) => Do3C<M, S & { [K in N]: A }, U, L>
+export interface Do3C<M extends URIS3, S extends object, R, E> {
+  do: (ma: Kind3<M, R, E, any>) => Do3C<M, S, R, E>
+  doL: (f: (s: S) => Kind3<M, R, E, any>) => Do3C<M, S, R, E>
+  bind: <N extends string, A>(name: Exclude<N, keyof S>, ma: Kind3<M, R, E, A>) => Do3C<M, S & { [K in N]: A }, R, E>
   bindL: <N extends string, A>(
     name: Exclude<N, keyof S>,
-    f: (s: S) => Kind3<M, U, L, A>
-  ) => Do3C<M, S & { [K in N]: A }, U, L>
-  sequenceS: <R extends Record<string, Kind3<M, U, L, any>>>(
-    r: EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
-  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, U, L>
-  sequenceSL: <R extends Record<string, Kind3<M, U, L, any>>>(
-    f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
-  ) => Do3C<M, S & { [K in keyof R]: [R[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, U, L>
-  return: <A>(f: (s: S) => A) => Kind3<M, U, L, A>
-  done: () => Kind3<M, U, L, S>
+    f: (s: S) => Kind3<M, R, E, A>
+  ) => Do3C<M, S & { [K in N]: A }, R, E>
+  sequenceS: <I extends Record<string, Kind3<M, R, E, any>>>(
+    r: EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  sequenceSL: <I extends Record<string, Kind3<M, R, E, any>>>(
+    f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
+  ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  return: <A>(f: (s: S) => A) => Kind3<M, R, E, A>
+  done: () => Kind3<M, R, E, S>
 }
 ```
 
