@@ -18,11 +18,12 @@
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
     "clean": "rimraf rm -rf lib/* es6/*",
-    "build": "npm run clean && tsc && tsc -p tsconfig.es6.json",
+    "build": "npm run clean && tsc && tsc -p tsconfig.es6.json && npm run import-path-rewrite",
     "prepublish": "npm run build",
     "dtslint": "dtslint dtslint",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "docs": "docs-ts"
+    "docs": "docs-ts",
+    "import-path-rewrite": "import-path-rewrite"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "dtslint": "github:gcanti/dtslint",
     "fast-check": "^1.20.0",
     "fp-ts": "^2.1.2",
+    "import-path-rewrite": "github:gcanti/import-path-rewrite",
     "jest": "^24.8.0",
     "mocha": "^5.2.0",
     "prettier": "^1.19.1",

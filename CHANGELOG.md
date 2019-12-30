@@ -18,6 +18,8 @@
 - **Bug Fix**
   - `Do`
     - replace `unknown` with `any`, fix #38 (@gcanti)
+- **Polish**
+  - rewrite es6 imports (@gcanti)
 
 # 0.1.8
 
