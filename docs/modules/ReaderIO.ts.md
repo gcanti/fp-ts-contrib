@@ -16,6 +16,8 @@ parent: Modules
 - [fromIO (constant)](#fromio-constant)
 - [fromReader (constant)](#fromreader-constant)
 - [readerIO (constant)](#readerio-constant)
+- [chainIOK (function)](#chainiok-function)
+- [fromIOK (function)](#fromiok-function)
 - [local (function)](#local-function)
 - [run (function)](#run-function)
 - [ap (export)](#ap-export)
@@ -109,6 +111,26 @@ export const readerIO: Monad2<URI> = ...
 ```
 
 Added in v0.1.0
+
+# chainIOK (function)
+
+**Signature**
+
+```ts
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B> { ... }
+```
+
+Added in v0.1.10
+
+# fromIOK (function)
+
+**Signature**
+
+```ts
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderIO<R, B> { ... }
+```
+
+Added in v0.1.10
 
 # local (function)
 

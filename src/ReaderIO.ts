@@ -66,6 +66,20 @@ export function local<Q, R>(f: (f: Q) => R): <A>(ma: ReaderIO<R, A>) => ReaderIO
 }
 
 /**
+ * @since 0.1.10
+ */
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderIO<R, B> {
+  return (...a) => fromIO(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: ReaderIO<R, A>) => ReaderIO<R, B> {
+  return chain<any, A, B>(fromIOK(f))
+}
+
+/**
  * @since 0.1.0
  */
 export const readerIO: Monad2<URI> = {

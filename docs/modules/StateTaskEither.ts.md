@@ -22,7 +22,13 @@ parent: Modules
 - [rightState (constant)](#rightstate-constant)
 - [stateTaskEither (constant)](#statetaskeither-constant)
 - [stateTaskEitherSeq (constant)](#statetaskeitherseq-constant)
+- [chainEitherK (function)](#chaineitherk-function)
+- [chainIOEitherK (function)](#chainioeitherk-function)
+- [chainTaskEitherK (function)](#chaintaskeitherk-function)
+- [fromEitherK (function)](#fromeitherk-function)
 - [fromIOEither (function)](#fromioeither-function)
+- [fromIOEitherK (function)](#fromioeitherk-function)
+- [fromTaskEitherK (function)](#fromtaskeitherk-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
 - [leftState (function)](#leftstate-function)
@@ -188,6 +194,54 @@ export const stateTaskEitherSeq: typeof stateTaskEither = ...
 
 Added in v0.1.0
 
+# chainEitherK (function)
+
+**Signature**
+
+```ts
+export function chainEitherK<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
+
+# chainIOEitherK (function)
+
+**Signature**
+
+```ts
+export function chainIOEitherK<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
+
+# chainTaskEitherK (function)
+
+**Signature**
+
+```ts
+export function chainTaskEitherK<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
+
+# fromEitherK (function)
+
+**Signature**
+
+```ts
+export function fromEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
+
 # fromIOEither (function)
 
 **Signature**
@@ -197,6 +251,30 @@ export function fromIOEither<S, E, A>(ma: IOEither<E, A>): StateTaskEither<S, E,
 ```
 
 Added in v0.1.0
+
+# fromIOEitherK (function)
+
+**Signature**
+
+```ts
+export function fromIOEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
+
+# fromTaskEitherK (function)
+
+**Signature**
+
+```ts
+export function fromTaskEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => TaskEither<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> { ... }
+```
+
+Added in v0.1.10
 
 # left (function)
 

@@ -17,9 +17,11 @@ parent: Modules
 - [some (constant)](#some-constant)
 - [taskOption (constant)](#taskoption-constant)
 - [chainOption (function)](#chainoption-function)
+- [chainOptionK (function)](#chainoptionk-function)
 - [chainTask (function)](#chaintask-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
+- [fromOptionK (function)](#fromoptionk-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [getOrElse (function)](#getorelse-function)
 - [mapNullable (function)](#mapnullable-function)
@@ -133,6 +135,16 @@ export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) =
 
 Added in v0.1.4
 
+# chainOptionK (function)
+
+**Signature**
+
+```ts
+export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.10
+
 # chainTask (function)
 
 **Signature**
@@ -162,6 +174,16 @@ export function fromNullable<A>(a: A): TaskOption<NonNullable<A>> { ... }
 ```
 
 Added in v0.1.4
+
+# fromOptionK (function)
+
+**Signature**
+
+```ts
+export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => TaskOption<B> { ... }
+```
+
+Added in v0.1.10
 
 # fromTaskEither (function)
 
