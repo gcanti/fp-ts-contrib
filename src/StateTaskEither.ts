@@ -137,6 +137,60 @@ export const modify: <S>(f: (s: S) => S) => StateTaskEither<S, never, void> = T.
 export const gets: <S, A>(f: (s: S) => A) => StateTaskEither<S, never, A> = T.gets
 
 /**
+ * @since 0.1.10
+ */
+export function fromEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> {
+  return (...a) => fromEither(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainEitherK<E, A, B>(
+  f: (a: A) => Either<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> {
+  return chain<any, E, A, B>(fromEitherK(f))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function fromIOEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => IOEither<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> {
+  return (...a) => fromIOEither(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainIOEitherK<E, A, B>(
+  f: (a: A) => IOEither<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> {
+  return chain<any, E, A, B>(fromIOEitherK(f))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function fromTaskEitherK<E, A extends Array<unknown>, B>(
+  f: (...a: A) => TaskEither<E, B>
+): <S>(...a: A) => StateTaskEither<S, E, B> {
+  return (...a) => fromTaskEither(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainTaskEitherK<E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+): <S>(ma: StateTaskEither<S, E, A>) => StateTaskEither<S, E, B> {
+  return chain<any, E, A, B>(fromTaskEitherK(f))
+}
+
+/**
  * @since 0.1.0
  */
 export const stateTaskEither: Monad3<URI> & MonadThrow3<URI> = {

@@ -63,6 +63,20 @@ export function getOrElse<A>(onNone: () => Array<A>): (as: ArrayOption<A>) => Ar
 }
 
 /**
+ * @since 0.1.10
+ */
+export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => ArrayOption<B> {
+  return (...a) => fromOption(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: ArrayOption<A>) => ArrayOption<B> {
+  return chain(fromOptionK(f))
+}
+
+/**
  * @since 0.1.0
  */
 export const arrayOption: Monad1<URI> & Alt1<URI> = {

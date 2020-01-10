@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.10
+
+- **New Feature**
+  - add `from<Monad>K`, `chain<Monad>K` to `ArrayOption`, `ReaderIO`, `StateIO`, `StateTaskEither`, `TaskOption` (@gcanti)
+
 # 0.1.9
 
 - **Bug Fix**

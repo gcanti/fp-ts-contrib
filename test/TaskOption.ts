@@ -3,34 +3,18 @@ import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { task } from 'fp-ts/lib/Task'
 import * as TE from 'fp-ts/lib/TaskEither'
-import {
-  fold,
-  fromOption,
-  fromTask,
-  getOrElse,
-  none as taskOptionNone,
-  taskOption,
-  fromNullable,
-  fromTaskEither,
-  toUndefined,
-  toNullable,
-  chainTask,
-  chainOption,
-  mapNullable,
-  tryCatch,
-  filter
-} from '../src/TaskOption'
+import * as _ from '../src/TaskOption'
 
 describe('TaskOption', () => {
   it('fold', async () => {
     const g = (n: number) => task.of(n > 2)
     const te1 = pipe(
-      taskOption.of<number>(1),
-      fold(() => task.of(false), g)
+      _.some(1),
+      _.fold(() => task.of(false), g)
     )
     const te2 = pipe(
-      taskOptionNone,
-      fold(() => task.of(true), g)
+      _.none,
+      _.fold(() => task.of(true), g)
     )
     const b1 = await te1()
     const b2 = await te2()
@@ -41,12 +25,12 @@ describe('TaskOption', () => {
   it('getOrElse', async () => {
     const v = task.of(42)
     const te1 = pipe(
-      taskOption.of<number>(1),
-      getOrElse(() => v)
+      _.some(1),
+      _.getOrElse(() => v)
     )
     const te2 = pipe(
-      fromOption<number>(O.none),
-      getOrElse(() => v)
+      _.fromOption<number>(O.none),
+      _.getOrElse(() => v)
     )
     const n1 = await te1()
     const n2 = await te2()
@@ -55,15 +39,15 @@ describe('TaskOption', () => {
   })
 
   it('fromTask', async () => {
-    const ma = fromTask(task.of(1))
+    const ma = _.fromTask(task.of(1))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(1))
   })
 
-  test('fromNullable', async () => {
-    const ma1 = fromNullable(null)
-    const ma2 = fromNullable(undefined)
-    const ma3 = fromNullable(42)
+  it('fromNullable', async () => {
+    const ma1 = _.fromNullable(null)
+    const ma2 = _.fromNullable(undefined)
+    const ma3 = _.fromNullable(42)
     const n1 = await ma1()
     const n2 = await ma2()
     const n3 = await ma3()
@@ -72,48 +56,48 @@ describe('TaskOption', () => {
     assert.deepStrictEqual(n3, O.some(42))
   })
 
-  test('fromTaskEither', async () => {
-    const ma1 = fromTaskEither(TE.taskEither.of(42))
-    const ma2 = fromTaskEither(TE.left('ouch!'))
+  it('fromTaskEither', async () => {
+    const ma1 = _.fromTaskEither(TE.taskEither.of(42))
+    const ma2 = _.fromTaskEither(TE.left('ouch!'))
     const n1 = await ma1()
     const n2 = await ma2()
     assert.deepStrictEqual(n1, O.some(42))
     assert.deepStrictEqual(n2, O.none)
   })
 
-  test('toUndefined', async () => {
-    const ma1 = toUndefined(taskOption.of(42))
-    const ma2 = toUndefined(taskOptionNone)
+  it('toUndefined', async () => {
+    const ma1 = _.toUndefined(_.some(42))
+    const ma2 = _.toUndefined(_.none)
     const n1 = await ma1()
     const n2 = await ma2()
     assert.deepStrictEqual(n1, 42)
     assert.deepStrictEqual(n2, undefined)
   })
 
-  test('toNullable', async () => {
-    const ma1 = toNullable(taskOption.of(42))
-    const ma2 = toNullable(taskOptionNone)
+  it('toNullable', async () => {
+    const ma1 = _.toNullable(_.some(42))
+    const ma2 = _.toNullable(_.none)
     const n1 = await ma1()
     const n2 = await ma2()
     assert.deepStrictEqual(n1, 42)
     assert.deepStrictEqual(n2, null)
   })
 
-  test('chainTask', async () => {
+  it('chainTask', async () => {
     const f = (n: number) => task.of(n * 2)
-    const ma = pipe(taskOption.of(42), chainTask(f))
+    const ma = pipe(_.some(42), _.chainTask(f))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(84))
   })
 
-  test('chainOption', async () => {
+  it('chainOption', async () => {
     const f = (n: number) => O.some(n - 10)
-    const ma = pipe(taskOption.of(42), chainOption(f))
+    const ma = pipe(_.some(42), _.chainOption(f))
     const n = await ma()
     assert.deepStrictEqual(n, O.some(32))
   })
 
-  test('mapNullable', async () => {
+  it('mapNullable', async () => {
     interface X {
       a?: {
         b?: {
@@ -128,44 +112,50 @@ describe('TaskOption', () => {
     const x3: X = { a: { b: { c: { d: 1 } } } }
     assert.deepStrictEqual(
       await pipe(
-        fromNullable(x1.a),
-        mapNullable(x => x.b),
-        mapNullable(x => x.c),
-        mapNullable(x => x.d)
+        _.fromNullable(x1.a),
+        _.mapNullable(x => x.b),
+        _.mapNullable(x => x.c),
+        _.mapNullable(x => x.d)
       )(),
       O.none
     )
     assert.deepStrictEqual(
       await pipe(
-        fromNullable(x2.a),
-        mapNullable(x => x.b),
-        mapNullable(x => x.c),
-        mapNullable(x => x.d)
+        _.fromNullable(x2.a),
+        _.mapNullable(x => x.b),
+        _.mapNullable(x => x.c),
+        _.mapNullable(x => x.d)
       )(),
       O.none
     )
     assert.deepStrictEqual(
       await pipe(
-        fromNullable(x3.a),
-        mapNullable(x => x.b),
-        mapNullable(x => x.c),
-        mapNullable(x => x.d)
+        _.fromNullable(x3.a),
+        _.mapNullable(x => x.b),
+        _.mapNullable(x => x.c),
+        _.mapNullable(x => x.d)
       )(),
       O.some(1)
     )
   })
 
-  test('tryCatch', async () => {
-    const e1 = await tryCatch(() => Promise.resolve(1))()
+  it('tryCatch', async () => {
+    const e1 = await _.tryCatch(() => Promise.resolve(1))()
     assert.deepStrictEqual(e1, O.some(1))
-    const e2 = await tryCatch(() => Promise.reject(undefined))()
+    const e2 = await _.tryCatch(() => Promise.reject(undefined))()
     assert.deepStrictEqual(e2, O.none)
   })
 
-  test('filter', async () => {
+  it('filter', async () => {
     const predicate = (a: number) => a === 2
-    assert.deepStrictEqual(await pipe(taskOptionNone, filter(predicate))(), O.none)
-    assert.deepStrictEqual(await pipe(taskOption.of(1), filter(predicate))(), O.none)
-    assert.deepStrictEqual(await pipe(taskOption.of(2), filter(predicate))(), O.some(2))
+    assert.deepStrictEqual(await pipe(_.none, _.filter(predicate))(), O.none)
+    assert.deepStrictEqual(await pipe(_.some(1), _.filter(predicate))(), O.none)
+    assert.deepStrictEqual(await pipe(_.some(2), _.filter(predicate))(), O.some(2))
+  })
+
+  it('chainOptionK', async () => {
+    const f = (s: string) => O.some(s.length)
+    const x = await pipe(_.some('a'), _.chainOptionK(f))()
+    assert.deepStrictEqual(x, O.some(1))
   })
 })

@@ -20,6 +20,8 @@ parent: Modules
 - [modify (constant)](#modify-constant)
 - [put (constant)](#put-constant)
 - [stateIO (constant)](#stateio-constant)
+- [chainIOK (function)](#chainiok-function)
+- [fromIOK (function)](#fromiok-function)
 - [run (function)](#run-function)
 - [ap (export)](#ap-export)
 - [apFirst (export)](#apfirst-export)
@@ -152,6 +154,26 @@ export const stateIO: Monad2<URI> = ...
 ```
 
 Added in v0.1.0
+
+# chainIOK (function)
+
+**Signature**
+
+```ts
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: StateIO<R, A>) => StateIO<R, B> { ... }
+```
+
+Added in v0.1.10
+
+# fromIOK (function)
+
+**Signature**
+
+```ts
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => StateIO<R, B> { ... }
+```
+
+Added in v0.1.10
 
 # run (function)
 

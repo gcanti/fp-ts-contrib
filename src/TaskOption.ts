@@ -137,6 +137,20 @@ export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> {
 }
 
 /**
+ * @since 0.1.10
+ */
+export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => TaskOption<B> {
+  return (...a) => fromOption(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> {
+  return chain(fromOptionK(f))
+}
+
+/**
  * @since 0.1.0
  */
 export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = {

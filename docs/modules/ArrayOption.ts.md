@@ -16,7 +16,9 @@ parent: Modules
 - [fromOption (constant)](#fromoption-constant)
 - [none (constant)](#none-constant)
 - [some (constant)](#some-constant)
+- [chainOptionK (function)](#chainoptionk-function)
 - [fold (function)](#fold-function)
+- [fromOptionK (function)](#fromoptionk-function)
 - [getOrElse (function)](#getorelse-function)
 - [alt (export)](#alt-export)
 - [ap (export)](#ap-export)
@@ -109,6 +111,16 @@ export const some: <A>(a: A) => ArrayOption<A> = ...
 
 Added in v0.1.0
 
+# chainOptionK (function)
+
+**Signature**
+
+```ts
+export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: ArrayOption<A>) => ArrayOption<B> { ... }
+```
+
+Added in v0.1.10
+
 # fold (function)
 
 **Signature**
@@ -118,6 +130,16 @@ export function fold<A, B>(onNone: () => Array<B>, onSome: (a: A) => Array<B>): 
 ```
 
 Added in v0.1.0
+
+# fromOptionK (function)
+
+**Signature**
+
+```ts
+export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => ArrayOption<B> { ... }
+```
+
+Added in v0.1.10
 
 # getOrElse (function)
 

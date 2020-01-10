@@ -78,6 +78,20 @@ export const modify: <S>(f: (s: S) => S) => StateIO<S, void> = T.modify
 export const gets: <S, A>(f: (s: S) => A) => StateIO<S, A> = T.gets
 
 /**
+ * @since 0.1.10
+ */
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => StateIO<R, B> {
+  return (...a) => fromIO(f(...a))
+}
+
+/**
+ * @since 0.1.10
+ */
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: StateIO<R, A>) => StateIO<R, B> {
+  return chain<any, A, B>(fromIOK(f))
+}
+
+/**
  * @since 0.1.0
  */
 export const stateIO: Monad2<URI> = {
