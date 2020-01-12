@@ -19,6 +19,7 @@
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
     "clean": "rimraf rm -rf lib/* es6/*",
     "build": "npm run clean && tsc && tsc -p tsconfig.es6.json && npm run import-path-rewrite",
+    "postbuild": "prettier --write \"./{lib,es6}/**/*.ts\"",
     "prepublish": "npm run build",
     "dtslint": "dtslint dtslint",
     "mocha": "mocha -r ts-node/register test/*.ts",
