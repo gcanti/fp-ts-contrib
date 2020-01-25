@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { Alt1 } from 'fp-ts/lib/Alt'
 import { array, of } from 'fp-ts/lib/Array'
 import { Monad1 } from 'fp-ts/lib/Monad'

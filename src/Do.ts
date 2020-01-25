@@ -1,5 +1,7 @@
 /**
- * @file This module provides a simuation of Haskell do notation.
+ * This module provides a simuation of Haskell do notation.
+ *
+ * @since 0.1.0
  */
 import { sequenceS } from 'fp-ts/lib/Apply'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from 'fp-ts/lib/HKT'

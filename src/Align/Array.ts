@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { These, left, right, both } from 'fp-ts/lib/These'
 import { array, URI } from 'fp-ts/lib/Array'
 import { Option, option } from 'fp-ts/lib/Option'

@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { Alt1 } from 'fp-ts/lib/Alt'
 import { task, of, Task, map as taskMap } from 'fp-ts/lib/Task'
 import { Monad1 } from 'fp-ts/lib/Monad'

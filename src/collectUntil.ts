@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.8
+ */
 import { Alt, Alt1, Alt2 } from 'fp-ts/lib/Alt'
 import { flow } from 'fp-ts/lib/function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from 'fp-ts/lib/HKT'

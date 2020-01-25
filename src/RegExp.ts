@@ -1,7 +1,9 @@
 /**
- * @file Provides regular expression matching.
+ * Provides regular expression matching.
  *
  * Adapted from https://hackage.haskell.org/package/regex-compat-0.95.1/docs/Text-Regex.html
+ *
+ * @since 0.1.8
  */
 
 import * as O from 'fp-ts/lib/Option'

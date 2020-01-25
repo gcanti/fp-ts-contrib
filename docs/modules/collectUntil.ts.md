@@ -4,6 +4,10 @@ nav_order: 7
 parent: Modules
 ---
 
+# collectUntil overview
+
+Added in v0.1.8
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

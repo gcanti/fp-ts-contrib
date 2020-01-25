@@ -4,9 +4,11 @@ nav_order: 8
 parent: Modules
 ---
 
-# Overview
+# Do overview
 
 This module provides a simuation of Haskell do notation.
+
+Added in v0.1.0
 
 ---
 

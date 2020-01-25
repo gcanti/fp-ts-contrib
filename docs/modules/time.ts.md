@@ -4,6 +4,10 @@ nav_order: 21
 parent: Modules
 ---
 
+# time overview
+
+Added in v0.1.0
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

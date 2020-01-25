@@ -1,7 +1,8 @@
 /**
- * @file Adapted from https://github.com/purescript/purescript-lists
+ * Adapted from https://github.com/purescript/purescript-lists
+ *
+ * @since 0.1.8
  */
-
 import { Foldable1 } from 'fp-ts/lib/Foldable'
 import { Functor1 } from 'fp-ts/lib/Functor'
 import * as A from 'fp-ts/lib/Array'

@@ -4,11 +4,13 @@ nav_order: 13
 parent: Modules
 ---
 
-# Overview
+# RegExp overview
 
 Provides regular expression matching.
 
 Adapted from https://hackage.haskell.org/package/regex-compat-0.95.1/docs/Text-Regex.html
+
+Added in v0.1.8
 
 ---
 

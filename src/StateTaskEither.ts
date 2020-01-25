@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { Either } from 'fp-ts/lib/Either'
 import { IO } from 'fp-ts/lib/IO'
 import { IOEither } from 'fp-ts/lib/IOEither'
