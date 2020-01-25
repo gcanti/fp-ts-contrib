@@ -4,7 +4,7 @@ nav_order: 14
 parent: Modules
 ---
 
-# Overview
+# index overview
 
 The `Semialign` type class represents functors supporting a zip operation that takes the
 union of non-uniform shapes.
@@ -20,6 +20,8 @@ Where `These.assoc` implements the associativity law of `These` and has the foll
 `function assoc<A, B, C>(fa: These<A, These<B, C>>): These<These<A, B>, C>`
 
 Adapted from http://hackage.haskell.org/package/these-0.8/docs/Data-Align.html
+
+Added in v0.1.0
 
 ---
 

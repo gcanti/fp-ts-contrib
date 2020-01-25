@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import * as R from 'fp-ts/lib/Record'
 import { These, left, right, both } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'

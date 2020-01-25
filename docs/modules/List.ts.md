@@ -4,9 +4,11 @@ nav_order: 11
 parent: Modules
 ---
 
-# Overview
+# List overview
 
 Adapted from https://github.com/purescript/purescript-lists
+
+Added in v0.1.8
 
 ---
 

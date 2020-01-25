@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import * as I from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
 import { State } from 'fp-ts/lib/State'

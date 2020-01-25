@@ -1,5 +1,5 @@
 /**
- * @file Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
+ * Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
  * position in an array. Focus can be moved forward and backwards through the array.
  *
  * The array `[1, 2, 3, 4]` with focus on `3` is represented by `Zipper([1, 2], 3, [4])`
@@ -9,6 +9,8 @@
  * - https://github.com/DavidHarrison/purescript-list-zipper
  * - https://github.com/thunklife/purescript-zipper
  * - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
+ *
+ * @since 0.1.6
  */
 import { Applicative, Applicative1 } from 'fp-ts/lib/Applicative'
 import * as A from 'fp-ts/lib/Array'

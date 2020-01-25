@@ -1,5 +1,5 @@
 /**
- * @file The `Semialign` type class represents functors supporting a zip operation that takes the
+ * The `Semialign` type class represents functors supporting a zip operation that takes the
  * union of non-uniform shapes.
  *
  * `Semialign` instances are required to satisfy the following laws:
@@ -13,6 +13,8 @@
  * `function assoc<A, B, C>(fa: These<A, These<B, C>>): These<These<A, B>, C>`
  *
  * Adapted from http://hackage.haskell.org/package/these-0.8/docs/Data-Align.html
+ *
+ * @since 0.1.0
  */
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from 'fp-ts/lib/Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from 'fp-ts/lib/HKT'

@@ -1,5 +1,5 @@
 /**
- * @file The `Align` type class extends the `Semialign` type class with a value `nil`, which
+ * The `Align` type class extends the `Semialign` type class with a value `nil`, which
  * acts as a unit in regards to `align`.
  *
  * `Align` instances must satisfy the following laws in addition to the `Semialign` laws:
@@ -8,6 +8,8 @@
  * 2. Left identity: `F.align(nil, fa) = F.map(fa, that)`
  *
  * Adapted from http://hackage.haskell.org/package/these-0.8/docs/Data-Align.html
+ *
+ * @since 0.1.0
  */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from 'fp-ts/lib/HKT'
 import { Semigroup } from 'fp-ts/lib/Semigroup'

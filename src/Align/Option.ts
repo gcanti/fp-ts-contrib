@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { Option, some, none, option, URI, isSome, isNone } from 'fp-ts/lib/Option'
 import { These, left, right, both } from 'fp-ts/lib/These'
 import { identity } from 'fp-ts/lib/function'

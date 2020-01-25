@@ -4,7 +4,7 @@ nav_order: 22
 parent: Modules
 ---
 
-# Overview
+# Zipper overview
 
 Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
 position in an array. Focus can be moved forward and backwards through the array.
@@ -16,6 +16,8 @@ Adapted from
 - https://github.com/DavidHarrison/purescript-list-zipper
 - https://github.com/thunklife/purescript-zipper
 - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
+
+Added in v0.1.6
 
 ---
 

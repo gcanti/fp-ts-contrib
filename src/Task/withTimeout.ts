@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { getRaceMonoid, Task, delay, of } from 'fp-ts/lib/Task'
 
 /**

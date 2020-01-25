@@ -4,6 +4,10 @@ nav_order: 18
 parent: Modules
 ---
 
+# getLine overview
+
+Added in v0.1.8
+
 ---
 
 <h2 class="text-delta">Table of contents</h2>

@@ -4,7 +4,7 @@ nav_order: 2
 parent: Modules
 ---
 
-# Overview
+# index overview
 
 The `Align` type class extends the `Semialign` type class with a value `nil`, which
 acts as a unit in regards to `align`.
@@ -15,6 +15,8 @@ acts as a unit in regards to `align`.
 2. Left identity: `F.align(nil, fa) = F.map(fa, that)`
 
 Adapted from http://hackage.haskell.org/package/these-0.8/docs/Data-Align.html
+
+Added in v0.1.0
 
 ---
 

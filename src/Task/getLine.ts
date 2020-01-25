@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.8
+ */
 import { createInterface } from 'readline'
 import { Task } from 'fp-ts/lib/Task'
 

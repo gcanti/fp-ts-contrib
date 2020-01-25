@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { now } from 'fp-ts/lib/Date'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from 'fp-ts/lib/HKT'
 import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3 } from 'fp-ts/lib/MonadIO'

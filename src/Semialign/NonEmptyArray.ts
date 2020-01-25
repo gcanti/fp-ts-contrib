@@ -1,3 +1,6 @@
+/**
+ * @since 0.1.0
+ */
 import { NonEmptyArray, nonEmptyArray, URI, cons, head, tail } from 'fp-ts/lib/NonEmptyArray'
 import { These, both } from 'fp-ts/lib/These'
 import { alignArray } from '../Align/Array'
