@@ -246,16 +246,6 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zi
     )
 }
 
-function extend<A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> {
-  const lefts = fa.lefts.map((a, i) =>
-    f(make(pipe(fa.lefts, A.takeLeft(i)), a, A.snoc(pipe(fa.lefts, A.dropLeft(i + 1)), fa.focus).concat(fa.rights)))
-  )
-  const rights = fa.rights.map((a, i) =>
-    f(make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(i))), a, pipe(fa.rights, A.dropLeft(i + 1))))
-  )
-  return make(lefts, f(fa), rights)
-}
-
 /**
  * @since 0.1.6
  */
@@ -283,7 +273,15 @@ export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Co
   map: (z, f) => make(z.lefts.map(f), f(z.focus), z.rights.map(f)),
   of,
   ap: (fab, fa) => make(A.array.ap(fab.lefts, fa.lefts), fab.focus(fa.focus), A.array.ap(fab.rights, fa.rights)),
-  extend,
+  extend: (fa, f) => {
+    const lefts = fa.lefts.map((a, i) =>
+      f(make(pipe(fa.lefts, A.takeLeft(i)), a, A.snoc(pipe(fa.lefts, A.dropLeft(i + 1)), fa.focus).concat(fa.rights)))
+    )
+    const rights = fa.rights.map((a, i) =>
+      f(make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(i))), a, pipe(fa.rights, A.dropLeft(i + 1))))
+    )
+    return make(lefts, f(fa), rights)
+  },
   extract: <A>(fa: Zipper<A>): A => fa.focus,
   reduce: (fa, b, f) => fa.rights.reduce(f, f(fa.lefts.reduce(f, b), fa.focus)),
   reduceRight: (fa, b, f) => {
@@ -300,7 +298,7 @@ export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Co
   sequence
 }
 
-const { ap, foldMap, map, reduce, reduceRight } = pipeable(zipper)
+const { ap, apFirst, apSecond, duplicate, extend, foldMap, map, reduce, reduceRight } = pipeable(zipper)
 
 export {
   /**
@@ -308,7 +306,23 @@ export {
    */
   ap,
   /**
-   * @since 0.1.6
+   * @since 0.1.11
+   */
+  apFirst,
+  /**
+   * @since 0.1.11
+   */
+  apSecond,
+  /**
+   * @since 0.1.11
+   */
+  duplicate,
+  /**
+   * @since 0.1.11
+   */
+  extend,
+  /**
+   * @since 0.1.11
    */
   foldMap,
   /**

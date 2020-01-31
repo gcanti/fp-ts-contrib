@@ -14,38 +14,38 @@ Added in v0.1.0
 
 - [TaskOption (interface)](#taskoption-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [fromOption (constant)](#fromoption-constant)
-- [fromTask (constant)](#fromtask-constant)
-- [none (constant)](#none-constant)
-- [some (constant)](#some-constant)
-- [taskOption (constant)](#taskoption-constant)
-- [chainOption (function)](#chainoption-function)
-- [chainOptionK (function)](#chainoptionk-function)
-- [chainTask (function)](#chaintask-function)
-- [fold (function)](#fold-function)
-- [fromNullable (function)](#fromnullable-function)
-- [fromOptionK (function)](#fromoptionk-function)
-- [fromTaskEither (function)](#fromtaskeither-function)
-- [getOrElse (function)](#getorelse-function)
-- [mapNullable (function)](#mapnullable-function)
-- [toNullable (function)](#tonullable-function)
-- [toUndefined (function)](#toundefined-function)
-- [tryCatch (function)](#trycatch-function)
-- [alt (export)](#alt-export)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [compact (export)](#compact-export)
-- [filter (export)](#filter-export)
-- [filterMap (export)](#filtermap-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
-- [partition (export)](#partition-export)
-- [partitionMap (export)](#partitionmap-export)
-- [separate (export)](#separate-export)
+- [URI](#uri)
+- [alt](#alt)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [chainOption](#chainoption)
+- [chainOptionK](#chainoptionk)
+- [chainTask](#chaintask)
+- [compact](#compact)
+- [filter](#filter)
+- [filterMap](#filtermap)
+- [flatten](#flatten)
+- [fold](#fold)
+- [fromNullable](#fromnullable)
+- [fromOption](#fromoption)
+- [fromOptionK](#fromoptionk)
+- [fromTask](#fromtask)
+- [fromTaskEither](#fromtaskeither)
+- [getOrElse](#getorelse)
+- [map](#map)
+- [mapNullable](#mapnullable)
+- [none](#none)
+- [partition](#partition)
+- [partitionMap](#partitionmap)
+- [separate](#separate)
+- [some](#some)
+- [taskOption](#taskoption)
+- [toNullable](#tonullable)
+- [toUndefined](#toundefined)
+- [tryCatch](#trycatch)
 
 ---
 
@@ -69,7 +69,7 @@ export type URI = typeof URI
 
 Added in v0.1.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -79,177 +79,7 @@ export const URI: "TaskOption" = ...
 
 Added in v0.1.0
 
-# fromOption (constant)
-
-**Signature**
-
-```ts
-export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = ...
-```
-
-Added in v0.1.0
-
-# fromTask (constant)
-
-**Signature**
-
-```ts
-export const fromTask: <A>(as: Task<A>) => TaskOption<A> = ...
-```
-
-Added in v0.1.0
-
-# none (constant)
-
-**Signature**
-
-```ts
-export const none: TaskOption<never> = ...
-```
-
-Added in v0.1.0
-
-# some (constant)
-
-**Signature**
-
-```ts
-export const some: <A>(a: A) => TaskOption<A> = ...
-```
-
-Added in v0.1.0
-
-# taskOption (constant)
-
-**Signature**
-
-```ts
-export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = ...
-```
-
-Added in v0.1.0
-
-# chainOption (function)
-
-**Signature**
-
-```ts
-export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
-```
-
-Added in v0.1.4
-
-# chainOptionK (function)
-
-**Signature**
-
-```ts
-export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
-```
-
-Added in v0.1.10
-
-# chainTask (function)
-
-**Signature**
-
-```ts
-export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
-```
-
-Added in v0.1.4
-
-# fold (function)
-
-**Signature**
-
-```ts
-export function fold<A, B>(onNone: () => Task<B>, onSome: (a: A) => Task<B>): (as: TaskOption<A>) => Task<B> { ... }
-```
-
-Added in v0.1.0
-
-# fromNullable (function)
-
-**Signature**
-
-```ts
-export function fromNullable<A>(a: A): TaskOption<NonNullable<A>> { ... }
-```
-
-Added in v0.1.4
-
-# fromOptionK (function)
-
-**Signature**
-
-```ts
-export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => TaskOption<B> { ... }
-```
-
-Added in v0.1.10
-
-# fromTaskEither (function)
-
-**Signature**
-
-```ts
-export function fromTaskEither<A>(ma: TaskEither<any, A>): TaskOption<A> { ... }
-```
-
-Added in v0.1.4
-
-# getOrElse (function)
-
-**Signature**
-
-```ts
-export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task<A> { ... }
-```
-
-Added in v0.1.0
-
-# mapNullable (function)
-
-**Signature**
-
-```ts
-export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskOption<A>) => TaskOption<B> { ... }
-```
-
-Added in v0.1.5
-
-# toNullable (function)
-
-**Signature**
-
-```ts
-export function toNullable<A>(ma: TaskOption<A>): Task<A | null> { ... }
-```
-
-Added in v0.1.4
-
-# toUndefined (function)
-
-**Signature**
-
-```ts
-export function toUndefined<A>(ma: TaskOption<A>): Task<A | undefined> { ... }
-```
-
-Added in v0.1.4
-
-# tryCatch (function)
-
-**Signature**
-
-```ts
-export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> { ... }
-```
-
-Added in v0.1.5
-
-# alt (export)
+# alt
 
 **Signature**
 
@@ -259,7 +89,7 @@ Added in v0.1.5
 
 Added in v0.1.0
 
-# ap (export)
+# ap
 
 **Signature**
 
@@ -269,7 +99,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# apFirst (export)
+# apFirst
 
 **Signature**
 
@@ -279,7 +109,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# apSecond (export)
+# apSecond
 
 **Signature**
 
@@ -289,7 +119,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# chain (export)
+# chain
 
 **Signature**
 
@@ -299,7 +129,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# chainFirst (export)
+# chainFirst
 
 **Signature**
 
@@ -309,7 +139,37 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# compact (export)
+# chainOption
+
+**Signature**
+
+```ts
+export function chainOption<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.4
+
+# chainOptionK
+
+**Signature**
+
+```ts
+export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.10
+
+# chainTask
+
+**Signature**
+
+```ts
+export function chainTask<A, B>(f: (a: A) => Task<B>): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.4
+
+# compact
 
 **Signature**
 
@@ -319,7 +179,7 @@ Added in v0.1.0
 
 Added in v0.1.5
 
-# filter (export)
+# filter
 
 **Signature**
 
@@ -329,7 +189,7 @@ Added in v0.1.5
 
 Added in v0.1.5
 
-# filterMap (export)
+# filterMap
 
 **Signature**
 
@@ -339,7 +199,7 @@ Added in v0.1.5
 
 Added in v0.1.5
 
-# flatten (export)
+# flatten
 
 **Signature**
 
@@ -349,7 +209,77 @@ Added in v0.1.5
 
 Added in v0.1.0
 
-# map (export)
+# fold
+
+**Signature**
+
+```ts
+export function fold<A, B>(onNone: () => Task<B>, onSome: (a: A) => Task<B>): (as: TaskOption<A>) => Task<B> { ... }
+```
+
+Added in v0.1.0
+
+# fromNullable
+
+**Signature**
+
+```ts
+export function fromNullable<A>(a: A): TaskOption<NonNullable<A>> { ... }
+```
+
+Added in v0.1.4
+
+# fromOption
+
+**Signature**
+
+```ts
+export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = ...
+```
+
+Added in v0.1.0
+
+# fromOptionK
+
+**Signature**
+
+```ts
+export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => TaskOption<B> { ... }
+```
+
+Added in v0.1.10
+
+# fromTask
+
+**Signature**
+
+```ts
+export const fromTask: <A>(as: Task<A>) => TaskOption<A> = ...
+```
+
+Added in v0.1.0
+
+# fromTaskEither
+
+**Signature**
+
+```ts
+export function fromTaskEither<A>(ma: TaskEither<any, A>): TaskOption<A> { ... }
+```
+
+Added in v0.1.4
+
+# getOrElse
+
+**Signature**
+
+```ts
+export function getOrElse<A>(onNone: () => Task<A>): (as: TaskOption<A>) => Task<A> { ... }
+```
+
+Added in v0.1.0
+
+# map
 
 **Signature**
 
@@ -359,7 +289,27 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# partition (export)
+# mapNullable
+
+**Signature**
+
+```ts
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: TaskOption<A>) => TaskOption<B> { ... }
+```
+
+Added in v0.1.5
+
+# none
+
+**Signature**
+
+```ts
+export const none: TaskOption<never> = ...
+```
+
+Added in v0.1.0
+
+# partition
 
 **Signature**
 
@@ -369,7 +319,7 @@ Added in v0.1.0
 
 Added in v0.1.5
 
-# partitionMap (export)
+# partitionMap
 
 **Signature**
 
@@ -379,12 +329,62 @@ Added in v0.1.5
 
 Added in v0.1.5
 
-# separate (export)
+# separate
 
 **Signature**
 
 ```ts
 <A, B>(fa: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
+```
+
+Added in v0.1.5
+
+# some
+
+**Signature**
+
+```ts
+export const some: <A>(a: A) => TaskOption<A> = ...
+```
+
+Added in v0.1.0
+
+# taskOption
+
+**Signature**
+
+```ts
+export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = ...
+```
+
+Added in v0.1.0
+
+# toNullable
+
+**Signature**
+
+```ts
+export function toNullable<A>(ma: TaskOption<A>): Task<A | null> { ... }
+```
+
+Added in v0.1.4
+
+# toUndefined
+
+**Signature**
+
+```ts
+export function toUndefined<A>(ma: TaskOption<A>): Task<A | undefined> { ... }
+```
+
+Added in v0.1.4
+
+# tryCatch
+
+**Signature**
+
+```ts
+export function tryCatch<A>(f: Lazy<Promise<A>>): TaskOption<A> { ... }
 ```
 
 Added in v0.1.5

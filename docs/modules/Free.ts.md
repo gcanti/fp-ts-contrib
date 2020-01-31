@@ -17,17 +17,17 @@ Added in v0.1.3
 - [FoldFree3 (interface)](#foldfree3-interface)
 - [Free (type alias)](#free-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [free (constant)](#free-constant)
-- [foldFree (function)](#foldfree-function)
-- [hoistFree (function)](#hoistfree-function)
-- [isImpure (function)](#isimpure-function)
-- [isPure (function)](#ispure-function)
-- [liftF (function)](#liftf-function)
-- [ap (export)](#ap-export)
-- [chain (export)](#chain-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [ap](#ap)
+- [chain](#chain)
+- [flatten](#flatten)
+- [foldFree](#foldfree)
+- [free](#free)
+- [hoistFree](#hoistfree)
+- [isImpure](#isimpure)
+- [isPure](#ispure)
+- [liftF](#liftf)
+- [map](#map)
 
 ---
 
@@ -91,7 +91,7 @@ export type URI = typeof URI
 
 Added in v0.1.3
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -101,19 +101,37 @@ export const URI: "Free" = ...
 
 Added in v0.1.3
 
-# free (constant)
-
-Monad instance for Free
+# ap
 
 **Signature**
 
 ```ts
-export const free: Monad2<URI> = ...
+<E, A>(fa: Free<E, A>) => <B>(fab: Free<E, (a: A) => B>) => Free<E, B>
 ```
 
 Added in v0.1.3
 
-# foldFree (function)
+# chain
+
+**Signature**
+
+```ts
+<E, A, B>(f: (a: A) => Free<E, B>) => (ma: Free<E, A>) => Free<E, B>
+```
+
+Added in v0.1.3
+
+# flatten
+
+**Signature**
+
+```ts
+<E, A>(mma: Free<E, Free<E, A>>) => Free<E, A>
+```
+
+Added in v0.1.3
+
+# foldFree
 
 Perform folding of a free monad using given natural transformation as an interpreter
 
@@ -131,7 +149,19 @@ export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M
 
 Added in v0.1.3
 
-# hoistFree (function)
+# free
+
+Monad instance for Free
+
+**Signature**
+
+```ts
+export const free: Monad2<URI> = ...
+```
+
+Added in v0.1.3
+
+# hoistFree
 
 Use a natural transformation to change the generating type constructor of a free monad
 
@@ -152,7 +182,7 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Fr
 
 Added in v0.1.3
 
-# isImpure (function)
+# isImpure
 
 Check if given Free instance is Impure
 
@@ -164,7 +194,7 @@ export const isImpure = <F, A>(fa: Free<F, A>): fa is Impure<F, A, any> => ...
 
 Added in v0.1.3
 
-# isPure (function)
+# isPure
 
 Check if given Free instance is Pure
 
@@ -176,7 +206,7 @@ export const isPure = <F, A>(fa: Free<F, A>): fa is Pure<F, A> => ...
 
 Added in v0.1.3
 
-# liftF (function)
+# liftF
 
 Lift an impure value described by the generating type constructor `F` into the free monad
 
@@ -188,37 +218,7 @@ export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, a => ...
 
 Added in v0.1.3
 
-# ap (export)
-
-**Signature**
-
-```ts
-<E, A>(fa: Free<E, A>) => <B>(fab: Free<E, (a: A) => B>) => Free<E, B>
-```
-
-Added in v0.1.3
-
-# chain (export)
-
-**Signature**
-
-```ts
-<E, A, B>(f: (a: A) => Free<E, B>) => (ma: Free<E, A>) => Free<E, B>
-```
-
-Added in v0.1.3
-
-# flatten (export)
-
-**Signature**
-
-```ts
-<E, A>(mma: Free<E, Free<E, A>>) => Free<E, A>
-```
-
-Added in v0.1.3
-
-# map (export)
+# map
 
 **Signature**
 

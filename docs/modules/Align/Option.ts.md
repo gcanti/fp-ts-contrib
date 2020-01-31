@@ -12,11 +12,11 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alignOption (constant)](#alignoption-constant)
+- [alignOption](#alignoption)
 
 ---
 
-# alignOption (constant)
+# alignOption
 
 `Align` instance for `Option`.
 

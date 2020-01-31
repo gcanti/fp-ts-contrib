@@ -12,11 +12,11 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [withTimeout (function)](#withtimeout-function)
+- [withTimeout](#withtimeout)
 
 ---
 
-# withTimeout (function)
+# withTimeout
 
 Returns the task result if it completes within a timeout, or a fallback value instead.
 

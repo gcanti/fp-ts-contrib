@@ -14,26 +14,26 @@ Added in v0.1.0
 
 - [StateIO (interface)](#stateio-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [evalState (constant)](#evalstate-constant)
-- [execState (constant)](#execstate-constant)
-- [fromIO (constant)](#fromio-constant)
-- [fromState (constant)](#fromstate-constant)
-- [get (constant)](#get-constant)
-- [gets (constant)](#gets-constant)
-- [modify (constant)](#modify-constant)
-- [put (constant)](#put-constant)
-- [stateIO (constant)](#stateio-constant)
-- [chainIOK (function)](#chainiok-function)
-- [fromIOK (function)](#fromiok-function)
-- [run (function)](#run-function)
-- [ap (export)](#ap-export)
-- [apFirst (export)](#apfirst-export)
-- [apSecond (export)](#apsecond-export)
-- [chain (export)](#chain-export)
-- [chainFirst (export)](#chainfirst-export)
-- [flatten (export)](#flatten-export)
-- [map (export)](#map-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [chain](#chain)
+- [chainFirst](#chainfirst)
+- [chainIOK](#chainiok)
+- [evalState](#evalstate)
+- [execState](#execstate)
+- [flatten](#flatten)
+- [fromIO](#fromio)
+- [fromIOK](#fromiok)
+- [fromState](#fromstate)
+- [get](#get)
+- [gets](#gets)
+- [map](#map)
+- [modify](#modify)
+- [put](#put)
+- [run](#run)
+- [stateIO](#stateio)
 
 ---
 
@@ -59,7 +59,7 @@ export type URI = typeof URI
 
 Added in v0.1.0
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -69,127 +69,7 @@ export const URI: "StateIO" = ...
 
 Added in v0.1.0
 
-# evalState (constant)
-
-**Signature**
-
-```ts
-export const evalState: <S, A>(ma: StateIO<S, A>, s: S) => IO<A> = ...
-```
-
-Added in v0.1.0
-
-# execState (constant)
-
-**Signature**
-
-```ts
-export const execState: <S, A>(ma: StateIO<S, A>, s: S) => IO<S> = ...
-```
-
-Added in v0.1.0
-
-# fromIO (constant)
-
-**Signature**
-
-```ts
-export const fromIO: <S, A>(ma: IO<A>) => StateIO<S, A> = ...
-```
-
-Added in v0.1.0
-
-# fromState (constant)
-
-**Signature**
-
-```ts
-export const fromState: <S, A>(ma: State<S, A>) => StateIO<S, A> = ...
-```
-
-Added in v0.1.0
-
-# get (constant)
-
-**Signature**
-
-```ts
-export const get: <S>() => StateIO<S, S> = ...
-```
-
-Added in v0.1.0
-
-# gets (constant)
-
-**Signature**
-
-```ts
-export const gets: <S, A>(f: (s: S) => A) => StateIO<S, A> = ...
-```
-
-Added in v0.1.0
-
-# modify (constant)
-
-**Signature**
-
-```ts
-export const modify: <S>(f: (s: S) => S) => StateIO<S, void> = ...
-```
-
-Added in v0.1.0
-
-# put (constant)
-
-**Signature**
-
-```ts
-export const put: <S>(s: S) => StateIO<S, void> = ...
-```
-
-Added in v0.1.0
-
-# stateIO (constant)
-
-**Signature**
-
-```ts
-export const stateIO: Monad2<URI> = ...
-```
-
-Added in v0.1.0
-
-# chainIOK (function)
-
-**Signature**
-
-```ts
-export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: StateIO<R, A>) => StateIO<R, B> { ... }
-```
-
-Added in v0.1.10
-
-# fromIOK (function)
-
-**Signature**
-
-```ts
-export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => StateIO<R, B> { ... }
-```
-
-Added in v0.1.10
-
-# run (function)
-
-**Signature**
-
-```ts
-export function run<S, A>(ma: StateIO<S, A>, s: S): A { ... }
-```
-
-Added in v0.1.0
-
-# ap (export)
+# ap
 
 **Signature**
 
@@ -199,7 +79,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# apFirst (export)
+# apFirst
 
 **Signature**
 
@@ -209,7 +89,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# apSecond (export)
+# apSecond
 
 **Signature**
 
@@ -219,7 +99,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# chain (export)
+# chain
 
 **Signature**
 
@@ -229,7 +109,7 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# chainFirst (export)
+# chainFirst
 
 **Signature**
 
@@ -239,7 +119,37 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# flatten (export)
+# chainIOK
+
+**Signature**
+
+```ts
+export function chainIOK<A, B>(f: (a: A) => IO<B>): <R>(ma: StateIO<R, A>) => StateIO<R, B> { ... }
+```
+
+Added in v0.1.10
+
+# evalState
+
+**Signature**
+
+```ts
+export const evalState: <S, A>(ma: StateIO<S, A>, s: S) => IO<A> = ...
+```
+
+Added in v0.1.0
+
+# execState
+
+**Signature**
+
+```ts
+export const execState: <S, A>(ma: StateIO<S, A>, s: S) => IO<S> = ...
+```
+
+Added in v0.1.0
+
+# flatten
 
 **Signature**
 
@@ -249,12 +159,102 @@ Added in v0.1.0
 
 Added in v0.1.0
 
-# map (export)
+# fromIO
+
+**Signature**
+
+```ts
+export const fromIO: <S, A>(ma: IO<A>) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# fromIOK
+
+**Signature**
+
+```ts
+export function fromIOK<A extends Array<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => StateIO<R, B> { ... }
+```
+
+Added in v0.1.10
+
+# fromState
+
+**Signature**
+
+```ts
+export const fromState: <S, A>(ma: State<S, A>) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# get
+
+**Signature**
+
+```ts
+export const get: <S>() => StateIO<S, S> = ...
+```
+
+Added in v0.1.0
+
+# gets
+
+**Signature**
+
+```ts
+export const gets: <S, A>(f: (s: S) => A) => StateIO<S, A> = ...
+```
+
+Added in v0.1.0
+
+# map
 
 **Signature**
 
 ```ts
 <A, B>(f: (a: A) => B) => <E>(fa: StateIO<E, A>) => StateIO<E, B>
+```
+
+Added in v0.1.0
+
+# modify
+
+**Signature**
+
+```ts
+export const modify: <S>(f: (s: S) => S) => StateIO<S, void> = ...
+```
+
+Added in v0.1.0
+
+# put
+
+**Signature**
+
+```ts
+export const put: <S>(s: S) => StateIO<S, void> = ...
+```
+
+Added in v0.1.0
+
+# run
+
+**Signature**
+
+```ts
+export function run<S, A>(ma: StateIO<S, A>, s: S): A { ... }
+```
+
+Added in v0.1.0
+
+# stateIO
+
+**Signature**
+
+```ts
+export const stateIO: Monad2<URI> = ...
 ```
 
 Added in v0.1.0

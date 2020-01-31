@@ -12,11 +12,11 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [getLine (function)](#getline-function)
+- [getLine](#getline)
 
 ---
 
-# getLine (function)
+# getLine
 
 **Signature**
 

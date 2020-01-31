@@ -12,15 +12,15 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alignArray (constant)](#alignarray-constant)
-- [lpadZip (function)](#lpadzip-function)
-- [lpadZipWith (function)](#lpadzipwith-function)
-- [rpadZip (function)](#rpadzip-function)
-- [rpadZipWith (function)](#rpadzipwith-function)
+- [alignArray](#alignarray)
+- [lpadZip](#lpadzip)
+- [lpadZipWith](#lpadzipwith)
+- [rpadZip](#rpadzip)
+- [rpadZipWith](#rpadzipwith)
 
 ---
 
-# alignArray (constant)
+# alignArray
 
 `Align` instance for `Array`.
 
@@ -32,7 +32,7 @@ export const alignArray: Align1<URI> = ...
 
 Added in v0.1.0
 
-# lpadZip (function)
+# lpadZip
 
 Takes two arrays and returns an array of corresponding pairs. If the left input array is short, it will be
 padded using `none`.
@@ -64,7 +64,7 @@ assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [
 
 Added in v0.1.0
 
-# lpadZipWith (function)
+# lpadZipWith
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
 left input array is short, it will be padded using `none`.
@@ -98,7 +98,7 @@ assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b
 
 Added in v0.1.0
 
-# rpadZip (function)
+# rpadZip
 
 Takes two arrays and returns an array of corresponding pairs. If the right input array is short, it will be
 padded using `none`.
@@ -130,7 +130,7 @@ assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [
 
 Added in v0.1.0
 
-# rpadZipWith (function)
+# rpadZipWith
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
 right input array is short, it will be padded using `none`.
