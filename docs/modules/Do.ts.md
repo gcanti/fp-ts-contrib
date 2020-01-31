@@ -20,7 +20,7 @@ Added in v0.1.0
 - [Do2C (interface)](#do2c-interface)
 - [Do3 (interface)](#do3-interface)
 - [Do3C (interface)](#do3c-interface)
-- [Do (function)](#do-function)
+- [Do](#do)
 
 ---
 
@@ -177,7 +177,7 @@ export interface Do3C<M extends URIS3, S extends object, R, E> {
 
 Added in v0.1.0
 
-# Do (function)
+# Do
 
 This function provides a simulation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
 scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that

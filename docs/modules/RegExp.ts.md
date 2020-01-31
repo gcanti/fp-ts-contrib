@@ -16,14 +16,14 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [match (function)](#match-function)
-- [split (function)](#split-function)
-- [sub (function)](#sub-function)
-- [test (function)](#test-function)
+- [match](#match)
+- [split](#split)
+- [sub](#sub)
+- [test](#test)
 
 ---
 
-# match (function)
+# match
 
 Returns the list of subexpression matches, or `None` if the match fails.
 
@@ -47,7 +47,7 @@ assert.deepStrictEqual(myMatch('foo'), O.none)
 
 Added in v0.1.8
 
-# split (function)
+# split
 
 Splits a string based on a regular expression. The regular expression
 should identify one delimiter.
@@ -70,7 +70,7 @@ assert.deepStrictEqual(splitByHash('noHashes'), ['noHashes'])
 
 Added in v0.1.8
 
-# sub (function)
+# sub
 
 Replaces every occurance of the given regular expression
 with the replacement string.
@@ -92,7 +92,7 @@ assert.strictEqual(sanitiseSpaces('foo bar owl'), 'foo_bar_owl')
 
 Added in v0.1.8
 
-# test (function)
+# test
 
 Returns `true` if the string matches the regular expression,
 otherwise `false`.

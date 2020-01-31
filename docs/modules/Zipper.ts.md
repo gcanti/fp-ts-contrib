@@ -25,34 +25,38 @@ Added in v0.1.6
 
 - [Zipper (interface)](#zipper-interface)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [zipper (constant)](#zipper-constant)
-- [deleteLeft (function)](#deleteleft-function)
-- [deleteRight (function)](#deleteright-function)
-- [down (function)](#down-function)
-- [end (function)](#end-function)
-- [fromArray (function)](#fromarray-function)
-- [fromNonEmptyArray (function)](#fromnonemptyarray-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)
-- [getShow (function)](#getshow-function)
-- [insertLeft (function)](#insertleft-function)
-- [insertRight (function)](#insertright-function)
-- [isOutOfBound (function)](#isoutofbound-function)
-- [length (function)](#length-function)
-- [make (function)](#make-function)
-- [modify (function)](#modify-function)
-- [move (function)](#move-function)
-- [of (function)](#of-function)
-- [start (function)](#start-function)
-- [toArray (function)](#toarray-function)
-- [up (function)](#up-function)
-- [update (function)](#update-function)
-- [ap (export)](#ap-export)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [ap](#ap)
+- [apFirst](#apfirst)
+- [apSecond](#apsecond)
+- [deleteLeft](#deleteleft)
+- [deleteRight](#deleteright)
+- [down](#down)
+- [duplicate](#duplicate)
+- [end](#end)
+- [extend](#extend)
+- [foldMap](#foldmap)
+- [fromArray](#fromarray)
+- [fromNonEmptyArray](#fromnonemptyarray)
+- [getMonoid](#getmonoid)
+- [getSemigroup](#getsemigroup)
+- [getShow](#getshow)
+- [insertLeft](#insertleft)
+- [insertRight](#insertright)
+- [isOutOfBound](#isoutofbound)
+- [length](#length)
+- [make](#make)
+- [map](#map)
+- [modify](#modify)
+- [move](#move)
+- [of](#of)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [start](#start)
+- [toArray](#toarray)
+- [up](#up)
+- [update](#update)
+- [zipper](#zipper)
 
 ---
 
@@ -80,7 +84,7 @@ export type URI = typeof URI
 
 Added in v0.1.6
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -90,17 +94,37 @@ export const URI: "Zipper" = ...
 
 Added in v0.1.6
 
-# zipper (constant)
+# ap
 
 **Signature**
 
 ```ts
-export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
+<A>(fa: Zipper<A>) => <B>(fab: Zipper<(a: A) => B>) => Zipper<B>
 ```
 
 Added in v0.1.6
 
-# deleteLeft (function)
+# apFirst
+
+**Signature**
+
+```ts
+<B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.11
+
+# apSecond
+
+**Signature**
+
+```ts
+<B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.11
+
+# deleteLeft
 
 Deletes the element at focus and moves the focus to the left. If there is no element on the left,
 the focus is moved to the right.
@@ -113,7 +137,7 @@ export function deleteLeft<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# deleteRight (function)
+# deleteRight
 
 Deletes the element at focus and moves the focus to the right. If there is no element on the right,
 the focus is moved to the left.
@@ -126,7 +150,7 @@ export function deleteRight<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# down (function)
+# down
 
 Moves focus of the zipper down.
 
@@ -138,7 +162,17 @@ export function down<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# end (function)
+# duplicate
+
+**Signature**
+
+```ts
+<A>(ma: Zipper<A>) => Zipper<Zipper<A>>
+```
+
+Added in v0.1.11
+
+# end
 
 Moves focus to the end of the zipper.
 
@@ -150,7 +184,27 @@ export function end<A>(fa: Zipper<A>): Zipper<A> { ... }
 
 Added in v0.1.6
 
-# fromArray (function)
+# extend
+
+**Signature**
+
+```ts
+<A, B>(f: (fa: Zipper<A>) => B) => (ma: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.11
+
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Zipper<A>) => M
+```
+
+Added in v0.1.11
+
+# fromArray
 
 **Signature**
 
@@ -160,7 +214,7 @@ export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 
 Added in v0.1.6
 
-# fromNonEmptyArray (function)
+# fromNonEmptyArray
 
 **Signature**
 
@@ -170,7 +224,7 @@ export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> { ... }
 
 Added in v0.1.6
 
-# getMonoid (function)
+# getMonoid
 
 **Signature**
 
@@ -180,7 +234,7 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# getSemigroup (function)
+# getSemigroup
 
 **Signature**
 
@@ -190,7 +244,7 @@ export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# getShow (function)
+# getShow
 
 **Signature**
 
@@ -200,7 +254,7 @@ export function getShow<A>(S: Show<A>): Show<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# insertLeft (function)
+# insertLeft
 
 Inserts an element to the left of the focus and focuses on the new element.
 
@@ -212,7 +266,7 @@ export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 
 Added in v0.1.6
 
-# insertRight (function)
+# insertRight
 
 Inserts an element to the right of the focus and focuses on the new element.
 
@@ -224,7 +278,7 @@ export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 
 Added in v0.1.6
 
-# isOutOfBound (function)
+# isOutOfBound
 
 **Signature**
 
@@ -234,7 +288,7 @@ export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean { ... }
 
 Added in v0.1.6
 
-# length (function)
+# length
 
 **Signature**
 
@@ -244,7 +298,7 @@ export function length<A>(fa: Zipper<A>): number { ... }
 
 Added in v0.1.6
 
-# make (function)
+# make
 
 Creates a new zipper.
 
@@ -256,7 +310,17 @@ export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> 
 
 Added in v0.1.6
 
-# modify (function)
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.6
+
+# modify
 
 Applies `f` to the focus and update with the result.
 
@@ -268,7 +332,7 @@ export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> { ... }
 
 Added in v0.1.6
 
-# move (function)
+# move
 
 Moves focus in the zipper, or `None` if there is no such element.
 
@@ -280,7 +344,7 @@ export function move<A>(f: (currentIndex: number) => number, fa: Zipper<A>): Opt
 
 Added in v0.1.6
 
-# of (function)
+# of
 
 **Signature**
 
@@ -290,7 +354,27 @@ export function of<A>(focus: A): Zipper<A> { ... }
 
 Added in v0.1.6
 
-# start (function)
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B
+```
+
+Added in v0.1.6
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B
+```
+
+Added in v0.1.6
+
+# start
 
 Moves focus to the start of the zipper.
 
@@ -302,7 +386,7 @@ export function start<A>(fa: Zipper<A>): Zipper<A> { ... }
 
 Added in v0.1.6
 
-# toArray (function)
+# toArray
 
 **Signature**
 
@@ -312,7 +396,7 @@ export function toArray<A>(fa: Zipper<A>): Array<A> { ... }
 
 Added in v0.1.6
 
-# up (function)
+# up
 
 Moves focus of the zipper up.
 
@@ -324,7 +408,7 @@ export function up<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
 
 Added in v0.1.6
 
-# update (function)
+# update
 
 Updates the focus of the zipper.
 
@@ -336,52 +420,12 @@ export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
 
 Added in v0.1.6
 
-# ap (export)
+# zipper
 
 **Signature**
 
 ```ts
-<A>(fa: Zipper<A>) => <B>(fab: Zipper<(a: A) => B>) => Zipper<B>
-```
-
-Added in v0.1.6
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Zipper<A>) => M
-```
-
-Added in v0.1.6
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: Zipper<A>) => Zipper<B>
-```
-
-Added in v0.1.6
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B
-```
-
-Added in v0.1.6
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B
+export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
 Added in v0.1.6

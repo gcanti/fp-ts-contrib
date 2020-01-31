@@ -12,13 +12,13 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [align (function)](#align-function)
-- [alignWith (function)](#alignwith-function)
-- [nil (function)](#nil-function)
+- [align](#align)
+- [alignWith](#alignwith)
+- [nil](#nil)
 
 ---
 
-# align (function)
+# align
 
 **Signature**
 
@@ -32,7 +32,7 @@ export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Recor
 
 Added in v0.1.0
 
-# alignWith (function)
+# alignWith
 
 **Signature**
 
@@ -51,7 +51,7 @@ export function alignWith<A, B, C>(
 
 Added in v0.1.0
 
-# nil (function)
+# nil
 
 **Signature**
 

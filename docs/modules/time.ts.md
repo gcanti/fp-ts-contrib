@@ -12,11 +12,11 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [time (function)](#time-function)
+- [time](#time)
 
 ---
 
-# time (function)
+# time
 
 Mimics the analogous Unix command: given an action `HKT<M, A>`, we can derive an action `HKT<M, [A, number]>` that
 returns the elapsed time along with the computed value

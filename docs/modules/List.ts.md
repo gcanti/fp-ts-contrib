@@ -18,28 +18,28 @@ Added in v0.1.8
 - [Nil (interface)](#nil-interface)
 - [List (type alias)](#list-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [URI (constant)](#uri-constant)
-- [list (constant)](#list-constant)
-- [nil (constant)](#nil-constant)
-- [cons (function)](#cons-function)
-- [dropLeft (function)](#dropleft-function)
-- [dropLeftWhile (function)](#dropleftwhile-function)
-- [findIndex (function)](#findindex-function)
-- [foldLeft (function)](#foldleft-function)
-- [fromArray (function)](#fromarray-function)
-- [getEq (function)](#geteq-function)
-- [head (function)](#head-function)
-- [isCons (function)](#iscons-function)
-- [isNil (function)](#isnil-function)
-- [of (function)](#of-function)
-- [reverse (function)](#reverse-function)
-- [tail (function)](#tail-function)
-- [toArray (function)](#toarray-function)
-- [toReversedArray (function)](#toreversedarray-function)
-- [foldMap (export)](#foldmap-export)
-- [map (export)](#map-export)
-- [reduce (export)](#reduce-export)
-- [reduceRight (export)](#reduceright-export)
+- [URI](#uri)
+- [cons](#cons)
+- [dropLeft](#dropleft)
+- [dropLeftWhile](#dropleftwhile)
+- [findIndex](#findindex)
+- [foldLeft](#foldleft)
+- [foldMap](#foldmap)
+- [fromArray](#fromarray)
+- [getEq](#geteq)
+- [head](#head)
+- [isCons](#iscons)
+- [isNil](#isnil)
+- [list](#list)
+- [map](#map)
+- [nil](#nil)
+- [of](#of)
+- [reduce](#reduce)
+- [reduceRight](#reduceright)
+- [reverse](#reverse)
+- [tail](#tail)
+- [toArray](#toarray)
+- [toReversedArray](#toreversedarray)
 
 ---
 
@@ -91,7 +91,7 @@ export type URI = typeof URI
 
 Added in v0.1.8
 
-# URI (constant)
+# URI
 
 **Signature**
 
@@ -101,27 +101,7 @@ export const URI: "List" = ...
 
 Added in v0.1.8
 
-# list (constant)
-
-**Signature**
-
-```ts
-export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
-```
-
-Added in v0.1.8
-
-# nil (constant)
-
-**Signature**
-
-```ts
-export const nil: List<never> = ...
-```
-
-Added in v0.1.8
-
-# cons (function)
+# cons
 
 Attaches an element to the front of a list.
 
@@ -141,7 +121,7 @@ assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.ni
 
 Added in v0.1.8
 
-# dropLeft (function)
+# dropLeft
 
 Drops the specified number of elements from the front of a list.
 
@@ -163,7 +143,7 @@ assert.deepStrictEqual(L.dropLeft(3)(L.cons(1, L.of(2))), L.nil)
 
 Added in v0.1.8
 
-# dropLeftWhile (function)
+# dropLeftWhile
 
 Drops those elements from the front of a list which match a predicate.
 
@@ -187,7 +167,7 @@ assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.cons(1, L.of(2))), L.nil)
 
 Added in v0.1.8
 
-# findIndex (function)
+# findIndex
 
 Finds the first index for which a predicate holds.
 
@@ -212,7 +192,7 @@ assert.deepStrictEqual(findIndexEven(L.of(1)), O.none)
 
 Added in v0.1.8
 
-# foldLeft (function)
+# foldLeft
 
 Breaks a list into its first element and the remaining elements.
 
@@ -236,7 +216,17 @@ assert.deepStrictEqual(len(L.cons('a', L.of('b'))), 2)
 
 Added in v0.1.8
 
-# fromArray (function)
+# foldMap
+
+**Signature**
+
+```ts
+;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M
+```
+
+Added in v0.1.8
+
+# fromArray
 
 Creates a list from an array
 
@@ -257,7 +247,7 @@ assert.deepStrictEqual(L.fromArray(['a', 'b']), L.cons('a', L.of('b')))
 
 Added in v0.1.8
 
-# getEq (function)
+# getEq
 
 Derives an `Eq` over the `List` of a given element type from the `Eq` of that type.
 The derived `Eq` defines two lists as equal if all elements of both lists
@@ -283,7 +273,7 @@ assert.strictEqual(E.equals(L.of('x'), L.nil), false)
 
 Added in v0.1.8
 
-# head (function)
+# head
 
 Gets the first element in a list, or `None` if the list is empty.
 
@@ -305,7 +295,7 @@ assert.deepStrictEqual(L.head(L.cons('x', L.of('a'))), O.some('x'))
 
 Added in v0.1.8
 
-# isCons (function)
+# isCons
 
 Tests whether a list is a non empty list.
 
@@ -326,7 +316,7 @@ assert.strictEqual(L.isCons(L.of(1)), true)
 
 Added in v0.1.8
 
-# isNil (function)
+# isNil
 
 Tests whether a list is an empty list.
 
@@ -347,7 +337,37 @@ assert.strictEqual(L.isNil(L.of(6)), false)
 
 Added in v0.1.8
 
-# of (function)
+# list
+
+**Signature**
+
+```ts
+export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = ...
+```
+
+Added in v0.1.8
+
+# map
+
+**Signature**
+
+```ts
+<A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
+```
+
+Added in v0.1.8
+
+# nil
+
+**Signature**
+
+```ts
+export const nil: List<never> = ...
+```
+
+Added in v0.1.8
+
+# of
 
 Creates a list with a single element.
 
@@ -367,7 +387,27 @@ assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
 
 Added in v0.1.8
 
-# reverse (function)
+# reduce
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B
+```
+
+Added in v0.1.8
+
+# reduceRight
+
+**Signature**
+
+```ts
+;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
+```
+
+Added in v0.1.8
+
+# reverse
 
 Reverse a list.
 
@@ -387,7 +427,7 @@ assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.of(3)))), L.cons(3, L.con
 
 Added in v0.1.8
 
-# tail (function)
+# tail
 
 Gets all but the first element of a list, or `None` if the list is empty.
 
@@ -410,7 +450,7 @@ assert.deepStrictEqual(L.tail(L.cons('x', L.of('a'))), O.some(L.of('a')))
 
 Added in v0.1.8
 
-# toArray (function)
+# toArray
 
 Gets an array from a list.
 
@@ -430,7 +470,7 @@ assert.deepStrictEqual(L.toArray(L.cons('a', L.of('b'))), ['a', 'b'])
 
 Added in v0.1.8
 
-# toReversedArray (function)
+# toReversedArray
 
 Gets an array from a list in a reversed order.
 
@@ -446,46 +486,6 @@ export function toReversedArray<A>(fa: List<A>): Array<A> { ... }
 import * as L from 'fp-ts-contrib/lib/List'
 
 assert.deepStrictEqual(L.toReversedArray(L.cons('a', L.of('b'))), ['b', 'a'])
-```
-
-Added in v0.1.8
-
-# foldMap (export)
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M
-```
-
-Added in v0.1.8
-
-# map (export)
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
-```
-
-Added in v0.1.8
-
-# reduce (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B
-```
-
-Added in v0.1.8
-
-# reduceRight (export)
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B
 ```
 
 Added in v0.1.8

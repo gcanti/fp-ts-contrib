@@ -27,9 +27,9 @@ Added in v0.1.0
 - [Align2 (interface)](#align2-interface)
 - [Align2C (interface)](#align2c-interface)
 - [Align3 (interface)](#align3-interface)
-- [padZip (function)](#padzip-function)
-- [padZipWith (function)](#padzipwith-function)
-- [salign (function)](#salign-function)
+- [padZip](#padzip)
+- [padZipWith](#padzipwith)
+- [salign](#salign)
 
 ---
 
@@ -93,7 +93,7 @@ export interface Align3<F extends URIS3> extends Semialign3<F> {
 
 Added in v0.1.0
 
-# padZip (function)
+# padZip
 
 Align two structures, using `none` to fill blanks.
 
@@ -133,7 +133,7 @@ assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [
 
 Added in v0.1.0
 
-# padZipWith (function)
+# padZipWith
 
 Align two structures by applying a function to each pair of aligned elements, using `none` to fill blanks.
 
@@ -190,7 +190,7 @@ assert.deepStrictEqual(padZipWith(alignArray)([1], ['a', 'b'], f), ['1a', '*b'])
 
 Added in v0.1.0
 
-# salign (function)
+# salign
 
 Align two structures, using a semigroup for combining values.
 

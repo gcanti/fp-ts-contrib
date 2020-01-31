@@ -12,11 +12,11 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [batchTraverse (function)](#batchtraverse-function)
+- [batchTraverse](#batchtraverse)
 
 ---
 
-# batchTraverse (function)
+# batchTraverse
 
 Like `array.traverse` but actions are batched in chunks.
 You can use `Array.chunksOf` to provide the `as` argument.

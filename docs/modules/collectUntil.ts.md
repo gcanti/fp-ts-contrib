@@ -12,11 +12,11 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [collectUntil (function)](#collectuntil-function)
+- [collectUntil](#collectuntil)
 
 ---
 
-# collectUntil (function)
+# collectUntil
 
 Execute an action repeatedly until the `Option` condition returns a `Some`. Collects results into an arbitrary `Alt`
 value, such as a `Array` or `NonEmptyArray`.
