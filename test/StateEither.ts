@@ -66,21 +66,15 @@ describe('StateEither', () => {
     assert.deepStrictEqual(e, E.right(1))
   })
 
-  it('chainEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
-    const x = _.evalState(pipe(_.right('aa'), _.chainEitherK(f)), {})
-    assert.deepStrictEqual(x, E.right(2))
-  })
-
-  it('StateEitherK', async () => {
+  it('fromEitherK', async () => {
     const f = (s: Array<string>) => E.right(s.length)
     const x = _.evalState(_.fromEitherK(f)(['a', 'b']), {})
     assert.deepStrictEqual(x, E.right(2))
   })
 
-  it('StatekEitherK', async () => {
+  it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    const x = _.evalState(_.chainEitherK(f)(_.right('e')), {})
-    assert.deepStrictEqual(x, E.right(1))
+    const x = _.evalState(pipe(_.right('aa'), _.chainEitherK(f)), {})
+    assert.deepStrictEqual(x, E.right(2))
   })
 })
