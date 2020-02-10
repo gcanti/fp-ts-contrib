@@ -14,9 +14,6 @@ Added in v2.4.4
 
 - [StateEither (interface)](#stateeither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [StateEither](#stateeither)
-- [StateEitherK](#stateeitherk)
-- [StatekEitherK](#statekeitherk)
 - [URI](#uri)
 - [ap](#ap)
 - [apFirst](#apfirst)
@@ -41,9 +38,7 @@ Added in v2.4.4
 - [put](#put)
 - [right](#right)
 - [rightState](#rightstate)
-- [run](#run)
 - [stateEither](#stateeither)
-- [stateEitherSeq](#stateeitherseq)
 
 ---
 
@@ -57,7 +52,7 @@ export interface StateEither<S, E, A> {
 }
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # URI (type alias)
 
@@ -67,41 +62,7 @@ Added in v0.1.0
 export type URI = typeof URI
 ```
 
-Added in v0.1.0
-
-# StateEither
-
-**Signature**
-
-```ts
-export const StateEither: <S, E, A>(ma: E.Either<E, A>) => StateEither<S, E, A> = ...
-```
-
-Added in v0.1.0
-
-# StateEitherK
-
-**Signature**
-
-```ts
-export function StateEitherK<E, A extends Array<unknown>, B>(
-  f: (...a: A) => E.Either<E, B>
-): <S>(...a: A) => StateEither<S, E, B> { ... }
-```
-
-Added in v0.1.10
-
-# StatekEitherK
-
-**Signature**
-
-```ts
-export function StatekEitherK<E, A, B>(
-  f: (a: A) => E.Either<E, B>
-): <S>(ma: StateEither<S, E, A>) => StateEither<S, E, B> { ... }
-```
-
-Added in v0.1.10
+Added in v0.1.12
 
 # URI
 
@@ -111,7 +72,7 @@ Added in v0.1.10
 export const URI: "StateEither" = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # ap
 
@@ -121,7 +82,7 @@ Added in v0.1.0
 <R, E, A>(fa: StateEither<R, E, A>) => <B>(fab: StateEither<R, E, (a: A) => B>) => StateEither<R, E, B>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # apFirst
 
@@ -131,7 +92,7 @@ Added in v0.1.0
 <R, E, B>(fb: StateEither<R, E, B>) => <A>(fa: StateEither<R, E, A>) => StateEither<R, E, A>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # apSecond
 
@@ -141,7 +102,7 @@ Added in v0.1.0
 <R, E, B>(fb: StateEither<R, E, B>) => <A>(fa: StateEither<R, E, A>) => StateEither<R, E, B>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # chain
 
@@ -151,7 +112,7 @@ Added in v0.1.0
 <R, E, A, B>(f: (a: A) => StateEither<R, E, B>) => (ma: StateEither<R, E, A>) => StateEither<R, E, B>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # chainEitherK
 
@@ -163,7 +124,7 @@ export function chainEitherK<E, A, B>(
 ): <S>(ma: StateEither<S, E, A>) => StateEither<S, E, B> { ... }
 ```
 
-Added in v0.1.10
+Added in v0.1.12
 
 # chainFirst
 
@@ -173,7 +134,7 @@ Added in v0.1.10
 <R, E, A, B>(f: (a: A) => StateEither<R, E, B>) => (ma: StateEither<R, E, A>) => StateEither<R, E, A>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # evalState
 
@@ -183,7 +144,7 @@ Added in v0.1.0
 export const evalState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => E.Either<E, A> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # execState
 
@@ -193,7 +154,7 @@ Added in v0.1.0
 export const execState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => E.Either<E, S> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # filterOrElse
 
@@ -203,7 +164,7 @@ Added in v0.1.0
 { <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: StateEither<R, E, A>) => StateEither<R, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: StateEither<R, E, A>) => StateEither<R, E, A>; }
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # flatten
 
@@ -213,14 +174,14 @@ Added in v0.1.0
 <R, E, A>(mma: StateEither<R, E, StateEither<R, E, A>>) => StateEither<R, E, A>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # fromEither
 
 **Signature**
 
 ```ts
-<R, E, A>(ma: E.Either<E, A>) => StateEither<R, E, A>
+export const fromEither: <S, E, A>(ma: E.Either<E, A>) => StateEither<S, E, A> = ...
 ```
 
 Added in v0.1.0
@@ -235,7 +196,7 @@ export function fromEitherK<E, A extends Array<unknown>, B>(
 ): <S>(...a: A) => StateEither<S, E, B> { ... }
 ```
 
-Added in v0.1.10
+Added in v0.1.12
 
 # fromOption
 
@@ -245,7 +206,7 @@ Added in v0.1.10
 <E>(onNone: () => E) => <R, A>(ma: Option<A>) => StateEither<R, E, A>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # fromPredicate
 
@@ -255,7 +216,7 @@ Added in v0.1.0
 { <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => StateEither<U, E, B>; <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => StateEither<R, E, A>; }
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # get
 
@@ -265,27 +226,27 @@ Added in v0.1.0
 export const get: <S>() => StateEither<S, never, S> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # gets
 
 **Signature**
 
 ```ts
-export const gets: <S, A>(f: (s: S) => A) => StateEither<S, never, A> = ...
+export const gets: <S, E = never, A = never>(f: (s: S) => A) => StateEither<S, E, A> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # left
 
 **Signature**
 
 ```ts
-export function left<S, E>(e: E): StateEither<S, E, never> { ... }
+export function left<S, E = never, A = never>(e: E): StateEither<S, E, A> { ... }
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # leftState
 
@@ -295,7 +256,7 @@ Added in v0.1.0
 export function leftState<S, E>(me: State<S, E>): StateEither<S, E, never> { ... }
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # map
 
@@ -305,7 +266,7 @@ Added in v0.1.0
 <A, B>(f: (a: A) => B) => <R, E>(fa: StateEither<R, E, A>) => StateEither<R, E, B>
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # modify
 
@@ -315,7 +276,7 @@ Added in v0.1.0
 export const modify: <S>(f: (s: S) => S) => StateEither<S, never, void> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # put
 
@@ -325,7 +286,7 @@ Added in v0.1.0
 export const put: <S>(s: S) => StateEither<S, never, void> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # right
 
@@ -335,7 +296,7 @@ Added in v0.1.0
 export const right: <S, A>(a: A) => StateEither<S, never, A> = ...
 ```
 
-Added in v0.1.0
+Added in v0.1.12
 
 # rightState
 
@@ -345,17 +306,7 @@ Added in v0.1.0
 export const rightState: <S, A>(ma: State<S, A>) => StateEither<S, never, A> = ...
 ```
 
-Added in v0.1.0
-
-# run
-
-**Signature**
-
-```ts
-export function run<S, E, A>(ma: StateEither<S, E, A>, s: S): E.Either<E, [A, S]> { ... }
-```
-
-Added in v0.1.0
+Added in v0.1.12
 
 # stateEither
 
@@ -365,16 +316,4 @@ Added in v0.1.0
 export const stateEither: Monad3<URI> & MonadThrow3<URI> = ...
 ```
 
-Added in v0.1.0
-
-# stateEitherSeq
-
-Like `stateEither` but `ap` is sequential
-
-**Signature**
-
-```ts
-export const stateEitherSeq: typeof stateEither = ...
-```
-
-Added in v0.1.0
+Added in v0.1.12

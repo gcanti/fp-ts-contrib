@@ -17,90 +17,83 @@ declare module 'fp-ts/lib/HKT' {
 }
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const URI = 'StateEither'
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export type URI = typeof URI
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export interface StateEither<S, E, A> {
   (s: S): E.Either<E, [A, S]>
 }
 
 /**
- * @since 0.1.0
- */
-export function run<S, E, A>(ma: StateEither<S, E, A>, s: S): E.Either<E, [A, S]> {
-  return ma(s)
-}
-
-/**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const evalState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => E.Either<E, A> = T.evalState
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const execState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => E.Either<E, S> = T.execState
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
-export function left<S, E>(e: E): StateEither<S, E, never> {
-  return StateEither(E.left(e))
+export function left<S, E = never, A = never>(e: E): StateEither<S, E, A> {
+  return fromEither(E.left(e))
 }
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const right: <S, A>(a: A) => StateEither<S, never, A> = T.of
 
 /**
- * @since 0.1.0
- */
-export const StateEither: <S, E, A>(ma: E.Either<E, A>) => StateEither<S, E, A> = T.fromM
-
-/**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const rightState: <S, A>(ma: State<S, A>) => StateEither<S, never, A> = T.fromState
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export function leftState<S, E>(me: State<S, E>): StateEither<S, E, never> {
   return s => E.left(me(s)[0])
 }
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const get: <S>() => StateEither<S, never, S> = T.get
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const put: <S>(s: S) => StateEither<S, never, void> = T.put
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const modify: <S>(f: (s: S) => S) => StateEither<S, never, void> = T.modify
 
 /**
- * @since 0.1.0
+ * @since 0.1.12
  */
-export const gets: <S, A>(f: (s: S) => A) => StateEither<S, never, A> = T.gets
+export const gets: <S, E = never, A = never>(f: (s: S) => A) => StateEither<S, E, A> = T.gets
 
 /**
- * @since 0.1.10
+ * @since 0.1.0
+ */
+export const fromEither: <S, E, A>(ma: E.Either<E, A>) => StateEither<S, E, A> = T.fromM
+
+/**
+ * @since 0.1.12
  */
 export function fromEitherK<E, A extends Array<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
@@ -109,7 +102,7 @@ export function fromEitherK<E, A extends Array<unknown>, B>(
 }
 
 /**
- * @since 0.1.10
+ * @since 0.1.12
  */
 export function chainEitherK<E, A, B>(
   f: (a: A) => E.Either<E, B>
@@ -118,25 +111,7 @@ export function chainEitherK<E, A, B>(
 }
 
 /**
- * @since 0.1.10
- */
-export function StateEitherK<E, A extends Array<unknown>, B>(
-  f: (...a: A) => E.Either<E, B>
-): <S>(...a: A) => StateEither<S, E, B> {
-  return (...a) => StateEither(f(...a))
-}
-
-/**
- * @since 0.1.10
- */
-export function StatekEitherK<E, A, B>(
-  f: (a: A) => E.Either<E, B>
-): <S>(ma: StateEither<S, E, A>) => StateEither<S, E, B> {
-  return chain<any, E, A, B>(StateEitherK(f))
-}
-
-/**
- * @since 0.1.0
+ * @since 0.1.12
  */
 export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
   URI,
@@ -147,72 +122,49 @@ export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
   throwError: left
 }
 
-/**
- * Like `stateEither` but `ap` is sequential
- * @since 0.1.0
- */
-export const stateEitherSeq: typeof stateEither = {
-  ...stateEither,
-  ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
-}
-
-const {
-  ap,
-  apFirst,
-  apSecond,
-  chain,
-  chainFirst,
-  flatten,
-  map,
-  filterOrElse,
-  fromEither,
-  fromOption,
-  fromPredicate
-} = pipeable(stateEither)
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map, filterOrElse, fromOption, fromPredicate } = pipeable(
+  stateEither
+)
 
 export {
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   ap,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   apFirst,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   apSecond,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   chain,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   chainFirst,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   flatten,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   map,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   filterOrElse,
   /**
-   * @since 0.1.0
-   */
-  fromEither,
-  /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   fromOption,
   /**
-   * @since 0.1.0
+   * @since 0.1.12
    */
   fromPredicate
 }

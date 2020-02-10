@@ -5,12 +5,6 @@ import { State } from 'fp-ts/lib/State'
 import * as _ from '../src/StateEither'
 
 describe('StateEither', () => {
-  it('run', () => {
-    const ma = _.right('aaa')
-    const e = _.run(ma, {})
-    assert.deepStrictEqual(e, E.right(['aaa', {}]))
-  })
-
   describe('Monad', () => {
     it('map', async () => {
       const len = (s: string): number => s.length
@@ -24,14 +18,6 @@ describe('StateEither', () => {
       const mab = _.right(len)
       const ma = _.right('aaa')
       const e = _.evalState(_.stateEither.ap(mab, ma), {})
-      assert.deepStrictEqual(e, E.right(3))
-    })
-
-    it('ap (seq)', async () => {
-      const len = (s: string): number => s.length
-      const mab = _.right(len)
-      const ma = _.right('aaa')
-      const e = _.evalState(_.stateEitherSeq.ap(mab, ma), {})
       assert.deepStrictEqual(e, E.right(3))
     })
 
@@ -58,9 +44,7 @@ describe('StateEither', () => {
   })
 
   it('execState Left', () => {
-    const ma = _.left('aaa')
-    const s = {}
-    const e = _.execState(ma, s)
+    const e = _.execState(_.left('aaa'), { a: 0 })
     assert.deepStrictEqual(e, E.left('aaa'))
   })
 
@@ -90,19 +74,13 @@ describe('StateEither', () => {
 
   it('StateEitherK', async () => {
     const f = (s: Array<string>) => E.right(s.length)
-    const x = _.evalState(_.StateEitherK(f)(['a', 'b']), {})
+    const x = _.evalState(_.fromEitherK(f)(['a', 'b']), {})
     assert.deepStrictEqual(x, E.right(2))
   })
 
   it('StatekEitherK', async () => {
     const f = (s: string) => E.right(s.length)
-    const x = _.evalState(_.StatekEitherK(f)(_.right('e')), {})
+    const x = _.evalState(_.chainEitherK(f)(_.right('e')), {})
     assert.deepStrictEqual(x, E.right(1))
-  })
-
-  it('stateEitherSeq', async () => {
-    const f = (s: Array<string>) => E.right(s.length)
-    const x = _.evalState(_.StateEitherK(f)(['a', 'b']), {})
-    assert.deepStrictEqual(x, E.right(2))
   })
 })
