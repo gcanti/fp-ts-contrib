@@ -58,29 +58,29 @@ export const right: <S, E = never, A = never>(a: A) => StateEither<S, E, A> = T.
 /**
  * @since 0.1.12
  */
-export const rightState: <S, A>(ma: State<S, A>) => StateEither<S, never, A> = T.fromState
+export const rightState: <S, E = never, A = never>(ma: State<S, A>) => StateEither<S, E, A> = T.fromState
 
 /**
  * @since 0.1.12
  */
-export function leftState<S, E>(me: State<S, E>): StateEither<S, E, never> {
+export function leftState<S, E = never, A = never>(me: State<S, E>): StateEither<S, E, A> {
   return s => E.left(me(s)[0])
 }
 
 /**
  * @since 0.1.12
  */
-export const get: <S>() => StateEither<S, never, S> = T.get
+export const get: <S, E = never>() => StateEither<S, E, S> = T.get
 
 /**
  * @since 0.1.12
  */
-export const put: <S>(s: S) => StateEither<S, never, void> = T.put
+export const put: <S, E = never>(s: S) => StateEither<S, E, void> = T.put
 
 /**
  * @since 0.1.12
  */
-export const modify: <S>(f: (s: S) => S) => StateEither<S, never, void> = T.modify
+export const modify: <S, E = never>(f: (s: S) => S) => StateEither<S, E, void> = T.modify
 
 /**
  * @since 0.1.12
