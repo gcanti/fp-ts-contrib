@@ -6,7 +6,7 @@ parent: Modules
 
 # StateEither overview
 
-Added in v2.4.4
+Added in v0.1.12
 
 ---
 

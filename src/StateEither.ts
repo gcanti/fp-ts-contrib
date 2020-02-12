@@ -1,5 +1,5 @@
 /**
- * @since 2.4.4
+ * @since 0.1.12
  */
 import * as E from 'fp-ts/lib/Either'
 import { Monad3 } from 'fp-ts/lib/Monad'
