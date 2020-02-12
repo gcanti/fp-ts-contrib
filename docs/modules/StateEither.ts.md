@@ -293,7 +293,7 @@ Added in v0.1.12
 **Signature**
 
 ```ts
-export const right: <S, A>(a: A) => StateEither<S, never, A> = ...
+export const right: <S, E = never, A = never>(a: A) => StateEither<S, E, A> = ...
 ```
 
 Added in v0.1.12
