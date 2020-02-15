@@ -38,15 +38,22 @@ describe('Do', () => {
     const user = Do(option)
       .bindL('name', () => some('bob'))
       .bindL('email', () => some('bsmith@example.com'))
-      .bindL('len', ({ name }) => some(name.length))
-      .return(({ name, email, len }) => ({ name, email, len }))
+      .let('constant', 10)
+      .bindL('nameLen', ({ name }) => some(name.length))
+      .letL('emailLen', ({ email }) => email.length)
+      .return(({ name, email, nameLen, emailLen, constant }) => ({ name, email, nameLen, emailLen, constant }))
 
-    assert.deepStrictEqual(user, some({ name: 'bob', email: 'bsmith@example.com', len: 3 }))
+    assert.deepStrictEqual(
+      user,
+      some({ name: 'bob', email: 'bsmith@example.com', nameLen: 3, emailLen: 18, constant: 10 })
+    )
 
     const user2 = Do(option)
       .bindL('name', () => some('bob'))
       .bindL('email', () => some('bsmith@example.com'))
-      .bindL('len', () => none)
+      .let('constant', 10)
+      .bindL('nameLen', () => none)
+      .letL('emailLen', ({ email }) => email.length)
       .done()
     assert.deepStrictEqual(user2, none)
   })
