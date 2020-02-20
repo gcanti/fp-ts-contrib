@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.13
+
+- **New Feature**
+  - `Do`
+    - add `let`, `letL`, #49 (@kgtkr)
+
 # 0.1.12
 
 - **New Feature**
