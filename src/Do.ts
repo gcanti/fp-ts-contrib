@@ -161,45 +161,25 @@ class DoClass<M> {
   bind(name: string, action: HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s =>
-        this.M.map(action, b => {
-          const s2 = Object.assign({}, s)
-          s2[name] = b
-          return s2
-        })
-      )
+      this.M.chain(this.result, s => this.M.map(action, b => Object.assign({}, s, { [name]: b })))
     )
   }
   bindL(name: string, f: (s: any) => HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s =>
-        this.M.map(f(s), b => {
-          const s2 = Object.assign({}, s)
-          s2[name] = b
-          return s2
-        })
-      )
+      this.M.chain(this.result, s => this.M.map(f(s), b => Object.assign({}, s, { [name]: b })))
     )
   }
   let(name: string, a: any): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.map(this.result, s => {
-        const s2 = Object.assign({}, s)
-        s2[name] = a
-        return s2
-      })
+      this.M.map(this.result, s => Object.assign({}, s, { [name]: a }))
     )
   }
   letL(name: string, f: (s: any) => any): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.map(this.result, s => {
-        const s2 = Object.assign({}, s)
-        s2[name] = f(s)
-        return s2
-      })
+      this.M.map(this.result, s => Object.assign({}, s, { [name]: f(s) }))
     )
   }
   sequenceS(r: Record<string, HKT<M, any>>): DoClass<M> {
