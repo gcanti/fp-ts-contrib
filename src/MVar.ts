@@ -124,6 +124,12 @@ class MVar<T> {
     this.takeQ = []
     this.putQ = []
     this.readQ = []
+
+    this.take = this.take.bind(this)
+    this.put = this.put.bind(this)
+    this.read = this.read.bind(this)
+    this.modify = this.modify.bind(this)
+    this.isEmpty = this.isEmpty.bind(this)
   }
 
   private enqueueTake(job: (a: T) => void): void {
@@ -201,6 +207,10 @@ class MVar<T> {
       )
     )
 
+  modify(f: (a: T) => T.Task<T>): T.Task<void> {
+    return pipe(this.take, T.chain(f), T.chain(this.put))
+  }
+
   isEmpty(): boolean {
     return O.isNone(this.value)
   }
@@ -239,6 +249,13 @@ export function put<T>(a: T): (mv: MVar<T>) => T.Task<void> {
  */
 export function read<T>(mv: MVar<T>): T.Task<T> {
   return mv.read
+}
+
+/**
+ * @since 0.1.13
+ */
+export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void> {
+  return mv.modify
 }
 
 /**

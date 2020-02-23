@@ -122,4 +122,15 @@ describe('MVar', () => {
       assert.ok(_.isEmpty(someVar))
     })
   })
+
+  it('modify', () => {
+    const someVar = _.newMVar(2)
+    const f = (a: number): T.Task<number> => T.of(a + a)
+    return pipe(
+      _.modify(someVar)(f),
+      T.chain(() => _.read(someVar))
+    )().then(a => {
+      assert.strictEqual(a, 4)
+    })
+  })
 })
