@@ -129,6 +129,7 @@ class MVar<T> {
     this.put = this.put.bind(this)
     this.read = this.read.bind(this)
     this.modify = this.modify.bind(this)
+    this.swap = this.swap.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
   }
 
@@ -211,6 +212,13 @@ class MVar<T> {
     return pipe(this.take, T.chain(f), T.chain(this.put))
   }
 
+  swap(a: T): T.Task<T> {
+    return pipe(
+      this.take,
+      T.chainFirst(() => this.put(a))
+    )
+  }
+
   isEmpty(): boolean {
     return O.isNone(this.value)
   }
@@ -256,6 +264,13 @@ export function read<T>(mv: MVar<T>): T.Task<T> {
  */
 export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void> {
   return mv.modify
+}
+
+/**
+ * @since 0.1.13
+ */
+export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> {
+  return mv.swap
 }
 
 /**

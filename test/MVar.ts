@@ -133,4 +133,20 @@ describe('MVar', () => {
       assert.strictEqual(a, 4)
     })
   })
+
+  it('swap', () => {
+    const sameVar = _.newMVar(true)
+    return pipe(
+      _.swap(sameVar)(false),
+      T.chain(a =>
+        pipe(
+          _.read(sameVar),
+          T.map(b => [a, b])
+        )
+      )
+    )().then(([a, b]) => {
+      assert.strictEqual(a, true)
+      assert.strictEqual(b, false)
+    })
+  })
 })
