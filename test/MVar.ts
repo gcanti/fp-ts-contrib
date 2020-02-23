@@ -154,16 +154,50 @@ describe('MVar', () => {
   describe('tryTake', () => {
     it('should return None when empty', () => {
       const someVar = _.newEmptyMVar()
-      const res = pipe(_.tryTake(someVar))()
+      const res = _.tryTake(someVar)()
       assert.deepStrictEqual(res, O.none)
       assert.ok(_.isEmpty(someVar))
     })
 
     it('should return Some when non empty', () => {
       const someVar = _.newMVar(1)
-      const res = pipe(_.tryTake(someVar))()
+      const res = _.tryTake(someVar)()
       assert.deepStrictEqual(res, O.some(1))
       assert.ok(_.isEmpty(someVar))
+    })
+  })
+
+  describe('tryPut', () => {
+    it('should return true when empty', () => {
+      const someVar = _.newEmptyMVar<string>()
+      return pipe(
+        T.fromIO(_.tryPut(someVar)('a')),
+        T.chain(success =>
+          pipe(
+            _.read(someVar),
+            T.map(b => [success, b])
+          )
+        )
+      )().then(([success, b]) => {
+        assert.ok(success)
+        assert.strictEqual(b, 'a')
+      })
+    })
+
+    it('should return false when non empty', () => {
+      const someVar = _.newMVar('a')
+      return pipe(
+        T.fromIO(_.tryPut(someVar)('x')),
+        T.chain(success =>
+          pipe(
+            _.read(someVar),
+            T.map(b => [success, b])
+          )
+        )
+      )().then(([success, b]) => {
+        assert.strictEqual(success, false)
+        assert.strictEqual(b, 'a')
+      })
     })
   })
 })

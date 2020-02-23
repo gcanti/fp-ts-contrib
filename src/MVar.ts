@@ -132,6 +132,8 @@ class MVar<T> {
     this.modify = this.modify.bind(this)
     this.swap = this.swap.bind(this)
     this.isEmpty = this.isEmpty.bind(this)
+    this.tryTake = this.tryTake.bind(this)
+    this.tryPut = this.tryPut.bind(this)
   }
 
   private enqueueTake(job: (a: T) => void): void {
@@ -228,6 +230,19 @@ class MVar<T> {
     IO.of(this.value),
     IO.chainFirst(() => () => (this.value = O.none))
   )
+
+  tryPut(a: T): IO.IO<boolean> {
+    return pipe(
+      this.value,
+      O.fold(
+        () => {
+          this.value = O.some(a)
+          return IO.of<boolean>(true)
+        },
+        () => IO.of<boolean>(false)
+      )
+    )
+  }
 }
 
 /**
@@ -291,4 +306,11 @@ export function isEmpty<T>(mv: MVar<T>): boolean {
  */
 export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
   return mv.tryTake
+}
+
+/**
+ * @since 0.1.13
+ */
+export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> {
+  return mv.tryPut
 }
