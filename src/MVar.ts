@@ -8,6 +8,7 @@ import * as T from 'fp-ts/lib/Task'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as A from 'fp-ts/lib/Array'
 import { constVoid } from 'fp-ts/lib/function'
+import * as IO from 'fp-ts/lib/IO'
 
 /**
  * @example
@@ -222,6 +223,11 @@ class MVar<T> {
   isEmpty(): boolean {
     return O.isNone(this.value)
   }
+
+  tryTake: IO.IO<O.Option<T>> = pipe(
+    IO.of(this.value),
+    IO.chainFirst(() => () => (this.value = O.none))
+  )
 }
 
 /**
@@ -278,4 +284,11 @@ export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> {
  */
 export function isEmpty<T>(mv: MVar<T>): boolean {
   return mv.isEmpty()
+}
+
+/**
+ * @since 0.1.13
+ */
+export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
+  return mv.tryTake
 }

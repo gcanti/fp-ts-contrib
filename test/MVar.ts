@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as T from 'fp-ts/lib/Task'
 import { sequenceT } from 'fp-ts/lib/Apply'
 import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/lib/Option'
 
 import * as _ from '../src/MVar'
 
@@ -135,18 +136,34 @@ describe('MVar', () => {
   })
 
   it('swap', () => {
-    const sameVar = _.newMVar(true)
+    const someVar = _.newMVar(true)
     return pipe(
-      _.swap(sameVar)(false),
+      _.swap(someVar)(false),
       T.chain(a =>
         pipe(
-          _.read(sameVar),
+          _.read(someVar),
           T.map(b => [a, b])
         )
       )
     )().then(([a, b]) => {
       assert.strictEqual(a, true)
       assert.strictEqual(b, false)
+    })
+  })
+
+  describe('tryTake', () => {
+    it('should return None when empty', () => {
+      const someVar = _.newEmptyMVar()
+      const res = pipe(_.tryTake(someVar))()
+      assert.deepStrictEqual(res, O.none)
+      assert.ok(_.isEmpty(someVar))
+    })
+
+    it('should return Some when non empty', () => {
+      const someVar = _.newMVar(1)
+      const res = pipe(_.tryTake(someVar))()
+      assert.deepStrictEqual(res, O.some(1))
+      assert.ok(_.isEmpty(someVar))
     })
   })
 })
