@@ -134,6 +134,7 @@ class MVar<T> {
     this.isEmpty = this.isEmpty.bind(this)
     this.tryTake = this.tryTake.bind(this)
     this.tryPut = this.tryPut.bind(this)
+    this.tryRead = this.tryRead.bind(this)
   }
 
   private enqueueTake(job: (a: T) => void): void {
@@ -243,6 +244,8 @@ class MVar<T> {
       )
     )
   }
+
+  tryRead: IO.IO<O.Option<T>> = IO.of(this.value)
 }
 
 /**
@@ -313,4 +316,11 @@ export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
  */
 export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> {
   return mv.tryPut
+}
+
+/**
+ * @since 0.1.13
+ */
+export function tryRead<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
+  return mv.tryRead
 }

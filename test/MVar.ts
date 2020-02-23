@@ -200,4 +200,20 @@ describe('MVar', () => {
       })
     })
   })
+
+  describe('tryRead', () => {
+    it('should return None when empty', () => {
+      const someVar = _.newEmptyMVar()
+      const res = _.tryRead(someVar)()
+      assert.deepStrictEqual(res, O.none)
+      assert.ok(_.isEmpty(someVar))
+    })
+
+    it('should return Some when non empty', () => {
+      const someVar = _.newMVar(1)
+      const res = _.tryRead(someVar)()
+      assert.deepStrictEqual(res, O.some(1))
+      assert.strictEqual(_.isEmpty(someVar), false)
+    })
+  })
 })
