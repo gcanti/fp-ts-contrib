@@ -8,10 +8,41 @@ parent: Modules
 
 Adapted from https://hackage.haskell.org/package/base-4.12.0.0/docs/Control-Concurrent-MVar.html
 
+Added in v0.1.14
+
+---
+
+<h2 class="text-delta">Table of contents</h2>
+
+- [MVar (class)](#mvar-class)
+  - [enqueueTake (method)](#enqueuetake-method)
+  - [enqueuePut (method)](#enqueueput-method)
+  - [enqueueRead (method)](#enqueueread-method)
+  - [put (method)](#put-method)
+  - [modify (method)](#modify-method)
+  - [swap (method)](#swap-method)
+  - [isEmpty (method)](#isempty-method)
+  - [tryPut (method)](#tryput-method)
+- [newEmptyMVar](#newemptymvar)
+- [newMVar](#newmvar)
+
+---
+
+# MVar (class)
+
 An MVar<T> is mutable location that is either empty or contains a value of type T.
 It has two fundamental operations: `put` which fills an MVar if it is empty
 and blocks otherwise, and `take` which empties an MVar if it is full
 and blocks otherwise.
+
+**Signature**
+
+```ts
+export class MVar<T> {
+  constructor(private value: O.Option<T>) { ... }
+  ...
+}
+```
 
 **Example**
 
@@ -55,10 +86,7 @@ const loginRequest: T.Task<Token> = pipe(
   T.delay(2)
 )
 
-const login: T.Task<void> = pipe(
-  loginRequest,
-  T.chain(newToken => MVar.put(tokenVar)(newToken))
-)
+const login: T.Task<void> = pipe(loginRequest, T.chain(tokenVar.put))
 
 const someRequest = (token: Token): T.Task<Response> =>
   pipe(
@@ -76,20 +104,20 @@ const someRequest = (token: Token): T.Task<Response> =>
 const handleLogout: T.Task<void> = pipe(
   // Take the token out of the MVar. Other concurrent requests
   // have to wait for a new token. This prevents race conditions.
-  MVar.take(tokenVar),
+  tokenVar.take,
   T.chain(() => loginRequest),
-  T.chain(newToken => MVar.put(tokenVar)(newToken))
+  T.chain(tokenVar.put)
 )
 
 const runRequest = (request: (token: Token) => T.Task<Response>): T.Task<Response> =>
   Do(T.task)
     .bind('id', T.fromIO(pipe(randomRange(1000, 9999), IO.map(Math.floor))))
-    .bind('token', MVar.read(tokenVar))
+    .bind('token', tokenVar.read)
     .bindL('response', ({ id, token }) =>
       pipe(
         T.fromIO(log(`[${id}] Request with token ${token}.`)),
         T.chain(() => request(token)),
-        T.chainFirst(_ => T.fromIO(log(`[${id}] ${_.status}`))),
+        T.chainFirst(res => T.fromIO(log(`[${id}] ${res.status}`))),
         T.chain(res =>
           res.status === 401
             ? pipe(
@@ -119,39 +147,52 @@ pipe(
 )()
 ```
 
-Added in v0.1.13
+Added in v0.1.14
 
----
-
-<h2 class="text-delta">Table of contents</h2>
-
-- [isEmpty](#isempty)
-- [modify](#modify)
-- [newEmptyMVar](#newemptymvar)
-- [newMVar](#newmvar)
-- [put](#put)
-- [read](#read)
-- [swap](#swap)
-- [take](#take)
-- [tryPut](#tryput)
-- [tryRead](#tryread)
-- [tryTake](#trytake)
-
----
-
-# isEmpty
-
-Checks whether a given `MVar` is empty.
+## enqueueTake (method)
 
 **Signature**
 
 ```ts
-export function isEmpty<T>(mv: MVar<T>): boolean { ... }
+private enqueueTake(job: (a: T) => void): void { ... }
 ```
 
-Added in v0.1.13
+Added in v0.1.14
 
-# modify
+## enqueuePut (method)
+
+**Signature**
+
+```ts
+private enqueuePut(job: () => void): void { ... }
+```
+
+Added in v0.1.14
+
+## enqueueRead (method)
+
+**Signature**
+
+```ts
+private enqueueRead(job: (a: T) => void): void { ... }
+```
+
+Added in v0.1.14
+
+## put (method)
+
+Puts a value into an `MVar`. If the `MVar` is currently full, put will wait
+until it becomes empty.
+
+**Signature**
+
+```ts
+put(a: T): T.Task<void> { ... }
+```
+
+Added in v0.1.14
+
+## modify (method)
 
 Modifies the contents of an `MVar`. If the `MVar` is currently empty, `modify`
 will wait until it is full.
@@ -159,10 +200,49 @@ will wait until it is full.
 **Signature**
 
 ```ts
-export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void> { ... }
+modify(f: (a: T) => T.Task<T>): T.Task<void> { ... }
 ```
 
-Added in v0.1.13
+Added in v0.1.14
+
+## swap (method)
+
+Takes a value from an `MVar`, put a new value into the `MVar` and returns
+the value taken.
+
+**Signature**
+
+```ts
+swap(a: T): T.Task<T> { ... }
+```
+
+Added in v0.1.14
+
+## isEmpty (method)
+
+Checks whether a given `MVar` is empty.
+
+**Signature**
+
+```ts
+isEmpty(): boolean { ... }
+```
+
+Added in v0.1.14
+
+## tryPut (method)
+
+A non-blocking version of `put`. The `tryPut` function attempts
+to put the value `a` into the `MVar`, returning `true` if it was successful,
+or `false` otherwise.
+
+**Signature**
+
+```ts
+tryPut(a: T): IO.IO<boolean> { ... }
+```
+
+Added in v0.1.14
 
 # newEmptyMVar
 
@@ -174,7 +254,7 @@ Creates an `MVar` which is initially empty.
 export function newEmptyMVar<T>(): MVar<T> { ... }
 ```
 
-Added in v0.1.13
+Added in v0.1.14
 
 # newMVar
 
@@ -186,98 +266,4 @@ Creates an `MVar` which contains the supplied value.
 export function newMVar<T>(a: T): MVar<T> { ... }
 ```
 
-Added in v0.1.13
-
-# put
-
-Puts a value into an `MVar`. If the `MVar` is currently full, put will wait
-until it becomes empty.
-
-**Signature**
-
-```ts
-export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> { ... }
-```
-
-Added in v0.1.13
-
-# read
-
-Reads the contents of an `MVar`. If the `MVar` is currently empty, `read`
-will wait until it is full. `read` is guaranteed to receive the next `put`.
-
-**Signature**
-
-```ts
-export function read<T>(mv: MVar<T>): T.Task<T> { ... }
-```
-
-Added in v0.1.13
-
-# swap
-
-Takes a value from an `MVar`, put a new value into the `MVar` and returns
-the value taken.
-
-**Signature**
-
-```ts
-export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> { ... }
-```
-
-Added in v0.1.13
-
-# take
-
-Returns the contents of the `MVar`. If the `MVar` is currently empty,
-`take` will wait until it is full. After a `take`, the `MVar` is left empty.
-
-**Signature**
-
-```ts
-export function take<T>(mv: MVar<T>): T.Task<T> { ... }
-```
-
-Added in v0.1.13
-
-# tryPut
-
-A non-blocking version of `put`. The `tryPut` function attempts
-to put the value `a` into the `MVar`, returning `true` if it was successful,
-or `false` otherwise.
-
-**Signature**
-
-```ts
-export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> { ... }
-```
-
-Added in v0.1.13
-
-# tryRead
-
-A non-blocking version of `read`. The `tryRead` function returns
-immediately, with `None` if the `MVar` was empty, or `Some<T>`
-if the `MVar` was full with contents `T`.
-
-**Signature**
-
-```ts
-export function tryRead<T>(mv: MVar<T>): IO.IO<O.Option<T>> { ... }
-```
-
-Added in v0.1.13
-
-# tryTake
-
-A non-blocking version of `take`. The `tryTake` function returns
-immediately, with `None` if the `MVar` was empty, or `Some<T>` if the `MVar`
-was full with contents `T`. After `tryTake`, the `MVar` is left empty.
-
-**Signature**
-
-```ts
-export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> { ... }
-```
-
-Added in v0.1.13
+Added in v0.1.14

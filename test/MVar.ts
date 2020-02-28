@@ -18,19 +18,21 @@ const assertFast = assertTiming('Promise expected to be resolved immediately.')
 
 describe('MVar', () => {
   it('newEmptyMVar', () => {
-    assert.ok(_.isEmpty(_.newEmptyMVar()))
+    assert.ok(_.newEmptyMVar().isEmpty())
   })
 
   it('newMVar', () => {
-    return _.read(_.newMVar('a'))().then(a => assert.strictEqual(a, 'a'))
+    return _.newMVar('a')
+      .read()
+      .then(a => assert.strictEqual(a, 'a'))
   })
 
-  describe('takeMVar', () => {
+  describe('take', () => {
     it('should return the value and empty the MVar', () => {
       const someVar = _.newMVar(6)
-      return _.take(someVar)().then(a => {
+      return someVar.take().then(a => {
         assert.strictEqual(a, 6)
-        assert.ok(_.isEmpty(someVar))
+        assert.ok(someVar.isEmpty)
       })
     })
 
@@ -38,7 +40,7 @@ describe('MVar', () => {
       const someVar = _.newEmptyMVar<number>()
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.take(someVar), T.delay(wait)(_.put(someVar)(1))), wait + 1, ([a]) => {
+      return assertTimeout(sequenceT(T.task)(someVar.take, T.delay(wait)(someVar.put(1))), wait + 1, ([a]) => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 1)
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a put.')
@@ -48,7 +50,7 @@ describe('MVar', () => {
     it('should resolve immediately when non empty', () => {
       const someVar = _.newMVar('a')
       const start = Date.now()
-      return assertFast(_.take(someVar), 1, a => {
+      return assertFast(someVar.take, 1, a => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 'a')
         assert.ok(elapsed <= 1, 'Promise expected to be resolved immediately.')
@@ -56,12 +58,12 @@ describe('MVar', () => {
     })
   })
 
-  describe('putMVar', () => {
+  describe('put', () => {
     it('should put the value', () => {
       const someVar = _.newEmptyMVar<string>()
       return pipe(
-        _.put(someVar)('value'),
-        T.chain(() => _.read(someVar))
+        someVar.put('value'),
+        T.chain(() => someVar.read)
       )().then(a => assert.strictEqual(a, 'value'))
     })
 
@@ -69,7 +71,7 @@ describe('MVar', () => {
       const someVar = _.newMVar(true)
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.put(someVar)(false), T.delay(wait)(_.take(someVar))), wait + 1, () => {
+      return assertTimeout(sequenceT(T.task)(someVar.put(false), T.delay(wait)(someVar.take)), wait + 1, () => {
         const elapsed = Date.now() - start
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a take.')
       })
@@ -78,19 +80,19 @@ describe('MVar', () => {
     it('should resolve immediately when empty', () => {
       const someVar = _.newEmptyMVar<boolean>()
       const start = Date.now()
-      return assertFast(_.put(someVar)(false), 1, () => {
+      return assertFast(someVar.put(false), 1, () => {
         const elapsed = Date.now() - start
         assert.ok(elapsed <= 1, 'Promise expected to be resolved immediately.')
       })
     })
   })
 
-  describe('readMVar', () => {
+  describe('read', () => {
     it('should resolve after a put when empty', () => {
       const someVar = _.newEmptyMVar<number>()
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.read(someVar), T.delay(wait)(_.put(someVar)(1))), wait + 1, ([a]) => {
+      return assertTimeout(sequenceT(T.task)(someVar.read, T.delay(wait)(someVar.put(1))), wait + 1, ([a]) => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 1)
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a put.')
@@ -100,7 +102,7 @@ describe('MVar', () => {
     it('should resolve immediately when non empty', () => {
       const someVar = _.newMVar('a')
       const start = Date.now()
-      return assertFast(_.read(someVar), 1, a => {
+      return assertFast(someVar.read, 1, a => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 'a')
         assert.ok(elapsed <= 1, 'Promise expected to be resolved immediately.')
@@ -110,26 +112,22 @@ describe('MVar', () => {
 
   it('should handle concurrency', () => {
     const someVar = _.newEmptyMVar<number>()
-    return sequenceT(T.task)(
-      _.put(someVar)(1),
-      _.put(someVar)(2),
-      _.take(someVar),
-      _.read(someVar),
-      _.take(someVar)
-    )().then(([, , a, b, c]) => {
-      assert.strictEqual(a, 1)
-      assert.strictEqual(b, 2)
-      assert.strictEqual(c, b)
-      assert.ok(_.isEmpty(someVar))
-    })
+    return sequenceT(T.task)(someVar.put(1), someVar.put(2), someVar.take, someVar.read, someVar.take)().then(
+      ([, , a, b, c]) => {
+        assert.strictEqual(a, 1)
+        assert.strictEqual(b, 2)
+        assert.strictEqual(c, b)
+        assert.ok(someVar.isEmpty())
+      }
+    )
   })
 
   it('modify', () => {
     const someVar = _.newMVar(2)
     const f = (a: number): T.Task<number> => T.of(a + a)
     return pipe(
-      _.modify(someVar)(f),
-      T.chain(() => _.read(someVar))
+      someVar.modify(f),
+      T.chain(() => someVar.read)
     )().then(a => {
       assert.strictEqual(a, 4)
     })
@@ -138,10 +136,10 @@ describe('MVar', () => {
   it('swap', () => {
     const someVar = _.newMVar(true)
     return pipe(
-      _.swap(someVar)(false),
+      someVar.swap(false),
       T.chain(a =>
         pipe(
-          _.read(someVar),
+          someVar.read,
           T.map(b => [a, b])
         )
       )
@@ -154,16 +152,16 @@ describe('MVar', () => {
   describe('tryTake', () => {
     it('should return None when empty', () => {
       const someVar = _.newEmptyMVar()
-      const res = _.tryTake(someVar)()
+      const res = someVar.tryTake()
       assert.deepStrictEqual(res, O.none)
-      assert.ok(_.isEmpty(someVar))
+      assert.ok(someVar.isEmpty())
     })
 
     it('should return Some when non empty', () => {
       const someVar = _.newMVar(1)
-      const res = _.tryTake(someVar)()
+      const res = someVar.tryTake()
       assert.deepStrictEqual(res, O.some(1))
-      assert.ok(_.isEmpty(someVar))
+      assert.ok(someVar.isEmpty)
     })
   })
 
@@ -171,10 +169,10 @@ describe('MVar', () => {
     it('should return true when empty', () => {
       const someVar = _.newEmptyMVar<string>()
       return pipe(
-        T.fromIO(_.tryPut(someVar)('a')),
+        T.fromIO(someVar.tryPut('a')),
         T.chain(success =>
           pipe(
-            _.read(someVar),
+            someVar.read,
             T.map(b => [success, b])
           )
         )
@@ -187,10 +185,10 @@ describe('MVar', () => {
     it('should return false when non empty', () => {
       const someVar = _.newMVar('a')
       return pipe(
-        T.fromIO(_.tryPut(someVar)('x')),
+        T.fromIO(someVar.tryPut('x')),
         T.chain(success =>
           pipe(
-            _.read(someVar),
+            someVar.read,
             T.map(b => [success, b])
           )
         )
@@ -204,16 +202,16 @@ describe('MVar', () => {
   describe('tryRead', () => {
     it('should return None when empty', () => {
       const someVar = _.newEmptyMVar()
-      const res = _.tryRead(someVar)()
+      const res = someVar.tryRead()
       assert.deepStrictEqual(res, O.none)
-      assert.ok(_.isEmpty(someVar))
+      assert.ok(someVar.isEmpty())
     })
 
     it('should return Some when non empty', () => {
       const someVar = _.newMVar(1)
-      const res = _.tryRead(someVar)()
+      const res = someVar.tryRead()
       assert.deepStrictEqual(res, O.some(1))
-      assert.strictEqual(_.isEmpty(someVar), false)
+      assert.strictEqual(someVar.isEmpty(), false)
     })
   })
 })

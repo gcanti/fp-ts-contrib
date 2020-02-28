@@ -1,6 +1,16 @@
 /**
  * Adapted from https://hackage.haskell.org/package/base-4.12.0.0/docs/Control-Concurrent-MVar.html
  *
+ * @since 0.1.14
+ */
+import * as O from 'fp-ts/lib/Option'
+import * as T from 'fp-ts/lib/Task'
+import { pipe } from 'fp-ts/lib/pipeable'
+import * as A from 'fp-ts/lib/Array'
+import { constVoid } from 'fp-ts/lib/function'
+import * as IO from 'fp-ts/lib/IO'
+
+/**
  * An MVar<T> is mutable location that is either empty or contains a value of type T.
  * It has two fundamental operations: `put` which fills an MVar if it is empty
  * and blocks otherwise, and `take` which empties an MVar if it is full
@@ -46,10 +56,7 @@
  *   T.delay(2)
  * )
  *
- * const login: T.Task<void> = pipe(
- *   loginRequest,
- *   T.chain(newToken => MVar.put(tokenVar)(newToken))
- * )
+ * const login: T.Task<void> = pipe(loginRequest, T.chain(tokenVar.put))
  *
  * const someRequest = (token: Token): T.Task<Response> =>
  *   pipe(
@@ -67,20 +74,20 @@
  * const handleLogout: T.Task<void> = pipe(
  *   // Take the token out of the MVar. Other concurrent requests
  *   // have to wait for a new token. This prevents race conditions.
- *   MVar.take(tokenVar),
+ *   tokenVar.take,
  *   T.chain(() => loginRequest),
- *   T.chain(newToken => MVar.put(tokenVar)(newToken))
+ *   T.chain(tokenVar.put)
  * )
  *
  * const runRequest = (request: (token: Token) => T.Task<Response>): T.Task<Response> =>
  *   Do(T.task)
  *     .bind('id', T.fromIO(pipe(randomRange(1000, 9999), IO.map(Math.floor))))
- *     .bind('token', MVar.read(tokenVar))
+ *     .bind('token', tokenVar.read)
  *     .bindL('response', ({ id, token }) =>
  *       pipe(
  *         T.fromIO(log(`[${id}] Request with token ${token}.`)),
  *         T.chain(() => request(token)),
- *         T.chainFirst(_ => T.fromIO(log(`[${id}] ${_.status}`))),
+ *         T.chainFirst(res => T.fromIO(log(`[${id}] ${res.status}`))),
  *         T.chain(res =>
  *           res.status === 401
  *             ? pipe(
@@ -111,14 +118,7 @@
  *
  * @since 0.1.14
  */
-import * as O from 'fp-ts/lib/Option'
-import * as T from 'fp-ts/lib/Task'
-import { pipe } from 'fp-ts/lib/pipeable'
-import * as A from 'fp-ts/lib/Array'
-import { constVoid } from 'fp-ts/lib/function'
-import * as IO from 'fp-ts/lib/IO'
-
-class MVar<T> {
+export class MVar<T> {
   private takeQ: Array<(a: T) => void>
   private putQ: Array<() => void>
   private readQ: Array<(a: T) => void>
@@ -139,18 +139,33 @@ class MVar<T> {
     this.tryRead = this.tryRead.bind(this)
   }
 
+  /**
+   * @since 0.1.14
+   */
   private enqueueTake(job: (a: T) => void): void {
     this.takeQ = A.snoc(this.takeQ, job)
   }
 
+  /**
+   * @since 0.1.14
+   */
   private enqueuePut(job: () => void): void {
     this.putQ = A.snoc(this.putQ, job)
   }
 
+  /**
+   * @since 0.1.14
+   */
   private enqueueRead(job: (a: T) => void): void {
     this.readQ = A.snoc(this.readQ, job)
   }
 
+  /**
+   * Returns the contents of the `MVar`. If the `MVar` is currently empty,
+   * `take` will wait until it is full. After a `take`, the `MVar` is left empty.
+   *
+   * @since 0.1.14
+   */
   take: T.Task<T> = () =>
     new Promise(resolve =>
       pipe(
@@ -172,6 +187,12 @@ class MVar<T> {
       )
     )
 
+  /**
+   * Puts a value into an `MVar`. If the `MVar` is currently full, put will wait
+   * until it becomes empty.
+   *
+   * @since 0.1.14
+   */
   put(a: T): T.Task<void> {
     return () =>
       new Promise(resolve =>
@@ -206,6 +227,12 @@ class MVar<T> {
       )
   }
 
+  /**
+   * Reads the contents of an `MVar`. If the `MVar` is currently empty, `read`
+   * will wait until it is full. `read` is guaranteed to receive the next `put`.
+   *
+   * @since 0.1.14
+   */
   read: T.Task<T> = () =>
     new Promise(resolve =>
       pipe(
@@ -214,10 +241,22 @@ class MVar<T> {
       )
     )
 
+  /**
+   * Modifies the contents of an `MVar`. If the `MVar` is currently empty, `modify`
+   * will wait until it is full.
+   *
+   * @since 0.1.14
+   */
   modify(f: (a: T) => T.Task<T>): T.Task<void> {
     return pipe(this.take, T.chain(f), T.chain(this.put))
   }
 
+  /**
+   * Takes a value from an `MVar`, put a new value into the `MVar` and returns
+   * the value taken.
+   *
+   * @since 0.1.14
+   */
   swap(a: T): T.Task<T> {
     return pipe(
       this.take,
@@ -225,15 +264,34 @@ class MVar<T> {
     )
   }
 
+  /**
+   * Checks whether a given `MVar` is empty.
+   *
+   * @since 0.1.14
+   */
   isEmpty(): boolean {
     return O.isNone(this.value)
   }
 
+  /**
+   * A non-blocking version of `take`. The `tryTake` function returns
+   * immediately, with `None` if the `MVar` was empty, or `Some<T>` if the `MVar`
+   * was full with contents `T`. After `tryTake`, the `MVar` is left empty.
+   *
+   * @since 0.1.14
+   */
   tryTake: IO.IO<O.Option<T>> = pipe(
     IO.of(this.value),
     IO.chainFirst(() => () => (this.value = O.none))
   )
 
+  /**
+   * A non-blocking version of `put`. The `tryPut` function attempts
+   * to put the value `a` into the `MVar`, returning `true` if it was successful,
+   * or `false` otherwise.
+   *
+   * @since 0.1.14
+   */
   tryPut(a: T): IO.IO<boolean> {
     return pipe(
       this.value,
@@ -247,6 +305,13 @@ class MVar<T> {
     )
   }
 
+  /**
+   * A non-blocking version of `read`. The `tryRead` function returns
+   * immediately, with `None` if the `MVar` was empty, or `Some<T>`
+   * if the `MVar` was full with contents `T`.
+   *
+   * @since 0.1.14
+   */
   tryRead: IO.IO<O.Option<T>> = IO.of(this.value)
 }
 
@@ -266,96 +331,4 @@ export function newEmptyMVar<T>(): MVar<T> {
  */
 export function newMVar<T>(a: T): MVar<T> {
   return new MVar(O.some(a))
-}
-
-/**
- * Returns the contents of the `MVar`. If the `MVar` is currently empty,
- * `take` will wait until it is full. After a `take`, the `MVar` is left empty.
- *
- * @since 0.1.14
- */
-export function take<T>(mv: MVar<T>): T.Task<T> {
-  return mv.take
-}
-
-/**
- * Puts a value into an `MVar`. If the `MVar` is currently full, put will wait
- * until it becomes empty.
- *
- * @since 0.1.14
- */
-export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> {
-  return mv.put
-}
-
-/**
- * Reads the contents of an `MVar`. If the `MVar` is currently empty, `read`
- * will wait until it is full. `read` is guaranteed to receive the next `put`.
- *
- * @since 0.1.14
- */
-export function read<T>(mv: MVar<T>): T.Task<T> {
-  return mv.read
-}
-
-/**
- * Modifies the contents of an `MVar`. If the `MVar` is currently empty, `modify`
- * will wait until it is full.
- *
- * @since 0.1.14
- */
-export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void> {
-  return mv.modify
-}
-
-/**
- * Takes a value from an `MVar`, put a new value into the `MVar` and returns
- * the value taken.
- *
- * @since 0.1.14
- */
-export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> {
-  return mv.swap
-}
-
-/**
- * Checks whether a given `MVar` is empty.
- *
- * @since 0.1.14
- */
-export function isEmpty<T>(mv: MVar<T>): boolean {
-  return mv.isEmpty()
-}
-
-/**
- * A non-blocking version of `take`. The `tryTake` function returns
- * immediately, with `None` if the `MVar` was empty, or `Some<T>` if the `MVar`
- * was full with contents `T`. After `tryTake`, the `MVar` is left empty.
- *
- * @since 0.1.14
- */
-export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
-  return mv.tryTake
-}
-
-/**
- * A non-blocking version of `put`. The `tryPut` function attempts
- * to put the value `a` into the `MVar`, returning `true` if it was successful,
- * or `false` otherwise.
- *
- * @since 0.1.14
- */
-export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> {
-  return mv.tryPut
-}
-
-/**
- * A non-blocking version of `read`. The `tryRead` function returns
- * immediately, with `None` if the `MVar` was empty, or `Some<T>`
- * if the `MVar` was full with contents `T`.
- *
- * @since 0.1.14
- */
-export function tryRead<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
-  return mv.tryRead
 }
