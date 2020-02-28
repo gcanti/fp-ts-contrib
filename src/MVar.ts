@@ -269,9 +269,7 @@ export class MVar<T> {
    *
    * @since 0.1.14
    */
-  isEmpty(): boolean {
-    return O.isNone(this.value)
-  }
+  isEmpty: IO.IO<boolean> = (): boolean => O.isNone(this.value)
 
   /**
    * A non-blocking version of `take`. The `tryTake` function returns

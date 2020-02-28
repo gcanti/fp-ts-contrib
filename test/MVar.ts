@@ -32,7 +32,7 @@ describe('MVar', () => {
       const someVar = _.newMVar(6)
       return someVar.take().then(a => {
         assert.strictEqual(a, 6)
-        assert.ok(someVar.isEmpty)
+        assert.ok(someVar.isEmpty())
       })
     })
 
@@ -161,7 +161,7 @@ describe('MVar', () => {
       const someVar = _.newMVar(1)
       const res = someVar.tryTake()
       assert.deepStrictEqual(res, O.some(1))
-      assert.ok(someVar.isEmpty)
+      assert.ok(someVar.isEmpty())
     })
   })
 

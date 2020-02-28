@@ -21,7 +21,6 @@ Added in v0.1.14
   - [put (method)](#put-method)
   - [modify (method)](#modify-method)
   - [swap (method)](#swap-method)
-  - [isEmpty (method)](#isempty-method)
   - [tryPut (method)](#tryput-method)
 - [newEmptyMVar](#newemptymvar)
 - [newMVar](#newmvar)
@@ -214,18 +213,6 @@ the value taken.
 
 ```ts
 swap(a: T): T.Task<T> { ... }
-```
-
-Added in v0.1.14
-
-## isEmpty (method)
-
-Checks whether a given `MVar` is empty.
-
-**Signature**
-
-```ts
-isEmpty(): boolean { ... }
 ```
 
 Added in v0.1.14
