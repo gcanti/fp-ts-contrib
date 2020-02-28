@@ -109,7 +109,7 @@
  *   T.chain(() => T.fromIO(halt))
  * )()
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 import * as O from 'fp-ts/lib/Option'
 import * as T from 'fp-ts/lib/Task'
@@ -253,7 +253,7 @@ class MVar<T> {
 /**
  * Creates an `MVar` which is initially empty.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function newEmptyMVar<T>(): MVar<T> {
   return new MVar<T>(O.none)
@@ -262,7 +262,7 @@ export function newEmptyMVar<T>(): MVar<T> {
 /**
  * Creates an `MVar` which contains the supplied value.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function newMVar<T>(a: T): MVar<T> {
   return new MVar(O.some(a))
@@ -272,7 +272,7 @@ export function newMVar<T>(a: T): MVar<T> {
  * Returns the contents of the `MVar`. If the `MVar` is currently empty,
  * `take` will wait until it is full. After a `take`, the `MVar` is left empty.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function take<T>(mv: MVar<T>): T.Task<T> {
   return mv.take
@@ -282,7 +282,7 @@ export function take<T>(mv: MVar<T>): T.Task<T> {
  * Puts a value into an `MVar`. If the `MVar` is currently full, put will wait
  * until it becomes empty.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> {
   return mv.put
@@ -292,7 +292,7 @@ export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> {
  * Reads the contents of an `MVar`. If the `MVar` is currently empty, `read`
  * will wait until it is full. `read` is guaranteed to receive the next `put`.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function read<T>(mv: MVar<T>): T.Task<T> {
   return mv.read
@@ -302,7 +302,7 @@ export function read<T>(mv: MVar<T>): T.Task<T> {
  * Modifies the contents of an `MVar`. If the `MVar` is currently empty, `modify`
  * will wait until it is full.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void> {
   return mv.modify
@@ -312,7 +312,7 @@ export function modify<T>(mv: MVar<T>): (f: (a: T) => T.Task<T>) => T.Task<void>
  * Takes a value from an `MVar`, put a new value into the `MVar` and returns
  * the value taken.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> {
   return mv.swap
@@ -321,7 +321,7 @@ export function swap<T>(mv: MVar<T>): (a: T) => T.Task<T> {
 /**
  * Checks whether a given `MVar` is empty.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function isEmpty<T>(mv: MVar<T>): boolean {
   return mv.isEmpty()
@@ -332,7 +332,7 @@ export function isEmpty<T>(mv: MVar<T>): boolean {
  * immediately, with `None` if the `MVar` was empty, or `Some<T>` if the `MVar`
  * was full with contents `T`. After `tryTake`, the `MVar` is left empty.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
   return mv.tryTake
@@ -343,7 +343,7 @@ export function tryTake<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
  * to put the value `a` into the `MVar`, returning `true` if it was successful,
  * or `false` otherwise.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> {
   return mv.tryPut
@@ -354,7 +354,7 @@ export function tryPut<T>(mv: MVar<T>): (a: T) => IO.IO<boolean> {
  * immediately, with `None` if the `MVar` was empty, or `Some<T>`
  * if the `MVar` was full with contents `T`.
  *
- * @since 0.1.13
+ * @since 0.1.14
  */
 export function tryRead<T>(mv: MVar<T>): IO.IO<O.Option<T>> {
   return mv.tryRead
