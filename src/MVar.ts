@@ -48,7 +48,7 @@
  *
  * const login: T.Task<void> = pipe(
  *   loginRequest,
- *   T.chain(newToken => MVar.put(newToken)(tokenVar))
+ *   T.chain(newToken => MVar.put(tokenVar)(newToken))
  * )
  *
  * const someRequest = (token: Token): T.Task<Response> =>
@@ -69,7 +69,7 @@
  *   // have to wait for a new token. This prevents race conditions.
  *   MVar.take(tokenVar),
  *   T.chain(() => loginRequest),
- *   T.chain(newToken => MVar.put(newToken)(tokenVar))
+ *   T.chain(newToken => MVar.put(tokenVar)(newToken))
  * )
  *
  * const runRequest = (request: (token: Token) => T.Task<Response>): T.Task<Response> =>
@@ -284,8 +284,8 @@ export function take<T>(mv: MVar<T>): T.Task<T> {
  *
  * @since 0.1.13
  */
-export function put<T>(a: T): (mv: MVar<T>) => T.Task<void> {
-  return mv => mv.put(a)
+export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> {
+  return mv.put
 }
 
 /**

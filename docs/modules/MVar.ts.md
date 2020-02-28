@@ -57,7 +57,7 @@ const loginRequest: T.Task<Token> = pipe(
 
 const login: T.Task<void> = pipe(
   loginRequest,
-  T.chain(newToken => MVar.put(newToken)(tokenVar))
+  T.chain(newToken => MVar.put(tokenVar)(newToken))
 )
 
 const someRequest = (token: Token): T.Task<Response> =>
@@ -78,7 +78,7 @@ const handleLogout: T.Task<void> = pipe(
   // have to wait for a new token. This prevents race conditions.
   MVar.take(tokenVar),
   T.chain(() => loginRequest),
-  T.chain(newToken => MVar.put(newToken)(tokenVar))
+  T.chain(newToken => MVar.put(tokenVar)(newToken))
 )
 
 const runRequest = (request: (token: Token) => T.Task<Response>): T.Task<Response> =>
@@ -196,7 +196,7 @@ until it becomes empty.
 **Signature**
 
 ```ts
-export function put<T>(a: T): (mv: MVar<T>) => T.Task<void> { ... }
+export function put<T>(mv: MVar<T>): (a: T) => T.Task<void> { ... }
 ```
 
 Added in v0.1.13

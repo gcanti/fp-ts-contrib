@@ -38,7 +38,7 @@ describe('MVar', () => {
       const someVar = _.newEmptyMVar<number>()
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.take(someVar), T.delay(wait)(_.put(1)(someVar))), wait + 1, ([a]) => {
+      return assertTimeout(sequenceT(T.task)(_.take(someVar), T.delay(wait)(_.put(someVar)(1))), wait + 1, ([a]) => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 1)
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a put.')
@@ -60,7 +60,7 @@ describe('MVar', () => {
     it('should put the value', () => {
       const someVar = _.newEmptyMVar<string>()
       return pipe(
-        _.put('value')(someVar),
+        _.put(someVar)('value'),
         T.chain(() => _.read(someVar))
       )().then(a => assert.strictEqual(a, 'value'))
     })
@@ -69,7 +69,7 @@ describe('MVar', () => {
       const someVar = _.newMVar(true)
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.put(false)(someVar), T.delay(wait)(_.take(someVar))), wait + 1, () => {
+      return assertTimeout(sequenceT(T.task)(_.put(someVar)(false), T.delay(wait)(_.take(someVar))), wait + 1, () => {
         const elapsed = Date.now() - start
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a take.')
       })
@@ -78,7 +78,7 @@ describe('MVar', () => {
     it('should resolve immediately when empty', () => {
       const someVar = _.newEmptyMVar<boolean>()
       const start = Date.now()
-      return assertFast(_.put(false)(someVar), 1, () => {
+      return assertFast(_.put(someVar)(false), 1, () => {
         const elapsed = Date.now() - start
         assert.ok(elapsed <= 1, 'Promise expected to be resolved immediately.')
       })
@@ -90,7 +90,7 @@ describe('MVar', () => {
       const someVar = _.newEmptyMVar<number>()
       const start = Date.now()
       const wait = 10
-      return assertTimeout(sequenceT(T.task)(_.read(someVar), T.delay(wait)(_.put(1)(someVar))), wait + 1, ([a]) => {
+      return assertTimeout(sequenceT(T.task)(_.read(someVar), T.delay(wait)(_.put(someVar)(1))), wait + 1, ([a]) => {
         const elapsed = Date.now() - start
         assert.strictEqual(a, 1)
         assert.ok(elapsed >= wait, 'Promise expected to be resolved after a put.')
@@ -111,8 +111,8 @@ describe('MVar', () => {
   it('should handle concurrency', () => {
     const someVar = _.newEmptyMVar<number>()
     return sequenceT(T.task)(
-      _.put(1)(someVar),
-      _.put(2)(someVar),
+      _.put(someVar)(1),
+      _.put(someVar)(2),
       _.take(someVar),
       _.read(someVar),
       _.take(someVar)
