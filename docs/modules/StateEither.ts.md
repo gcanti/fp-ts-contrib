@@ -243,7 +243,7 @@ Added in v0.1.12
 **Signature**
 
 ```ts
-export function left<S, E = never, A = never>(e: E): StateEither<S, E, A> { ... }
+export function left<S, E, A = never>(e: E): StateEither<S, E, A> { ... }
 ```
 
 Added in v0.1.12

@@ -46,7 +46,7 @@ export const execState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => E.Either<E,
 /**
  * @since 0.1.12
  */
-export function left<S, E = never, A = never>(e: E): StateEither<S, E, A> {
+export function left<S, E, A = never>(e: E): StateEither<S, E, A> {
   return fromEither(E.left(e))
 }
 
