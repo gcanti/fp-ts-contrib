@@ -7,7 +7,7 @@ parent: Recipes
 
 **Array of Options to Option of Array?**
 
-Why does `sequenceT` doesn't work here?
+Why doesn't `sequenceT` work here?
 
 ```ts
 import { sequenceT } from './Apply';
