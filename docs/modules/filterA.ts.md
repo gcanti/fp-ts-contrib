@@ -6,7 +6,7 @@ parent: Modules
 
 # filterA overview
 
-Added in TODO
+Added in v0.1.15
 
 ---
 
@@ -18,7 +18,7 @@ Added in TODO
 
 # filterA
 
-TODO describe here
+This generalizes the array-based 'filter' function.
 
 **Signature**
 
@@ -37,7 +37,7 @@ export function filterA<F extends URIS>(
 ): <A>(p: (a: A) => Kind<F, boolean>) => (as: Array<A>) => Kind<F, Array<A>>
 export function filterA<F>(
     F: Applicative<F>
-): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>> 
+): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>>
 ```
 
 **Example**
@@ -53,4 +53,4 @@ const p = (n: number): IO<boolean> => io.of(n % 2 === 0)
 filterAIO(p)([1, 2, 3, 4, 5])() // [2, 4]
 ```
 
-Added in TODO
+Added in v0.1.15
