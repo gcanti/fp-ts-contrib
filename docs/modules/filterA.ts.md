@@ -12,32 +12,33 @@ Added in v0.1.15
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [filterA](#filterA)
+- [filterA](#filtera)
 
 ---
 
 # filterA
 
-This generalizes the array-based 'filter' function.
+This generalizes the array-based `filter` function.
 
 **Signature**
 
 ```ts
 export function filterA<F extends URIS4>(
   F: Applicative4<F>
-): <M, U, L, A>(p: (a: A) => Kind4<F, M, U, L, boolean>) => (as: Array<A>) => Kind4<F, M, U, L, Array<A>>
+): <S, R, E, A>(p: (a: A) => Kind4<F, S, R, E, boolean>) => (as: Array<A>) => Kind4<F, S, R, E, Array<A>>
 export function filterA<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A>(p: (a: A) => Kind3<F, U, L, boolean>) => (as: Array<A>) => Kind3<F, U, L, Array<A>>
+): <R, E, A>(p: (a: A) => Kind3<F, R, E, boolean>) => (as: Array<A>) => Kind3<F, R, E, Array<A>>
 export function filterA<F extends URIS2>(
   F: Applicative2<F>
-): <L, A>(p: (a: A) => Kind2<F, L, boolean>) => (as: Array<A>) => Kind2<F, L, Array<A>>
+): <E, A>(p: (a: A) => Kind2<F, E, boolean>) => (as: Array<A>) => Kind2<F, E, Array<A>>
+export function filterA<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A>(p: (a: A) => Kind2<F, E, boolean>) => (as: Array<A>) => Kind2<F, E, Array<A>>
 export function filterA<F extends URIS>(
   F: Applicative1<F>
 ): <A>(p: (a: A) => Kind<F, boolean>) => (as: Array<A>) => Kind<F, Array<A>>
-export function filterA<F>(
-    F: Applicative<F>
-): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>>
+export function filterA<F>(F: Applicative<F>): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>> { ... }
 ```
 
 **Example**
@@ -50,7 +51,7 @@ const filterAIO = filterA(io)
 
 const p = (n: number): IO<boolean> => io.of(n % 2 === 0)
 
-filterAIO(p)([1, 2, 3, 4, 5])() // [2, 4]
+assert.deepStrictEqual(filterAIO(p)([1, 2, 3, 4, 5])(), [2, 4])
 ```
 
 Added in v0.1.15

@@ -24,9 +24,9 @@ import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3 } from 'fp-ts/lib/Mona
  *
  * @since 0.1.0
  */
-export function time<M extends URIS3>(M: MonadIO3<M>): <U, L, A>(ma: Kind3<M, U, L, A>) => Kind3<M, U, L, [A, number]>
-export function time<M extends URIS2>(M: MonadIO2<M>): <L, A>(ma: Kind2<M, L, A>) => Kind2<M, L, [A, number]>
-export function time<M extends URIS2, L>(M: MonadIO2C<M, L>): <A>(ma: Kind2<M, L, A>) => Kind2<M, L, [A, number]>
+export function time<M extends URIS3>(M: MonadIO3<M>): <R, E, A>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, [A, number]>
+export function time<M extends URIS2>(M: MonadIO2<M>): <E, A>(ma: Kind2<M, E, A>) => Kind2<M, E, [A, number]>
+export function time<M extends URIS2, E>(M: MonadIO2C<M, E>): <A>(ma: Kind2<M, E, A>) => Kind2<M, E, [A, number]>
 export function time<M extends URIS>(M: MonadIO1<M>): <A>(ma: Kind<M, A>) => Kind<M, [A, number]>
 export function time<M>(M: MonadIO<M>): <A>(ma: HKT<M, A>) => HKT<M, [A, number]>
 export function time<M>(M: MonadIO<M>): <A>(ma: HKT<M, A>) => HKT<M, [A, number]> {
