@@ -1,5 +1,5 @@
 /**
- * @since TODO
+ * @since 0.1.15
  */
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from 'fp-ts/lib/HKT'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative4 } from 'fp-ts/lib/Applicative'
@@ -7,7 +7,7 @@ import * as A from 'fp-ts/lib/Array'
 import * as O from 'fp-ts/lib/Option'
 
 /**
- * TODO describe here
+ * This generalizes the array-based `filter` function.
  *
  * @example
  * import { io, IO } from 'fp-ts/lib/IO'
@@ -17,9 +17,9 @@ import * as O from 'fp-ts/lib/Option'
  *
  * const p = (n: number): IO<boolean> => io.of(n % 2 === 0)
  *
- * filterAIO(p)([1, 2, 3, 4, 5])() // [2, 4]
+ * assert.deepStrictEqual(filterAIO(p)([1, 2, 3, 4, 5])(), [2, 4])
  *
- * @since TODO
+ * @since 0.1.15
  */
 export function filterA<F extends URIS4>(
   F: Applicative4<F>
