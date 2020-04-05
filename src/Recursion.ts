@@ -91,11 +91,7 @@ export function fix<F>(unfix: HKT<F, Fix<F>>): Fix<F> {
   }
 }
 
-function cata_<F>(
-  F: Functor<F>
-): {
-  <A>(alg: Algebra<F, A>): (_: Fix<F>) => A
-} {
+function cata_<F>(F: Functor<F>): <A>(alg: Algebra<F, A>) => (_: Fix<F>) => A {
   return alg => _ => alg(F.map(_.unfix, cata_(F)(alg)))
 }
 
