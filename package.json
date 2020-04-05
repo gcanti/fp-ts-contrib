@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-contrib",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "A community driven utility package for fp-ts",
   "files": [
     "lib",

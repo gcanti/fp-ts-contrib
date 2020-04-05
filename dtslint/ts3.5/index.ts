@@ -18,8 +18,8 @@ import { time } from '../../src/time'
 
 time(IO.io) // $ExpectType <A>(ma: IO<A>) => IO<[A, number]>
 time(T.task) // $ExpectType <A>(ma: Task<A>) => Task<[A, number]>
-time(TE.taskEither) // $ExpectType <L, A>(ma: TaskEither<L, A>) => TaskEither<L, [A, number]>
-time(RTE.readerTaskEither) // $ExpectType <U, L, A>(ma: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, [A, number]>
+time(TE.taskEither) // $ExpectType <E, A>(ma: TaskEither<E, A>) => TaskEither<E, [A, number]>
+time(RTE.readerTaskEither) // $ExpectType <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, [A, number]>
 
 //
 // Do
