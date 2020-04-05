@@ -294,6 +294,10 @@ function apo_<F>(F: Functor<F>): <A>(coalg: RCoalgebra<F, A>) => (a: A) => Fix<F
   })
 }
 
+/**
+ * Apomorphisms are extensions of the concept of anamorphisms dual to paramorphisms
+ * @since 0.1.16
+ */
 export function apo<F extends URIS>(F: Functor1<F>): <A>(coalg: RCoalgebra1<F, A>) => (a: A) => Fix1<F>
 export function apo<F extends URIS2>(F: Functor2<F>): <E, A>(coalg: RCoalgebra2<F, E, A>) => (a: A) => Fix2<F, E>
 export function apo<F extends URIS3>(
