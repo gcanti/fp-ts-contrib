@@ -305,3 +305,63 @@ export function apo<F extends URIS4>(
 export function apo<F>(F: Functor<F>): <A>(coalg: RCoalgebra<F, A>) => (a: A) => Fix<F> {
   return apo_(F)
 }
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist<F, A, B> {
+  (_: HKT<F, [A, B]>): A
+}
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist1<F extends URIS, A, B> {
+  (_: Kind<F, [A, B]>): A
+}
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist2<F extends URIS2, E, A, B> {
+  (_: Kind2<F, E, [A, B]>): A
+}
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist3<F extends URIS3, R, E, A, B> {
+  (_: Kind3<F, R, E, [A, B]>): A
+}
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist4<F extends URIS4, S, R, E, A, B> {
+  (_: Kind4<F, S, R, E, [A, B]>): A
+}
+
+function zygo_<F>(F: Functor<F>): <B>(f: Algebra<F, B>) => <A>(g: ZDist<F, A, B>) => (_: Fix<F>) => A {
+  return <B>(f: (_: HKT<F, B>) => B) => <A>(g: (_: HKT<F, [A, B]>) => A) => (_: Fix<F>): A =>
+    cata_(F)((H: HKT<F, [A, B]>) => [g(H), f(F.map(H, _ => _[1]))] as [A, B])(_)[0]
+}
+
+/**
+ * Zygomorphisms are extensions of the concept of paramorphisms instead of passing original term, we transform it using an auxiliary algebra.
+ * @since 0.1.16
+ */
+export function zygo<F extends URIS>(
+  F: Functor1<F>
+): <B>(f: Algebra1<F, B>) => <A>(g: ZDist1<F, A, B>) => (_: Fix1<F>) => A
+export function zygo<F extends URIS2>(
+  F: Functor2<F>
+): <E, B>(f: Algebra2<F, E, B>) => <A>(g: ZDist2<F, E, A, B>) => (_: Fix2<F, E>) => A
+export function zygo<F extends URIS3>(
+  F: Functor3<F>
+): <R, E, B>(f: Algebra3<F, R, E, B>) => <A>(g: ZDist3<F, R, E, A, B>) => (_: Fix3<F, R, E>) => A
+export function zygo<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, E, B>(f: Algebra4<F, S, R, E, B>) => <A>(g: ZDist4<F, S, R, E, A, B>) => (_: Fix4<F, S, R, E>) => A
+export function zygo<F>(F: Functor<F>): <B>(f: Algebra<F, B>) => <A>(g: ZDist<F, A, B>) => (_: Fix<F>) => A {
+  return zygo_(F)
+}

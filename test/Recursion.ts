@@ -184,6 +184,19 @@ const coalgR: Alg.RCoalgebra1<URI, number> = n => {
   }
 }
 
+const prettyZ: Alg.ZDist1<URI, number, string> = _ => {
+  switch (_._tag) {
+    case 'ConstF':
+      return _.d
+    case 'PlusF':
+      return _.l[0] + _.r[0]
+    case 'TimesF':
+      return _.l[0] * _.r[0]
+    case 'VarF':
+      return _.s.length
+  }
+}
+
 describe('Recursion', () => {
   it('cata', () => {
     assert.strictEqual(Alg.cata(functor)(pretty)(ex), 'x * x + 3 * x + 4')
@@ -193,6 +206,10 @@ describe('Recursion', () => {
 
   it('para', () => {
     assert.strictEqual(Alg.para(functor)(prettyP)(ex), '(TimesF) x * x + (TimesF) 3 * x + 4 (ConstF) (PlusF)')
+  })
+
+  it('zygo', () => {
+    assert.strictEqual(Alg.zygo(functor)(pretty2)(prettyZ)(ex2), 8)
   })
 
   it('ana', () => {
