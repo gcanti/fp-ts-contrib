@@ -36,7 +36,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-type Ex = Alg.Fix1<URI>
+type Ex = Alg.Fix<URI>
 
 const functor: Functor1<URI> = {
   URI,
@@ -94,7 +94,7 @@ const add = (l: Ex, r: Ex): Ex =>
     r
   })
 
-const pretty: Alg.Algebra1<URI, string> = _ => {
+const pretty: Alg.Algebra<URI, string> = _ => {
   switch (_._tag) {
     case 'ConstF':
       return `${_.d}`
@@ -107,7 +107,7 @@ const pretty: Alg.Algebra1<URI, string> = _ => {
   }
 }
 
-const pretty2: Alg.Algebra1<URI, string> = _ => {
+const pretty2: Alg.Algebra<URI, string> = _ => {
   switch (_._tag) {
     case 'ConstF':
       return `${_.d}`
@@ -126,7 +126,7 @@ const pretty2: Alg.Algebra1<URI, string> = _ => {
   }
 }
 
-const prettyP: Alg.RAlgebra1<URI, string> = _ => {
+const prettyP: Alg.RAlgebra<URI, string> = _ => {
   switch (_._tag) {
     case 'ConstF':
       return `${_.d}`
@@ -142,7 +142,7 @@ const prettyP: Alg.RAlgebra1<URI, string> = _ => {
 const ex = add(mul(v('x'), v('x')), add(mul(num(3), v('x')), num(4)))
 const ex2 = add(mul(mul(v('x'), v('x')), v('x')), add(mul(num(3), v('x')), num(4)))
 
-const coalg: Alg.Coalgebra1<URI, number> = n => {
+const coalg: Alg.Coalgebra<URI, number> = n => {
   switch (n) {
     case 0:
       return {
@@ -163,7 +163,7 @@ const coalg: Alg.Coalgebra1<URI, number> = n => {
   }
 }
 
-const coalgR: Alg.RCoalgebra1<URI, number> = n => {
+const coalgR: Alg.RCoalgebra<URI, number> = n => {
   switch (n) {
     case 0:
       return {
@@ -184,7 +184,7 @@ const coalgR: Alg.RCoalgebra1<URI, number> = n => {
   }
 }
 
-const prettyZ: Alg.ZDist1<URI, number, string> = _ => {
+const prettyZ: Alg.ZDist<URI, number, string> = _ => {
   switch (_._tag) {
     case 'ConstF':
       return _.d
