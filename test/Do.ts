@@ -149,4 +149,38 @@ describe('Do', () => {
     assert.deepStrictEqual(r, { a: 'a', b: 'b', c: 'ca', d: 'db' })
     assert.strictEqual(n < 350, true)
   })
+
+  it('should handle chain', () => {
+    const foo = Do(option)
+      .let('foo', 123)
+      .done()
+    const bar = Do(option)
+      .let('bar', 456)
+      .done()
+
+    const foobar = Do(option)
+      .chain(foo)
+      .chain(bar)
+      .done()
+
+    assert.deepStrictEqual(foobar, some({ foo: 123, bar: 456 }))
+  })
+
+  it('should handle chainL', () => {
+    const foo = () =>
+      Do(option)
+        .let('foo', 123)
+        .done()
+    const bar = ({ foo }: { foo: number }) =>
+      Do(option)
+        .let('bar', foo)
+        .done()
+
+    const foobar = Do(option)
+      .chainL(foo)
+      .chainL(bar)
+      .done()
+
+    assert.deepStrictEqual(foobar, some({ foo: 123, bar: 123 }))
+  })
 })

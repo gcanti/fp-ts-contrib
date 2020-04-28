@@ -42,6 +42,12 @@ export interface Do0<M, S extends object> {
   sequenceSL: <R extends Record<string, HKT<M, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<R> & { [K in keyof S]?: never }
   ) => Do0<M, S & { [K in keyof R]: [R[K]] extends [HKT<M, infer A>] ? A : never }>
+  chain: <S2 extends Record<string, any>>(
+    ms: HKT<M, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do0<M, S & S2>
+  chainL: <S2 extends Record<string, any>>(
+    f: (s: S) => HKT<M, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do0<M, S & S2>
   return: <A>(f: (s: S) => A) => HKT<M, A>
   done: () => HKT<M, S>
 }
@@ -67,6 +73,12 @@ export interface Do1<M extends URIS, S extends object> {
   sequenceSL: <I extends Record<string, Kind<M, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
   ) => Do1<M, S & { [K in keyof I]: [I[K]] extends [Kind<M, infer A>] ? A : never }>
+  chain: <S2 extends Record<string, any>>(
+    ms: Kind<M, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do1<M, S & S2>
+  chainL: <S2 extends Record<string, any>>(
+    f: (s: S) => Kind<M, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do1<M, S & S2>
   return: <A>(f: (s: S) => A) => Kind<M, A>
   done: () => Kind<M, S>
 }
@@ -95,6 +107,12 @@ export interface Do2<M extends URIS2, S extends object> {
   sequenceSL: <E, I extends Record<string, Kind2<M, E, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<I> & Record<string, Kind2<M, E, any>> & { [K in keyof S]?: never }
   ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  chain: <E, S2 extends Record<string, any>>(
+    ms: Kind2<M, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do2<M, S & S2>
+  chainL: <E, S2 extends Record<string, any>>(
+    f: (s: S) => Kind2<M, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do2<M, S & S2>
   return: <E, A>(f: (s: S) => A) => Kind2<M, E, A>
   done: <E>() => Kind2<M, E, S>
 }
@@ -123,6 +141,12 @@ export interface Do2C<M extends URIS2, S extends object, E> {
   sequenceSL: <I extends Record<string, Kind2<M, E, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
   ) => Do2C<M, S & { [K in keyof I]: [I[K]] extends [Kind2<M, any, infer A>] ? A : never }, E>
+  chain: <S2 extends Record<string, any>>(
+    ms: Kind2<M, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do2C<M, S & S2, E>
+  chainL: <S2 extends Record<string, any>>(
+    f: (s: S) => Kind2<M, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do2C<M, S & S2, E>
   return: <A>(f: (s: S) => A) => Kind2<M, E, A>
   done: () => Kind2<M, E, S>
 }
@@ -154,6 +178,12 @@ export interface Do3<M extends URIS3, S extends object> {
   sequenceSL: <R, E, I extends Record<string, Kind3<M, R, E, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<I> & Record<string, Kind3<M, R, E, any>> & { [K in keyof S]?: never }
   ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  chain: <R, E, S2 extends Record<string, any>>(
+    ms: Kind3<M, R, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do3<M, S & S2>
+  chainL: <R, E, S2 extends Record<string, any>>(
+    f: (s: S) => Kind3<M, R, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do3<M, S & S2>
   return: <R, E, A>(f: (s: S) => A) => Kind3<M, R, E, A>
   done: <R, E>() => Kind3<M, R, E, S>
 }
@@ -182,6 +212,12 @@ export interface Do3C<M extends URIS3, S extends object, R, E> {
   sequenceSL: <I extends Record<string, Kind3<M, R, E, any>>>(
     f: (s: S) => EnforceNonEmptyRecord<I> & { [K in keyof S]?: never }
   ) => Do3C<M, S & { [K in keyof I]: [I[K]] extends [Kind3<M, any, any, infer A>] ? A : never }, R, E>
+  chain: <S2 extends Record<string, any>>(
+    ms: Kind3<M, R, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do3C<M, S & S2, R, E>
+  chainL: <S2 extends Record<string, any>>(
+    f: (s: S) => Kind3<M, R, E, EnforceNonEmptyRecord<S2> & { [K in keyof S]?: never }>
+  ) => Do3C<M, S & S2, R, E>
   return: <A>(f: (s: S) => A) => Kind3<M, R, E, A>
   done: () => Kind3<M, R, E, S>
 }
