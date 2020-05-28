@@ -354,7 +354,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = ...
+export const taskOption: Monad1<URI> & Alternative1<URI> & Filterable1<URI> = ...
 ```
 
 Added in v0.1.0
