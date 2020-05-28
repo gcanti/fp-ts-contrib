@@ -158,7 +158,6 @@ export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) 
  */
 export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = {
   URI,
-  map: T.map,
   of: some,
   ap: T.ap,
   chain: T.chain,
