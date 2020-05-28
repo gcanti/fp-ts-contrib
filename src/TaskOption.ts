@@ -1,7 +1,7 @@
 /**
  * @since 0.1.0
  */
-import { Alt1 } from 'fp-ts/lib/Alt'
+import { Alternative1 } from 'fp-ts/lib/Alternative'
 import { task, of, Task, map as taskMap } from 'fp-ts/lib/Task'
 import { Monad1 } from 'fp-ts/lib/Monad'
 import {
@@ -156,13 +156,13 @@ export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: TaskOption<A>) 
 /**
  * @since 0.1.0
  */
-export const taskOption: Monad1<URI> & Alt1<URI> & Filterable1<URI> = {
+export const taskOption: Monad1<URI> & Alternative1<URI> & Filterable1<URI> = {
   URI,
-  map: T.map,
   of: some,
   ap: T.ap,
   chain: T.chain,
   alt: T.alt,
+  zero: T.none,
   ...getFilterableComposition(task, option)
 }
 
