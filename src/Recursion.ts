@@ -121,3 +121,21 @@ export function zygo<F extends URIS>(
   return <B>(f: (_: Kind<F, B>) => B) => <A>(g: (_: Kind<F, [A, B]>) => A) => (_: Fix<F>): A =>
     cata(F)((H: Kind<F, [A, B]>) => [g(H), f(F.map(H, _ => _[1]))] as [A, B])(_)[0]
 }
+
+/**
+ * @since 0.1.16
+ */
+export interface ZDist2<F extends URIS, A, B> {
+  (_: Kind<F, [A, B]>): B
+}
+
+/**
+ * Mutumorphisms are extensions of the concept of zygomorphisms where both terms have access to each others result.
+ * @since 0.1.16
+ */
+export function mutu<F extends URIS>(
+  F: Functor1<F>
+): <A, B>(f: ZDist2<F, A, B>) => (g: ZDist<F, A, B>) => (_: Fix<F>) => A {
+  return <A, B>(f: (_: Kind<F, [A, B]>) => B) => (g: (_: Kind<F, [A, B]>) => A) => (_: Fix<F>): A =>
+    cata(F)((H: Kind<F, [A, B]>) => [g(H), f(H)] as [A, B])(_)[0]
+}

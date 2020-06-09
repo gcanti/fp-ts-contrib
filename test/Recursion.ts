@@ -196,6 +196,24 @@ const prettyZ: Alg.ZDist<URI, number, string> = _ => {
       return _.s.length
   }
 }
+const prettyZ2: Alg.ZDist2<URI, number, string> = _ => {
+  switch (_._tag) {
+    case 'ConstF':
+      return `${_.d}`
+    case 'PlusF':
+      return `${_.l[1]} + ${_.r[1]}`
+    case 'TimesF':
+      return _.l[1] === _.r[1]
+        ? `${_.l[1]}^2`
+        : _.l[1].indexOf('^') !== -1
+        ? _.l[1].split('^')[0] === _.r[1]
+          ? `${_.r}^${parseInt(_.l[1].split('^')[1], 10) + 1}`
+          : `${_.l} * ${_.r}`
+        : `${_.l} * ${_.r}`
+    case 'VarF':
+      return _.s
+  }
+}
 
 describe('Recursion', () => {
   it('cata', () => {
@@ -210,6 +228,10 @@ describe('Recursion', () => {
 
   it('zygo', () => {
     assert.strictEqual(Alg.zygo(functor)(pretty2)(prettyZ)(ex2), 8)
+  })
+
+  it('mutu', () => {
+    assert.strictEqual(Alg.mutu(functor)(prettyZ2)(prettyZ)(ex2), 8)
   })
 
   it('ana', () => {
