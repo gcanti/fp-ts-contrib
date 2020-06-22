@@ -25,6 +25,7 @@ import { Show } from 'fp-ts/lib/Show'
 import { pipe, pipeable } from 'fp-ts/lib/pipeable'
 import { Foldable1 } from 'fp-ts/lib/Foldable'
 import { Traversable1 } from 'fp-ts/lib/Traversable'
+import { FunctorWithIndex1 } from 'fp-ts/lib/FunctorWithIndex'
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
@@ -268,7 +269,11 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> {
 /**
  * @since 0.1.6
  */
-export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const zipper: Applicative1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Comonad1<URI> &
+  FunctorWithIndex1<URI, number> = {
   URI,
   map: (z, f) => make(z.lefts.map(f), f(z.focus), z.rights.map(f)),
   of,
@@ -295,10 +300,18 @@ export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Co
     return M.concat(M.concat(lefts, f(fa.focus)), rights)
   },
   traverse,
-  sequence
+  sequence,
+  mapWithIndex: (fa, f) => {
+    const l = fa.lefts.length
+    return make(
+      fa.lefts.map((a, i) => f(i, a)),
+      f(l, fa.focus),
+      fa.rights.map((a, i) => f(l + 1 + i, a))
+    )
+  }
 }
 
-const { ap, apFirst, apSecond, duplicate, extend, foldMap, map, reduce, reduceRight } = pipeable(zipper)
+const { ap, apFirst, apSecond, duplicate, extend, foldMap, map, reduce, reduceRight, mapWithIndex } = pipeable(zipper)
 
 export {
   /**
@@ -336,5 +349,9 @@ export {
   /**
    * @since 0.1.6
    */
-  reduceRight
+  reduceRight,
+  /**
+   * @since 0.1.17
+   */
+  mapWithIndex
 }

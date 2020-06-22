@@ -47,6 +47,7 @@ Added in v0.1.6
 - [length](#length)
 - [make](#make)
 - [map](#map)
+- [mapWithIndex](#mapwithindex)
 - [modify](#modify)
 - [move](#move)
 - [of](#of)
@@ -320,6 +321,16 @@ Added in v0.1.6
 
 Added in v0.1.6
 
+# mapWithIndex
+
+**Signature**
+
+```ts
+<A, B>(f: (i: number, a: A) => B) => (fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.17
+
 # modify
 
 Applies `f` to the focus and update with the result.
@@ -425,7 +436,11 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
+export const zipper: Applicative1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Comonad1<URI> &
+  FunctorWithIndex1<URI, number> = ...
 ```
 
 Added in v0.1.6
