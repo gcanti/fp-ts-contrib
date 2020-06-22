@@ -215,4 +215,12 @@ describe('Zipper', () => {
       )
     )
   })
+
+  it('mapWithIndex', () => {
+    const fa = Z.make(['a', 'b'], 'c', ['d'])
+    assert.deepStrictEqual(
+      Z.zipper.mapWithIndex(fa, (i, a) => a + i),
+      Z.make(['a0', 'b1'], 'c2', ['d3'])
+    )
+  })
 })
