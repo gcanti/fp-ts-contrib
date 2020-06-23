@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.17
+
+- **New Feature**
+  - add `FunctorWithIndex` instance to `Zipper`, #65 (@giogonzo)
+
 # 0.1.16
 
 - **Polish**

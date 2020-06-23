@@ -168,7 +168,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-<A>(ma: Zipper<A>) => Zipper<Zipper<A>>
+<A>(wa: Zipper<A>) => Zipper<Zipper<A>>
 ```
 
 Added in v0.1.11
@@ -190,7 +190,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-<A, B>(f: (fa: Zipper<A>) => B) => (ma: Zipper<A>) => Zipper<B>
+<A, B>(f: (wa: Zipper<A>) => B) => (wa: Zipper<A>) => Zipper<B>
 ```
 
 Added in v0.1.11
