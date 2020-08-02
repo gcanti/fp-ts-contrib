@@ -13,6 +13,26 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.18
+
+- **New Feature**
+  - `ArrayOption`
+    - add `zero` method (@IMax153)
+    - split "mega" `arrayOption` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
+      - Add `Monad` instance (@IMax153)
+      - Add `Alt` instance (@IMax153)
+      - Add `Alternative` instance (@IMax153)
+
+- **Polish**
+  - standardize export declarations in all modules (@IMax153)
+  - add category tags to all module exports (@IMax153)
+
+- **Internal**
+  - remove pipeable from all modules (@IMax153)
+
 # 0.1.17
 
 - **New Feature**
