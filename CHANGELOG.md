@@ -25,6 +25,11 @@
       - Add `Monad` instance (@IMax153)
       - Add `Alt` instance (@IMax153)
       - Add `Alternative` instance (@IMax153)
+  - `Free`
+    - split "mega" `free` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
 
 - **Polish**
   - standardize export declarations in all modules (@IMax153)
