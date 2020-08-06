@@ -215,7 +215,7 @@ export const Functor: Functor2<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 0.1.18
  */
 export const Applicative: Applicative2<URI> = {
   URI,
