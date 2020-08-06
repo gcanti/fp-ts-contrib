@@ -59,7 +59,7 @@ export const gets: <S, E = never, A = never>(f: (s: S) => A) => StateEither<S, E
  * @category constructors
  * @since 0.1.12
  */
-export const left: <S, E, A = never>(e: E) => StateEither<S, E, A> = e => fromEither(E.left(e))
+export const left: <S, E, A = never>(e: E) => StateEither<S, E, A> = (e) => fromEither(E.left(e))
 
 /**
  * @category constructors
@@ -71,7 +71,8 @@ export const right: <S, E = never, A = never>(a: A) => StateEither<S, E, A> = T.
  * @category constructors
  * @since 0.1.12
  */
-export const leftState: <S, E = never, A = never>(me: State<S, E>) => StateEither<S, E, A> = me => s => E.left(me(s)[0])
+export const leftState: <S, E = never, A = never>(me: State<S, E>) => StateEither<S, E, A> = (me) => (s) =>
+  E.left(me(s)[0])
 
 /**
  * @category constructors
@@ -83,7 +84,7 @@ export const rightState: <S, E = never, A = never>(ma: State<S, A>) => StateEith
  * @category constructors
  * @since 0.1.18
  */
-export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => StateEither<R, E, A> = onNone => ma =>
+export const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => StateEither<R, E, A> = (onNone) => (ma) =>
   ma._tag === 'None' ? left(onNone()) : right(ma.value)
 
 /**
@@ -98,7 +99,7 @@ export const fromEither: <S, E, A>(ma: E.Either<E, A>) => StateEither<S, E, A> =
  */
 export const fromEitherK: <E, A extends Array<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
-) => <S>(...a: A) => StateEither<S, E, B> = f => (...a) => fromEither(f(...a))
+) => <S>(...a: A) => StateEither<S, E, B> = (f) => (...a) => fromEither(f(...a))
 
 /**
  * @category constructors
@@ -111,6 +112,22 @@ export const fromPredicate: {
   predicate(a) ? right(a) : left(onFalse(a))
 
 // -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 0.1.18
+ */
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+    ma: StateEither<R, E, A>
+  ) => StateEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: StateEither<R, E, A>) => StateEither<R, E, A>
+} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <R>(ma: StateEither<R, E, A>) =>
+  T.chain(ma, (a) => (predicate(a) ? right(a) : left(onFalse(a))))
+
+// -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
 
@@ -118,7 +135,7 @@ export const fromPredicate: {
  * @category Functor
  * @since 0.1.18
  */
-export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: StateEither<R, E, A>) => StateEither<R, E, B> = f => fa =>
+export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: StateEither<R, E, A>) => StateEither<R, E, B> = (f) => (fa) =>
   T.map(fa, f)
 
 /**
@@ -127,7 +144,7 @@ export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: StateEither<R, E, A>) => 
  */
 export const ap: <R, E, A>(
   fa: StateEither<R, E, A>
-) => <B>(fab: StateEither<R, E, (a: A) => B>) => StateEither<R, E, B> = fa => fab => T.ap(fab, fa)
+) => <B>(fab: StateEither<R, E, (a: A) => B>) => StateEither<R, E, B> = (fa) => (fab) => T.ap(fab, fa)
 
 /**
  * @category Apply
@@ -136,7 +153,7 @@ export const ap: <R, E, A>(
 export const apFirst = <R, E, B>(fb: StateEither<R, E, B>) => <A>(fa: StateEither<R, E, A>): StateEither<R, E, A> =>
   pipe(
     fa,
-    map(a => (_: B) => a),
+    map((a) => (_: B) => a),
     ap(fb)
   )
 
@@ -163,7 +180,7 @@ export const of: <R, E, A>(a: A) => StateEither<R, E, A> = right
  */
 export const chain: <R, E, A, B>(
   f: (a: A) => StateEither<R, E, B>
-) => (ma: StateEither<R, E, A>) => StateEither<R, E, B> = f => ma => T.chain(ma, f)
+) => (ma: StateEither<R, E, A>) => StateEither<R, E, B> = (f) => (ma) => T.chain(ma, f)
 
 /**
  * @category Monad
@@ -171,7 +188,7 @@ export const chain: <R, E, A, B>(
  */
 export const chainFirst: <R, E, A, B>(
   f: (a: A) => StateEither<R, E, B>
-) => (ma: StateEither<R, E, A>) => StateEither<R, E, A> = f => ma => T.chain(ma, a => T.map(f(a), () => a))
+) => (ma: StateEither<R, E, A>) => StateEither<R, E, A> = (f) => (ma) => T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
  * @since 0.1.12
@@ -184,16 +201,8 @@ export const chainEitherK = <E, A, B>(
  * @category Monad
  * @since 0.1.18
  */
-export const flatten: <R, E, A>(mma: StateEither<R, E, StateEither<R, E, A>>) => StateEither<R, E, A> = mma =>
+export const flatten: <R, E, A>(mma: StateEither<R, E, StateEither<R, E, A>>) => StateEither<R, E, A> = (mma) =>
   T.chain(mma, identity)
-
-export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-    ma: StateEither<R, E, A>
-  ) => StateEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: StateEither<R, E, A>) => StateEither<R, E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => <R>(ma: StateEither<R, E, A>) =>
-  T.chain(ma, a => (predicate(a) ? right(a) : left(onFalse(a))))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -223,7 +232,7 @@ declare module 'fp-ts/lib/HKT' {
  */
 export const Functor: Functor3<URI> = {
   URI,
-  map: T.map
+  map: T.map,
 }
 
 /**
@@ -234,7 +243,7 @@ export const Applicative: Applicative3<URI> = {
   URI,
   map: T.map,
   ap: T.ap,
-  of
+  of,
 }
 
 /**
@@ -244,7 +253,7 @@ export const Applicative: Applicative3<URI> = {
 export const Apply: Apply3<URI> = {
   URI,
   map: T.map,
-  ap: T.ap
+  ap: T.ap,
 }
 
 /**
@@ -256,7 +265,7 @@ export const Monad: Monad3<URI> = {
   map: T.map,
   ap: T.ap,
   chain: T.chain,
-  of
+  of,
 }
 
 /**
@@ -269,7 +278,7 @@ export const MonadThrow: MonadThrow3<URI> = {
   ap: T.ap,
   chain: T.chain,
   of,
-  throwError: left
+  throwError: left,
 }
 
 /**
@@ -282,7 +291,7 @@ export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
   of: right,
   ap: T.ap,
   chain: T.chain,
-  throwError: left
+  throwError: left,
 }
 
 // -------------------------------------------------------------------------------------
