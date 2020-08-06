@@ -6,9 +6,9 @@
  * @since 0.1.8
  */
 
-import * as O from 'fp-ts/lib/Option'
 import { Predicate } from 'fp-ts/lib/function'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import * as O from 'fp-ts/lib/Option'
 
 /**
  * Returns the list of subexpression matches, or `None` if the match fails.
@@ -24,9 +24,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
  *
  * @since 0.1.8
  */
-export function match(r: RegExp): (s: string) => O.Option<RegExpMatchArray> {
-  return s => O.fromNullable(s.match(r))
-}
+export const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray> = r => s => O.fromNullable(s.match(r))
 
 /**
  * Returns `true` if the string matches the regular expression,
@@ -41,9 +39,7 @@ export function match(r: RegExp): (s: string) => O.Option<RegExpMatchArray> {
  *
  * @since 0.1.8
  */
-export function test(r: RegExp): Predicate<string> {
-  return s => r.test(s)
-}
+export const test: (r: RegExp) => Predicate<string> = r => s => r.test(s)
 
 /**
  * Replaces every occurance of the given regular expression
@@ -57,9 +53,8 @@ export function test(r: RegExp): Predicate<string> {
  *
  * @since 0.1.8
  */
-export function sub(r: RegExp, replacement: string): (s: string) => string {
-  return s => s.replace(r, replacement)
-}
+export const sub: (r: RegExp, replacement: string) => (s: string) => string = (r, replacement) => s =>
+  s.replace(r, replacement)
 
 /**
  * Splits a string based on a regular expression. The regular expression
@@ -74,6 +69,4 @@ export function sub(r: RegExp, replacement: string): (s: string) => string {
  *
  * @since 0.1.8
  */
-export function split(r: RegExp): (s: string) => NonEmptyArray<string> {
-  return s => s.split(r) as any
-}
+export const split: (r: RegExp) => (s: string) => NonEmptyArray<string> = r => s => s.split(r) as any
