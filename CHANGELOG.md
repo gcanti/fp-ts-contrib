@@ -59,6 +59,12 @@
       - Add `Apply` instance (@IMax153)
       - Add `Monad` instance (@IMax153)
       - Add `MonadThrow` instance (@IMax153)
+  - `StateIO`
+    - split "mega" `stateIO` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
+      - Add `Monad` instance (@IMax153)
 
 - **Polish**
   - standardize export declarations in all modules (@IMax153)
