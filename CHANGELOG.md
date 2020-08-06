@@ -41,6 +41,11 @@
       - Add `Alternative` instance (@IMax153)
       - Add `Compactable` instance (@IMax153)
       - Add `Filterable` instance (@IMax153)
+  - `List`
+    - split "mega" `list` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Foldable` instance (@IMax153)
+      - Add `Traversable` instance (@IMax153)
 
 - **Polish**
   - standardize export declarations in all modules (@IMax153)
