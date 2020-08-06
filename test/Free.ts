@@ -2,9 +2,10 @@ import * as assert from 'assert'
 import { identity, FunctionN } from 'fp-ts/lib/function'
 import { Semigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
 import { Identity, identity as id, URI as IdURI } from 'fp-ts/lib/Identity'
+import { pipe } from 'fp-ts/lib/pipeable'
 
-import { liftF, foldFree, free, hoistFree, isImpure } from '../src/Free'
 import { Do } from '../src/Do'
+import * as _ from '../src/Free'
 
 const URI = 'Expr'
 type URI = typeof URI
@@ -32,50 +33,62 @@ declare module 'fp-ts/lib/HKT' {
 describe('Free', () => {
   describe('Monad properties', () => {
     it('of', () => {
-      const fa = free.of<IdURI, number>(42)
+      const fa = _.of<IdURI, number>(42)
       assert.strictEqual(fa._tag, 'Pure')
     })
 
     it('ap', () => {
-      const fa = free.of<IdURI, number>(41)
-      const fab = free.of<IdURI, FunctionN<[number], number>>(x => x + 1)
-      const fb = free.ap(fab, fa)
+      const fa = _.of<IdURI, number>(41)
+      const fab = _.of<IdURI, FunctionN<[number], number>>(x => x + 1)
+      const fb = pipe(fab, _.ap(fa))
       assert.strictEqual(fb._tag, 'Pure')
 
-      const result = foldFree(id)(identity, fb)
+      const result = _.foldFree(id)(identity, fb)
       assert.strictEqual(result, 42)
     })
 
     it('map', () => {
-      const fa = free.of<IdURI, number>(41)
-      const fb = free.map(fa, x => x + 1)
+      const fa = _.of<IdURI, number>(41)
+      const fb = pipe(
+        fa,
+        _.map<number, number>(x => x + 1)
+      )
       assert.strictEqual(fb._tag, 'Pure')
 
-      const result = foldFree(id)(identity, fb)
+      const result = _.foldFree(id)(identity, fb)
       assert.strictEqual(result, 42)
     })
 
     it('chain', () => {
-      const fa = free.of<IdURI, number>(41)
-      const fb = free.chain(fa, x => free.of(x + 1))
+      const fa = _.of<IdURI, number>(41)
+      const fb = _.chain<IdURI, number, number>(x => _.of<IdURI, number>(x + 1))(fa)
       assert.strictEqual(fb._tag, 'Pure')
 
-      const result = foldFree(id)(identity, fb)
+      const result = _.foldFree(id)(identity, fb)
       assert.strictEqual(result, 42)
+    })
+
+    it('flatten', () => {
+      const mma = _.of<IdURI, _.Free<IdURI, number>>(_.of<IdURI, number>(41))
+      const ma = pipe(mma, _.flatten)
+      assert.strictEqual(ma._tag, 'Pure')
+
+      const result = _.foldFree(id)(identity, ma)
+      assert.strictEqual(result, 41)
     })
   })
 
   describe('Expression tree example', () => {
-    const add = <A>(M: Semigroup<A>) => (a: A, b: A) => liftF(new Add(M, a, b, identity))
-    const lit = <A>(a: A) => liftF(new Lit(a, identity))
+    const add = <A>(M: Semigroup<A>) => (a: A, b: A) => _.liftF(new Add(M, a, b, identity))
+    const lit = <A>(a: A) => _.liftF(new Lit(a, identity))
 
-    const program = Do(free)
+    const program = Do(_.free)
       .bind('two', lit(2))
       .bind('three', lit(3))
       .bindL('sum', ({ two, three }) => add(semigroupSum)(two, three))
       .return(({ sum }) => sum)
 
-    assert.strictEqual(isImpure(program), true)
+    assert.strictEqual(_.isImpure(program), true)
 
     const idEval = <A>(fa: ExprF<A>): Identity<A> => {
       switch (fa._tag) {
@@ -87,13 +100,13 @@ describe('Free', () => {
     }
 
     it('foldFree', () => {
-      const result = foldFree(id)(idEval, program)
+      const result = _.foldFree(id)(idEval, program)
       assert.strictEqual(result, 5)
     })
 
     it('hoistFree', () => {
-      const programId = hoistFree<URI, IdURI>(idEval)(program)
-      const result = foldFree(id)(identity, programId)
+      const programId = _.hoistFree<URI, IdURI>(idEval)(program)
+      const result = _.foldFree(id)(identity, programId)
       assert.strictEqual(result, 5)
     })
   })
