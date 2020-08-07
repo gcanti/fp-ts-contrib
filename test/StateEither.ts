@@ -41,7 +41,7 @@ describe('StateEither', () => {
       assert.deepStrictEqual(e, E.right('aaa'))
     })
 
-    it('chainEitherK', async () => {
+    it('chainEitherK', () => {
       const f = (s: string) => E.right(s.length)
       const x = _.evalState(pipe(_.right('aa'), _.chainEitherK(f)), {})
       assert.deepStrictEqual(x, E.right(2))
@@ -58,7 +58,7 @@ describe('StateEither', () => {
         _.evalState(
           pipe(
             _.right('aaa'),
-            _.filterOrElse(p, s => s.length)
+            _.filterOrElse(p, (s) => s.length)
           ),
           {}
         ),
@@ -68,7 +68,7 @@ describe('StateEither', () => {
         _.evalState(
           pipe(
             _.right('aa'),
-            _.filterOrElse(p, s => s.length)
+            _.filterOrElse(p, (s) => s.length)
           ),
           {}
         ),
@@ -79,13 +79,13 @@ describe('StateEither', () => {
 
   describe('constructors', () => {
     it('rightState', () => {
-      const state: State<{}, number> = s => [1, s]
+      const state: State<{}, number> = (s) => [1, s]
       const e = _.evalState(_.rightState(state), {})
       assert.deepStrictEqual(e, E.right(1))
     })
 
     it('leftState', () => {
-      const state: State<{}, number> = s => [1, s]
+      const state: State<{}, number> = (s) => [1, s]
       const e = _.evalState(_.leftState(state), {})
       assert.deepStrictEqual(e, E.left(1))
     })
@@ -113,13 +113,13 @@ describe('StateEither', () => {
       )
     })
 
-    it('fromEither', async () => {
+    it('fromEither', () => {
       const ei: E.Either<{}, number> = E.right(1)
       const e = _.evalState(_.fromEither(ei), {})
       assert.deepStrictEqual(e, E.right(1))
     })
 
-    it('fromEitherK', async () => {
+    it('fromEitherK', () => {
       const f = (s: Array<string>) => E.right(s.length)
       const x = _.evalState(_.fromEitherK(f)(['a', 'b']), {})
       assert.deepStrictEqual(x, E.right(2))
