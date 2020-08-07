@@ -32,7 +32,7 @@ describe('List', () => {
   })
 
   it('of', () => {
-    fc.assert(fc.property(elementArb, a => eqListElement.equals(L.of(a), pipe(a, A.of, L.fromArray))))
+    fc.assert(fc.property(elementArb, (a) => eqListElement.equals(L.of(a), pipe(a, A.of, L.fromArray))))
   })
 
   it('isNil', () => {
@@ -48,13 +48,13 @@ describe('List', () => {
   it('head', () => {
     const eq = O.getEq(Eq.eqNumber)
 
-    fc.assert(fc.property(listArb, l => eq.equals(L.head(l), A.head(L.toArray(l)))))
+    fc.assert(fc.property(listArb, (l) => eq.equals(L.head(l), A.head(L.toArray(l)))))
   })
 
   it('tail', () => {
     const eq = O.getEq(eqListElement)
 
-    fc.assert(fc.property(listArb, l => eq.equals(L.tail(l), pipe(l, L.toArray, A.tail, O.map(L.fromArray)))))
+    fc.assert(fc.property(listArb, (l) => eq.equals(L.tail(l), pipe(l, L.toArray, A.tail, O.map(L.fromArray)))))
   })
 
   it('foldLeft', () => {
@@ -67,14 +67,14 @@ describe('List', () => {
       (_, tail) => 1 + aLen(tail)
     )
 
-    fc.assert(fc.property(listArb, l => Eq.eqNumber.equals(lLen(l), aLen(L.toArray(l)))))
+    fc.assert(fc.property(listArb, (l) => Eq.eqNumber.equals(lLen(l), aLen(L.toArray(l)))))
   })
 
   it('findIndex', () => {
     const f = (a: number): boolean => a % 2 === 0
     const eq = O.getEq(Eq.eqNumber)
 
-    fc.assert(fc.property(listArb, l => eq.equals(L.findIndex(f)(l), A.findIndex(f)(L.toArray(l)))))
+    fc.assert(fc.property(listArb, (l) => eq.equals(L.findIndex(f)(l), A.findIndex(f)(L.toArray(l)))))
   })
 
   it('dropLeft', () => {
@@ -89,14 +89,16 @@ describe('List', () => {
     const isLTThree = (n: number) => n < 3
 
     fc.assert(
-      fc.property(listArb, l =>
+      fc.property(listArb, (l) =>
         eqListElement.equals(L.dropLeftWhile(isLTThree)(l), pipe(l, L.toArray, A.dropLeftWhile(isLTThree), L.fromArray))
       )
     )
   })
 
   it('reverse', () => {
-    fc.assert(fc.property(listArb, l => eqListElement.equals(L.reverse(l), pipe(l, L.toArray, A.reverse, L.fromArray))))
+    fc.assert(
+      fc.property(listArb, (l) => eqListElement.equals(L.reverse(l), pipe(l, L.toArray, A.reverse, L.fromArray)))
+    )
   })
 
   it('map', () => {
@@ -104,38 +106,38 @@ describe('List', () => {
       eqListElement.equals(pipe(l, L.map(f)), pipe(l, L.toArray, A.map(f), L.fromArray))
 
     assert.ok(checkProperty(identity, L.of(6)))
-    fc.assert(fc.property(listArb, l => checkProperty((a: number) => a ** 2, l)))
+    fc.assert(fc.property(listArb, (l) => checkProperty((a: number) => a ** 2, l)))
   })
 
   it('reduce', () => {
     const f = (a: number, b: number): number => a + b
 
     fc.assert(
-      fc.property(listArb, l => Eq.eqNumber.equals(pipe(l, L.reduce(0, f)), pipe(l, L.toArray, A.reduce(0, f))))
+      fc.property(listArb, (l) => Eq.eqNumber.equals(pipe(l, L.reduce(0, f)), pipe(l, L.toArray, A.reduce(0, f))))
     )
   })
 
   it('foldMap', () => {
     fc.assert(
-      fc.property(listArb, l =>
+      fc.property(listArb, (l) =>
         Eq.eqNumber.equals(pipe(l, L.foldMap(monoidSum)(identity)), pipe(l, L.toArray, A.foldMap(monoidSum)(identity)))
       )
     )
   })
 
   it('toArray/fromArray', () => {
-    fc.assert(fc.property(fc.array(elementArb), as => eqArrayElement.equals(as, pipe(as, L.fromArray, L.toArray))))
+    fc.assert(fc.property(fc.array(elementArb), (as) => eqArrayElement.equals(as, pipe(as, L.fromArray, L.toArray))))
   })
 
   it('toReversedArray', () => {
-    fc.assert(fc.property(listArb, l => eqListElement.equals(l, pipe(l, L.toReversedArray, L.fromArray, L.reverse))))
+    fc.assert(fc.property(listArb, (l) => eqListElement.equals(l, pipe(l, L.toReversedArray, L.fromArray, L.reverse))))
   })
 
   it('reduceRight', () => {
     const f = (a: number, b: number): number => a + b
 
     fc.assert(
-      fc.property(listArb, l =>
+      fc.property(listArb, (l) =>
         Eq.eqNumber.equals(pipe(l, L.reduceRight(0, f)), pipe(l, L.toArray, A.reduceRight(0, f)))
       )
     )
@@ -149,7 +151,7 @@ describe('List', () => {
     const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
 
     fc.assert(
-      fc.property(listArb, l =>
+      fc.property(listArb, (l) =>
         eq.equals(listTraverseO(l, f), pipe(arrayTraverseO(L.toArray(l), f), O.map(L.fromArray)))
       )
     )
@@ -157,13 +159,13 @@ describe('List', () => {
 
   it('sequence', () => {
     const eq = O.getEq(eqListElement)
-    const listSequenceO = L.list.sequence(O.option)
+    const listSequenceO = L.sequence(O.option)
     const arraySequenceO = A.array.sequence(O.option)
-    const elementArb = fc.integer().map(n => (Math.random() > 0.5 ? O.some(n) : O.none))
+    const elementArb = fc.integer().map((n) => (Math.random() > 0.5 ? O.some(n) : O.none))
     const listArb = fc.array(elementArb).map(L.fromArray)
 
     fc.assert(
-      fc.property(listArb, l => eq.equals(listSequenceO(l), pipe(l, L.toArray, arraySequenceO, O.map(L.fromArray))))
+      fc.property(listArb, (l) => eq.equals(listSequenceO(l), pipe(l, L.toArray, arraySequenceO, O.map(L.fromArray))))
     )
   })
 

@@ -271,18 +271,6 @@ const traverse_ = <F>(F: ApplicativeHKT<F>): (<A, B>(ta: Zipper<A>, f: (a: A) =>
       traverseF(ta.rights, f)
     )
 }
-// TODO: add pipeable sequence fp-ts version >= 2.6.3
-const sequence_ = <F>(F: ApplicativeHKT<F>): (<A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zipper<A>>) => {
-  const sequenceF = A.array.sequence(F)
-  return <A>(ta: Zipper<HKT<F, A>>) =>
-    F.ap(
-      F.ap(
-        F.map(sequenceF(ta.lefts), (lefts) => (focus: A) => (rights: Array<A>) => make(lefts, focus, rights)),
-        ta.focus
-      ),
-      sequenceF(ta.rights)
-    )
-}
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -366,6 +354,24 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B 
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
+
+/**
+ * @category Traversable
+ * @since 0.1.18
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zipper<A>>) => {
+  const sequenceF = A.array.sequence(F)
+  return <A>(ta: Zipper<HKT<F, A>>) =>
+    F.ap(
+      F.ap(
+        F.map(sequenceF(ta.lefts), (lefts) => (focus: A) => (rights: Array<A>) => make(lefts, focus, rights)),
+        ta.focus
+      ),
+      sequenceF(ta.rights)
+    )
+}
 
 /**
  * @category Comonad
@@ -485,7 +491,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: reduce_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
 }
 
 /**
@@ -518,6 +524,6 @@ export const zipper: Applicative1<URI> &
   reduceRight: reduceRight_,
   foldMap: foldMap_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence,
   mapWithIndex: mapWithIndex_,
 }
