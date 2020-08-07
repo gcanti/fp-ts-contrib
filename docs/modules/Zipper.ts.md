@@ -42,6 +42,8 @@ Added in v0.1.6
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
 - [combinators](#combinators)
   - [deleteLeft](#deleteleft)
   - [deleteRight](#deleteright)
@@ -69,7 +71,7 @@ Added in v0.1.6
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
-  - [Traversable](#traversable)
+  - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
@@ -211,6 +213,18 @@ Added in v0.1.18
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Zipper'>
 ```
 
 Added in v0.1.18

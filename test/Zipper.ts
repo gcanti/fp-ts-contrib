@@ -98,7 +98,7 @@ describe('Zipper', () => {
     })
 
     it('sequence', () => {
-      const sequence = _.Traversable.sequence(O.option)
+      const sequence = _.sequence(O.option)
       const x1 = _.make([O.some('a'), O.some('b')], O.some('c'), [O.some('d')])
       assert.deepStrictEqual(sequence(x1), O.some(_.make(['a', 'b'], 'c', ['d'])))
       const x2 = _.make([O.some('a'), O.some('b')], O.none, [O.some('d')])

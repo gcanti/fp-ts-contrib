@@ -22,6 +22,8 @@ Added in v0.1.8
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
 - [combinators](#combinators)
   - [dropLeft](#dropleft)
   - [reverse](#reverse)
@@ -38,7 +40,7 @@ Added in v0.1.8
 - [instances](#instances)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
-  - [Traversable](#traversable)
+  - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
@@ -117,6 +119,18 @@ Added in v0.1.18
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
+```
+
+Added in v0.1.18
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'List'>
 ```
 
 Added in v0.1.18

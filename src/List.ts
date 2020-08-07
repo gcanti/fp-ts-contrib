@@ -346,12 +346,13 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) 
 //   return f => ta => traverseF(ta, f)
 // }
 
-// TODO: add pipeable sequence when fp-ts version >= 2.6.3
-// /**
-//  * @category Traversable
-//  * @since 0.1.18
-//  */
-// export const sequence = <F>(F: Applicative<F>): (<A>(ta: List<HKT<F, A>>) => HKT<F, List<A>>) => sequence(F)
+/**
+ * @category Traversable
+ * @since 0.1.18
+ */
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: Applicative<F>
+): (<A>(ta: List<HKT<F, A>>) => HKT<F, List<A>>) => sequence_(F)
 
 /**
  * Creates a list with a single element.
