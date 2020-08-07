@@ -99,6 +99,7 @@
 - **Internal**
   - remove pipeable from all modules (@IMax153)
   - add tests for `StateIO` (@IMax153)
+  - add tests for `StateTaskEither` (@IMax153)
 
 # 0.1.17
 
