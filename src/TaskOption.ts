@@ -362,6 +362,10 @@ export const Compactable: Compactable1<URI> = {
   separate,
 }
 
+/**
+ * @category instances
+ * @since 0.1.18
+ */
 export const Filterable: Filterable1<URI> = {
   URI,
   map: T.map,
