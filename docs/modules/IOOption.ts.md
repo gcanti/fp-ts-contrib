@@ -4,7 +4,7 @@ nav_order: 12
 parent: Modules
 ---
 
-# IOOption overview
+## IOOption overview
 
 Added in v0.1.14
 
@@ -12,53 +12,479 @@ Added in v0.1.14
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [IOOption (interface)](#iooption-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [alt](#alt)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [chain](#chain)
-- [chainFirst](#chainfirst)
-- [chainOptionK](#chainoptionk)
-- [compact](#compact)
-- [filter](#filter)
-- [filterMap](#filtermap)
-- [flatten](#flatten)
-- [fold](#fold)
-- [fromIO](#fromio)
-- [fromIOEither](#fromioeither)
-- [fromNullable](#fromnullable)
-- [fromOption](#fromoption)
-- [fromOptionK](#fromoptionk)
-- [getApplyMonoid](#getapplymonoid)
-- [getApplySemigroup](#getapplysemigroup)
-- [getOrElse](#getorelse)
-- [ioOption](#iooption)
-- [map](#map)
-- [mapNullable](#mapnullable)
-- [none](#none)
-- [partition](#partition)
-- [partitionMap](#partitionmap)
-- [separate](#separate)
-- [some](#some)
-- [toNullable](#tonullable)
-- [toUndefined](#toundefined)
+- [Alt](#alt)
+  - [alt](#alt)
+- [Alternative](#alternative)
+  - [zero](#zero)
+- [Applicative](#applicative)
+  - [of](#of)
+- [Apply](#apply)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+- [Compactable](#compactable)
+  - [compact](#compact)
+  - [separate](#separate)
+- [Filterable](#filterable)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+- [Functor](#functor)
+  - [map](#map)
+- [Monad](#monad)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
+  - [chainOptionK](#chainoptionk)
+  - [flatten](#flatten)
+- [combinators](#combinators)
+  - [mapNullable](#mapnullable)
+- [constructors](#constructors)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromNullable](#fromnullable)
+  - [fromOption](#fromoption)
+  - [fromOptionK](#fromoptionk)
+  - [none](#none)
+  - [some](#some)
+- [destructors](#destructors)
+  - [fold](#fold)
+  - [getOrElse](#getorelse)
+  - [toNullable](#tonullable)
+  - [toUndefined](#toundefined)
+- [instances](#instances)
+  - [Alt](#alt-1)
+  - [Alternative](#alternative-1)
+  - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
+  - [Compactable](#compactable-1)
+  - [Filterable](#filterable-1)
+  - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [getApplyMonoid](#getapplymonoid)
+  - [getApplySemigroup](#getapplysemigroup)
+- [model](#model)
+  - [IOOption (interface)](#iooption-interface)
+- [utils](#utils)
+  - [ioOption](#iooption)
 
 ---
 
-# IOOption (interface)
+# Alt
+
+## alt
 
 **Signature**
 
 ```ts
-export interface IOOption<A> extends IO<Option<A>> {}
+export declare const alt: <A>(that: () => IOOption<A>) => (fa: IOOption<A>) => IOOption<A>
+```
+
+Added in v0.1.18
+
+# Alternative
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => IOOption<A>
+```
+
+Added in v0.1.18
+
+# Applicative
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => IOOption<A>
+```
+
+Added in v0.1.18
+
+# Apply
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v0.1.18
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: IOOption<B>) => <A>(fa: IOOption<A>) => IOOption<A>
+```
+
+Added in v0.1.18
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: IOOption<B>) => <A>(fa: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.18
+
+# Compactable
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(fa: IOOption<O.Option<A>>) => IOOption<A>
+```
+
+Added in v0.1.18
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(fa: IOOption<Either<A, B>>) => Separated<IOOption<A>, IOOption<B>>
+```
+
+Added in v0.1.18
+
+# Filterable
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: IOOption<A>) => IOOption<B>
+  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
+}
+```
+
+Added in v0.1.18
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.18
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>
+  <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
+}
+```
+
+Added in v0.1.18
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>>
+```
+
+Added in v0.1.18
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.18
+
+# Monad
+
+## chain
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.18
+
+## chainFirst
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A>
+```
+
+Added in v0.1.18
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v0.1.14
 
-# URI (type alias)
+## flatten
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A>
+```
+
+Added in v0.1.18
+
+# combinators
+
+## mapNullable
+
+**Signature**
+
+```ts
+export declare const mapNullable: <A, B>(f: (a: A) => B) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.14
+
+# constructors
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <A = never>(ma: IO<A>) => IOOption<A>
+```
+
+Added in v0.1.14
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A>
+```
+
+Added in v0.1.14
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => IOOption<NonNullable<A>>
+```
+
+Added in v0.1.14
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A = never>(ma: O.Option<A>) => IOOption<A>
+```
+
+Added in v0.1.14
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends unknown[], B>(f: (...a: A) => O.Option<B>) => (...a: A) => IOOption<B>
+```
+
+Added in v0.1.14
+
+## none
+
+**Signature**
+
+```ts
+export declare const none: IOOption<never>
+```
+
+Added in v0.1.14
+
+## some
+
+**Signature**
+
+```ts
+export declare const some: <A = never>(a: A) => IOOption<A>
+```
+
+Added in v0.1.14
+
+# destructors
+
+## fold
+
+**Signature**
+
+```ts
+export declare const fold: <A, B>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma: IOOption<A>) => IO<B>
+```
+
+Added in v0.1.14
+
+## getOrElse
+
+**Signature**
+
+```ts
+export declare const getOrElse: <A>(onNone: () => IO<A>) => (ma: IOOption<A>) => IO<A>
+```
+
+Added in v0.1.14
+
+## toNullable
+
+**Signature**
+
+```ts
+export declare const toNullable: <A>(ma: IOOption<A>) => IO<A>
+```
+
+Added in v0.1.14
+
+## toUndefined
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(ma: IOOption<A>) => IO<A>
+```
+
+Added in v0.1.14
+
+# instances
+
+## Alt
+
+**Signature**
+
+```ts
+export declare const Alt: Alt1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Alternative
+
+**Signature**
+
+```ts
+export declare const Alternative: Alternative1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Compactable
+
+**Signature**
+
+```ts
+export declare const Compactable: Compactable1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Filterable
+
+**Signature**
+
+```ts
+export declare const Filterable: Filterable1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'IOOption'>
+```
+
+Added in v0.1.18
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'IOOption'
+```
+
+Added in v0.1.14
+
+## URI (type alias)
 
 **Signature**
 
@@ -68,312 +494,46 @@ export type URI = typeof URI
 
 Added in v0.1.14
 
-# URI
+## getApplyMonoid
 
 **Signature**
 
 ```ts
-export const URI: "IOOption" = ...
+export declare const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<IOOption<A>>
 ```
 
 Added in v0.1.14
 
-# alt
+## getApplySemigroup
 
 **Signature**
 
 ```ts
-<A>(that: () => IOOption<A>) => (fa: IOOption<A>) => IOOption<A>
+export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<IOOption<A>>
 ```
 
 Added in v0.1.14
 
-# ap
+# model
+
+## IOOption (interface)
 
 **Signature**
 
 ```ts
-<A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+export interface IOOption<A> extends IO<Option<A>> {}
 ```
 
 Added in v0.1.14
 
-# apFirst
+# utils
+
+## ioOption
 
 **Signature**
 
 ```ts
-<B>(fb: IOOption<B>) => <A>(fa: IOOption<A>) => IOOption<A>
-```
-
-Added in v0.1.14
-
-# apSecond
-
-**Signature**
-
-```ts
-<B>(fb: IOOption<B>) => <A>(fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v0.1.14
-
-# chain
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
-```
-
-Added in v0.1.14
-
-# chainFirst
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A>
-```
-
-Added in v0.1.14
-
-# chainOptionK
-
-**Signature**
-
-```ts
-export function chainOptionK<A, B>(f: (a: A) => Option<B>): (ma: IOOption<A>) => IOOption<B> { ... }
-```
-
-Added in v0.1.14
-
-# compact
-
-**Signature**
-
-```ts
-<A>(fa: IOOption<O.Option<A>>) => IOOption<A>
-```
-
-Added in v0.1.14
-
-# filter
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: IOOption<A>) => IOOption<B>; <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>; }
-```
-
-Added in v0.1.14
-
-# filterMap
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => O.Option<B>) => (fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v0.1.14
-
-# flatten
-
-**Signature**
-
-```ts
-<A>(mma: IOOption<IOOption<A>>) => IOOption<A>
-```
-
-Added in v0.1.14
-
-# fold
-
-**Signature**
-
-```ts
-export function fold<A, B>(onNone: () => IO<B>, onSome: (a: A) => IO<B>): (ma: IOOption<A>) => IO<B> { ... }
-```
-
-Added in v0.1.14
-
-# fromIO
-
-**Signature**
-
-```ts
-export const fromIO: <A = never>(ma: IO<A>) => IOOption<A> = ...
-```
-
-Added in v0.1.14
-
-# fromIOEither
-
-**Signature**
-
-```ts
-export function fromIOEither<A>(ma: IOEither<any, A>): IOOption<A> { ... }
-```
-
-Added in v0.1.14
-
-# fromNullable
-
-**Signature**
-
-```ts
-export function fromNullable<A>(a: A): IOOption<NonNullable<A>> { ... }
-```
-
-Added in v0.1.14
-
-# fromOption
-
-**Signature**
-
-```ts
-export const fromOption: <A = never>(ma: Option<A>) => IOOption<A> = ...
-```
-
-Added in v0.1.14
-
-# fromOptionK
-
-**Signature**
-
-```ts
-export function fromOptionK<A extends Array<unknown>, B>(f: (...a: A) => Option<B>): (...a: A) => IOOption<B> { ... }
-```
-
-Added in v0.1.14
-
-# getApplyMonoid
-
-**Signature**
-
-```ts
-export function getApplyMonoid<A>(M: Monoid<A>): Monoid<IOOption<A>> { ... }
-```
-
-Added in v0.1.14
-
-# getApplySemigroup
-
-**Signature**
-
-```ts
-export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<IOOption<A>> { ... }
-```
-
-Added in v0.1.14
-
-# getOrElse
-
-**Signature**
-
-```ts
-export function getOrElse<A>(onNone: () => IO<A>): (ma: IOOption<A>) => IO<A> { ... }
-```
-
-Added in v0.1.14
-
-# ioOption
-
-**Signature**
-
-```ts
-export const ioOption: Monad1<URI> & Alt1<URI> & MonadIO1<URI> & Filterable1<URI> = ...
-```
-
-Added in v0.1.14
-
-# map
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v0.1.14
-
-# mapNullable
-
-**Signature**
-
-```ts
-export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: IOOption<A>) => IOOption<B> { ... }
-```
-
-Added in v0.1.14
-
-# none
-
-**Signature**
-
-```ts
-export const none: IOOption<never> = ...
-```
-
-Added in v0.1.14
-
-# partition
-
-**Signature**
-
-```ts
-{ <A, B>(refinement: Refinement<A, B>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>; <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>; }
-```
-
-Added in v0.1.14
-
-# partitionMap
-
-**Signature**
-
-```ts
-<A, B, C>(f: (a: A) => Either<B, C>) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>>
-```
-
-Added in v0.1.14
-
-# separate
-
-**Signature**
-
-```ts
-<A, B>(fa: IOOption<Either<A, B>>) => Separated<IOOption<A>, IOOption<B>>
-```
-
-Added in v0.1.14
-
-# some
-
-**Signature**
-
-```ts
-export const some: <A = never>(a: A) => IOOption<A> = ...
-```
-
-Added in v0.1.14
-
-# toNullable
-
-**Signature**
-
-```ts
-export function toNullable<A>(ma: IOOption<A>): IO<A | null> { ... }
-```
-
-Added in v0.1.14
-
-# toUndefined
-
-**Signature**
-
-```ts
-export function toUndefined<A>(ma: IOOption<A>): IO<A | undefined> { ... }
+export declare const ioOption: Monad1<'IOOption'> & Alt1<'IOOption'> & MonadIO1<'IOOption'> & Filterable1<'IOOption'>
 ```
 
 Added in v0.1.14

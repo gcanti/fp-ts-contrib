@@ -4,7 +4,7 @@ nav_order: 25
 parent: Modules
 ---
 
-# Zipper overview
+## Zipper overview
 
 Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
 position in an array. Focus can be moved forward and backwards through the array.
@@ -23,59 +23,483 @@ Added in v0.1.6
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Zipper (interface)](#zipper-interface)
-- [URI (type alias)](#uri-type-alias)
-- [URI](#uri)
-- [ap](#ap)
-- [apFirst](#apfirst)
-- [apSecond](#apsecond)
-- [deleteLeft](#deleteleft)
-- [deleteRight](#deleteright)
-- [down](#down)
-- [duplicate](#duplicate)
-- [end](#end)
-- [extend](#extend)
-- [foldMap](#foldmap)
-- [fromArray](#fromarray)
-- [fromNonEmptyArray](#fromnonemptyarray)
-- [getMonoid](#getmonoid)
-- [getSemigroup](#getsemigroup)
-- [getShow](#getshow)
-- [insertLeft](#insertleft)
-- [insertRight](#insertright)
-- [isOutOfBound](#isoutofbound)
-- [length](#length)
-- [make](#make)
-- [map](#map)
-- [mapWithIndex](#mapwithindex)
-- [modify](#modify)
-- [move](#move)
-- [of](#of)
-- [reduce](#reduce)
-- [reduceRight](#reduceright)
-- [start](#start)
-- [toArray](#toarray)
-- [up](#up)
-- [update](#update)
-- [zipper](#zipper)
+- [Applicative](#applicative)
+  - [of](#of)
+- [Apply](#apply)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+- [Comonad](#comonad)
+  - [extract](#extract)
+- [Extend](#extend)
+  - [duplicate](#duplicate)
+  - [extend](#extend)
+- [Foldable](#foldable)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+- [Functor](#functor)
+  - [map](#map)
+- [FunctorWithIndex](#functorwithindex)
+  - [mapWithIndex](#mapwithindex)
+- [combinators](#combinators)
+  - [deleteLeft](#deleteleft)
+  - [deleteRight](#deleteright)
+  - [down](#down)
+  - [end](#end)
+  - [insertLeft](#insertleft)
+  - [insertRight](#insertright)
+  - [modify](#modify)
+  - [move](#move)
+  - [start](#start)
+  - [up](#up)
+  - [update](#update)
+- [constructors](#constructors)
+  - [fromArray](#fromarray)
+  - [fromNonEmptyArray](#fromnonemptyarray)
+  - [make](#make)
+- [destructors](#destructors)
+  - [isOutOfBound](#isoutofbound)
+  - [length](#length)
+  - [toArray](#toarray)
+- [instances](#instances)
+  - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
+  - [Comonad](#comonad-1)
+  - [Foldable](#foldable-1)
+  - [Functor](#functor-1)
+  - [FunctorWithIndex](#functorwithindex-1)
+  - [Traversable](#traversable)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
+  - [getShow](#getshow)
+  - [zipper](#zipper)
+- [model](#model)
+  - [Zipper (interface)](#zipper-interface)
 
 ---
 
-# Zipper (interface)
+# Applicative
+
+## of
 
 **Signature**
 
 ```ts
-export interface Zipper<A> {
-  readonly lefts: Array<A>
-  readonly focus: A
-  readonly rights: Array<A>
-}
+export declare const of: <A>(focus: A) => Zipper<A>
 ```
 
 Added in v0.1.6
 
-# URI (type alias)
+# Apply
+
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: Zipper<A>) => <B>(fab: Zipper<(a: A) => B>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.18
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+# Comonad
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: Zipper<A>) => A
+```
+
+Added in v0.1.18
+
+# Extend
+
+## duplicate
+
+**Signature**
+
+```ts
+export declare const duplicate: <A>(wa: Zipper<A>) => Zipper<Zipper<A>>
+```
+
+Added in v0.1.18
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (fa: Zipper<A>) => B) => (wa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+# Foldable
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Zipper<A>) => M
+```
+
+Added in v0.1.18
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B
+```
+
+Added in v0.1.18
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B
+```
+
+Added in v0.1.18
+
+# Functor
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+# FunctorWithIndex
+
+## mapWithIndex
+
+**Signature**
+
+```ts
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: Zipper<A>) => Zipper<B>
+```
+
+Added in v0.1.18
+
+# combinators
+
+## deleteLeft
+
+Deletes the element at focus and moves the focus to the left. If there is no element on the left,
+the focus is moved to the right.
+
+**Signature**
+
+```ts
+export declare const deleteLeft: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## deleteRight
+
+Deletes the element at focus and moves the focus to the right. If there is no element on the right,
+the focus is moved to the left.
+
+**Signature**
+
+```ts
+export declare const deleteRight: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## down
+
+Moves focus of the zipper down.
+
+**Signature**
+
+```ts
+export declare const down: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## end
+
+Moves focus to the end of the zipper.
+
+**Signature**
+
+```ts
+export declare const end: <A>(fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## insertLeft
+
+Inserts an element to the left of the focus and focuses on the new element.
+
+**Signature**
+
+```ts
+export declare const insertLeft: <A>(a: A) => (fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## insertRight
+
+Inserts an element to the right of the focus and focuses on the new element.
+
+**Signature**
+
+```ts
+export declare const insertRight: <A>(a: A) => (fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## modify
+
+Applies `f` to the focus and update with the result.
+
+**Signature**
+
+```ts
+export declare const modify: <A>(f: (a: A) => A) => (fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## move
+
+Moves focus in the zipper, or `None` if there is no such element.
+
+**Signature**
+
+```ts
+export declare const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## start
+
+Moves focus to the start of the zipper.
+
+**Signature**
+
+```ts
+export declare const start: <A>(fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## up
+
+Moves focus of the zipper up.
+
+**Signature**
+
+```ts
+export declare const up: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## update
+
+Updates the focus of the zipper.
+
+**Signature**
+
+```ts
+export declare const update: <A>(a: A) => (fa: Zipper<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+# constructors
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[], focusIndex?: number) => Option<Zipper<A>>
+```
+
+Added in v0.1.6
+
+## fromNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const fromNonEmptyArray: <A>(nea: NonEmptyArray<A>) => Zipper<A>
+```
+
+Added in v0.1.6
+
+## make
+
+Creates a new zipper.
+
+**Signature**
+
+```ts
+export declare const make: <A>(lefts: A[], focus: A, rights: A[]) => Zipper<A>
+```
+
+Added in v0.1.6
+
+# destructors
+
+## isOutOfBound
+
+**Signature**
+
+```ts
+export declare const isOutOfBound: <A>(index: number, fa: Zipper<A>) => boolean
+```
+
+Added in v0.1.18
+
+## length
+
+**Signature**
+
+```ts
+export declare const length: <A>(fa: Zipper<A>) => number
+```
+
+Added in v0.1.6
+
+## toArray
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(fa: Zipper<A>) => A[]
+```
+
+Added in v0.1.6
+
+# instances
+
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## Comonad
+
+**Signature**
+
+```ts
+export declare const Comonad: Comonad1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## Foldable
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## Functor
+
+**Signature**
+
+```ts
+export declare const Functor: Functor1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## FunctorWithIndex
+
+**Signature**
+
+```ts
+export declare const FunctorWithIndex: FunctorWithIndex1<'Zipper', number>
+```
+
+Added in v0.1.18
+
+## Traversable
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Zipper'>
+```
+
+Added in v0.1.18
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Zipper'
+```
+
+Added in v0.1.6
+
+## URI (type alias)
 
 **Signature**
 
@@ -85,362 +509,62 @@ export type URI = typeof URI
 
 Added in v0.1.6
 
-# URI
+## getMonoid
 
 **Signature**
 
 ```ts
-export const URI: "Zipper" = ...
+export declare const getMonoid: <A>(M: Monoid<A>) => Monoid<Zipper<A>>
 ```
 
 Added in v0.1.6
 
-# ap
+## getSemigroup
 
 **Signature**
 
 ```ts
-<A>(fa: Zipper<A>) => <B>(fab: Zipper<(a: A) => B>) => Zipper<B>
+export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Zipper<A>>
 ```
 
 Added in v0.1.6
 
-# apFirst
+## getShow
 
 **Signature**
 
 ```ts
-<B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<A>
-```
-
-Added in v0.1.11
-
-# apSecond
-
-**Signature**
-
-```ts
-<B>(fb: Zipper<B>) => <A>(fa: Zipper<A>) => Zipper<B>
-```
-
-Added in v0.1.11
-
-# deleteLeft
-
-Deletes the element at focus and moves the focus to the left. If there is no element on the left,
-the focus is moved to the right.
-
-**Signature**
-
-```ts
-export function deleteLeft<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
+export declare const getShow: <A>(S: Show<A>) => Show<Zipper<A>>
 ```
 
 Added in v0.1.6
 
-# deleteRight
-
-Deletes the element at focus and moves the focus to the right. If there is no element on the right,
-the focus is moved to the left.
+## zipper
 
 **Signature**
 
 ```ts
-export function deleteRight<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
+export declare const zipper: Applicative1<'Zipper'> &
+  Foldable1<'Zipper'> &
+  Traversable1<'Zipper'> &
+  Comonad1<'Zipper'> &
+  FunctorWithIndex1<'Zipper', number>
 ```
 
 Added in v0.1.6
 
-# down
+# model
 
-Moves focus of the zipper down.
-
-**Signature**
-
-```ts
-export function down<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# duplicate
+## Zipper (interface)
 
 **Signature**
 
 ```ts
-<A>(wa: Zipper<A>) => Zipper<Zipper<A>>
-```
-
-Added in v0.1.11
-
-# end
-
-Moves focus to the end of the zipper.
-
-**Signature**
-
-```ts
-export function end<A>(fa: Zipper<A>): Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# extend
-
-**Signature**
-
-```ts
-<A, B>(f: (wa: Zipper<A>) => B) => (wa: Zipper<A>) => Zipper<B>
-```
-
-Added in v0.1.11
-
-# foldMap
-
-**Signature**
-
-```ts
-;<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Zipper<A>) => M
-```
-
-Added in v0.1.11
-
-# fromArray
-
-**Signature**
-
-```ts
-export function fromArray<A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# fromNonEmptyArray
-
-**Signature**
-
-```ts
-export function fromNonEmptyArray<A>(nea: NonEmptyArray<A>): Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# getMonoid
-
-**Signature**
-
-```ts
-export function getMonoid<A>(M: Monoid<A>): Monoid<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# getSemigroup
-
-**Signature**
-
-```ts
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# getShow
-
-**Signature**
-
-```ts
-export function getShow<A>(S: Show<A>): Show<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# insertLeft
-
-Inserts an element to the left of the focus and focuses on the new element.
-
-**Signature**
-
-```ts
-export function insertLeft<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# insertRight
-
-Inserts an element to the right of the focus and focuses on the new element.
-
-**Signature**
-
-```ts
-export function insertRight<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# isOutOfBound
-
-**Signature**
-
-```ts
-export function isOutOfBound<A>(index: number, fa: Zipper<A>): boolean { ... }
-```
-
-Added in v0.1.6
-
-# length
-
-**Signature**
-
-```ts
-export function length<A>(fa: Zipper<A>): number { ... }
-```
-
-Added in v0.1.6
-
-# make
-
-Creates a new zipper.
-
-**Signature**
-
-```ts
-export function make<A>(lefts: Array<A>, focus: A, rights: Array<A>): Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# map
-
-**Signature**
-
-```ts
-<A, B>(f: (a: A) => B) => (fa: Zipper<A>) => Zipper<B>
-```
-
-Added in v0.1.6
-
-# mapWithIndex
-
-**Signature**
-
-```ts
-<A, B>(f: (i: number, a: A) => B) => (fa: Zipper<A>) => Zipper<B>
-```
-
-Added in v0.1.17
-
-# modify
-
-Applies `f` to the focus and update with the result.
-
-**Signature**
-
-```ts
-export function modify<A>(f: (a: A) => A): (fa: Zipper<A>) => Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# move
-
-Moves focus in the zipper, or `None` if there is no such element.
-
-**Signature**
-
-```ts
-export function move<A>(f: (currentIndex: number) => number, fa: Zipper<A>): Option<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# of
-
-**Signature**
-
-```ts
-export function of<A>(focus: A): Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# reduce
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (b: B, a: A) => B) => (fa: Zipper<A>) => B
-```
-
-Added in v0.1.6
-
-# reduceRight
-
-**Signature**
-
-```ts
-;<A, B>(b: B, f: (a: A, b: B) => B) => (fa: Zipper<A>) => B
-```
-
-Added in v0.1.6
-
-# start
-
-Moves focus to the start of the zipper.
-
-**Signature**
-
-```ts
-export function start<A>(fa: Zipper<A>): Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# toArray
-
-**Signature**
-
-```ts
-export function toArray<A>(fa: Zipper<A>): Array<A> { ... }
-```
-
-Added in v0.1.6
-
-# up
-
-Moves focus of the zipper up.
-
-**Signature**
-
-```ts
-export function up<A>(fa: Zipper<A>): Option<Zipper<A>> { ... }
-```
-
-Added in v0.1.6
-
-# update
-
-Updates the focus of the zipper.
-
-**Signature**
-
-```ts
-export function update<A>(a: A): (fa: Zipper<A>) => Zipper<A> { ... }
-```
-
-Added in v0.1.6
-
-# zipper
-
-**Signature**
-
-```ts
-export const zipper: Applicative1<URI> &
-  Foldable1<URI> &
-  Traversable1<URI> &
-  Comonad1<URI> &
-  FunctorWithIndex1<URI, number> = ...
+export interface Zipper<A> {
+  readonly lefts: Array<A>
+  readonly focus: A
+  readonly rights: Array<A>
+}
 ```
 
 Added in v0.1.6

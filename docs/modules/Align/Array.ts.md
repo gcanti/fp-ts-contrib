@@ -4,7 +4,7 @@ nav_order: 1
 parent: Modules
 ---
 
-# Array overview
+## Array overview
 
 Added in v0.1.0
 
@@ -12,27 +12,30 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alignArray](#alignarray)
-- [lpadZip](#lpadzip)
-- [lpadZipWith](#lpadzipwith)
-- [rpadZip](#rpadzip)
-- [rpadZipWith](#rpadzipwith)
+- [utils](#utils)
+  - [alignArray](#alignarray)
+  - [lpadZip](#lpadzip)
+  - [lpadZipWith](#lpadzipwith)
+  - [rpadZip](#rpadzip)
+  - [rpadZipWith](#rpadzipwith)
 
 ---
 
-# alignArray
+# utils
+
+## alignArray
 
 `Align` instance for `Array`.
 
 **Signature**
 
 ```ts
-export const alignArray: Align1<URI> = ...
+export declare const alignArray: Align1<'Array'>
 ```
 
 Added in v0.1.0
 
-# lpadZip
+## lpadZip
 
 Takes two arrays and returns an array of corresponding pairs. If the left input array is short, it will be
 padded using `none`.
@@ -42,7 +45,7 @@ It is similar to `zip`, but it doesn't discard elements when the left input arra
 **Signature**
 
 ```ts
-export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]> { ... }
+export declare function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
 ```
 
 **Example**
@@ -64,7 +67,7 @@ assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [
 
 Added in v0.1.0
 
-# lpadZipWith
+## lpadZipWith
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
 left input array is short, it will be padded using `none`.
@@ -74,7 +77,7 @@ It is similar to `zipWith`, but it doesn't discard elements when the left input 
 **Signature**
 
 ```ts
-export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C> { ... }
+export declare function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C>
 ```
 
 **Example**
@@ -98,7 +101,7 @@ assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b
 
 Added in v0.1.0
 
-# rpadZip
+## rpadZip
 
 Takes two arrays and returns an array of corresponding pairs. If the right input array is short, it will be
 padded using `none`.
@@ -108,7 +111,7 @@ It is similar to `zip`, but it doesn't discard elements when the right input arr
 **Signature**
 
 ```ts
-export function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]> { ... }
+export declare function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]>
 ```
 
 **Example**
@@ -130,7 +133,7 @@ assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [
 
 Added in v0.1.0
 
-# rpadZipWith
+## rpadZipWith
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
 right input array is short, it will be padded using `none`.
@@ -140,7 +143,7 @@ It is similar to `zipWith`, but it doesn't discard elements when the right input
 **Signature**
 
 ```ts
-export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C> { ... }
+export declare function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C>
 ```
 
 **Example**

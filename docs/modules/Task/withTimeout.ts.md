@@ -4,7 +4,7 @@ nav_order: 22
 parent: Modules
 ---
 
-# withTimeout overview
+## withTimeout overview
 
 Added in v0.1.0
 
@@ -12,18 +12,21 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [withTimeout](#withtimeout)
+- [utils](#utils)
+  - [withTimeout](#withtimeout)
 
 ---
 
-# withTimeout
+# utils
+
+## withTimeout
 
 Returns the task result if it completes within a timeout, or a fallback value instead.
 
 **Signature**
 
 ```ts
-export function withTimeout<A>(onTimeout: A, millis: number): (ma: Task<A>) => Task<A> { ... }
+export declare function withTimeout<A>(onTimeout: A, millis: number): (ma: Task<A>) => Task<A>
 ```
 
 **Example**

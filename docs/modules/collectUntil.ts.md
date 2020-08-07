@@ -4,7 +4,7 @@ nav_order: 7
 parent: Modules
 ---
 
-# collectUntil overview
+## collectUntil overview
 
 Added in v0.1.8
 
@@ -12,11 +12,14 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [collectUntil](#collectuntil)
+- [utils](#utils)
+  - [collectUntil](#collectuntil)
 
 ---
 
-# collectUntil
+# utils
+
+## collectUntil
 
 Execute an action repeatedly until the `Option` condition returns a `Some`. Collects results into an arbitrary `Alt`
 value, such as a `Array` or `NonEmptyArray`.
@@ -24,22 +27,22 @@ value, such as a `Array` or `NonEmptyArray`.
 **Signature**
 
 ```ts
-export function collectUntil<M extends URIS2, F extends URIS>(
+export declare function collectUntil<M extends URIS2, F extends URIS>(
   M: Monad2<M>,
   F: Alt1<F>
 ): <I, E, A>(f: (i: I) => Kind2<M, E, [Kind<F, A>, Option<I>]>) => (i: I) => Kind2<M, E, Kind<F, A>>
-export function collectUntil<M extends URIS, F extends URIS2>(
+export declare function collectUntil<M extends URIS, F extends URIS2>(
   M: Monad1<M>,
   F: Alt2<F>
 ): <I, E, A>(f: (i: I) => Kind<M, [Kind2<F, E, A>, Option<I>]>) => (i: I) => Kind<M, Kind2<F, E, A>>
-export function collectUntil<M extends URIS, F extends URIS>(
+export declare function collectUntil<M extends URIS, F extends URIS>(
   M: Monad1<M>,
   F: Alt1<F>
 ): <I, A>(f: (i: I) => Kind<M, [Kind<F, A>, Option<I>]>) => (i: I) => Kind<M, Kind<F, A>>
-export function collectUntil<M, F>(
+export declare function collectUntil<M, F>(
   M: Monad<M>,
   F: Alt<F>
-): <I, A>(f: (i: I) => HKT<M, [HKT<F, A>, Option<I>]>) => (i: I) => HKT<M, HKT<F, A>> { ... }
+): <I, A>(f: (i: I) => HKT<M, [HKT<F, A>, Option<I>]>) => (i: I) => HKT<M, HKT<F, A>>
 ```
 
 **Example**
