@@ -72,7 +72,7 @@ export const alignArray: Align1<URI> = {
    */
   align: <A, B>(fa: Array<A>, fb: Array<B>): Array<These<A, B>> => {
     return alignArray.alignWith<A, B, These<A, B>>(fa, fb, identity)
-  }
+  },
 }
 
 /**
@@ -96,9 +96,11 @@ export const alignArray: Align1<URI> = {
  *
  * @since 0.1.0
  */
-export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C> {
-  return array.compact(padZipWith(alignArray)(xs, ys, (ma, mb) => option.map(mb, b => f(ma, b))))
-}
+export const lpadZipWith: <A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C) => Array<C> = (
+  xs,
+  ys,
+  f
+) => array.compact(padZipWith(alignArray)(xs, ys, (ma, mb) => option.map(mb, (b) => f(ma, b))))
 
 /**
  * Takes two arrays and returns an array of corresponding pairs. If the left input array is short, it will be
@@ -115,9 +117,8 @@ export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A
  *
  * @since 0.1.0
  */
-export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]> {
-  return lpadZipWith(xs, ys, (a, b) => tuple(a, b))
-}
+export const lpadZip: <A, B>(xs: Array<A>, ys: Array<B>) => Array<[Option<A>, B]> = (xs, ys) =>
+  lpadZipWith(xs, ys, (a, b) => tuple(a, b))
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
@@ -135,9 +136,11 @@ export function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
  *
  * @since 0.1.0
  */
-export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C> {
-  return lpadZipWith(ys, xs, (a, b) => f(b, a))
-}
+export const rpadZipWith: <A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C) => Array<C> = (
+  xs,
+  ys,
+  f
+) => lpadZipWith(ys, xs, (a, b) => f(b, a))
 
 /**
  * Takes two arrays and returns an array of corresponding pairs. If the right input array is short, it will be
@@ -154,6 +157,5 @@ export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Op
  *
  * @since 0.1.0
  */
-export function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]> {
-  return rpadZipWith(xs, ys, (a, b) => tuple(a, b))
-}
+export const rpadZip: <A, B>(xs: Array<A>, ys: Array<B>) => Array<[A, Option<B>]> = (xs, ys) =>
+  rpadZipWith(xs, ys, (a, b) => tuple(a, b))

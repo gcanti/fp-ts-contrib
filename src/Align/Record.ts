@@ -54,6 +54,4 @@ export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Recor
 /**
  * @since 0.1.0
  */
-export function nil<A>(): Record<string, A> {
-  return R.empty
-}
+export const nil: <A>() => Record<string, A> = () => R.empty
