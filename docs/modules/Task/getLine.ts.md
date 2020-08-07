@@ -24,7 +24,7 @@ Added in v0.1.8
 **Signature**
 
 ```ts
-export declare function getLine(question: string): Task<string>
+export declare const getLine: (question: string) => Task<string>
 ```
 
 Added in v0.1.8
