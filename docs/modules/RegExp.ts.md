@@ -4,7 +4,7 @@ nav_order: 15
 parent: Modules
 ---
 
-# RegExp overview
+## RegExp overview
 
 Provides regular expression matching.
 
@@ -16,21 +16,24 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [match](#match)
-- [split](#split)
-- [sub](#sub)
-- [test](#test)
+- [utils](#utils)
+  - [match](#match)
+  - [split](#split)
+  - [sub](#sub)
+  - [test](#test)
 
 ---
 
-# match
+# utils
+
+## match
 
 Returns the list of subexpression matches, or `None` if the match fails.
 
 **Signature**
 
 ```ts
-export function match(r: RegExp): (s: string) => O.Option<RegExpMatchArray> { ... }
+export declare const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray>
 ```
 
 **Example**
@@ -47,7 +50,7 @@ assert.deepStrictEqual(myMatch('foo'), O.none)
 
 Added in v0.1.8
 
-# split
+## split
 
 Splits a string based on a regular expression. The regular expression
 should identify one delimiter.
@@ -55,7 +58,7 @@ should identify one delimiter.
 **Signature**
 
 ```ts
-export function split(r: RegExp): (s: string) => NonEmptyArray<string> { ... }
+export declare const split: (r: RegExp) => (s: string) => NonEmptyArray<string>
 ```
 
 **Example**
@@ -70,7 +73,7 @@ assert.deepStrictEqual(splitByHash('noHashes'), ['noHashes'])
 
 Added in v0.1.8
 
-# sub
+## sub
 
 Replaces every occurance of the given regular expression
 with the replacement string.
@@ -78,7 +81,7 @@ with the replacement string.
 **Signature**
 
 ```ts
-export function sub(r: RegExp, replacement: string): (s: string) => string { ... }
+export declare const sub: (r: RegExp, replacement: string) => (s: string) => string
 ```
 
 **Example**
@@ -92,7 +95,7 @@ assert.strictEqual(sanitiseSpaces('foo bar owl'), 'foo_bar_owl')
 
 Added in v0.1.8
 
-# test
+## test
 
 Returns `true` if the string matches the regular expression,
 otherwise `false`.
@@ -100,7 +103,7 @@ otherwise `false`.
 **Signature**
 
 ```ts
-export function test(r: RegExp): Predicate<string> { ... }
+export declare const test: (r: RegExp) => Predicate<string>
 ```
 
 **Example**

@@ -4,7 +4,7 @@ nav_order: 8
 parent: Modules
 ---
 
-# Do overview
+## Do overview
 
 This module provides a simuation of Haskell do notation.
 
@@ -14,17 +14,54 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Do0 (interface)](#do0-interface)
-- [Do1 (interface)](#do1-interface)
-- [Do2 (interface)](#do2-interface)
-- [Do2C (interface)](#do2c-interface)
-- [Do3 (interface)](#do3-interface)
-- [Do3C (interface)](#do3c-interface)
-- [Do](#do)
+- [utils](#utils)
+  - [Do](#do)
+  - [Do0 (interface)](#do0-interface)
+  - [Do1 (interface)](#do1-interface)
+  - [Do2 (interface)](#do2-interface)
+  - [Do2C (interface)](#do2c-interface)
+  - [Do3 (interface)](#do3-interface)
+  - [Do3C (interface)](#do3c-interface)
 
 ---
 
-# Do0 (interface)
+# utils
+
+## Do
+
+This function provides a simulation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
+scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that
+add nothing to the scope. The `return` function lifts the given callback to the monad context. Finally the `done`
+function returns the scope.
+
+**Signature**
+
+```ts
+export declare function Do<M extends URIS3>(M: Monad3<M>): Do3<M, {}>
+export declare function Do<M extends URIS2>(M: Monad2<M>): Do2<M, {}>
+export declare function Do<M extends URIS2, L>(M: Monad2C<M, L>): Do2C<M, {}, L>
+export declare function Do<M extends URIS>(M: Monad1<M>): Do1<M, {}>
+export declare function Do<M>(M: Monad<M>): Do0<M, {}>
+```
+
+**Example**
+
+```ts
+import { option, some } from 'fp-ts/lib/Option'
+import { Do } from 'fp-ts-contrib/lib/Do'
+
+// x: Option<number>
+const x = Do(option) // <- a monad instance
+  .bindL('foo', () => some('bar'))
+  .bindL('baz', () => some(4))
+  .return(({ foo, baz }) => foo.length + baz)
+
+assert.deepStrictEqual(x, some(7))
+```
+
+Added in v0.0.2
+
+## Do0 (interface)
 
 **Signature**
 
@@ -49,7 +86,7 @@ export interface Do0<M, S extends object> {
 
 Added in v0.1.0
 
-# Do1 (interface)
+## Do1 (interface)
 
 **Signature**
 
@@ -74,7 +111,7 @@ export interface Do1<M extends URIS, S extends object> {
 
 Added in v0.1.0
 
-# Do2 (interface)
+## Do2 (interface)
 
 **Signature**
 
@@ -102,7 +139,7 @@ export interface Do2<M extends URIS2, S extends object> {
 
 Added in v0.1.0
 
-# Do2C (interface)
+## Do2C (interface)
 
 **Signature**
 
@@ -130,7 +167,7 @@ export interface Do2C<M extends URIS2, S extends object, E> {
 
 Added in v0.1.0
 
-# Do3 (interface)
+## Do3 (interface)
 
 **Signature**
 
@@ -161,7 +198,7 @@ export interface Do3<M extends URIS3, S extends object> {
 
 Added in v0.1.0
 
-# Do3C (interface)
+## Do3C (interface)
 
 **Signature**
 
@@ -188,37 +225,3 @@ export interface Do3C<M extends URIS3, S extends object, R, E> {
 ```
 
 Added in v0.1.0
-
-# Do
-
-This function provides a simulation of Haskell do notation. The `bind` / `bindL` functions contributes to a threaded
-scope that is available to each subsequent step. The `do` / `doL` functions can be used to perform computations that
-add nothing to the scope. The `return` function lifts the given callback to the monad context. Finally the `done`
-function returns the scope.
-
-**Signature**
-
-```ts
-export function Do<M extends URIS3>(M: Monad3<M>): Do3<M, {}>
-export function Do<M extends URIS2>(M: Monad2<M>): Do2<M, {}>
-export function Do<M extends URIS2, L>(M: Monad2C<M, L>): Do2C<M, {}, L>
-export function Do<M extends URIS>(M: Monad1<M>): Do1<M, {}>
-export function Do<M>(M: Monad<M>): Do0<M, {}> { ... }
-```
-
-**Example**
-
-```ts
-import { option, some } from 'fp-ts/lib/Option'
-import { Do } from 'fp-ts-contrib/lib/Do'
-
-// x: Option<number>
-const x = Do(option) // <- a monad instance
-  .bindL('foo', () => some('bar'))
-  .bindL('baz', () => some(4))
-  .return(({ foo, baz }) => foo.length + baz)
-
-assert.deepStrictEqual(x, some(7))
-```
-
-Added in v0.0.2

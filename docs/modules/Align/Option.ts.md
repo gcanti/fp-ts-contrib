@@ -4,7 +4,7 @@ nav_order: 3
 parent: Modules
 ---
 
-# Option overview
+## Option overview
 
 Added in v0.1.0
 
@@ -12,18 +12,21 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [alignOption](#alignoption)
+- [utils](#utils)
+  - [alignOption](#alignoption)
 
 ---
 
-# alignOption
+# utils
+
+## alignOption
 
 `Align` instance for `Option`.
 
 **Signature**
 
 ```ts
-export const alignOption: Align1<URI> = ...
+export declare const alignOption: Align1<'Option'>
 ```
 
 Added in v0.1.0

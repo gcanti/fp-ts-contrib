@@ -4,7 +4,7 @@ nav_order: 17
 parent: Modules
 ---
 
-# NonEmptyArray overview
+## NonEmptyArray overview
 
 Added in v0.1.0
 
@@ -12,18 +12,21 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [semialignNonEmptyArray](#semialignnonemptyarray)
+- [utils](#utils)
+  - [semialignNonEmptyArray](#semialignnonemptyarray)
 
 ---
 
-# semialignNonEmptyArray
+# utils
+
+## semialignNonEmptyArray
 
 `Semialign` instance for `NonEmptyArray`.
 
 **Signature**
 
 ```ts
-export const semialignNonEmptyArray: Semialign1<URI> = ...
+export declare const semialignNonEmptyArray: Semialign1<'NonEmptyArray'>
 ```
 
 Added in v0.1.0

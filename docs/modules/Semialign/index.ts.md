@@ -4,7 +4,7 @@ nav_order: 16
 parent: Modules
 ---
 
-# index overview
+## index overview
 
 The `Semialign` type class represents functors supporting a zip operation that takes the
 union of non-uniform shapes.
@@ -27,15 +27,18 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Semialign (interface)](#semialign-interface)
-- [Semialign1 (interface)](#semialign1-interface)
-- [Semialign2 (interface)](#semialign2-interface)
-- [Semialign2C (interface)](#semialign2c-interface)
-- [Semialign3 (interface)](#semialign3-interface)
+- [utils](#utils)
+  - [Semialign (interface)](#semialign-interface)
+  - [Semialign1 (interface)](#semialign1-interface)
+  - [Semialign2 (interface)](#semialign2-interface)
+  - [Semialign2C (interface)](#semialign2c-interface)
+  - [Semialign3 (interface)](#semialign3-interface)
 
 ---
 
-# Semialign (interface)
+# utils
+
+## Semialign (interface)
 
 **Signature**
 
@@ -48,7 +51,7 @@ export interface Semialign<F> extends Functor<F> {
 
 Added in v0.1.0
 
-# Semialign1 (interface)
+## Semialign1 (interface)
 
 **Signature**
 
@@ -61,7 +64,7 @@ export interface Semialign1<F extends URIS> extends Functor1<F> {
 
 Added in v0.1.0
 
-# Semialign2 (interface)
+## Semialign2 (interface)
 
 **Signature**
 
@@ -74,7 +77,7 @@ export interface Semialign2<F extends URIS2> extends Functor2<F> {
 
 Added in v0.1.0
 
-# Semialign2C (interface)
+## Semialign2C (interface)
 
 **Signature**
 
@@ -87,7 +90,7 @@ export interface Semialign2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 Added in v0.1.0
 
-# Semialign3 (interface)
+## Semialign3 (interface)
 
 **Signature**
 

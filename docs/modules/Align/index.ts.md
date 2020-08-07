@@ -4,7 +4,7 @@ nav_order: 2
 parent: Modules
 ---
 
-# index overview
+## index overview
 
 The `Align` type class extends the `Semialign` type class with a value `nil`, which
 acts as a unit in regards to `align`.
@@ -22,18 +22,21 @@ Added in v0.1.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Align (interface)](#align-interface)
-- [Align1 (interface)](#align1-interface)
-- [Align2 (interface)](#align2-interface)
-- [Align2C (interface)](#align2c-interface)
-- [Align3 (interface)](#align3-interface)
-- [padZip](#padzip)
-- [padZipWith](#padzipwith)
-- [salign](#salign)
+- [utils](#utils)
+  - [Align (interface)](#align-interface)
+  - [Align1 (interface)](#align1-interface)
+  - [Align2 (interface)](#align2-interface)
+  - [Align2C (interface)](#align2c-interface)
+  - [Align3 (interface)](#align3-interface)
+  - [padZip](#padzip)
+  - [padZipWith](#padzipwith)
+  - [salign](#salign)
 
 ---
 
-# Align (interface)
+# utils
+
+## Align (interface)
 
 **Signature**
 
@@ -45,7 +48,7 @@ export interface Align<F> extends Semialign<F> {
 
 Added in v0.1.0
 
-# Align1 (interface)
+## Align1 (interface)
 
 **Signature**
 
@@ -57,7 +60,7 @@ export interface Align1<F extends URIS> extends Semialign1<F> {
 
 Added in v0.1.0
 
-# Align2 (interface)
+## Align2 (interface)
 
 **Signature**
 
@@ -69,7 +72,7 @@ export interface Align2<F extends URIS2> extends Semialign2<F> {
 
 Added in v0.1.0
 
-# Align2C (interface)
+## Align2C (interface)
 
 **Signature**
 
@@ -81,7 +84,7 @@ export interface Align2C<F extends URIS2, L> extends Semialign2C<F, L> {
 
 Added in v0.1.0
 
-# Align3 (interface)
+## Align3 (interface)
 
 **Signature**
 
@@ -93,7 +96,7 @@ export interface Align3<F extends URIS3> extends Semialign3<F> {
 
 Added in v0.1.0
 
-# padZip
+## padZip
 
 Align two structures, using `none` to fill blanks.
 
@@ -102,19 +105,19 @@ It is similar to `zip`, but it doesn't discard elements.
 **Signature**
 
 ```ts
-export function padZip<F extends URIS3, L>(
+export declare function padZip<F extends URIS3, L>(
   F: Align3<F>
 ): <U, L, A, B>(fa: Kind3<F, U, L, A>, fb: Kind3<F, U, L, B>) => Kind3<F, U, L, [Option<A>, Option<B>]>
-export function padZip<F extends URIS2>(
+export declare function padZip<F extends URIS2>(
   F: Align2<F>
 ): <L, A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, [Option<A>, Option<B>]>
-export function padZip<F extends URIS2, L>(
+export declare function padZip<F extends URIS2, L>(
   F: Align2C<F, L>
 ): <A, B>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>) => Kind2<F, L, [Option<A>, Option<B>]>
-export function padZip<F extends URIS>(
+export declare function padZip<F extends URIS>(
   F: Align1<F>
 ): <A, B>(fa: Kind<F, A>, fb: Kind<F, B>) => Kind<F, [Option<A>, Option<B>]>
-export function padZip<F>(F: Align<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, [Option<A>, Option<B>]> { ... }
+export declare function padZip<F>(F: Align<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, [Option<A>, Option<B>]>
 ```
 
 **Example**
@@ -133,7 +136,7 @@ assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [
 
 Added in v0.1.0
 
-# padZipWith
+## padZipWith
 
 Align two structures by applying a function to each pair of aligned elements, using `none` to fill blanks.
 
@@ -142,25 +145,25 @@ It is similar to `zipWith`, but it doesn't discard elements.
 **Signature**
 
 ```ts
-export function padZipWith<F extends URIS3, L>(
+export declare function padZipWith<F extends URIS3, L>(
   F: Align3<F>
 ): <U, L, A, B, C>(
   fa: Kind3<F, U, L, A>,
   fb: Kind3<F, U, L, B>,
   f: (a: Option<A>, b: Option<B>) => C
 ) => Kind3<F, U, L, C>
-export function padZipWith<F extends URIS2>(
+export declare function padZipWith<F extends URIS2>(
   F: Align2<F>
 ): <L, A, B, C>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>, f: (a: Option<A>, b: Option<B>) => C) => Kind2<F, L, C>
-export function padZipWith<F extends URIS2, L>(
+export declare function padZipWith<F extends URIS2, L>(
   F: Align2C<F, L>
 ): <A, B, C>(fa: Kind2<F, L, A>, fb: Kind2<F, L, B>, f: (a: Option<A>, b: Option<B>) => C) => Kind2<F, L, C>
-export function padZipWith<F extends URIS>(
+export declare function padZipWith<F extends URIS>(
   F: Align1<F>
 ): <A, B, C>(fa: Kind<F, A>, fb: Kind<F, B>, f: (a: Option<A>, b: Option<B>) => C) => Kind<F, C>
-export function padZipWith<F>(
+export declare function padZipWith<F>(
   F: Align<F>
-): <A, B, C>(fa: HKT<F, A>, fb: HKT<F, B>, f: (a: Option<A>, b: Option<B>) => C) => HKT<F, C> { ... }
+): <A, B, C>(fa: HKT<F, A>, fb: HKT<F, B>, f: (a: Option<A>, b: Option<B>) => C) => HKT<F, C>
 ```
 
 **Example**
@@ -190,27 +193,30 @@ assert.deepStrictEqual(padZipWith(alignArray)([1], ['a', 'b'], f), ['1a', '*b'])
 
 Added in v0.1.0
 
-# salign
+## salign
 
 Align two structures, using a semigroup for combining values.
 
 **Signature**
 
 ```ts
-export function salign<F extends URIS3, A, L>(
+export declare function salign<F extends URIS3, A, L>(
   F: Align3<F>,
   S: Semigroup<A>
 ): <U, L>(fx: Kind3<F, U, L, A>, fy: Kind3<F, U, L, A>) => Kind3<F, U, L, A>
-export function salign<F extends URIS2, A>(
+export declare function salign<F extends URIS2, A>(
   F: Align2<F>,
   S: Semigroup<A>
 ): <L>(fx: Kind2<F, L, A>, fy: Kind2<F, L, A>) => Kind2<F, L, A>
-export function salign<F extends URIS2, A, L>(
+export declare function salign<F extends URIS2, A, L>(
   F: Align2C<F, L>,
   S: Semigroup<A>
 ): (fx: Kind2<F, L, A>, fy: Kind2<F, L, A>) => Kind2<F, L, A>
-export function salign<F extends URIS, A>(F: Align1<F>, S: Semigroup<A>): (fx: Kind<F, A>, fy: Kind<F, A>) => Kind<F, A>
-export function salign<F, A>(F: Align<F>, S: Semigroup<A>): (fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A> { ... }
+export declare function salign<F extends URIS, A>(
+  F: Align1<F>,
+  S: Semigroup<A>
+): (fx: Kind<F, A>, fy: Kind<F, A>) => Kind<F, A>
+export declare function salign<F, A>(F: Align<F>, S: Semigroup<A>): (fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>
 ```
 
 **Example**

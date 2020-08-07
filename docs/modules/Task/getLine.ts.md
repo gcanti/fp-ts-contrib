@@ -4,7 +4,7 @@ nav_order: 21
 parent: Modules
 ---
 
-# getLine overview
+## getLine overview
 
 Added in v0.1.8
 
@@ -12,16 +12,19 @@ Added in v0.1.8
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [getLine](#getline)
+- [utils](#utils)
+  - [getLine](#getline)
 
 ---
 
-# getLine
+# utils
+
+## getLine
 
 **Signature**
 
 ```ts
-export function getLine(question: string): Task<string> { ... }
+export declare function getLine(question: string): Task<string>
 ```
 
 Added in v0.1.8
