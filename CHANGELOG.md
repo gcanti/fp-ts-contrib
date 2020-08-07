@@ -16,6 +16,7 @@
 # 0.1.18
 
 - **New Feature**
+
   - `ArrayOption`
     - add `zero` method (@IMax153)
     - split "mega" `arrayOption` instance into individual typeclass instances (@IMax153)
@@ -65,8 +66,24 @@
       - Add `Applicative` instance (@IMax153)
       - Add `Apply` instance (@IMax153)
       - Add `Monad` instance (@IMax153)
+  - `StateTaskEither`
+    - split "mega" `stateTaskEither` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
+      - Add `Monad` instance (@IMax153)
+  - `TaskOption`
+    - split "mega" `taskOption` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
+      - Add `Monad` instance (@IMax153)
+      - Add `Alternative` instance (@IMax153)
+      - Add `Compactable` instance (@IMax153)
+      - Add `Filterable` instance (@IMax153)
 
 - **Polish**
+
   - standardize export declarations in all modules (@IMax153)
   - add category tags to all module exports (@IMax153)
 
