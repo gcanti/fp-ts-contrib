@@ -26,7 +26,7 @@ Returns the task result if it completes within a timeout, or a fallback value in
 **Signature**
 
 ```ts
-export declare function withTimeout<A>(onTimeout: A, millis: number): (ma: Task<A>) => Task<A>
+export declare const withTimeout: <A>(onTimeout: A, millis: number) => (ma: Task<A>) => Task<A>
 ```
 
 **Example**

@@ -45,7 +45,7 @@ It is similar to `zip`, but it doesn't discard elements when the left input arra
 **Signature**
 
 ```ts
-export declare function lpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]>
+export declare const lpadZip: <A, B>(xs: A[], ys: B[]) => [Option<A>, B][]
 ```
 
 **Example**
@@ -77,7 +77,7 @@ It is similar to `zipWith`, but it doesn't discard elements when the left input 
 **Signature**
 
 ```ts
-export declare function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C>
+export declare const lpadZipWith: <A, B, C>(xs: A[], ys: B[], f: (a: Option<A>, b: B) => C) => C[]
 ```
 
 **Example**
@@ -111,7 +111,7 @@ It is similar to `zip`, but it doesn't discard elements when the right input arr
 **Signature**
 
 ```ts
-export declare function rpadZip<A, B>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]>
+export declare const rpadZip: <A, B>(xs: A[], ys: B[]) => [A, Option<B>][]
 ```
 
 **Example**
@@ -143,7 +143,7 @@ It is similar to `zipWith`, but it doesn't discard elements when the right input
 **Signature**
 
 ```ts
-export declare function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C>
+export declare const rpadZipWith: <A, B, C>(xs: A[], ys: B[], f: (a: A, b: Option<B>) => C) => C[]
 ```
 
 **Example**

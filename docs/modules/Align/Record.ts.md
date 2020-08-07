@@ -59,7 +59,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export declare function nil<A>(): Record<string, A>
+export declare const nil: <A>() => Record<string, A>
 ```
 
 Added in v0.1.0
