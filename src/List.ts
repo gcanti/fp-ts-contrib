@@ -69,7 +69,7 @@ export const cons: <A>(head: A, tail: List<A>) => List<A> = (head, tail) => ({
   type: 'Cons',
   head,
   tail,
-  length: 1 + tail.length
+  length: 1 + tail.length,
 })
 
 /**
@@ -103,7 +103,7 @@ export const fromArray = <A>(as: Array<A>): List<A> => A.array.reduceRight<A, Li
  * @category destructors
  * @since 0.1.8
  */
-export const head: <A>(fa: List<A>) => O.Option<A> = fa => (isCons(fa) ? O.some(fa.head) : O.none)
+export const head: <A>(fa: List<A>) => O.Option<A> = (fa) => (isCons(fa) ? O.some(fa.head) : O.none)
 
 /**
  * Gets all but the first element of a list, or `None` if the list is empty.
@@ -119,7 +119,7 @@ export const head: <A>(fa: List<A>) => O.Option<A> = fa => (isCons(fa) ? O.some(
  * @category destructors
  * @since 0.1.8
  */
-export const tail: <A>(fa: List<A>) => O.Option<List<A>> = fa => (isCons(fa) ? O.some(fa.tail) : O.none)
+export const tail: <A>(fa: List<A>) => O.Option<List<A>> = (fa) => (isCons(fa) ? O.some(fa.tail) : O.none)
 
 /**
  * Breaks a list into its first element and the remaining elements.
@@ -139,7 +139,7 @@ export const tail: <A>(fa: List<A>) => O.Option<List<A>> = fa => (isCons(fa) ? O
 export const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) => B) => (fa: List<A>) => B = (
   onNil,
   onCons
-) => fa => (isNil(fa) ? onNil() : onCons(fa.head, fa.tail))
+) => (fa) => (isNil(fa) ? onNil() : onCons(fa.head, fa.tail))
 
 /**
  * Gets an array from a list.
@@ -250,7 +250,7 @@ export const dropLeft = (n: number) => <A>(fa: List<A>): List<A> => {
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (fa: List<A>) => List<B>
 export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A>
 export function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>) => List<A> {
-  return fa => {
+  return (fa) => {
     if (isNil(fa)) return nil
 
     let l: List<A> = fa
@@ -277,7 +277,7 @@ const reduce_: Foldable1<URI>['reduce'] = (fa, b, f) => {
   return out
 }
 const reduceRight_: Foldable1<URI>['reduceRight'] = (fa, b, f) => A.array.reduceRight(toArray(fa), b, f)
-const foldMap_: Foldable1<URI>['foldMap'] = M => (fa, f) => {
+const foldMap_: Foldable1<URI>['foldMap'] = (M) => (fa, f) => {
   let out = M.empty
   let l = fa
   while (isCons(l)) {
@@ -290,7 +290,7 @@ const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: List<A>, f: (a: A) => HKT<
   return <A, B>(ta: List<A>, f: (a: A) => HKT<F, B>) =>
     list.reduceRight(ta, F.of<List<B>>(nil), (a, fbs) =>
       F.ap(
-        F.map(fbs, bs => (b: B) => cons(b, bs)),
+        F.map(fbs, (bs) => (b: B) => cons(b, bs)),
         f(a)
       )
     )
@@ -298,7 +298,7 @@ const traverse_ = <F>(F: Applicative<F>): (<A, B>(ta: List<A>, f: (a: A) => HKT<
 const sequence_ = <F>(F: Applicative<F>) => <A>(ta: List<HKT<F, A>>): HKT<F, List<A>> => {
   return list.reduceRight(ta, F.of<List<A>>(nil), (a, fas) =>
     F.ap(
-      F.map(fas, as => (a: A) => cons(a, as)),
+      F.map(fas, (as) => (a: A) => cons(a, as)),
       a
     )
   )
@@ -312,29 +312,29 @@ const sequence_ = <F>(F: Applicative<F>) => <A>(ta: List<HKT<F, A>>): HKT<F, Lis
  * @category Functor
  * @since 0.1.18
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B> = f => fa => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @category Foldable
  * @since 0.1.18
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B = (b, f) => fa => reduce_(fa, b, f)
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: List<A>) => B = (b, f) => (fa) => reduce_(fa, b, f)
 
 /**
  * @category Foldable
  * @since 0.1.18
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B = (b, f) => fa =>
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: List<A>) => B = (b, f) => (fa) =>
   reduceRight_(fa, b, f)
 
 /**
  * @category Foldable
  * @since 0.1.18
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M = M => f => fa =>
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) => M = (M) => (f) => (fa) =>
   foldMap_(M)(fa, f)
 
-// TODO: add when fp-ts version >= 2.6.3
+// TODO: add pipeable traverse when fp-ts version >= 2.6.3
 // /**
 //  * @category Traversable
 //  * @since 0.1.18
@@ -346,7 +346,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) 
 //   return f => ta => traverseF(ta, f)
 // }
 
-// TODO: add when fp-ts version >= 2.6.3
+// TODO: add pipeable sequence when fp-ts version >= 2.6.3
 // /**
 //  * @category Traversable
 //  * @since 0.1.18
@@ -364,7 +364,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: List<A>) 
  * @category Applicative
  * @since 0.1.8
  */
-export const of: <A>(head: A) => List<A> = head => cons(head, nil)
+export const of: <A>(head: A) => List<A> = (head) => cons(head, nil)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -446,7 +446,7 @@ export const getEq = <A>(E: Eq.Eq<A>): Eq.Eq<List<A>> => ({
       ly = ly.tail
     }
     return true
-  }
+  },
 })
 
 /**
@@ -455,7 +455,7 @@ export const getEq = <A>(E: Eq.Eq<A>): Eq.Eq<List<A>> => ({
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_
+  map: map_,
 }
 
 /**
@@ -466,7 +466,7 @@ export const Foldable: Foldable1<URI> = {
   URI,
   foldMap: foldMap_,
   reduce: reduce_,
-  reduceRight: reduceRight_
+  reduceRight: reduceRight_,
 }
 
 /**
@@ -480,7 +480,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: reduce_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_
+  sequence: sequence_,
 }
 
 /**
@@ -494,7 +494,7 @@ export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_
+  sequence: sequence_,
 }
 
 // -------------------------------------------------------------------------------------

@@ -81,6 +81,15 @@
       - Add `Alternative` instance (@IMax153)
       - Add `Compactable` instance (@IMax153)
       - Add `Filterable` instance (@IMax153)
+  - `Zipper`
+    - split "mega" `zipper` instance into individual typeclass instances (@IMax153)
+      - Add `Functor` instance (@IMax153)
+      - Add `FunctorWithIndex` instance (@IMax153)
+      - Add `Applicative` instance (@IMax153)
+      - Add `Apply` instance (@IMax153)
+      - Add `Foldable` instance (@IMax153)
+      - Add `Traversable` instance (@IMax153)
+      - Add `Comonad` instance (@IMax153)
 
 - **Polish**
 
