@@ -23,8 +23,8 @@ import { getRaceMonoid, Task, delay, of } from 'fp-ts/lib/Task'
  *
  * @since 0.1.0
  */
-export function withTimeout<A>(onTimeout: A, millis: number): (ma: Task<A>) => Task<A> {
+export const withTimeout = <A>(onTimeout: A, millis: number): ((ma: Task<A>) => Task<A>) => {
   const M = getRaceMonoid<A>()
   const fallback = delay(millis)(of(onTimeout))
-  return ma => M.concat(ma, fallback)
+  return (ma) => M.concat(ma, fallback)
 }
