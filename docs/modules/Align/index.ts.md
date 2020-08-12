@@ -130,7 +130,7 @@ import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
 assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [
   [some(1), some(4)],
   [some(2), some(5)],
-  [some(3), none]
+  [some(3), none],
 ])
 ```
 
@@ -179,7 +179,7 @@ const f = (ma: Option<number>, mb: Option<string>) =>
     ma,
     fold(
       () => '*',
-      a => a.toString()
+      (a) => a.toString()
     )
   ) +
   pipe(

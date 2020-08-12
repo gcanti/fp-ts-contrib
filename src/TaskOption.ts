@@ -303,7 +303,7 @@ declare module 'fp-ts/lib/HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: T.map,
+  map: T.map
 }
 
 /**
@@ -314,7 +314,7 @@ export const Applicative: Applicative1<URI> = {
   URI,
   map: T.map,
   ap: T.ap,
-  of,
+  of
 }
 
 /**
@@ -324,7 +324,7 @@ export const Applicative: Applicative1<URI> = {
 export const Apply: Apply1<URI> = {
   URI,
   map: T.map,
-  ap: T.ap,
+  ap: T.ap
 }
 
 /**
@@ -336,7 +336,7 @@ export const Monad: Monad1<URI> = {
   map: T.map,
   ap: T.ap,
   chain: T.chain,
-  of,
+  of
 }
 
 /**
@@ -349,7 +349,7 @@ export const Alternative: Alternative1<URI> = {
   ap: T.ap,
   alt: T.alt,
   of,
-  zero,
+  zero
 }
 
 /**
@@ -359,7 +359,7 @@ export const Alternative: Alternative1<URI> = {
 export const Compactable: Compactable1<URI> = {
   URI,
   compact,
-  separate,
+  separate
 }
 
 /**
@@ -374,7 +374,7 @@ export const Filterable: Filterable1<URI> = {
   filterMap: F.filterMap,
   separate: F.separate,
   partition: F.partition,
-  partitionMap: F.partitionMap,
+  partitionMap: F.partitionMap
 }
 
 /**
@@ -388,5 +388,5 @@ export const taskOption: Monad1<URI> & Alternative1<URI> & Filterable1<URI> = {
   chain: T.chain,
   alt: T.alt,
   zero: T.none,
-  ...getFilterableComposition(task, O.option),
+  ...getFilterableComposition(task, O.option)
 }

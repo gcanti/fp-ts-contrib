@@ -39,7 +39,7 @@ describe('Free', () => {
 
     it('ap', () => {
       const fa = _.of<IdURI, number>(41)
-      const fab = _.of<IdURI, FunctionN<[number], number>>(x => x + 1)
+      const fab = _.of<IdURI, FunctionN<[number], number>>((x) => x + 1)
       const fb = pipe(fab, _.ap(fa))
       assert.strictEqual(fb._tag, 'Pure')
 
@@ -51,7 +51,7 @@ describe('Free', () => {
       const fa = _.of<IdURI, number>(41)
       const fb = pipe(
         fa,
-        _.map<number, number>(x => x + 1)
+        _.map<number, number>((x) => x + 1)
       )
       assert.strictEqual(fb._tag, 'Pure')
 
@@ -61,7 +61,7 @@ describe('Free', () => {
 
     it('chain', () => {
       const fa = _.of<IdURI, number>(41)
-      const fb = _.chain<IdURI, number, number>(x => _.of<IdURI, number>(x + 1))(fa)
+      const fb = _.chain<IdURI, number, number>((x) => _.of<IdURI, number>(x + 1))(fa)
       assert.strictEqual(fb._tag, 'Pure')
 
       const result = _.foldFree(id)(identity, fb)

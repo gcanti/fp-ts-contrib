@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-contrib",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "A community driven utility package for fp-ts",
   "files": [
     "lib",
@@ -52,7 +52,7 @@
     "import-path-rewrite": "github:gcanti/import-path-rewrite",
     "jest": "^24.8.0",
     "mocha": "^5.2.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.0.2",

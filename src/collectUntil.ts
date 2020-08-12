@@ -88,7 +88,7 @@ export function collectUntil<M, F>(
           oi,
           fold(
             () => M.of(fx),
-            i => go(M.map(f(i), ([fy, oi]) => [F.alt(fx, () => fy), oi]))
+            (i) => go(M.map(f(i), ([fy, oi]) => [F.alt(fx, () => fy), oi]))
           )
         )
       })

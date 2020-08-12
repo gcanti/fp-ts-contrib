@@ -232,7 +232,7 @@ declare module 'fp-ts/lib/HKT' {
  */
 export const Functor: Functor3<URI> = {
   URI,
-  map: T.map,
+  map: T.map
 }
 
 /**
@@ -243,7 +243,7 @@ export const Applicative: Applicative3<URI> = {
   URI,
   map: T.map,
   ap: T.ap,
-  of,
+  of
 }
 
 /**
@@ -253,7 +253,7 @@ export const Applicative: Applicative3<URI> = {
 export const Apply: Apply3<URI> = {
   URI,
   map: T.map,
-  ap: T.ap,
+  ap: T.ap
 }
 
 /**
@@ -265,7 +265,7 @@ export const Monad: Monad3<URI> = {
   map: T.map,
   ap: T.ap,
   chain: T.chain,
-  of,
+  of
 }
 
 /**
@@ -278,7 +278,7 @@ export const MonadThrow: MonadThrow3<URI> = {
   ap: T.ap,
   chain: T.chain,
   of,
-  throwError: left,
+  throwError: left
 }
 
 /**
@@ -291,7 +291,7 @@ export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
   of: right,
   ap: T.ap,
   chain: T.chain,
-  throwError: left,
+  throwError: left
 }
 
 // -------------------------------------------------------------------------------------

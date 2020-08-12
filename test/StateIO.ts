@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import * as IO from "fp-ts/lib/IO";
+import * as IO from 'fp-ts/lib/IO'
 import * as S from 'fp-ts/lib/State'
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from 'fp-ts/lib/pipeable'
 
 import * as _ from '../src/StateIO'
 

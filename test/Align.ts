@@ -64,7 +64,7 @@ describe('Align', () => {
 
     it('alignWith', () => {
       const f = fold<number, string, string>(
-        a => a.toString(),
+        (a) => a.toString(),
         identity,
         (a, b) => b + a
       )
@@ -96,7 +96,7 @@ describe('Align', () => {
           ma,
           O.fold(
             () => '*',
-            a => a.toString()
+            (a) => a.toString()
           )
         )
       assert.deepStrictEqual(lpadZipWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
@@ -141,7 +141,7 @@ describe('Align', () => {
 
     it('alignWith', () => {
       const f = fold<number, string, string>(
-        a => a.toString(),
+        (a) => a.toString(),
         identity,
         (a, b) => b + a
       )
@@ -167,7 +167,7 @@ describe('Align', () => {
 
     it('alignWith', () => {
       const f = fold<number, string, string>(
-        a => a.toString(),
+        (a) => a.toString(),
         identity,
         (a, b) => b + a
       )

@@ -116,7 +116,7 @@ describe('Zipper', () => {
       const expected: _.Zipper<string> = {
         lefts: ['a', 'b'],
         focus: 'c',
-        rights: ['d', 'e'],
+        rights: ['d', 'e']
       }
       assert.deepStrictEqual(_.make(['a', 'b'], 'c', ['d', 'e']), expected)
     })

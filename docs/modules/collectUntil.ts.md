@@ -67,7 +67,7 @@ function fetchPage(current_page: number): TE.TaskEither<string, Page> {
     return TE.right({
       rows: [`row1-Page${current_page}`, `row2-Page${current_page}`],
       current_page: current_page,
-      last_page: 3
+      last_page: 3,
     })
   } else {
     return TE.left('invalid page')
@@ -83,11 +83,11 @@ const collectRows = collectUntil(
 )(
   flow(
     fetchPage,
-    TE.map(page => [page.rows, getNextInput(page)])
+    TE.map((page) => [page.rows, getNextInput(page)])
   )
 )
 
-collectRows(1)().then(rows => {
+collectRows(1)().then((rows) => {
   assert.deepStrictEqual(
     rows,
     E.right(['row1-Page1', 'row2-Page1', 'row1-Page2', 'row2-Page2', 'row1-Page3', 'row2-Page3'])

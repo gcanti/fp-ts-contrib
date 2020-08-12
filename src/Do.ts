@@ -149,49 +149,49 @@ class DoClass<M> {
   do(action: HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(action, () => s))
+      this.M.chain(this.result, (s) => this.M.map(action, () => s))
     )
   }
   doL(f: (s: any) => HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(f(s), () => s))
+      this.M.chain(this.result, (s) => this.M.map(f(s), () => s))
     )
   }
   bind(name: string, action: HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(action, b => Object.assign({}, s, { [name]: b })))
+      this.M.chain(this.result, (s) => this.M.map(action, (b) => Object.assign({}, s, { [name]: b })))
     )
   }
   bindL(name: string, f: (s: any) => HKT<M, any>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(f(s), b => Object.assign({}, s, { [name]: b })))
+      this.M.chain(this.result, (s) => this.M.map(f(s), (b) => Object.assign({}, s, { [name]: b })))
     )
   }
   let(name: string, a: any): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.map(this.result, s => Object.assign({}, s, { [name]: a }))
+      this.M.map(this.result, (s) => Object.assign({}, s, { [name]: a }))
     )
   }
   letL(name: string, f: (s: any) => any): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.map(this.result, s => Object.assign({}, s, { [name]: f(s) }))
+      this.M.map(this.result, (s) => Object.assign({}, s, { [name]: f(s) }))
     )
   }
   sequenceS(r: Record<string, HKT<M, any>>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(sequenceS(this.M)(r), r => Object.assign({}, s, r)))
+      this.M.chain(this.result, (s) => this.M.map(sequenceS(this.M)(r), (r) => Object.assign({}, s, r)))
     )
   }
   sequenceSL(f: (s: any) => Record<string, HKT<M, any>>): DoClass<M> {
     return new DoClass(
       this.M,
-      this.M.chain(this.result, s => this.M.map(sequenceS(this.M)(f(s)), r => Object.assign({}, s, r)))
+      this.M.chain(this.result, (s) => this.M.map(sequenceS(this.M)(f(s)), (r) => Object.assign({}, s, r)))
     )
   }
   return<B>(f: (s: any) => B): HKT<M, B> {

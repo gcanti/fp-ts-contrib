@@ -46,5 +46,5 @@ export function filterA<F extends URIS>(
 export function filterA<F>(F: Applicative<F>): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>>
 export function filterA<F>(F: Applicative<F>): <A>(p: (a: A) => HKT<F, boolean>) => (as: Array<A>) => HKT<F, Array<A>> {
   const wither = A.array.wither(F)
-  return p => as => wither(as, a => F.map(p(a), b => (b ? O.some(a) : O.none)))
+  return (p) => (as) => wither(as, (a) => F.map(p(a), (b) => (b ? O.some(a) : O.none)))
 }

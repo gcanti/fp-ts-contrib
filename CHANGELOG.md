@@ -16,7 +16,6 @@
 # 0.1.18
 
 - **New Feature**
-
   - `ArrayOption`
     - add `zero` method (@IMax153)
     - split "mega" `arrayOption` instance into individual typeclass instances (@IMax153)
@@ -90,12 +89,9 @@
       - Add `Foldable` instance (@IMax153)
       - Add `Traversable` instance (@IMax153)
       - Add `Comonad` instance (@IMax153)
-
 - **Polish**
-
   - standardize export declarations in all modules (@IMax153)
   - add category tags to all module exports (@IMax153)
-
 - **Internal**
   - remove pipeable from all modules (@IMax153)
   - add tests for `StateIO` (@IMax153)

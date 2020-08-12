@@ -245,27 +245,27 @@ describe('IOOption', () => {
       assert.deepStrictEqual(
         pipe(
           _.fromNullable(x1.a),
-          _.mapNullable(x => x.b),
-          _.mapNullable(x => x.c),
-          _.mapNullable(x => x.d)
+          _.mapNullable((x) => x.b),
+          _.mapNullable((x) => x.c),
+          _.mapNullable((x) => x.d)
         )(),
         O.none
       )
       assert.deepStrictEqual(
         pipe(
           _.fromNullable(x2.a),
-          _.mapNullable(x => x.b),
-          _.mapNullable(x => x.c),
-          _.mapNullable(x => x.d)
+          _.mapNullable((x) => x.b),
+          _.mapNullable((x) => x.c),
+          _.mapNullable((x) => x.d)
         )(),
         O.none
       )
       assert.deepStrictEqual(
         pipe(
           _.fromNullable(x3.a),
-          _.mapNullable(x => x.b),
-          _.mapNullable(x => x.c),
-          _.mapNullable(x => x.d)
+          _.mapNullable((x) => x.b),
+          _.mapNullable((x) => x.c),
+          _.mapNullable((x) => x.d)
         )(),
         O.some(1)
       )

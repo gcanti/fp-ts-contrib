@@ -67,21 +67,21 @@ export const fromOption: <A = never>(ma: Option<A>) => IOOption<A> = ioOf
  * @category constructors
  * @since 0.1.14
  */
-export const fromOptionK: <A extends Array<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> = f => (
-  ...a
-) => fromOption(f(...a))
+export const fromOptionK: <A extends Array<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> = (
+  f
+) => (...a) => fromOption(f(...a))
 
 /**
  * @category constructors
  * @since 0.1.14
  */
-export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = a => fromOption(O.fromNullable(a))
+export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = (a) => fromOption(O.fromNullable(a))
 
 /**
  * @category constructors
  * @since 0.1.14
  */
-export const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A> = ma => io.map(ma, O.fromEither)
+export const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A> = (ma) => io.map(ma, O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -94,25 +94,26 @@ export const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A> = ma => io.m
 export const fold: <A, B>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma: IOOption<A>) => IO<B> = (
   onNone,
   onSome
-) => ma => T.fold(ma, onNone, onSome)
+) => (ma) => T.fold(ma, onNone, onSome)
 
 /**
  * @category destructors
  * @since 0.1.14
  */
-export const getOrElse: <A>(onNone: () => IO<A>) => (ma: IOOption<A>) => IO<A> = onNone => ma => T.getOrElse(ma, onNone)
+export const getOrElse: <A>(onNone: () => IO<A>) => (ma: IOOption<A>) => IO<A> = (onNone) => (ma) =>
+  T.getOrElse(ma, onNone)
 
 /**
  * @category destructors
  * @since 0.1.14
  */
-export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = ma => io.map(ma, O.toUndefined)
+export const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined> = (ma) => io.map(ma, O.toUndefined)
 
 /**
  * @category destructors
  * @since 0.1.14
  */
-export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = ma => io.map(ma, O.toNullable)
+export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = (ma) => io.map(ma, O.toNullable)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -122,7 +123,7 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = ma => io.map(ma,
  * @category combinators
  * @since 0.1.14
  */
-export const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: IOOption<A>) => IOOption<B> = f =>
+export const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: IOOption<A>) => IOOption<B> = (f) =>
   ioMap(O.mapNullable(f))
 
 // -------------------------------------------------------------------------------------
@@ -133,13 +134,13 @@ export const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: IOOp
  * @category Functor
  * @since 0.1.18
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = f => fa => T.map(fa, f)
+export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = (f) => (fa) => T.map(fa, f)
 
 /**
  * @category Apply
  * @since 0.1.18
  */
-export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = fa => fab => T.ap(fab, fa)
+export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = (fa) => (fab) => T.ap(fab, fa)
 
 /**
  * @category Apply
@@ -148,7 +149,7 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 export const apFirst = <B>(fb: IOOption<B>) => <A>(fa: IOOption<A>): IOOption<A> =>
   pipe(
     fa,
-    map(a => (_: B) => a),
+    map((a) => (_: B) => a),
     ap(fb)
   )
 
@@ -173,33 +174,33 @@ export const of: <A>(a: A) => IOOption<A> = some
  * @category Monad
  * @since 0.1.18
  */
-export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = f => ma => T.chain(ma, f)
+export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => (ma) => T.chain(ma, f)
 
 /**
  * @category Monad
  * @since 0.1.18
  */
-export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A> = f => ma =>
-  T.chain(ma, a => T.map(f(a), () => a))
+export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A> = (f) => (ma) =>
+  T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
  * @category Monad
  * @since 0.1.14
  */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> = f =>
+export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> = (f) =>
   chain(fromOptionK(f))
 
 /**
  * @category Monad
  * @since 0.1.18
  */
-export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = mma => T.chain(mma, identity)
+export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = (mma) => T.chain(mma, identity)
 
 /**
  * @category Alt
  * @since 0.1.18
  */
-export const alt: <A>(that: () => IOOption<A>) => (fa: IOOption<A>) => IOOption<A> = that => fa => T.alt(fa, that)
+export const alt: <A>(that: () => IOOption<A>) => (fa: IOOption<A>) => IOOption<A> = (that) => (fa) => T.alt(fa, that)
 
 /**
  * @category Alternative
@@ -232,7 +233,7 @@ export const filter: {
  * @category Filterable
  * @since 0.1.18
  */
-export const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: IOOption<A>) => IOOption<B> = f => fa =>
+export const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: IOOption<A>) => IOOption<B> = (f) => (fa) =>
   F.filterMap(fa, f)
 
 /**
@@ -250,7 +251,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = f => fa => F.partitionMap(fa, f)
+) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = (f) => (fa) => F.partitionMap(fa, f)
 
 // -------------------------------------------------------------------------------------
 // instances

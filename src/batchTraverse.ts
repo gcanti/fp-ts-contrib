@@ -29,8 +29,8 @@ export function batchTraverse<M>(M: Monad<M>): <A, B>(as: Array<Array<A>>, f: (a
   return <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) =>
     as.reduce(
       (mbs: HKT<M, Array<B>>, chunk: Array<A>) =>
-        M.chain(mbs, bs =>
-          M.map(traverseM(chunk, f), chunk => {
+        M.chain(mbs, (bs) =>
+          M.map(traverseM(chunk, f), (chunk) => {
             bs.push(...chunk)
             return bs
           })

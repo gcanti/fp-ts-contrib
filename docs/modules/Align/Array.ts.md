@@ -57,11 +57,11 @@ import { lpadZip } from 'fp-ts-contrib/lib/Align/Array'
 assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [
   [some(1), 'a'],
   [some(2), 'b'],
-  [none, 'c']
+  [none, 'c'],
 ])
 assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [
   [some(1), 'a'],
-  [some(2), 'b']
+  [some(2), 'b'],
 ])
 ```
 
@@ -92,7 +92,7 @@ const f = (ma: O.Option<number>, b: string) =>
     ma,
     O.fold(
       () => '*',
-      a => a.toString()
+      (a) => a.toString()
     )
   ) + b
 assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
@@ -123,11 +123,11 @@ import { rpadZip } from 'fp-ts-contrib/lib/Align/Array'
 assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [
   [1, some('a')],
   [2, some('b')],
-  [3, none]
+  [3, none],
 ])
 assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [
   [1, some('a')],
-  [2, some('b')]
+  [2, some('b')],
 ])
 ```
 

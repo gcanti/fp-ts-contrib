@@ -24,7 +24,7 @@ describe('Semialign', () => {
 
     it('alignWith', () => {
       const f = fold<number, string, string>(
-        a => a.toString(),
+        (a) => a.toString(),
         identity,
         (a, b) => b + a
       )

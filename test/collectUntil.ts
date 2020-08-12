@@ -33,7 +33,7 @@ describe('collectUntil', () => {
     )(
       flow(
         fetchPage,
-        TE.map(page => [page.rows, page.current_page < page.last_page ? O.some(page.current_page + 1) : O.none])
+        TE.map((page) => [page.rows, page.current_page < page.last_page ? O.some(page.current_page + 1) : O.none])
       )
     )
 

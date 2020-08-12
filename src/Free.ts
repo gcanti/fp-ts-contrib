@@ -44,7 +44,7 @@ const impure = <F, A, X>(fx: HKT<F, X>, f: (x: X) => Free<F, A>): Free<F, A> => 
  * @category constructors
  * @since 0.1.3
  */
-export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, a => free.of(a))
+export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => impure(fa, (a) => free.of(a))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -96,7 +96,7 @@ export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT
     if (isPure(fa)) {
       return M.of(fa.value)
     } else {
-      return M.chain(nt(fa.fx), x => foldFree(M)(nt, fa.f(x)))
+      return M.chain(nt(fa.fx), (x) => foldFree(M)(nt, fa.f(x)))
     }
   }
 }
@@ -111,7 +111,7 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
       case 'Pure':
         return free.of(fa.value)
       case 'Impure':
-        return free.chain(f(fa.fx), x => go(fa.f(x)))
+        return free.chain(f(fa.fx), (x) => go(fa.f(x)))
     }
   }
   return go
@@ -134,7 +134,7 @@ export function hoistFree<F extends URIS = never, G extends URIS = never>(
 ): <A>(fa: Free<F, A>) => Free<G, A>
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Free<F, A>) => Free<G, A>
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Free<F, A>) => Free<G, A> {
-  return substFree(fa => liftF(nt(fa)))
+  return substFree((fa) => liftF(nt(fa)))
 }
 
 // -------------------------------------------------------------------------------------
@@ -142,11 +142,11 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Fr
 // -------------------------------------------------------------------------------------
 
 const map_: <F, A, B>(fa: Free<F, A>, f: (a: A) => B) => Free<F, B> = (fa, f) =>
-  isPure(fa) ? free.of(f(fa.value)) : impure(fa.fx, x => free.map(fa.f(x), f))
+  isPure(fa) ? free.of(f(fa.value)) : impure(fa.fx, (x) => free.map(fa.f(x), f))
 const ap_: <F, A, B>(fab: Free<F, (a: A) => B>, fa: Free<F, A>) => Free<F, B> = (fab, fa) =>
-  free.chain(fab, f => free.map(fa, f))
+  free.chain(fab, (f) => free.map(fa, f))
 const chain_: <F, A, B>(ma: Free<F, A>, f: (a: A) => Free<F, B>) => Free<F, B> = (ma, f) =>
-  isPure(ma) ? f(ma.value) : impure(ma.fx, x => free.chain(ma.f(x), f))
+  isPure(ma) ? f(ma.value) : impure(ma.fx, (x) => free.chain(ma.f(x), f))
 
 // -------------------------------------------------------------------------------------
 // pipeables
@@ -156,31 +156,31 @@ const chain_: <F, A, B>(ma: Free<F, A>, f: (a: A) => Free<F, B>) => Free<F, B> =
  * @category Functor
  * @since 0.1.18
  */
-export const map: <A, B>(f: (a: A) => B) => <F>(fa: Free<F, A>) => Free<F, B> = f => fa => map_(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <F>(fa: Free<F, A>) => Free<F, B> = (f) => (fa) => map_(fa, f)
 
 /**
  * @category Apply
  * @since 0.1.18
  */
-export const ap: <F, A, B>(fa: Free<F, A>) => (fab: Free<F, (a: A) => B>) => Free<F, B> = fa => fab => ap_(fab, fa)
+export const ap: <F, A, B>(fa: Free<F, A>) => (fab: Free<F, (a: A) => B>) => Free<F, B> = (fa) => (fab) => ap_(fab, fa)
 
 /**
  * @category Monad
  * @since 0.1.18
  */
-export const chain: <F, A, B>(f: (a: A) => Free<F, B>) => (ma: Free<F, A>) => Free<F, B> = f => ma => chain_(ma, f)
+export const chain: <F, A, B>(f: (a: A) => Free<F, B>) => (ma: Free<F, A>) => Free<F, B> = (f) => (ma) => chain_(ma, f)
 
 /**
  * @category Monad
  * @since 0.1.18
  */
-export const flatten: <E, A>(mma: Free<E, Free<E, A>>) => Free<E, A> = mma => chain_(mma, identity)
+export const flatten: <E, A>(mma: Free<E, Free<E, A>>) => Free<E, A> = (mma) => chain_(mma, identity)
 
 /**
  * @category Applicative
  * @since 0.1.18
  */
-export const of: <F, A>(a: A) => Free<F, A> = a => ({ _tag: 'Pure', value: a })
+export const of: <F, A>(a: A) => Free<F, A> = (a) => ({ _tag: 'Pure', value: a })
 
 // -------------------------------------------------------------------------------------
 // instances

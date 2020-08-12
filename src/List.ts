@@ -69,7 +69,7 @@ export const cons: <A>(head: A, tail: List<A>) => List<A> = (head, tail) => ({
   type: 'Cons',
   head,
   tail,
-  length: 1 + tail.length,
+  length: 1 + tail.length
 })
 
 /**
@@ -447,7 +447,7 @@ export const getEq = <A>(E: Eq.Eq<A>): Eq.Eq<List<A>> => ({
       ly = ly.tail
     }
     return true
-  },
+  }
 })
 
 /**
@@ -456,7 +456,7 @@ export const getEq = <A>(E: Eq.Eq<A>): Eq.Eq<List<A>> => ({
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_,
+  map: map_
 }
 
 /**
@@ -467,7 +467,7 @@ export const Foldable: Foldable1<URI> = {
   URI,
   foldMap: foldMap_,
   reduce: reduce_,
-  reduceRight: reduceRight_,
+  reduceRight: reduceRight_
 }
 
 /**
@@ -481,7 +481,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: reduce_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence: sequence_
 }
 
 /**
@@ -495,7 +495,7 @@ export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   foldMap: foldMap_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence: sequence_,
+  sequence: sequence_
 }
 
 // -------------------------------------------------------------------------------------

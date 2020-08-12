@@ -72,7 +72,7 @@ export const alignArray: Align1<URI> = {
    */
   align: <A, B>(fa: Array<A>, fb: Array<B>): Array<These<A, B>> => {
     return alignArray.alignWith<A, B, These<A, B>>(fa, fb, identity)
-  },
+  }
 }
 
 /**

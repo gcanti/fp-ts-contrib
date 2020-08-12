@@ -194,7 +194,7 @@ declare module 'fp-ts/lib/HKT' {
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: T.map,
+  map: T.map
 }
 
 /**
@@ -205,7 +205,7 @@ export const Applicative: Applicative1<URI> = {
   URI,
   map: T.map,
   ap: T.ap,
-  of,
+  of
 }
 
 /**
@@ -215,7 +215,7 @@ export const Applicative: Applicative1<URI> = {
 export const Apply: Apply1<URI> = {
   URI,
   ap: T.ap,
-  map: T.map,
+  map: T.map
 }
 
 /**
@@ -227,7 +227,7 @@ export const Monad: Monad1<URI> = {
   ap: T.ap,
   chain: T.chain,
   map: T.map,
-  of: T.of,
+  of: T.of
 }
 
 /**
@@ -237,7 +237,7 @@ export const Monad: Monad1<URI> = {
 export const Alt: Alt1<URI> = {
   URI,
   alt: T.alt,
-  map: T.map,
+  map: T.map
 }
 
 /**
@@ -250,7 +250,7 @@ export const Alternative: Alternative1<URI> = {
   ap: T.ap,
   map: T.map,
   of: T.of,
-  zero,
+  zero
 }
 
 /**
@@ -263,5 +263,5 @@ export const arrayOption: Monad1<URI> & Alt1<URI> = {
   of: some,
   ap: T.ap,
   chain: T.chain,
-  alt: T.alt,
+  alt: T.alt
 }

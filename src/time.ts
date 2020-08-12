@@ -31,5 +31,5 @@ export function time<M extends URIS>(M: MonadIO1<M>): <A>(ma: Kind<M, A>) => Kin
 export function time<M>(M: MonadIO<M>): <A>(ma: HKT<M, A>) => HKT<M, [A, number]>
 export function time<M>(M: MonadIO<M>): <A>(ma: HKT<M, A>) => HKT<M, [A, number]> {
   const nowM = M.fromIO(now)
-  return ma => M.chain(nowM, start => M.chain(ma, a => M.map(nowM, end => [a, end - start])))
+  return (ma) => M.chain(nowM, (start) => M.chain(ma, (a) => M.map(nowM, (end) => [a, end - start])))
 }

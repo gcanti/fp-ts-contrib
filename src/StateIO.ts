@@ -71,7 +71,7 @@ export const fromState: <S, A>(ma: State<S, A>) => StateIO<S, A> = T.fromState
  * @category constructors
  * @since 0.1.10
  */
-export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => <R>(...a: A) => StateIO<R, B> = f => (
+export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => <R>(...a: A) => StateIO<R, B> = (f) => (
   ...a
 ) => fromIO(f(...a))
 
@@ -83,13 +83,13 @@ export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => <R
  * @category Functor
  * @since 0.1.18
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: StateIO<E, A>) => StateIO<E, B> = f => fa => T.map(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: StateIO<E, A>) => StateIO<E, B> = (f) => (fa) => T.map(fa, f)
 
 /**
  * @category Apply
  * @since 0.1.18
  */
-export const ap: <E, A>(fa: StateIO<E, A>) => <B>(fab: StateIO<E, (a: A) => B>) => StateIO<E, B> = fa => fab =>
+export const ap: <E, A>(fa: StateIO<E, A>) => <B>(fab: StateIO<E, (a: A) => B>) => StateIO<E, B> = (fa) => (fab) =>
   T.ap(fab, fa)
 
 /**
@@ -99,7 +99,7 @@ export const ap: <E, A>(fa: StateIO<E, A>) => <B>(fab: StateIO<E, (a: A) => B>) 
 export const apFirst = <E, B>(fb: StateIO<E, B>) => <A>(fa: StateIO<E, A>): StateIO<E, A> =>
   pipe(
     fa,
-    map(a => (_: B) => a),
+    map((a) => (_: B) => a),
     ap(fb)
   )
 
@@ -124,15 +124,15 @@ export const of: <E, A>(a: A) => StateIO<E, A> = T.of
  * @category Monad
  * @since 0.1.18
  */
-export const chain: <E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, B> = f => ma =>
+export const chain: <E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, B> = (f) => (ma) =>
   T.chain(ma, f)
 
 /**
  * @category Monad
  * @since 0.1.18
  */
-export const chainFirst: <E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, A> = f => ma =>
-  T.chain(ma, a => T.map(f(a), () => a))
+export const chainFirst: <E, A, B>(f: (a: A) => StateIO<E, B>) => (ma: StateIO<E, A>) => StateIO<E, A> = (f) => (ma) =>
+  T.chain(ma, (a) => T.map(f(a), () => a))
 
 /**
  * @category Monad
@@ -145,7 +145,7 @@ export const chainIOK = <A, B>(f: (a: A) => IO<B>): (<R>(ma: StateIO<R, A>) => S
  * @category Monad
  * @since 0.1.18
  */
-export const flatten: <E, A>(mma: StateIO<E, StateIO<E, A>>) => StateIO<E, A> = mma => T.chain(mma, identity)
+export const flatten: <E, A>(mma: StateIO<E, StateIO<E, A>>) => StateIO<E, A> = (mma) => T.chain(mma, identity)
 
 // -------------------------------------------------------------------------------------
 // instances

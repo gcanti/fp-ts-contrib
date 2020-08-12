@@ -12,7 +12,7 @@ describe('batchTraverse', () => {
   it('should run all the computations', async () => {
     const input = range(1, 4)
     const log: Array<string> = []
-    const actual = await btraverse(chunks(input), a =>
+    const actual = await btraverse(chunks(input), (a) =>
       pipe(
         TE.rightIO(() => log.push(`Executing ${a}`)),
         TE.map(() => a)
@@ -31,7 +31,7 @@ describe('batchTraverse', () => {
   it('should bail out when an error occours', async () => {
     const input = range(1, 10)
     const log: Array<string> = []
-    const actual = await btraverse(chunks(input), a =>
+    const actual = await btraverse(chunks(input), (a) =>
       pipe(
         TE.rightIO(() => log.push(`Executing ${a}`)),
         TE.chain(() => (a === 3 ? TE.left(`Error: ${a}`) : TE.right(a)))

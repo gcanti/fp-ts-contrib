@@ -140,7 +140,7 @@ describe('Do', () => {
           a: T.delay(100)(T.of('a')),
           b: T.delay(150)(T.of('b'))
         }))
-        .sequenceSL(s => ({
+        .sequenceSL((s) => ({
           c: T.delay(100)(T.of('c' + s.a)),
           d: T.delay(150)(T.of('d' + s.b))
         }))

@@ -57,7 +57,7 @@ export interface Zipper<A> {
 export const make: <A>(lefts: Array<A>, focus: A, rights: Array<A>) => Zipper<A> = (lefts, focus, rights) => ({
   lefts,
   focus,
-  rights,
+  rights
 })
 
 /**
@@ -408,7 +408,7 @@ declare module 'fp-ts/lib/HKT' {
 export const getShow: <A>(S: Show<A>) => Show<Zipper<A>> = (S) => {
   const SA = A.getShow(S)
   return {
-    show: (fa) => `Zipper(${SA.show(fa.lefts)}, ${S.show(fa.focus)}, ${SA.show(fa.rights)})`,
+    show: (fa) => `Zipper(${SA.show(fa.lefts)}, ${S.show(fa.focus)}, ${SA.show(fa.rights)})`
   }
 }
 
@@ -417,7 +417,7 @@ export const getShow: <A>(S: Show<A>) => Show<Zipper<A>> = (S) => {
  * @since 0.1.6
  */
 export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Zipper<A>> = (S) => ({
-  concat: (x, y) => make(x.lefts.concat(y.lefts), S.concat(x.focus, y.focus), x.rights.concat(y.rights)),
+  concat: (x, y) => make(x.lefts.concat(y.lefts), S.concat(x.focus, y.focus), x.rights.concat(y.rights))
 })
 
 /**
@@ -426,7 +426,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Zipper<A>> = (S) =>
  */
 export const getMonoid: <A>(M: Monoid<A>) => Monoid<Zipper<A>> = (M) => ({
   ...getSemigroup(M),
-  empty: make(A.empty, M.empty, A.empty),
+  empty: make(A.empty, M.empty, A.empty)
 })
 
 /**
@@ -435,7 +435,7 @@ export const getMonoid: <A>(M: Monoid<A>) => Monoid<Zipper<A>> = (M) => ({
  */
 export const Functor: Functor1<URI> = {
   URI,
-  map: map_,
+  map: map_
 }
 
 /**
@@ -445,7 +445,7 @@ export const Functor: Functor1<URI> = {
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
   URI,
   map: map_,
-  mapWithIndex: mapWithIndex_,
+  mapWithIndex: mapWithIndex_
 }
 
 /**
@@ -456,7 +456,7 @@ export const Applicative: Applicative1<URI> = {
   URI,
   map: map_,
   ap: ap_,
-  of,
+  of
 }
 
 /**
@@ -466,7 +466,7 @@ export const Applicative: Applicative1<URI> = {
 export const Apply: Apply1<URI> = {
   URI,
   map: map_,
-  ap: ap_,
+  ap: ap_
 }
 
 /**
@@ -477,7 +477,7 @@ export const Foldable: Foldable1<URI> = {
   URI,
   foldMap: foldMap_,
   reduce: reduce_,
-  reduceRight: reduceRight_,
+  reduceRight: reduceRight_
 }
 
 /**
@@ -491,7 +491,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: reduce_,
   reduceRight: reduceRight_,
   traverse: traverse_,
-  sequence,
+  sequence
 }
 
 /**
@@ -502,7 +502,7 @@ export const Comonad: Comonad1<URI> = {
   URI,
   map: map_,
   extend: extend_,
-  extract,
+  extract
 }
 
 /**
@@ -525,5 +525,5 @@ export const zipper: Applicative1<URI> &
   foldMap: foldMap_,
   traverse: traverse_,
   sequence,
-  mapWithIndex: mapWithIndex_,
+  mapWithIndex: mapWithIndex_
 }

@@ -164,13 +164,13 @@ export function padZipWith<F>(
   F: Align<F>
 ): <A, B, C>(fa: HKT<F, A>, fb: HKT<F, B>, f: (a: Option<A>, b: Option<B>) => C) => HKT<F, C> {
   return (fa, fb, f) =>
-    F.alignWith(fa, fb, ab =>
+    F.alignWith(fa, fb, (ab) =>
       pipe(
         ab,
         bimap(some, some),
         fold(
-          a => f(a, none),
-          b => f(none, b),
+          (a) => f(a, none),
+          (b) => f(none, b),
           (a, b) => f(a, b)
         )
       )
