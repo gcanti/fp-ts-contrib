@@ -58,7 +58,7 @@ export const nil: List<never> = { type: 'Nil', length: 0 }
  * Attaches an element to the front of a list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
  *
@@ -76,7 +76,7 @@ export const cons: <A>(head: A, tail: List<A>) => List<A> = (head, tail) => ({
  * Creates a list from an array
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.fromArray([]), L.nil)
  * assert.deepStrictEqual(L.fromArray(['a', 'b']), L.cons('a', L.of('b')))
@@ -94,8 +94,8 @@ export const fromArray = <A>(as: Array<A>): List<A> => A.array.reduceRight<A, Li
  * Gets the first element in a list, or `None` if the list is empty.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as O from 'fp-ts/Option'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.head(L.nil), O.none)
  * assert.deepStrictEqual(L.head(L.cons('x', L.of('a'))), O.some('x'))
@@ -109,8 +109,8 @@ export const head: <A>(fa: List<A>) => O.Option<A> = (fa) => (isCons(fa) ? O.som
  * Gets all but the first element of a list, or `None` if the list is empty.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as O from 'fp-ts/Option'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.tail(L.nil), O.none)
  * assert.deepStrictEqual(L.tail(L.of('a')), O.some(L.nil))
@@ -125,7 +125,7 @@ export const tail: <A>(fa: List<A>) => O.Option<List<A>> = (fa) => (isCons(fa) ?
  * Breaks a list into its first element and the remaining elements.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * const len: <A>(as: L.List<A>) => number = L.foldLeft(
  *   () => 0,
@@ -145,7 +145,7 @@ export const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: List<A>) =
  * Gets an array from a list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.toArray(L.cons('a', L.of('b'))), ['a', 'b'])
  *
@@ -167,7 +167,7 @@ export const toArray = <A>(fa: List<A>): Array<A> => {
  * Gets an array from a list in a reversed order.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.toReversedArray(L.cons('a', L.of('b'))), ['b', 'a'])
  *
@@ -193,7 +193,7 @@ export const toReversedArray = <A>(fa: List<A>): Array<A> => {
  * Reverse a list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.of(3)))), L.cons(3, L.cons(2, L.of(1))))
  *
@@ -214,7 +214,7 @@ export const reverse = <A>(fa: List<A>): List<A> => {
  * Drops the specified number of elements from the front of a list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.dropLeft(1)(L.nil), L.nil)
  * assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.of(2))), L.of(2))
@@ -238,7 +238,7 @@ export const dropLeft = (n: number) => <A>(fa: List<A>): List<A> => {
  * Drops those elements from the front of a list which match a predicate.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * const isLTThree = (n: number) => n < 3
  * assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.nil), L.nil)
@@ -358,7 +358,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * Creates a list with a single element.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
  *
@@ -375,8 +375,8 @@ export const of: <A>(head: A) => List<A> = (head) => cons(head, nil)
  * Finds the first index for which a predicate holds.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as O from 'fp-ts/Option'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * const f = (a: number): boolean => a % 2 === 0
  * const findIndexEven = L.findIndex(f)
@@ -426,8 +426,8 @@ declare module 'fp-ts/lib/HKT' {
  * lengths, the result is non equality.
  *
  * @example
- * import { eqString } from 'fp-ts/lib/Eq'
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import { eqString } from 'fp-ts/Eq'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * const E = L.getEq(eqString)
  * assert.strictEqual(E.equals(L.cons('a', L.of('b')), L.cons('a', L.of('b'))), true)
@@ -506,7 +506,7 @@ export const list: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
  * Tests whether a list is an empty list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.strictEqual(L.isNil(L.nil), true)
  * assert.strictEqual(L.isNil(L.of(6)), false)
@@ -519,7 +519,7 @@ export const isNil = <A>(a: List<A>): a is Nil => a.type === 'Nil'
  * Tests whether a list is a non empty list.
  *
  * @example
- * import * as L from 'fp-ts-contrib/lib/List'
+ * import * as L from 'fp-ts-contrib/List'
  *
  * assert.strictEqual(L.isCons(L.nil), false)
  * assert.strictEqual(L.isCons(L.of(1)), true)

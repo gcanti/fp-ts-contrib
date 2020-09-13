@@ -25,9 +25,9 @@ export const alignArray: Align1<URI> = {
    * Uses the `These` data type to handle arrays of different lengths.
    *
    * @example
-   * import { These } from 'fp-ts/lib/These'
-   * import { identity } from 'fp-ts/lib/function'
-   * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+   * import { These } from 'fp-ts/These'
+   * import { identity } from 'fp-ts/function'
+   * import { alignArray } from 'fp-ts-contrib/Align/Array'
    *
    * const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => a + b)
    *
@@ -60,9 +60,9 @@ export const alignArray: Align1<URI> = {
    * Takes two arrays and returns an array of corresponding pairs combined using the `These` data type.
    *
    * @example
-   * import { These } from 'fp-ts/lib/These'
-   * import { identity } from 'fp-ts/lib/function'
-   * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+   * import { These } from 'fp-ts/These'
+   * import { identity } from 'fp-ts/function'
+   * import { alignArray } from 'fp-ts-contrib/Align/Array'
    *
    * assert.deepStrictEqual(alignArray.align([1, 2], ['a', 'b']), [both(1, 'a'), both(2, 'b')])
    * assert.deepStrictEqual(alignArray.align([1, 2], ['a']), [both(1, 'a'), left(2)])
@@ -82,9 +82,9 @@ export const alignArray: Align1<URI> = {
  * It is similar to `zipWith`, but it doesn't discard elements when the left input array is shorter than the right.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import { lpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import * as O from 'fp-ts/Option'
+ * import { lpadZipWith } from 'fp-ts-contrib/Align/Array'
+ * import { pipe } from 'fp-ts/function'
  *
  * const f = (ma: O.Option<number>, b: string) =>
  *   pipe(
@@ -109,8 +109,8 @@ export const lpadZipWith: <A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>
  * It is similar to `zip`, but it doesn't discard elements when the left input array is shorter than the right.
  *
  * @example
- * import { some, none } from 'fp-ts/lib/Option'
- * import { lpadZip } from 'fp-ts-contrib/lib/Align/Array'
+ * import { some, none } from 'fp-ts/Option'
+ * import { lpadZip } from 'fp-ts-contrib/Align/Array'
  *
  * assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [[some(1), 'a'], [some(2), 'b'], [none, 'c']])
  * assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
@@ -127,8 +127,8 @@ export const lpadZip: <A, B>(xs: Array<A>, ys: Array<B>) => Array<[Option<A>, B]
  * It is similar to `zipWith`, but it doesn't discard elements when the right input array is shorter than the left.
  *
  * @example
- * import { Option, getOrElse } from 'fp-ts/lib/Option'
- * import { rpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
+ * import { Option, getOrElse } from 'fp-ts/Option'
+ * import { rpadZipWith } from 'fp-ts-contrib/Align/Array'
  *
  * const f = (a: number, mb: Option<string>) => a.toString() + getOrElse(() => '*')(mb)
  * assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])
@@ -149,8 +149,8 @@ export const rpadZipWith: <A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Opt
  * It is similar to `zip`, but it doesn't discard elements when the right input array is shorter than the left.
  *
  * @example
- * import { some, none } from 'fp-ts/lib/Option'
- * import { rpadZip } from 'fp-ts-contrib/lib/Align/Array'
+ * import { some, none } from 'fp-ts/Option'
+ * import { rpadZip } from 'fp-ts-contrib/Align/Array'
  *
  * assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [[1, some('a')], [2, some('b')], [3, none]])
  * assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [[1, some('a')], [2, some('b')]])

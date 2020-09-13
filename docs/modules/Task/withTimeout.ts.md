@@ -32,8 +32,8 @@ export declare const withTimeout: <A>(onTimeout: A, millis: number) => (ma: Task
 **Example**
 
 ```ts
-import { withTimeout } from 'fp-ts-contrib/lib/Task/withTimeout'
-import { delay, of } from 'fp-ts/lib/Task'
+import { withTimeout } from 'fp-ts-contrib/Task/withTimeout'
+import { delay, of } from 'fp-ts/Task'
 
 const completeAfter2s = delay(2000)(of('result'))
 

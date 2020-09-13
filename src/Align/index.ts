@@ -58,9 +58,9 @@ export interface Align3<F extends URIS3> extends Semialign3<F> {
  * Align two structures, using a semigroup for combining values.
  *
  * @example
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
- * import { salign } from 'fp-ts-contrib/lib/Align'
- * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+ * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { salign } from 'fp-ts-contrib/Align'
+ * import { alignArray } from 'fp-ts-contrib/Align/Array'
  *
  * assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2, 3], [4, 5]), [5, 7, 3])
  *
@@ -90,9 +90,9 @@ export function salign<F, A>(F: Align<F>, S: Semigroup<A>): (fx: HKT<F, A>, fy: 
  * It is similar to `zip`, but it doesn't discard elements.
  *
  * @example
- * import { some, none } from 'fp-ts/lib/Option'
- * import { padZip } from 'fp-ts-contrib/lib/Align'
- * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+ * import { some, none } from 'fp-ts/Option'
+ * import { padZip } from 'fp-ts-contrib/Align'
+ * import { alignArray } from 'fp-ts-contrib/Align/Array'
  *
  * assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [[some(1), some(4)], [some(2), some(5)], [some(3), none]])
  *
@@ -121,10 +121,10 @@ export function padZip<F>(F: Align<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => 
  * It is similar to `zipWith`, but it doesn't discard elements.
  *
  * @example
- * import { Option, fold, getOrElse } from 'fp-ts/lib/Option'
- * import { padZipWith } from 'fp-ts-contrib/lib/Align'
- * import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import { Option, fold, getOrElse } from 'fp-ts/Option'
+ * import { padZipWith } from 'fp-ts-contrib/Align'
+ * import { alignArray } from 'fp-ts-contrib/Align/Array'
+ * import { pipe } from 'fp-ts/function'
  *
  * const f = (ma: Option<number>, mb: Option<string>) =>
  *   pipe(

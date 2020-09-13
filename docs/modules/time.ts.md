@@ -41,9 +41,9 @@ export declare function time<M>(M: MonadIO<M>): <A>(ma: HKT<M, A>) => HKT<M, [A,
 **Example**
 
 ```ts
-import { io } from 'fp-ts/lib/IO'
-import { randomInt } from 'fp-ts/lib/Random'
-import { time } from 'fp-ts-contrib/lib/time'
+import { io } from 'fp-ts/IO'
+import { randomInt } from 'fp-ts/Random'
+import { time } from 'fp-ts-contrib/time'
 
 const timeIO = time(io)
 

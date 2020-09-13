@@ -26,10 +26,10 @@ export const alignOption: Align1<URI> = {
    * to handle the possibility of non existing values.
    *
    * @example
-   * import { some, none } from 'fp-ts/lib/Option'
-   * import { These } from 'fp-ts/lib/These'
-   * import { identity } from 'fp-ts/lib/function'
-   * import { alignOption } from 'fp-ts-contrib/lib/Align/Option'
+   * import { some, none } from 'fp-ts/Option'
+   * import { These } from 'fp-ts/These'
+   * import { identity } from 'fp-ts/function'
+   * import { alignOption } from 'fp-ts-contrib/Align/Option'
    *
    * const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => a + b)
    *
@@ -55,9 +55,9 @@ export const alignOption: Align1<URI> = {
    * Takes two Option's and returns an Option with a value corresponding to the inputs combined using the `These` data type.
    *
    * @example
-   * import { some, none } from 'fp-ts/lib/Option'
-   * import { both, left, right } from 'fp-ts/lib/These'
-   * import { alignOption } from 'fp-ts-contrib/lib/Align/Option'
+   * import { some, none } from 'fp-ts/Option'
+   * import { both, left, right } from 'fp-ts/These'
+   * import { alignOption } from 'fp-ts-contrib/Align/Option'
    *
    * assert.deepStrictEqual(alignOption.align(some(1), some('a')), some(both(1, 'a')))
    * assert.deepStrictEqual(alignOption.align(some(1, none), some(left(1)))

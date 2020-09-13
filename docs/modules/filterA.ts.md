@@ -49,8 +49,8 @@ export declare function filterA<F>(
 **Example**
 
 ```ts
-import { io, IO } from 'fp-ts/lib/IO'
-import { filterA } from 'fp-ts-contrib/lib/filterA'
+import { io, IO } from 'fp-ts/IO'
+import { filterA } from 'fp-ts-contrib/filterA'
 
 const filterAIO = filterA(io)
 
