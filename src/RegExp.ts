@@ -14,9 +14,9 @@ import * as O from 'fp-ts/lib/Option'
  * Returns the list of subexpression matches, or `None` if the match fails.
  *
  * @example
- * import * as O from 'fp-ts/lib/Option'
- * import { match } from 'fp-ts-contrib/lib/RegExp'
- * import { pipe } from 'fp-ts/lib/pipeable'
+ * import * as O from 'fp-ts/Option'
+ * import { match } from 'fp-ts-contrib/RegExp'
+ * import { pipe } from 'fp-ts/function'
  *
  * const myMatch = match(/^(\d)(\w)$/)
  * assert.deepStrictEqual(pipe('2e', myMatch, O.map(Array.from)), O.some(['2e', '2', 'e']))
@@ -31,7 +31,7 @@ export const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray> = (
  * otherwise `false`.
  *
  * @example
- * import { test } from 'fp-ts-contrib/lib/RegExp'
+ * import { test } from 'fp-ts-contrib/RegExp'
  *
  * const myTest = test(/^(\d)(\w)$/)
  * assert.strictEqual(myTest('6s'), true)
@@ -46,7 +46,7 @@ export const test: (r: RegExp) => Predicate<string> = (r) => (s) => r.test(s)
  * with the replacement string.
  *
  * @example
- * import { sub } from 'fp-ts-contrib/lib/RegExp'
+ * import { sub } from 'fp-ts-contrib/RegExp'
  *
  * const sanitiseSpaces = sub(/\s/g, '_')
  * assert.strictEqual(sanitiseSpaces('foo bar owl'), 'foo_bar_owl')
@@ -61,7 +61,7 @@ export const sub: (r: RegExp, replacement: string) => (s: string) => string = (r
  * should identify one delimiter.
  *
  * @example
- * import { split } from 'fp-ts-contrib/lib/RegExp'
+ * import { split } from 'fp-ts-contrib/RegExp'
  *
  * const splitByHash = split(/#/)
  * assert.deepStrictEqual(splitByHash('foo#bar#beer'), ['foo', 'bar', 'beer'])

@@ -10,9 +10,9 @@ import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3 } from 'fp-ts/lib/Mona
  * returns the elapsed time along with the computed value
  *
  * @example
- * import { io } from 'fp-ts/lib/IO'
- * import { randomInt } from 'fp-ts/lib/Random'
- * import { time } from 'fp-ts-contrib/lib/time'
+ * import { io } from 'fp-ts/IO'
+ * import { randomInt } from 'fp-ts/Random'
+ * import { time } from 'fp-ts-contrib/time'
  *
  * const timeIO = time(io)
  *

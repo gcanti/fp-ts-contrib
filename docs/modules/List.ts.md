@@ -72,7 +72,7 @@ export declare const of: <A>(head: A) => List<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
 ```
@@ -150,7 +150,7 @@ export declare const dropLeft: (n: number) => <A>(fa: List<A>) => List<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.dropLeft(1)(L.nil), L.nil)
 assert.deepStrictEqual(L.dropLeft(1)(L.cons(1, L.of(2))), L.of(2))
@@ -172,7 +172,7 @@ export declare const reverse: <A>(fa: List<A>) => List<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.reverse(L.cons(1, L.cons(2, L.of(3)))), L.cons(3, L.cons(2, L.of(1))))
 ```
@@ -194,7 +194,7 @@ export declare const cons: <A>(head: A, tail: List<A>) => List<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
 ```
@@ -214,7 +214,7 @@ export declare const fromArray: <A>(as: A[]) => List<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.fromArray([]), L.nil)
 assert.deepStrictEqual(L.fromArray(['a', 'b']), L.cons('a', L.of('b')))
@@ -247,7 +247,7 @@ export declare const foldLeft: <A, B>(onNil: () => B, onCons: (head: A, tail: Li
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 const len: <A>(as: L.List<A>) => number = L.foldLeft(
   () => 0,
@@ -271,8 +271,8 @@ export declare const head: <A>(fa: List<A>) => O.Option<A>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import * as L from 'fp-ts-contrib/lib/List'
+import * as O from 'fp-ts/Option'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.head(L.nil), O.none)
 assert.deepStrictEqual(L.head(L.cons('x', L.of('a'))), O.some('x'))
@@ -293,8 +293,8 @@ export declare const tail: <A>(fa: List<A>) => O.Option<List<A>>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import * as L from 'fp-ts-contrib/lib/List'
+import * as O from 'fp-ts/Option'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.tail(L.nil), O.none)
 assert.deepStrictEqual(L.tail(L.of('a')), O.some(L.nil))
@@ -316,7 +316,7 @@ export declare const toArray: <A>(fa: List<A>) => A[]
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.toArray(L.cons('a', L.of('b'))), ['a', 'b'])
 ```
@@ -336,7 +336,7 @@ export declare const toReversedArray: <A>(fa: List<A>) => A[]
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.deepStrictEqual(L.toReversedArray(L.cons('a', L.of('b'))), ['b', 'a'])
 ```
@@ -411,8 +411,8 @@ export declare const getEq: <A>(E: Eq.Eq<A>) => Eq.Eq<List<A>>
 **Example**
 
 ```ts
-import { eqString } from 'fp-ts/lib/Eq'
-import * as L from 'fp-ts-contrib/lib/List'
+import { eqString } from 'fp-ts/Eq'
+import * as L from 'fp-ts-contrib/List'
 
 const E = L.getEq(eqString)
 assert.strictEqual(E.equals(L.cons('a', L.of('b')), L.cons('a', L.of('b'))), true)
@@ -487,7 +487,7 @@ export declare function dropLeftWhile<A>(predicate: Predicate<A>): (fa: List<A>)
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 const isLTThree = (n: number) => n < 3
 assert.deepStrictEqual(L.dropLeftWhile(isLTThree)(L.nil), L.nil)
@@ -510,8 +510,8 @@ export declare const findIndex: <A>(predicate: Predicate<A>) => (fa: List<A>) =>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import * as L from 'fp-ts-contrib/lib/List'
+import * as O from 'fp-ts/Option'
+import * as L from 'fp-ts-contrib/List'
 
 const f = (a: number): boolean => a % 2 === 0
 const findIndexEven = L.findIndex(f)
@@ -535,7 +535,7 @@ export declare const isCons: <A>(a: List<A>) => a is Cons<A>
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.strictEqual(L.isCons(L.nil), false)
 assert.strictEqual(L.isCons(L.of(1)), true)
@@ -556,7 +556,7 @@ export declare const isNil: <A>(a: List<A>) => a is Nil
 **Example**
 
 ```ts
-import * as L from 'fp-ts-contrib/lib/List'
+import * as L from 'fp-ts-contrib/List'
 
 assert.strictEqual(L.isNil(L.nil), true)
 assert.strictEqual(L.isNil(L.of(6)), false)

@@ -19,9 +19,9 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * Uses the `These` data type to handle arrays of different lengths.
    *
    * @example
-   * import { These } from 'fp-ts/lib/These'
-   * import { identity } from 'fp-ts/lib/function'
-   * import { alignNonEmptyArray } from 'fp-ts-contrib/lib/Semialign/NonEmptyArray'
+   * import { These } from 'fp-ts/These'
+   * import { identity } from 'fp-ts/function'
+   * import { alignNonEmptyArray } from 'fp-ts-contrib/Semialign/NonEmptyArray'
    *
    * const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => a + b)
    *
@@ -38,9 +38,9 @@ export const semialignNonEmptyArray: Semialign1<URI> = {
    * Takes two arrays and returns an array of corresponding pairs combined using the `These` data type.
    *
    * @example
-   * import { These } from 'fp-ts/lib/These'
-   * import { identity } from 'fp-ts/lib/function'
-   * import { alignNonEmptyArray } from 'fp-ts-contrib/lib/Semialign/NonEmptyArray'
+   * import { These } from 'fp-ts/These'
+   * import { identity } from 'fp-ts/function'
+   * import { alignNonEmptyArray } from 'fp-ts-contrib/Semialign/NonEmptyArray'
    *
    * assert.deepStrictEqual(semialignNonEmptyArray.align(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b', 'c']), new NonEmptyArray(both(1, 'a'), [both(2, 'b'), both(3, 'c')]))
    * assert.deepStrictEqual(semialignNonEmptyArray.align(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b']), new NonEmptyArray(both(1, 'a'), [both(2, 'b'), this_(3)])

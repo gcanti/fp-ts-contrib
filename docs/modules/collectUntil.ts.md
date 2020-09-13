@@ -48,12 +48,12 @@ export declare function collectUntil<M, F>(
 **Example**
 
 ```ts
-import { array } from 'fp-ts/lib/Array'
-import * as E from 'fp-ts/lib/Either'
-import { flow } from 'fp-ts/lib/function'
-import * as O from 'fp-ts/lib/Option'
-import * as TE from 'fp-ts/lib/TaskEither'
-import { collectUntil } from 'fp-ts-contrib/lib/collectUntil'
+import { array } from 'fp-ts/Array'
+import * as E from 'fp-ts/Either'
+import { flow } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+import * as TE from 'fp-ts/TaskEither'
+import { collectUntil } from 'fp-ts-contrib/collectUntil'
 
 interface Page {
   rows: Array<string>

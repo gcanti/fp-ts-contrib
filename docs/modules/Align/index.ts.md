@@ -123,9 +123,9 @@ export declare function padZip<F>(F: Align<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F,
 **Example**
 
 ```ts
-import { some, none } from 'fp-ts/lib/Option'
-import { padZip } from 'fp-ts-contrib/lib/Align'
-import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+import { some, none } from 'fp-ts/Option'
+import { padZip } from 'fp-ts-contrib/Align'
+import { alignArray } from 'fp-ts-contrib/Align/Array'
 
 assert.deepStrictEqual(padZip(alignArray)([1, 2, 3], [4, 5]), [
   [some(1), some(4)],
@@ -169,10 +169,10 @@ export declare function padZipWith<F>(
 **Example**
 
 ```ts
-import { Option, fold, getOrElse } from 'fp-ts/lib/Option'
-import { padZipWith } from 'fp-ts-contrib/lib/Align'
-import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { Option, fold, getOrElse } from 'fp-ts/Option'
+import { padZipWith } from 'fp-ts-contrib/Align'
+import { alignArray } from 'fp-ts-contrib/Align/Array'
+import { pipe } from 'fp-ts/function'
 
 const f = (ma: Option<number>, mb: Option<string>) =>
   pipe(
@@ -222,9 +222,9 @@ export declare function salign<F, A>(F: Align<F>, S: Semigroup<A>): (fx: HKT<F, 
 **Example**
 
 ```ts
-import { semigroupSum } from 'fp-ts/lib/Semigroup'
-import { salign } from 'fp-ts-contrib/lib/Align'
-import { alignArray } from 'fp-ts-contrib/lib/Align/Array'
+import { semigroupSum } from 'fp-ts/Semigroup'
+import { salign } from 'fp-ts-contrib/Align'
+import { alignArray } from 'fp-ts-contrib/Align/Array'
 
 assert.deepStrictEqual(salign(alignArray, semigroupSum)([1, 2, 3], [4, 5]), [5, 7, 3])
 ```

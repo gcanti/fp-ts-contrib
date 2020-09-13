@@ -7,8 +7,8 @@ import { getRaceMonoid, Task, delay, of } from 'fp-ts/lib/Task'
  * Returns the task result if it completes within a timeout, or a fallback value instead.
  *
  * @example
- * import { withTimeout } from 'fp-ts-contrib/lib/Task/withTimeout'
- * import { delay, of } from 'fp-ts/lib/Task'
+ * import { withTimeout } from 'fp-ts-contrib/Task/withTimeout'
+ * import { delay, of } from 'fp-ts/Task'
  *
  * const completeAfter2s = delay(2000)(of('result'))
  *

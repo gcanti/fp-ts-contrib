@@ -51,8 +51,8 @@ export declare const lpadZip: <A, B>(xs: A[], ys: B[]) => [Option<A>, B][]
 **Example**
 
 ```ts
-import { some, none } from 'fp-ts/lib/Option'
-import { lpadZip } from 'fp-ts-contrib/lib/Align/Array'
+import { some, none } from 'fp-ts/Option'
+import { lpadZip } from 'fp-ts-contrib/Align/Array'
 
 assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [
   [some(1), 'a'],
@@ -83,9 +83,9 @@ export declare const lpadZipWith: <A, B, C>(xs: A[], ys: B[], f: (a: Option<A>, 
 **Example**
 
 ```ts
-import * as O from 'fp-ts/lib/Option'
-import { lpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/Option'
+import { lpadZipWith } from 'fp-ts-contrib/Align/Array'
+import { pipe } from 'fp-ts/function'
 
 const f = (ma: O.Option<number>, b: string) =>
   pipe(
@@ -117,8 +117,8 @@ export declare const rpadZip: <A, B>(xs: A[], ys: B[]) => [A, Option<B>][]
 **Example**
 
 ```ts
-import { some, none } from 'fp-ts/lib/Option'
-import { rpadZip } from 'fp-ts-contrib/lib/Align/Array'
+import { some, none } from 'fp-ts/Option'
+import { rpadZip } from 'fp-ts-contrib/Align/Array'
 
 assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [
   [1, some('a')],
@@ -149,8 +149,8 @@ export declare const rpadZipWith: <A, B, C>(xs: A[], ys: B[], f: (a: A, b: Optio
 **Example**
 
 ```ts
-import { Option, getOrElse } from 'fp-ts/lib/Option'
-import { rpadZipWith } from 'fp-ts-contrib/lib/Align/Array'
+import { Option, getOrElse } from 'fp-ts/Option'
+import { rpadZipWith } from 'fp-ts-contrib/Align/Array'
 
 const f = (a: number, mb: Option<string>) => a.toString() + getOrElse(() => '*')(mb)
 assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])

@@ -17,8 +17,8 @@ import * as O from 'fp-ts/lib/Option'
  * This generalizes the array-based `filter` function.
  *
  * @example
- * import { io, IO } from 'fp-ts/lib/IO'
- * import { filterA } from 'fp-ts-contrib/lib/filterA'
+ * import { io, IO } from 'fp-ts/IO'
+ * import { filterA } from 'fp-ts-contrib/filterA'
  *
  * const filterAIO = filterA(io)
  *

@@ -47,8 +47,8 @@ export declare function Do<M>(M: Monad<M>): Do0<M, {}>
 **Example**
 
 ```ts
-import { option, some } from 'fp-ts/lib/Option'
-import { Do } from 'fp-ts-contrib/lib/Do'
+import { option, some } from 'fp-ts/Option'
+import { Do } from 'fp-ts-contrib/Do'
 
 // x: Option<number>
 const x = Do(option) // <- a monad instance
