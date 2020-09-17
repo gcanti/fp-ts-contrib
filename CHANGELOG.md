@@ -13,6 +13,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.20
+
+- **New Feature**
+  - `List`
+    - Add `chain`, `chainFirst`, `ap`, `apFirst`, `apSecond` (@IMax153)
+    - Add `bind`, `bindTo`, and `apS` (@IMax153)
+    - Add `Apply`, `Applicative`, `Monad`, `Show`, `Semigroup`, and `Monoid` instances (@IMax153)
+- **Internal**
+  - Remove `fast-check` dependency for `List` tests (@IMax153)
+
 # 0.1.19
 
 - **New Feature**
