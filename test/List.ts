@@ -1,186 +1,289 @@
 import * as assert from 'assert'
-import * as fc from 'fast-check'
-import * as O from 'fp-ts/lib/Option'
-import * as A from 'fp-ts/lib/Array'
-import * as L from '../src/List'
-import { monoidSum } from 'fp-ts/lib/Monoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 import { identity } from 'fp-ts/lib/function'
+import * as O from 'fp-ts/lib/Option'
+import { monoidSum } from 'fp-ts/lib/Monoid'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as Eq from 'fp-ts/lib/Eq'
-
-const elementArb = fc.integer()
-const arrayArb = fc.array(elementArb)
-const listArb = arrayArb.map(L.fromArray)
-
-const eqListElement = L.getEq(Eq.eqNumber)
-const eqArrayElement = A.getEq(Eq.eqNumber)
+import { showNumber } from 'fp-ts/lib/Show'
+import * as L from '../src/List'
 
 describe('List', () => {
-  it('URI', () => {
-    assert.strictEqual(L.URI, 'List')
-  })
+  describe('constructors', () => {
+    it('nil', () => {
+      assert.deepStrictEqual(L.nil, { type: 'Nil', length: 0 })
+    })
 
-  it('cons', () => {
-    assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
-    fc.assert(
-      fc.property(elementArb, arrayArb, (a, as) => {
-        const newList = L.cons(a, L.fromArray(as))
-        const newArray = A.cons(a, as)
-        return eqListElement.equals(newList, L.fromArray(newArray))
+    it('cons', () => {
+      assert.deepStrictEqual(L.cons('a', L.nil), { type: 'Cons', head: 'a', tail: L.nil, length: 1 })
+    })
+
+    it('fromArray', () => {
+      assert.deepStrictEqual(L.fromArray([1, 2, 3]), {
+        type: 'Cons',
+        head: 1,
+        length: 3,
+        tail: {
+          type: 'Cons',
+          head: 2,
+          length: 2,
+          tail: { type: 'Cons', head: 3, length: 1, tail: { type: 'Nil', length: 0 } }
+        }
       })
-    )
+    })
   })
 
-  it('of', () => {
-    fc.assert(fc.property(elementArb, (a) => eqListElement.equals(L.of(a), pipe(a, A.of, L.fromArray))))
-  })
+  describe('destructors', () => {
+    it('toArray', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.toArray), [])
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.toArray), [1, 2, 3])
+    })
 
-  it('isNil', () => {
-    assert.strictEqual(L.isNil(L.nil), true)
-    assert.strictEqual(L.isNil(L.of(6)), false)
-  })
+    it('toReversedArray', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.toReversedArray), [])
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.toReversedArray), [3, 2, 1])
+    })
 
-  it('isCons', () => {
-    assert.strictEqual(L.isCons(L.nil), false)
-    assert.strictEqual(L.isCons(L.of(1)), true)
-  })
+    it('head', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.head), O.none)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.head), O.some(1))
+    })
 
-  it('head', () => {
-    const eq = O.getEq(Eq.eqNumber)
+    it('tail', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.tail), O.none)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.tail), O.some(L.fromArray([2, 3])))
+    })
 
-    fc.assert(fc.property(listArb, (l) => eq.equals(L.head(l), A.head(L.toArray(l)))))
-  })
-
-  it('tail', () => {
-    const eq = O.getEq(eqListElement)
-
-    fc.assert(fc.property(listArb, (l) => eq.equals(L.tail(l), pipe(l, L.toArray, A.tail, O.map(L.fromArray)))))
-  })
-
-  it('foldLeft', () => {
-    const lLen: <A>(as: L.List<A>) => number = L.foldLeft(
-      () => 0,
-      (_, tail) => 1 + lLen(tail)
-    )
-    const aLen: <A>(as: Array<A>) => number = A.foldLeft(
-      () => 0,
-      (_, tail) => 1 + aLen(tail)
-    )
-
-    fc.assert(fc.property(listArb, (l) => Eq.eqNumber.equals(lLen(l), aLen(L.toArray(l)))))
-  })
-
-  it('findIndex', () => {
-    const f = (a: number): boolean => a % 2 === 0
-    const eq = O.getEq(Eq.eqNumber)
-
-    fc.assert(fc.property(listArb, (l) => eq.equals(L.findIndex(f)(l), A.findIndex(f)(L.toArray(l)))))
-  })
-
-  it('dropLeft', () => {
-    fc.assert(
-      fc.property(fc.nat(), listArb, (n, l) =>
-        eqListElement.equals(L.dropLeft(n)(l), pipe(l, L.toArray, A.dropLeft(n), L.fromArray))
+    it('foldLeft', () => {
+      const len: <A>(as: L.List<A>) => number = L.foldLeft(
+        () => 0,
+        (_, tail) => 1 + len(tail)
       )
-    )
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), len), 0)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), len), 3)
+    })
+
+    it('findIndex', () => {
+      const f = (a: number): boolean => a % 2 === 0
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.findIndex(f)), O.none)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.findIndex(f)), O.some(1))
+    })
+
+    it('isNil', () => {
+      assert.strictEqual(L.isNil(L.nil), true)
+      assert.strictEqual(L.isNil(L.of(6)), false)
+    })
+
+    it('isCons', () => {
+      assert.strictEqual(L.isCons(L.nil), false)
+      assert.strictEqual(L.isCons(L.of(1)), true)
+    })
   })
 
-  it('dropLeftWhile', () => {
-    const isLTThree = (n: number) => n < 3
+  describe('combinators', () => {
+    it('dropLeft', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.dropLeft(1)), L.fromArray([]))
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.dropLeft(1)), L.fromArray([2, 3]))
+    })
 
-    fc.assert(
-      fc.property(listArb, (l) =>
-        eqListElement.equals(L.dropLeftWhile(isLTThree)(l), pipe(l, L.toArray, A.dropLeftWhile(isLTThree), L.fromArray))
+    it('dropLeftWhile', () => {
+      const f = (n: number) => n < 3
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.dropLeftWhile(f)), L.fromArray([]))
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.dropLeftWhile(f)), L.fromArray([3]))
+    })
+
+    it('reverse', () => {
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.reverse), L.fromArray([]))
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.reverse), L.fromArray([3, 2, 1]))
+    })
+  })
+
+  describe('pipeables', () => {
+    it('map', () => {
+      const f = (n: number): number => n * 2
+
+      assert.deepStrictEqual(L.Functor.map(L.fromArray([]), f), L.fromArray([]))
+      assert.deepStrictEqual(L.Functor.map(L.fromArray([1, 2, 3]), f), L.fromArray([2, 4, 6]))
+    })
+
+    it('ap', () => {
+      const fab = L.fromArray([(x: number) => x * 2, (x: number) => x * 3])
+      const fa = L.fromArray([1, 2, 3])
+
+      assert.deepStrictEqual(L.Apply.ap(fab, L.fromArray([])), L.fromArray([]))
+      assert.deepStrictEqual(L.Apply.ap(fab, fa), L.fromArray([2, 4, 6, 3, 6, 9]))
+    })
+
+    it('apFirst', () => {
+      const fa = L.fromArray([1, 2])
+      const fb = L.fromArray(['a', 'b', 'c'])
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.apFirst(L.fromArray([1, 2]))), L.fromArray([]))
+      assert.deepStrictEqual(pipe(fa, L.apFirst(fb)), L.fromArray([1, 1, 1, 2, 2, 2]))
+    })
+
+    it('apSecond', () => {
+      const fa = L.fromArray([1, 2])
+      const fb = L.fromArray(['a', 'b', 'c'])
+
+      assert.deepStrictEqual(pipe(fa, L.apSecond(L.fromArray([]))), L.fromArray([]))
+      assert.deepStrictEqual(pipe(fa, L.apSecond(fb)), L.fromArray(['a', 'b', 'c', 'a', 'b', 'c']))
+    })
+
+    it('chain', () => {
+      const a = L.fromArray([1, 2, 3, 4])
+      const b = L.fromArray([])
+
+      assert.deepStrictEqual(
+        L.Monad.chain(a, () => L.of(1)),
+        L.fromArray([1, 1, 1, 1])
       )
-    )
-  })
-
-  it('reverse', () => {
-    fc.assert(
-      fc.property(listArb, (l) => eqListElement.equals(L.reverse(l), pipe(l, L.toArray, A.reverse, L.fromArray)))
-    )
-  })
-
-  it('map', () => {
-    const checkProperty = (f: (a: number) => number, l: L.List<number>): boolean =>
-      eqListElement.equals(pipe(l, L.map(f)), pipe(l, L.toArray, A.map(f), L.fromArray))
-
-    assert.ok(checkProperty(identity, L.of(6)))
-    fc.assert(fc.property(listArb, (l) => checkProperty((a: number) => a ** 2, l)))
-  })
-
-  it('reduce', () => {
-    const f = (a: number, b: number): number => a + b
-
-    fc.assert(
-      fc.property(listArb, (l) => Eq.eqNumber.equals(pipe(l, L.reduce(0, f)), pipe(l, L.toArray, A.reduce(0, f))))
-    )
-  })
-
-  it('foldMap', () => {
-    fc.assert(
-      fc.property(listArb, (l) =>
-        Eq.eqNumber.equals(pipe(l, L.foldMap(monoidSum)(identity)), pipe(l, L.toArray, A.foldMap(monoidSum)(identity)))
+      assert.deepStrictEqual(
+        pipe(
+          b,
+          L.chain(() => L.of(1))
+        ),
+        L.fromArray([])
       )
-    )
-  })
+    })
 
-  it('toArray/fromArray', () => {
-    fc.assert(fc.property(fc.array(elementArb), (as) => eqArrayElement.equals(as, pipe(as, L.fromArray, L.toArray))))
-  })
+    it('chainFirst', () => {
+      const list = L.fromArray([1, 2, 3])
 
-  it('toReversedArray', () => {
-    fc.assert(fc.property(listArb, (l) => eqListElement.equals(l, pipe(l, L.toReversedArray, L.fromArray, L.reverse))))
-  })
-
-  it('reduceRight', () => {
-    const f = (a: number, b: number): number => a + b
-
-    fc.assert(
-      fc.property(listArb, (l) =>
-        Eq.eqNumber.equals(pipe(l, L.reduceRight(0, f)), pipe(l, L.toArray, A.reduceRight(0, f)))
+      assert.deepStrictEqual(
+        pipe(
+          list,
+          L.chainFirst(() => L.of(1))
+        ),
+        L.fromArray([1, 2, 3])
       )
-    )
+    })
+
+    it('reduce', () => {
+      const f = (a: number, b: number): number => a + b
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.reduce(0, f)), 0)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.reduce(0, f)), 6)
+    })
+
+    it('reduceRight', () => {
+      const f = (a: number, b: number): number => a * b
+
+      assert.deepStrictEqual(pipe(L.fromArray([]), L.reduceRight(1, f)), 1)
+      assert.deepStrictEqual(pipe(L.fromArray([2, 3, 4]), L.reduceRight(1, f)), 24)
+    })
+
+    it('foldMap', () => {
+      const M = monoidSum
+      const f = identity
+
+      assert.deepStrictEqual(L.Foldable.foldMap(M)(L.fromArray([]), f), 0)
+      assert.deepStrictEqual(pipe(L.fromArray([1, 2, 3]), L.foldMap(M)(f)), 6)
+    })
+
+    it('traverse', () => {
+      const traverseLO = L.Traversable.traverse(O.option)
+      const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.some(n) : O.none)
+
+      assert.deepStrictEqual(traverseLO(L.fromArray([]), f), O.some(L.nil))
+      assert.deepStrictEqual(traverseLO(L.fromArray([1, 2, 3]), f), O.none)
+      assert.deepStrictEqual(traverseLO(L.fromArray([2, 4, 6]), f), O.some(L.fromArray([2, 4, 6])))
+    })
+
+    it('sequence', () => {
+      const sequenceLO = L.sequence(O.option)
+
+      assert.deepStrictEqual(sequenceLO(L.fromArray([])), O.some(L.nil))
+      assert.deepStrictEqual(sequenceLO(L.fromArray([O.some(1), O.none, O.some(3)])), O.none)
+      assert.deepStrictEqual(sequenceLO(L.fromArray([O.some(1), O.some(2), O.some(3)])), O.some(L.fromArray([1, 2, 3])))
+    })
+
+    it('of', () => {
+      assert.deepStrictEqual(L.of('a'), L.fromArray(['a']))
+    })
   })
 
-  it('traverse', () => {
-    const eq = O.getEq(eqListElement)
-    const listTraverseO = L.list.traverse(O.option)
-    const arrayTraverseO = A.array.traverse(O.option)
-    const listArb = fc.array(fc.nat()).map(L.fromArray)
-    const f = (n: number): O.Option<number> => (n % 2 === 0 ? O.none : O.some(n))
+  describe('instances', () => {
+    it('URI', () => {
+      assert.strictEqual(L.URI, 'List')
+    })
 
-    fc.assert(
-      fc.property(listArb, (l) =>
-        eq.equals(listTraverseO(l, f), pipe(arrayTraverseO(L.toArray(l), f), O.map(L.fromArray)))
+    it('getEq', () => {
+      const E = L.getEq(eqNumber)
+
+      assert.strictEqual(E.equals(L.fromArray([]), L.fromArray([])), true)
+      assert.strictEqual(E.equals(L.fromArray([1, 2, 3]), L.fromArray([1, 2])), false)
+      assert.strictEqual(E.equals(L.fromArray([1, 2, 3]), L.fromArray([1, 2, 3])), true)
+      assert.strictEqual(E.equals(L.fromArray([1, 2, 3]), L.fromArray([4, 5, 6])), false)
+    })
+
+    it('getShow', () => {
+      const S = L.getShow(showNumber)
+      const a = L.fromArray([])
+      const b = L.fromArray([1, 2, 3, 4])
+
+      assert.deepStrictEqual(S.show(a), 'Nil')
+      assert.deepStrictEqual(S.show(b), '(1 : 2 : 3 : 4 : Nil)')
+    })
+
+    it('getSemigroup', () => {
+      const a = L.fromArray([])
+      const b = L.fromArray([1, 2, 3, 4])
+      const c = L.fromArray([5, 6, 7])
+
+      assert.deepStrictEqual(L.getSemigroup<number>().concat(a, a), L.fromArray([]))
+      assert.deepStrictEqual(L.getSemigroup<number>().concat(a, b), L.fromArray([1, 2, 3, 4]))
+      assert.deepStrictEqual(L.getSemigroup<number>().concat(b, c), L.fromArray([1, 2, 3, 4, 5, 6, 7]))
+    })
+
+    it('getMonoid', () => {
+      const a = L.fromArray([])
+      const b = L.fromArray([1, 2, 3, 4])
+      const c = L.fromArray([5, 6, 7])
+
+      assert.deepStrictEqual(L.getMonoid<number>().concat(a, a), L.fromArray([]))
+      assert.deepStrictEqual(L.getMonoid<number>().concat(a, b), L.fromArray([1, 2, 3, 4]))
+      assert.deepStrictEqual(L.getMonoid<number>().concat(b, c), L.fromArray([1, 2, 3, 4, 5, 6, 7]))
+    })
+  })
+
+  describe('do', () => {
+    it('bindTo', () => {
+      const a = L.fromArray([1, 2, 3])
+
+      assert.deepStrictEqual(pipe(a, L.bindTo('a')), L.fromArray([{ a: 1 }, { a: 2 }, { a: 3 }]))
+    })
+
+    it('bind', () => {
+      const a = L.fromArray([1, 2, 3])
+      const b = L.fromArray([4, 5, 6])
+
+      assert.deepStrictEqual(
+        pipe(
+          a,
+          L.bindTo('a'),
+          L.bind('b', () => b)
+        ),
+        L.fromArray([
+          { a: 1, b: 4 },
+          { a: 1, b: 5 },
+          { a: 1, b: 6 },
+          { a: 2, b: 4 },
+          { a: 2, b: 5 },
+          { a: 2, b: 6 },
+          { a: 3, b: 4 },
+          { a: 3, b: 5 },
+          { a: 3, b: 6 }
+        ])
       )
-    )
+    })
   })
 
-  it('sequence', () => {
-    const eq = O.getEq(eqListElement)
-    const listSequenceO = L.sequence(O.option)
-    const arraySequenceO = A.array.sequence(O.option)
-    const elementArb = fc.integer().map((n) => (Math.random() > 0.5 ? O.some(n) : O.none))
-    const listArb = fc.array(elementArb).map(L.fromArray)
-
-    fc.assert(
-      fc.property(listArb, (l) => eq.equals(listSequenceO(l), pipe(l, L.toArray, arraySequenceO, O.map(L.fromArray))))
-    )
-  })
-
-  it('getEq', () => {
-    const listEq = L.getEq(Eq.eqNumber)
-    const arrayEq = A.getEq(Eq.eqNumber)
-
-    fc.assert(
-      fc.property(listArb, listArb, (lx, ly) => {
-        const xs = L.toArray(lx)
-        return (
-          Eq.eqBoolean.equals(listEq.equals(lx, lx), arrayEq.equals(xs, xs)) &&
-          Eq.eqBoolean.equals(listEq.equals(lx, ly), arrayEq.equals(xs, L.toArray(ly)))
-        )
-      })
-    )
+  describe('pipeable sequence S', () => {
+    it('apS', () => {
+      assert.deepStrictEqual(pipe(L.of(1), L.bindTo('a'), L.apS('b', L.of('b'))), L.fromArray([{ a: 1, b: 'b' }]))
+    })
   })
 })
