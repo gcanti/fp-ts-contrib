@@ -62,5 +62,30 @@ export * as taskOption from './TaskOption'
  */
 export * as zipper from './Zipper'
 
+//
+// Helpers, combinators and utilites
+//
+/**
+ * @since 0.1.20
  */
-import {} from 'fp-ts'
+export * as Do from './Do'
+/**
+ * @since 0.1.20
+ */
+export * as regExp from './RegExp'
+/**
+ * @since 0.1.20
+ */
+export * as batchTraverse from './batchTraverse'
+/**
+ * @since 0.1.20
+ */
+export * as collectUntil from './collectUntil'
+/**
+ * @since 0.1.20
+ */
+export * as filterA from './filterA'
+/**
+ * @since 0.1.20
+ */
+export * as time from './time'
