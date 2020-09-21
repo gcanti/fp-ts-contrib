@@ -16,12 +16,19 @@ Added in v0.1.8
 
 - [Applicative](#applicative)
   - [of](#of)
+- [Apply](#apply)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
 - [Foldable](#foldable)
   - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [Functor](#functor)
+  - [ap](#ap)
   - [map](#map)
+- [Monad](#monad)
+  - [chain](#chain)
+  - [chainFirst](#chainfirst)
 - [Traversable](#traversable)
   - [sequence](#sequence)
 - [combinators](#combinators)
@@ -38,18 +45,27 @@ Added in v0.1.8
   - [toArray](#toarray)
   - [toReversedArray](#toreversedarray)
 - [instances](#instances)
+  - [Applicative](#applicative-1)
+  - [Apply](#apply-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [Traversable](#traversable-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
+  - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
+  - [getShow](#getshow)
   - [list](#list)
 - [model](#model)
   - [Cons (interface)](#cons-interface)
   - [List (type alias)](#list-type-alias)
   - [Nil (interface)](#nil-interface)
 - [utils](#utils)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [dropLeftWhile](#dropleftwhile)
   - [findIndex](#findindex)
   - [isCons](#iscons)
@@ -78,6 +94,28 @@ assert.deepStrictEqual(L.of('a'), L.cons('a', L.nil))
 ```
 
 Added in v0.1.8
+
+# Apply
+
+## apFirst
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(fb: List<B>) => <A>(fa: List<A>) => List<A>
+```
+
+Added in v0.1.20
+
+## apSecond
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(fb: List<B>) => <A>(fa: List<A>) => List<B>
+```
+
+Added in v0.1.20
 
 # Foldable
 
@@ -113,6 +151,16 @@ Added in v0.1.18
 
 # Functor
 
+## ap
+
+**Signature**
+
+```ts
+export declare const ap: <A>(fa: List<A>) => <B>(fab: List<(a: A) => B>) => List<B>
+```
+
+Added in v0.1.20
+
 ## map
 
 **Signature**
@@ -122,6 +170,28 @@ export declare const map: <A, B>(f: (a: A) => B) => (fa: List<A>) => List<B>
 ```
 
 Added in v0.1.18
+
+# Monad
+
+## chain
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => List<B>) => (ma: List<A>) => List<B>
+```
+
+Added in v0.1.20
+
+## chainFirst
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => List<B>) => (fa: List<A>) => List<A>
+```
+
+Added in v0.1.20
 
 # Traversable
 
@@ -345,6 +415,26 @@ Added in v0.1.8
 
 # instances
 
+## Applicative
+
+**Signature**
+
+```ts
+export declare const Applicative: Applicative1<'List'>
+```
+
+Added in v0.1.20
+
+## Apply
+
+**Signature**
+
+```ts
+export declare const Apply: Apply1<'List'>
+```
+
+Added in v0.1.20
+
 ## Foldable
 
 **Signature**
@@ -364,6 +454,16 @@ export declare const Functor: Functor1<'List'>
 ```
 
 Added in v0.1.18
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'List'>
+```
+
+Added in v0.1.20
 
 ## Traversable
 
@@ -421,6 +521,36 @@ assert.strictEqual(E.equals(L.of('x'), L.nil), false)
 
 Added in v0.1.8
 
+## getMonoid
+
+**Signature**
+
+```ts
+export declare const getMonoid: <A>() => Monoid<List<A>>
+```
+
+Added in v0.1.20
+
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>() => Semigroup<List<A>>
+```
+
+Added in v0.1.20
+
+## getShow
+
+**Signature**
+
+```ts
+export declare const getShow: <A>(S: Show<A>) => Show<List<A>>
+```
+
+Added in v0.1.20
+
 ## list
 
 **Signature**
@@ -472,6 +602,42 @@ export interface Nil {
 Added in v0.1.8
 
 # utils
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <A, N extends string, B>(
+  name: Exclude<N, keyof A>,
+  fb: List<B>
+) => (fa: List<A>) => List<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v0.1.20
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => List<B>
+) => (fa: List<A>) => List<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v0.1.20
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: List<A>) => List<{ [K in N]: A }>
+```
+
+Added in v0.1.20
 
 ## dropLeftWhile
 
