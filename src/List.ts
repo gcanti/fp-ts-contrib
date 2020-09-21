@@ -8,15 +8,16 @@ import { Apply1 } from 'fp-ts/lib/Apply'
 import * as A from 'fp-ts/lib/Array'
 import * as Eq from 'fp-ts/lib/Eq'
 import { Foldable1, intercalate } from 'fp-ts/lib/Foldable'
-import { flow, pipe, Predicate, Refinement } from 'fp-ts/lib/function'
+import { flow, Predicate, Refinement } from 'fp-ts/lib/function'
 import { Functor1 } from 'fp-ts/lib/Functor'
 import { HKT } from 'fp-ts/lib/HKT'
 import { Monad1 } from 'fp-ts/lib/Monad'
 import { Monoid, monoidString } from 'fp-ts/lib/Monoid'
 import * as O from 'fp-ts/lib/Option'
-import { Traversable1 } from 'fp-ts/lib/Traversable'
+import { pipe } from 'fp-ts/lib/pipeable'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
 import { Show } from 'fp-ts/lib/Show'
+import { Traversable1 } from 'fp-ts/lib/Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
