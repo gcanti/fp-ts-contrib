@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.21
+
+- **New Feature**
+  - export modules from entrypoint, #71 (@waynevanson)
+
 # 0.1.20
 
 - **New Feature**
