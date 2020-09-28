@@ -26,87 +26,87 @@ import * as time from './time'
 
 export {
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   align,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   alignArray,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   arrayOption,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   alignRecord,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   semialign,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   semialignNonEmptyArray,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   free,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   IOOption,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   list,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   readerIO,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   stateEither,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   stateIO,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   stateTaskEither,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   taskOption,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   zipper,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   Do,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   regExp,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   batchTraverse,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   collectUntil,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   filterA,
   /**
-   * @since 0.1.20
+   * @since 0.1.21
    */
   time
 }
