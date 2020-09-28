@@ -386,7 +386,6 @@ export const Filterable: Filterable1<URI> = {
  */
 export const ioOption: Monad1<URI> & Alt1<URI> & MonadIO1<URI> & Filterable1<URI> = {
   URI,
-  map: T.map,
   of: some,
   ap: T.ap,
   chain: T.chain,
