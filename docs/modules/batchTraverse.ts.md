@@ -44,4 +44,23 @@ export declare function batchTraverse<M>(
 ): <A, B>(as: Array<Array<A>>, f: (a: A) => HKT<M, B>) => HKT<M, Array<B>>
 ```
 
+**Example**
+```ts
+async function processInStrictSequence() {
+  const numbers = [1,2,3,4];
+  const asyncTransform = (n: number): Task<number> => of(n + 1);
+
+  const result = await pipe(
+    numbers,
+    // process asyncTransform in strict sequence with chunkSize 1:
+    // next asyncTransform only starts after previous is finished
+    (x) =>  batchTraverse(T.task)(A.chunksOf(1)(x), asyncTransform),
+  )();
+
+  assert.deepStrictEqual(result, [2,3,4,5]);
+}
+
+processInStrictSequence();
+```
+
 Added in v0.1.0
