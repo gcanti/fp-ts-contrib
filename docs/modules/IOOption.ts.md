@@ -273,7 +273,7 @@ Added in v0.1.18
 **Signature**
 
 ```ts
-export declare const mapNullable: <A, B>(f: (a: A) => B) => (ma: IOOption<A>) => IOOption<B>
+export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v0.1.14
@@ -377,7 +377,7 @@ Added in v0.1.14
 **Signature**
 
 ```ts
-export declare const toNullable: <A>(ma: IOOption<A>) => IO<A>
+export declare const toNullable: <A>(ma: IOOption<A>) => IO<A | null>
 ```
 
 Added in v0.1.14
@@ -387,7 +387,7 @@ Added in v0.1.14
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(ma: IOOption<A>) => IO<A>
+export declare const toUndefined: <A>(ma: IOOption<A>) => IO<A | undefined>
 ```
 
 Added in v0.1.14

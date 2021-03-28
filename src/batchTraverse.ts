@@ -9,6 +9,27 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3 } from 'fp-ts/lib/Monad'
  * Like `array.traverse` but actions are batched in chunks.
  * You can use `Array.chunksOf` to provide the `as` argument.
  *
+ * @example
+ * import * as T from 'fp-ts/Task'
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
+ * import { batchTraverse } from 'fp-ts-contrib/batchTraverse'
+ *
+ * async function processInStrictSequence() {
+ *   const numbers = [1, 2, 3, 4];
+ *   const asyncTransform = (n: number): T.Task<number> => T.of(n + 1);
+ *   const result = await pipe(
+ *     numbers,
+ *     A.chunksOf(2),
+ *     // process asyncTransform in strict sequence with chunkSize 2:
+ *     // next asyncTransform only starts after previous is finished
+ *     (chunks) =>  batchTraverse(T.task)(chunks, asyncTransform),
+ *   )();
+ *   assert.deepStrictEqual(result, [2,3,4,5]);
+ * }
+ *
+ * processInStrictSequence();
+ *
  * @since 0.1.0
  */
 export function batchTraverse<M extends URIS3>(

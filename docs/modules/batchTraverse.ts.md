@@ -45,22 +45,27 @@ export declare function batchTraverse<M>(
 ```
 
 **Example**
-```ts
-async function processInStrictSequence() {
-  const numbers = [1,2,3,4];
-  const asyncTransform = (n: number): Task<number> => of(n + 1);
 
+```ts
+import * as T from 'fp-ts/Task'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { batchTraverse } from 'fp-ts-contrib/batchTraverse'
+
+async function processInStrictSequence() {
+  const numbers = [1, 2, 3, 4]
+  const asyncTransform = (n: number): T.Task<number> => T.of(n + 1)
   const result = await pipe(
     numbers,
-    // process asyncTransform in strict sequence with chunkSize 1:
+    A.chunksOf(2),
+    // process asyncTransform in strict sequence with chunkSize 2:
     // next asyncTransform only starts after previous is finished
-    (x) =>  batchTraverse(T.task)(A.chunksOf(1)(x), asyncTransform),
-  )();
-
-  assert.deepStrictEqual(result, [2,3,4,5]);
+    (chunks) => batchTraverse(T.task)(chunks, asyncTransform)
+  )()
+  assert.deepStrictEqual(result, [2, 3, 4, 5])
 }
 
-processInStrictSequence();
+processInStrictSequence()
 ```
 
 Added in v0.1.0

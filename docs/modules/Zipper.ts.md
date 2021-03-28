@@ -372,7 +372,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[], focusIndex?: number) => Option<Zipper<A>>
+export declare const fromArray: <A>(as: A[], focusIndex?: number | undefined) => Option<Zipper<A>>
 ```
 
 Added in v0.1.6

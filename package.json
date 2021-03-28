@@ -44,7 +44,7 @@
     "@types/jest": "^23.3.14",
     "@types/node": "^12.7.12",
     "benchmark": "^2.1.4",
-    "docs-ts": "^0.5.1",
+    "docs-ts": "^0.6.9",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "fp-ts": "^2.8.2",

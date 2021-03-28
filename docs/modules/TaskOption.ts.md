@@ -288,7 +288,7 @@ Added in v0.1.18
 **Signature**
 
 ```ts
-export declare const mapNullable: <A, B>(f: (a: A) => B) => (ma: TaskOption<A>) => TaskOption<B>
+export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v0.1.5
@@ -402,7 +402,7 @@ Added in v0.1.0
 **Signature**
 
 ```ts
-export declare const toNullable: <A>(ma: TaskOption<A>) => Task<A>
+export declare const toNullable: <A>(ma: TaskOption<A>) => Task<A | null>
 ```
 
 Added in v0.1.4
@@ -412,7 +412,7 @@ Added in v0.1.4
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(ma: TaskOption<A>) => Task<A>
+export declare const toUndefined: <A>(ma: TaskOption<A>) => Task<A | undefined>
 ```
 
 Added in v0.1.4
