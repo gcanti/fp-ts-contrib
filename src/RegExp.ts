@@ -39,7 +39,14 @@ export const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray> = (
  *
  * @since 0.1.8
  */
-export const test: (r: RegExp) => Predicate<string> = (r) => (s) => r.test(s)
+export const test: (r: RegExp) => Predicate<string> = (r) => {
+  const lastIndex = r.lastIndex
+  return (s) => {
+    const res = r.test(s)
+    r.lastIndex = lastIndex
+    return res
+  }
+}
 
 /**
  * Replaces every occurance of the given regular expression

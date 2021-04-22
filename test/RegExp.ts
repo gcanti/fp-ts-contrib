@@ -10,10 +10,18 @@ describe('RegExp', () => {
     assert.deepStrictEqual(myMatch('foo'), O.none)
   })
 
-  it('test', () => {
-    const myTest = RX.test(/^(\d)(\w)$/)
-    assert.strictEqual(myTest('6s'), true)
-    assert.strictEqual(myTest('bar'), false)
+  describe('test', () => {
+    it('should work', () => {
+      const myTest = RX.test(/^(\d)(\w)$/)
+      assert.strictEqual(myTest('6s'), true)
+      assert.strictEqual(myTest('bar'), false)
+    })
+
+    it('`lastIndex` property should not mutate', () => {
+      const regExp = /\w/g
+      RX.test(regExp)('abc')
+      assert.strictEqual(regExp.lastIndex, 0)
+    })
   })
 
   it('sub', () => {
