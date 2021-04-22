@@ -39,13 +39,11 @@ export const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray> = (
  *
  * @since 0.1.8
  */
-export const test: (r: RegExp) => Predicate<string> = (r) => {
-  return (s) => {
-    const lastIndex = r.lastIndex
-    const res = r.test(s)
-    r.lastIndex = lastIndex
-    return res
-  }
+export const test: (r: RegExp) => Predicate<string> = (r) => (s) => {
+  const lastIndex = r.lastIndex
+  const res = r.test(s)
+  r.lastIndex = lastIndex
+  return res
 }
 
 /**
