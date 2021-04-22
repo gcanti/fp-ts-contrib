@@ -40,8 +40,8 @@ export const match: (r: RegExp) => (s: string) => O.Option<RegExpMatchArray> = (
  * @since 0.1.8
  */
 export const test: (r: RegExp) => Predicate<string> = (r) => {
-  const lastIndex = r.lastIndex
   return (s) => {
+    const lastIndex = r.lastIndex
     const res = r.test(s)
     r.lastIndex = lastIndex
     return res
