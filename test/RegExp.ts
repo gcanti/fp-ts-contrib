@@ -21,6 +21,12 @@ describe('RegExp', () => {
       const regExp = /\w/g
       RX.test(regExp)('abc')
       assert.strictEqual(regExp.lastIndex, 0)
+
+      const regExp2 = /,/g
+      const tester = RX.test(regExp2)
+      regExp2.lastIndex = 2
+      tester(',asdasd')
+      assert.strictEqual(regExp2.lastIndex, 2)
     })
   })
 
