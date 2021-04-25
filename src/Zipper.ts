@@ -85,13 +85,7 @@ export const fromReadonlyArray: <A>(as: ReadonlyArray<A>, focusIndex?: number) =
  * @category constructors
  * @since 0.1.6
  */
-export const fromArray: <A>(as: Array<A>, focusIndex?: number) => Option<Zipper<A>> = (as, focusIndex = 0) => {
-  if (A.isEmpty(as) || A.isOutOfBound(focusIndex, as)) {
-    return none
-  } else {
-    return some(make(pipe(as, A.takeLeft(focusIndex)), as[focusIndex], pipe(as, A.dropLeft(focusIndex + 1))))
-  }
-}
+export const fromArray: <A>(as: Array<A>, focusIndex?: number) => Option<Zipper<A>> = fromReadonlyArray
 
 /**
  * @category constructors
