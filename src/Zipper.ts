@@ -58,10 +58,14 @@ export interface Zipper<A> {
  * @category constructors
  * @since 0.1.6
  */
-export const make: <A>(lefts: Array<A>, focus: A, rights: Array<A>) => Zipper<A> = (lefts, focus, rights) => ({
+export const make: <A>(lefts: ReadonlyArray<A>, focus: A, rights: ReadonlyArray<A>) => Zipper<A> = (
   lefts,
   focus,
   rights
+) => ({
+  lefts: lefts.slice(),
+  focus,
+  rights: rights.slice()
 })
 
 /**

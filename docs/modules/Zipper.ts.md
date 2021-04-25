@@ -418,7 +418,7 @@ Creates a new zipper.
 **Signature**
 
 ```ts
-export declare const make: <A>(lefts: A[], focus: A, rights: A[]) => Zipper<A>
+export declare const make: <A>(lefts: readonly A[], focus: A, rights: readonly A[]) => Zipper<A>
 ```
 
 Added in v0.1.6
