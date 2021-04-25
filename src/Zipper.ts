@@ -26,6 +26,7 @@ import { Monoid } from 'fp-ts/lib/Monoid'
 import * as NEA from 'fp-ts/lib/NonEmptyArray'
 import { none, Option, some } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
+import * as RA from 'fp-ts/lib/ReadonlyArray'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
 import { Show } from 'fp-ts/lib/Show'
 import { Traversable1 } from 'fp-ts/lib/Traversable'
@@ -62,6 +63,23 @@ export const make: <A>(lefts: Array<A>, focus: A, rights: Array<A>) => Zipper<A>
   focus,
   rights
 })
+
+/**
+ * @category constructors
+ * @since 0.1.22
+ */
+export const fromReadonlyArray: <A>(as: ReadonlyArray<A>, focusIndex?: number) => Option<Zipper<A>> = (
+  as,
+  focusIndex = 0
+) => {
+  if (RA.isEmpty(as) || RA.isOutOfBound(focusIndex, as)) {
+    return none
+  } else {
+    return some(
+      make(pipe(as.slice(), A.takeLeft(focusIndex)), as[focusIndex], pipe(as.slice(), A.dropLeft(focusIndex + 1)))
+    )
+  }
+}
 
 /**
  * @category constructors
