@@ -29,6 +29,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
 import { Show } from 'fp-ts/lib/Show'
 import { Traversable1 } from 'fp-ts/lib/Traversable'
+import { ReadonlyNonEmptyArray } from 'fp-ts/ReadonlyNonEmptyArray'
 
 import NonEmptyArray = NEA.NonEmptyArray
 
@@ -107,6 +108,12 @@ export const toNonEmptyArray: <A>(fa: Zipper<A>) => NonEmptyArray<A> = (fa) =>
     (as) => NEA.concat(fa.lefts, as),
     (as) => NEA.concat(as, fa.rights)
   )
+
+/**
+ * @category destructors
+ * @since 0.1.22
+ */
+export const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArray<A> = toNonEmptyArray
 
 /**
  * @category destructors
