@@ -23,12 +23,14 @@ import { Functor1 } from 'fp-ts/lib/Functor'
 import { FunctorWithIndex1 } from 'fp-ts/lib/FunctorWithIndex'
 import { HKT } from 'fp-ts/lib/HKT'
 import { Monoid } from 'fp-ts/lib/Monoid'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import * as NEA from 'fp-ts/lib/NonEmptyArray'
 import { none, Option, some } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
 import { Show } from 'fp-ts/lib/Show'
 import { Traversable1 } from 'fp-ts/lib/Traversable'
+
+import NonEmptyArray = NEA.NonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -94,6 +96,17 @@ export const isOutOfBound: <A>(index: number, fa: Zipper<A>) => boolean = (index
  * @since 0.1.6
  */
 export const length: <A>(fa: Zipper<A>) => number = (fa) => fa.lefts.length + 1 + fa.rights.length
+
+/**
+ * @category destructors
+ * @since 0.1.22
+ */
+export const toNonEmptyArray: <A>(fa: Zipper<A>) => NonEmptyArray<A> = (fa) =>
+  pipe(
+    NEA.of(fa.focus),
+    (as) => NEA.concat(fa.lefts, as),
+    (as) => NEA.concat(as, fa.rights)
+  )
 
 /**
  * @category destructors
