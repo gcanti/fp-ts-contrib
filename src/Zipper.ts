@@ -118,6 +118,7 @@ export const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArra
 /**
  * @category destructors
  * @since 0.1.6
+ * @deprecated Use the new {@link toNonEmptyArray} destructor instead.
  */
 export const toArray: <A>(fa: Zipper<A>) => Array<A> = toNonEmptyArray
 

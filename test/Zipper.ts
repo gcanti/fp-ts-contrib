@@ -160,6 +160,7 @@ describe('Zipper', () => {
 
     it('toArray', () => {
       const fa = _.make(['a', 'b'], 'c', ['d'])
+      // tslint:disable-next-line deprecation
       assert.deepStrictEqual(_.toArray(fa), _.toNonEmptyArray(fa))
     })
   })
