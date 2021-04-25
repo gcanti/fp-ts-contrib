@@ -119,7 +119,7 @@ export const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArra
  * @category destructors
  * @since 0.1.6
  */
-export const toArray: <A>(fa: Zipper<A>) => Array<A> = (fa) => A.snoc(fa.lefts, fa.focus).concat(fa.rights)
+export const toArray: <A>(fa: Zipper<A>) => Array<A> = toNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // combinators
