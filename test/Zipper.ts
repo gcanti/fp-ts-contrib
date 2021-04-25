@@ -121,6 +121,14 @@ describe('Zipper', () => {
       assert.deepStrictEqual(_.make(['a', 'b'], 'c', ['d', 'e']), expected)
     })
 
+    it('fromReadonlyArray', () => {
+      assert.deepStrictEqual(_.fromReadonlyArray([]), O.none)
+      assert.deepStrictEqual(_.fromReadonlyArray([1]), O.some(_.make([], 1, [])))
+      assert.deepStrictEqual(_.fromReadonlyArray([1], 0), O.some(_.make([], 1, [])))
+      assert.deepStrictEqual(_.fromReadonlyArray([1], 1), O.none)
+      assert.deepStrictEqual(_.fromReadonlyArray([1, 2, 3], 1), O.some(_.make([1], 2, [3])))
+    })
+
     it('fromArray', () => {
       assert.deepStrictEqual(_.fromArray([]), O.none)
       assert.deepStrictEqual(_.fromArray([1]), O.some(_.make([], 1, [])))

@@ -59,6 +59,7 @@ Added in v0.1.6
 - [constructors](#constructors)
   - [fromArray](#fromarray)
   - [fromNonEmptyArray](#fromnonemptyarray)
+  - [fromReadonlyArray](#fromreadonlyarray)
   - [make](#make)
 - [destructors](#destructors)
   - [isOutOfBound](#isoutofbound)
@@ -388,6 +389,16 @@ export declare const fromNonEmptyArray: <A>(nea: NEA.NonEmptyArray<A>) => Zipper
 ```
 
 Added in v0.1.6
+
+## fromReadonlyArray
+
+**Signature**
+
+```ts
+export declare const fromReadonlyArray: <A>(as: readonly A[], focusIndex?: number | undefined) => Option<Zipper<A>>
+```
+
+Added in v0.1.22
 
 ## make
 
