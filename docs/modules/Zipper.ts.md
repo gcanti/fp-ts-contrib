@@ -60,6 +60,7 @@ Added in v0.1.6
   - [fromArray](#fromarray)
   - [fromNonEmptyArray](#fromnonemptyarray)
   - [fromReadonlyArray](#fromreadonlyarray)
+  - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
   - [make](#make)
 - [destructors](#destructors)
   - [isOutOfBound](#isoutofbound)
@@ -396,6 +397,16 @@ Added in v0.1.6
 
 ```ts
 export declare const fromReadonlyArray: <A>(as: readonly A[], focusIndex?: number | undefined) => Option<Zipper<A>>
+```
+
+Added in v0.1.22
+
+## fromReadonlyNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const fromReadonlyNonEmptyArray: <A>(rnea: ReadonlyNonEmptyArray<A>) => Zipper<A>
 ```
 
 Added in v0.1.22

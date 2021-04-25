@@ -89,6 +89,13 @@ export const fromArray: <A>(as: Array<A>, focusIndex?: number) => Option<Zipper<
 
 /**
  * @category constructors
+ * @since 0.1.22
+ */
+export const fromReadonlyNonEmptyArray: <A>(rnea: ReadonlyNonEmptyArray<A>) => Zipper<A> = (nea) =>
+  make(A.empty, nea[0], nea.slice(1))
+
+/**
+ * @category constructors
  * @since 0.1.6
  */
 export const fromNonEmptyArray: <A>(nea: NonEmptyArray<A>) => Zipper<A> = (nea) => make(A.empty, nea[0], nea.slice(1))
