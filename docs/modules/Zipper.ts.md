@@ -65,6 +65,7 @@ Added in v0.1.6
   - [length](#length)
   - [toArray](#toarray)
   - [toNonEmptyArray](#tononemptyarray)
+  - [toReadonlyNonEmptyArray](#toreadonlynonemptyarray)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Apply](#apply-1)
@@ -438,6 +439,16 @@ Added in v0.1.6
 
 ```ts
 export declare const toNonEmptyArray: <A>(fa: Zipper<A>) => NEA.NonEmptyArray<A>
+```
+
+Added in v0.1.22
+
+## toReadonlyNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v0.1.22
