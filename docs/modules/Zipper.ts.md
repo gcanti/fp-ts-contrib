@@ -64,6 +64,7 @@ Added in v0.1.6
   - [isOutOfBound](#isoutofbound)
   - [length](#length)
   - [toArray](#toarray)
+  - [toNonEmptyArray](#tononemptyarray)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Apply](#apply-1)
@@ -382,7 +383,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-export declare const fromNonEmptyArray: <A>(nea: NonEmptyArray<A>) => Zipper<A>
+export declare const fromNonEmptyArray: <A>(nea: NEA.NonEmptyArray<A>) => Zipper<A>
 ```
 
 Added in v0.1.6
@@ -430,6 +431,16 @@ export declare const toArray: <A>(fa: Zipper<A>) => A[]
 ```
 
 Added in v0.1.6
+
+## toNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const toNonEmptyArray: <A>(fa: Zipper<A>) => NEA.NonEmptyArray<A>
+```
+
+Added in v0.1.22
 
 # instances
 

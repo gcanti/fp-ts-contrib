@@ -148,6 +148,11 @@ describe('Zipper', () => {
       assert.deepStrictEqual(_.length(fa), 5)
     })
 
+    it('toNonEmptyArray', () => {
+      const fa = _.make(['a', 'b'], 'c', ['d'])
+      assert.deepStrictEqual(_.toNonEmptyArray(fa), ['a', 'b', 'c', 'd'])
+    })
+
     it('toArray', () => {
       const fa = _.make(['a', 'b'], 'c', ['d'])
       assert.deepStrictEqual(_.toArray(fa), ['a', 'b', 'c', 'd'])
