@@ -152,7 +152,7 @@ export const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => Op
   if (isOutOfBound(newIndex, fa)) {
     return none
   } else {
-    return fromArray(toArray(fa), newIndex)
+    return fromArray(toNonEmptyArray(fa), newIndex)
   }
 }
 
