@@ -143,8 +143,8 @@ describe('Zipper', () => {
     })
 
     it('fromNonEmptyArray', () => {
-      assert.deepStrictEqual(_.fromNonEmptyArray([1]), _.make([], 1, []))
-      assert.deepStrictEqual(_.fromNonEmptyArray([1, 2, 3]), _.make([], 1, [2, 3]))
+      assert.deepStrictEqual(_.fromNonEmptyArray([1]), _.fromReadonlyNonEmptyArray([1]))
+      assert.deepStrictEqual(_.fromNonEmptyArray([1, 2, 3]), _.fromReadonlyNonEmptyArray([1, 2, 3]))
     })
   })
 

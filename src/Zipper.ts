@@ -98,7 +98,7 @@ export const fromReadonlyNonEmptyArray: <A>(rnea: ReadonlyNonEmptyArray<A>) => Z
  * @category constructors
  * @since 0.1.6
  */
-export const fromNonEmptyArray: <A>(nea: NonEmptyArray<A>) => Zipper<A> = (nea) => make(A.empty, nea[0], nea.slice(1))
+export const fromNonEmptyArray: <A>(nea: NonEmptyArray<A>) => Zipper<A> = fromReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // destructors
