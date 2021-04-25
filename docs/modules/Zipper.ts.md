@@ -63,9 +63,9 @@ Added in v0.1.6
 - [destructors](#destructors)
   - [isOutOfBound](#isoutofbound)
   - [length](#length)
-  - [toArray](#toarray)
   - [toNonEmptyArray](#tononemptyarray)
   - [toReadonlyNonEmptyArray](#toreadonlynonemptyarray)
+  - [~~toArray~~](#toarray)
 - [instances](#instances)
   - [Applicative](#applicative-1)
   - [Apply](#apply-1)
@@ -423,16 +423,6 @@ export declare const length: <A>(fa: Zipper<A>) => number
 
 Added in v0.1.6
 
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(fa: Zipper<A>) => A[]
-```
-
-Added in v0.1.6
-
 ## toNonEmptyArray
 
 **Signature**
@@ -452,6 +442,16 @@ export declare const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonE
 ```
 
 Added in v0.1.22
+
+## ~~toArray~~
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(fa: Zipper<A>) => A[]
+```
+
+Added in v0.1.6
 
 # instances
 
