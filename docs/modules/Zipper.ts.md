@@ -399,7 +399,7 @@ Added in v0.1.6
 export declare const fromReadonlyArray: <A>(as: readonly A[], focusIndex?: number | undefined) => Option<Zipper<A>>
 ```
 
-Added in v0.1.22
+Added in v0.1.23
 
 ## fromReadonlyNonEmptyArray
 
@@ -409,7 +409,7 @@ Added in v0.1.22
 export declare const fromReadonlyNonEmptyArray: <A>(rnea: ReadonlyNonEmptyArray<A>) => Zipper<A>
 ```
 
-Added in v0.1.22
+Added in v0.1.23
 
 ## make
 
@@ -453,7 +453,7 @@ Added in v0.1.6
 export declare const toNonEmptyArray: <A>(fa: Zipper<A>) => NEA.NonEmptyArray<A>
 ```
 
-Added in v0.1.22
+Added in v0.1.23
 
 ## toReadonlyNonEmptyArray
 
@@ -463,7 +463,7 @@ Added in v0.1.22
 export declare const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArray<A>
 ```
 
-Added in v0.1.22
+Added in v0.1.23
 
 ## ~~toArray~~
 

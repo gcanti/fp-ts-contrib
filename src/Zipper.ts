@@ -70,7 +70,7 @@ export const make: <A>(lefts: ReadonlyArray<A>, focus: A, rights: ReadonlyArray<
 
 /**
  * @category constructors
- * @since 0.1.22
+ * @since 0.1.23
  */
 export const fromReadonlyArray: <A>(as: ReadonlyArray<A>, focusIndex?: number) => Option<Zipper<A>> = (
   as,
@@ -93,10 +93,10 @@ export const fromArray: <A>(as: Array<A>, focusIndex?: number) => Option<Zipper<
 
 /**
  * @category constructors
- * @since 0.1.22
+ * @since 0.1.23
  */
 export const fromReadonlyNonEmptyArray: <A>(rnea: ReadonlyNonEmptyArray<A>) => Zipper<A> = (nea) =>
-  make(A.empty, nea[0], nea.slice(1))
+  make([], nea[0], nea.slice(1))
 
 /**
  * @category constructors
@@ -123,7 +123,7 @@ export const length: <A>(fa: Zipper<A>) => number = (fa) => fa.lefts.length + 1 
 
 /**
  * @category destructors
- * @since 0.1.22
+ * @since 0.1.23
  */
 export const toNonEmptyArray: <A>(fa: Zipper<A>) => NonEmptyArray<A> = (fa) =>
   pipe(
@@ -134,7 +134,7 @@ export const toNonEmptyArray: <A>(fa: Zipper<A>) => NonEmptyArray<A> = (fa) =>
 
 /**
  * @category destructors
- * @since 0.1.22
+ * @since 0.1.23
  */
 export const toReadonlyNonEmptyArray: <A>(fa: Zipper<A>) => ReadonlyNonEmptyArray<A> = toNonEmptyArray
 
@@ -206,7 +206,7 @@ export const start: <A>(fa: Zipper<A>) => Zipper<A> = (fa) => {
   if (A.isEmpty(fa.lefts)) {
     return fa
   } else {
-    return make(A.empty, fa.lefts[0], A.snoc(pipe(fa.lefts, A.dropLeft(1)), fa.focus).concat(fa.rights))
+    return make([], fa.lefts[0], A.snoc(pipe(fa.lefts, A.dropLeft(1)), fa.focus).concat(fa.rights))
   }
 }
 
@@ -221,7 +221,7 @@ export const end: <A>(fa: Zipper<A>) => Zipper<A> = (fa) => {
   if (len === 0) {
     return fa
   } else {
-    return make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(len - 1))), fa.rights[len - 1], A.empty)
+    return make(A.snoc(fa.lefts, fa.focus).concat(pipe(fa.rights, A.takeLeft(len - 1))), fa.rights[len - 1], [])
   }
 }
 
@@ -365,7 +365,7 @@ export const apSecond = <B>(fb: Zipper<B>) => <A>(fa: Zipper<A>): Zipper<B> =>
  * @category Applicative
  * @since 0.1.6
  */
-export const of: <A>(focus: A) => Zipper<A> = (focus) => make(A.empty, focus, A.empty)
+export const of: <A>(focus: A) => Zipper<A> = (focus) => make([], focus, [])
 
 /**
  * @category Extend
@@ -470,7 +470,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Zipper<A>> = (S) =>
  */
 export const getMonoid: <A>(M: Monoid<A>) => Monoid<Zipper<A>> = (M) => ({
   ...getSemigroup(M),
-  empty: make(A.empty, M.empty, A.empty)
+  empty: make([], M.empty, [])
 })
 
 /**
