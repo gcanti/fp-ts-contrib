@@ -21,7 +21,7 @@ Added in v0.1.8
 
 ## collectUntil
 
-Execute an action repeatedly until the `Option` condition returns a `Some`. Collects results into an arbitrary `Alt`
+Execute an action repeatedly until the `Option` condition returns a `None`. Collects results into an arbitrary `Alt`
 value, such as a `Array` or `NonEmptyArray`.
 
 **Signature**
