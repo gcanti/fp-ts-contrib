@@ -1,6 +1,6 @@
 ---
 title: Semialign/index.ts
-nav_order: 16
+nav_order: 22
 parent: Modules
 ---
 

@@ -23,6 +23,12 @@ Added in v0.1.0
   - [collectUntil](#collectuntil)
   - [filterA](#filtera)
   - [free](#free)
+  - [ixApplicative](#ixapplicative)
+  - [ixApply](#ixapply)
+  - [ixChain](#ixchain)
+  - [ixFunctor](#ixfunctor)
+  - [ixMonad](#ixmonad)
+  - [ixPointed](#ixpointed)
   - [list](#list)
   - [readerIO](#readerio)
   - [regExp](#regexp)
@@ -138,6 +144,66 @@ export declare const free: typeof free
 ```
 
 Added in v0.1.21
+
+## ixApplicative
+
+**Signature**
+
+```ts
+export declare const ixApplicative: typeof ixApplicative
+```
+
+Added in v0.1.24
+
+## ixApply
+
+**Signature**
+
+```ts
+export declare const ixApply: typeof ixApply
+```
+
+Added in v0.1.24
+
+## ixChain
+
+**Signature**
+
+```ts
+export declare const ixChain: typeof ixChain
+```
+
+Added in v0.1.24
+
+## ixFunctor
+
+**Signature**
+
+```ts
+export declare const ixFunctor: typeof ixFunctor
+```
+
+Added in v0.1.24
+
+## ixMonad
+
+**Signature**
+
+```ts
+export declare const ixMonad: typeof ixMonad
+```
+
+Added in v0.1.24
+
+## ixPointed
+
+**Signature**
+
+```ts
+export declare const ixPointed: typeof ixPointed
+```
+
+Added in v0.1.24
 
 ## list
 
