@@ -273,4 +273,11 @@ describe('Zipper', () => {
     assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make([], 'a', ['b', 'c'])), O.some(1))
     assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make([], 'a', [])), O.none)
   })
+
+  it('moveByFindFirst', () => {
+    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 0)(_.make([], 0, [])), O.some(_.make([], 0, [])))
+    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 1)(_.make([], 0, [])), O.none)
+    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 0)(_.make([0], 1, [])), O.some(_.make([], 0, [1])))
+    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 1)(_.make([], 0, [1])), O.some(_.make([0], 1, [])))
+  })
 })
