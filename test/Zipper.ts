@@ -266,4 +266,11 @@ describe('Zipper', () => {
     assert.strictEqual(S.show(_.make(['b', 'c'], 'a', ['d'])), 'Zipper(["b", "c"], "a", ["d"])')
     assert.strictEqual(S.show(_.make(['b', 'c'], 'a', ['d', 'e'])), 'Zipper(["b", "c"], "a", ["d", "e"])')
   })
+
+  it('findIndex', () => {
+    assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make(['a', 'b'], 'c', [])), O.some(1))
+    assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make(['a'], 'b', ['c'])), O.some(1))
+    assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make([], 'a', ['b', 'c'])), O.some(1))
+    assert.deepStrictEqual(_.findIndex((x) => x === 'b')(_.make([], 'a', [])), O.none)
+  })
 })
