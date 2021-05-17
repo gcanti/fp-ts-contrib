@@ -49,6 +49,7 @@ Added in v0.1.6
   - [deleteRight](#deleteright)
   - [down](#down)
   - [end](#end)
+  - [findZ](#findz)
   - [insertLeft](#insertleft)
   - [insertRight](#insertright)
   - [modify](#modify)
@@ -286,6 +287,19 @@ export declare const end: <A>(fa: Zipper<A>) => Zipper<A>
 ```
 
 Added in v0.1.6
+
+## findZ
+
+Moves focus to the nearest element matching the given predicate, preferring
+the left, or `None` if no element matches.
+
+**Signature**
+
+```ts
+export declare const findZ: <A>(p: Predicate<A>) => (fa: Zipper<A>) => O.Option<Zipper<A>>
+```
+
+Added in v0.1.24
 
 ## insertLeft
 
