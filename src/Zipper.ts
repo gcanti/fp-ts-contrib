@@ -18,7 +18,7 @@ import * as A from 'fp-ts/lib/Array'
 import { Comonad1 } from 'fp-ts/lib/Comonad'
 import { Extend1 } from 'fp-ts/lib/Extend'
 import { Foldable1 } from 'fp-ts/lib/Foldable'
-import { decrement, increment, identity } from 'fp-ts/lib/function'
+import { decrement, increment, identity, Predicate } from 'fp-ts/lib/function'
 import { Functor1 } from 'fp-ts/lib/Functor'
 import { FunctorWithIndex1 } from 'fp-ts/lib/FunctorWithIndex'
 import { HKT } from 'fp-ts/lib/HKT'
@@ -182,6 +182,26 @@ export const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => Op
     return fromArray(toNonEmptyArray(fa), newIndex)
   }
 }
+
+/**
+ * Find the first index for which a predicate holds.
+ *
+ * @category utils
+ * @since 0.1.24
+ */
+export const findIndex = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option<number> =>
+  pipe(
+    fa.lefts,
+    RA.findIndex(predicate),
+    O.alt(() => (predicate(fa.focus) ? O.some(fa.lefts.length) : O.none)),
+    O.alt(() =>
+      pipe(
+        fa.rights,
+        RA.findIndex(predicate),
+        O.map((i) => fa.lefts.length + 1 + i)
+      )
+    )
+  )
 
 /**
  * Moves focus of the zipper up.

@@ -84,6 +84,8 @@ Added in v0.1.6
   - [zipper](#zipper)
 - [model](#model)
   - [Zipper (interface)](#zipper-interface)
+- [utils](#utils)
+  - [findIndex](#findindex)
 
 ---
 
@@ -626,3 +628,17 @@ export interface Zipper<A> {
 ```
 
 Added in v0.1.6
+
+# utils
+
+## findIndex
+
+Find the first index for which a predicate holds.
+
+**Signature**
+
+```ts
+export declare const findIndex: <A>(predicate: Predicate<A>) => (fa: Zipper<A>) => Option<number>
+```
+
+Added in v0.1.24
