@@ -24,7 +24,7 @@ import { FunctorWithIndex1 } from 'fp-ts/lib/FunctorWithIndex'
 import { HKT } from 'fp-ts/lib/HKT'
 import { Monoid } from 'fp-ts/lib/Monoid'
 import * as NEA from 'fp-ts/lib/NonEmptyArray'
-import { none, Option, some } from 'fp-ts/lib/Option'
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as RA from 'fp-ts/lib/ReadonlyArray'
 import { Semigroup } from 'fp-ts/lib/Semigroup'
@@ -33,6 +33,9 @@ import { Traversable1 } from 'fp-ts/lib/Traversable'
 import { ReadonlyNonEmptyArray } from 'fp-ts/ReadonlyNonEmptyArray'
 
 import NonEmptyArray = NEA.NonEmptyArray
+import Option = O.Option
+
+const { none, some } = O
 
 // -------------------------------------------------------------------------------------
 // model

@@ -243,7 +243,7 @@ the focus is moved to the right.
 **Signature**
 
 ```ts
-export declare const deleteLeft: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+export declare const deleteLeft: <A>(fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -256,7 +256,7 @@ the focus is moved to the left.
 **Signature**
 
 ```ts
-export declare const deleteRight: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+export declare const deleteRight: <A>(fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -268,7 +268,7 @@ Moves focus of the zipper down.
 **Signature**
 
 ```ts
-export declare const down: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+export declare const down: <A>(fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -328,7 +328,7 @@ Moves focus in the zipper, or `None` if there is no such element.
 **Signature**
 
 ```ts
-export declare const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => Option<Zipper<A>>
+export declare const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -352,7 +352,7 @@ Moves focus of the zipper up.
 **Signature**
 
 ```ts
-export declare const up: <A>(fa: Zipper<A>) => Option<Zipper<A>>
+export declare const up: <A>(fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -376,7 +376,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[], focusIndex?: number | undefined) => Option<Zipper<A>>
+export declare const fromArray: <A>(as: A[], focusIndex?: number | undefined) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.6
@@ -396,7 +396,7 @@ Added in v0.1.6
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[], focusIndex?: number | undefined) => Option<Zipper<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[], focusIndex?: number | undefined) => O.Option<Zipper<A>>
 ```
 
 Added in v0.1.23
