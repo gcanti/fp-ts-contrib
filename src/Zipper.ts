@@ -202,6 +202,21 @@ export const findIndex = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option
   )
 
 /**
+ * Use a function to find and focus the first matching element in the array. If
+ * no element matches, `None` is returned. If an element matches,
+ * `Some<Zipper<A>>` is returned.
+ *
+ * @category combinators
+ * @since 0.1.25
+ */
+export const moveByFindFirst = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option<Zipper<A>> =>
+  pipe(
+    fa,
+    findIndex(predicate),
+    O.chain((i) => (i === fa.lefts.length ? O.some(fa) : move(() => i, fa)))
+  )
+
+/**
  * Moves focus of the zipper up.
  *
  * @category combinators

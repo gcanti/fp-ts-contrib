@@ -53,6 +53,7 @@ Added in v0.1.6
   - [insertRight](#insertright)
   - [modify](#modify)
   - [move](#move)
+  - [moveByFindFirst](#movebyfindfirst)
   - [start](#start)
   - [up](#up)
   - [update](#update)
@@ -334,6 +335,20 @@ export declare const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A
 ```
 
 Added in v0.1.6
+
+## moveByFindFirst
+
+Use a function to find and focus the first matching element in the array. If
+no element matches, `None` is returned. If an element matches,
+`Some<Zipper<A>>` is returned.
+
+**Signature**
+
+```ts
+export declare const moveByFindFirst: <A>(predicate: Predicate<A>) => (fa: Zipper<A>) => O.Option<Zipper<A>>
+```
+
+Added in v0.1.25
 
 ## start
 
