@@ -204,6 +204,20 @@ export const findIndex = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option
   )
 
 /**
+ * Moves focus to the nearest element matching the given predicate, preferring
+ * the left, or `None` if no element matches.
+ *
+ * @category combinators
+ * @since 0.1.24
+ */
+export const findZ = <A>(p: Predicate<A>) => (fa: Zipper<A>): Option<Zipper<A>> =>
+  pipe(
+    fa,
+    findIndex(p),
+    O.chain((i) => (i === fa.lefts.length ? some(fa) : move(() => i, fa)))
+  )
+
+/**
  * Moves focus of the zipper up.
  *
  * @category combinators
