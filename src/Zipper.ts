@@ -35,8 +35,6 @@ import { ReadonlyNonEmptyArray } from 'fp-ts/ReadonlyNonEmptyArray'
 import NonEmptyArray = NEA.NonEmptyArray
 import Option = O.Option
 
-const { none, some } = O
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
@@ -80,9 +78,9 @@ export const fromReadonlyArray: <A>(as: ReadonlyArray<A>, focusIndex?: number) =
   focusIndex = 0
 ) => {
   if (RA.isEmpty(as) || RA.isOutOfBound(focusIndex, as)) {
-    return none
+    return O.none
   } else {
-    return some(
+    return O.some(
       make(pipe(as.slice(), A.takeLeft(focusIndex)), as[focusIndex], pipe(as.slice(), A.dropLeft(focusIndex + 1)))
     )
   }
@@ -177,7 +175,7 @@ export const modify: <A>(f: (a: A) => A) => (fa: Zipper<A>) => Zipper<A> = (f) =
 export const move: <A>(f: (currentIndex: number) => number, fa: Zipper<A>) => Option<Zipper<A>> = (f, fa) => {
   const newIndex = f(fa.lefts.length)
   if (isOutOfBound(newIndex, fa)) {
-    return none
+    return O.none
   } else {
     return fromArray(toNonEmptyArray(fa), newIndex)
   }
@@ -214,7 +212,7 @@ export const findZ = <A>(p: Predicate<A>) => (fa: Zipper<A>): Option<Zipper<A>> 
   pipe(
     fa,
     findIndex(p),
-    O.chain((i) => (i === fa.lefts.length ? some(fa) : move(() => i, fa)))
+    O.chain((i) => (i === fa.lefts.length ? O.some(fa) : move(() => i, fa)))
   )
 
 /**

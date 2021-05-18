@@ -13,6 +13,13 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.24
+
+- **New Feature**
+  - `Zipper`
+    - add `findIndex`, #80 (@SRachamim)
+    - add `findZ`, #80 (@SRachamim)
+
 # 0.1.23
 
 - **New Feature**
