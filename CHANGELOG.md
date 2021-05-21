@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.26
+
+- **New Feature**
+  - `Zipper`
+    - add `moveByFindFirst`, #81 (@SRachamim)
+
 # 0.1.25
 
 - **New Feature**

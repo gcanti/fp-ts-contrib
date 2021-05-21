@@ -348,7 +348,7 @@ no element matches, `None` is returned. If an element matches,
 export declare const moveByFindFirst: <A>(predicate: Predicate<A>) => (fa: Zipper<A>) => O.Option<Zipper<A>>
 ```
 
-Added in v0.1.25
+Added in v0.1.26
 
 ## start
 

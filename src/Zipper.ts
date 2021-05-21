@@ -207,7 +207,7 @@ export const findIndex = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option
  * `Some<Zipper<A>>` is returned.
  *
  * @category combinators
- * @since 0.1.25
+ * @since 0.1.26
  */
 export const moveByFindFirst = <A>(predicate: Predicate<A>) => (fa: Zipper<A>): Option<Zipper<A>> =>
   pipe(

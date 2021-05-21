@@ -275,9 +275,18 @@ describe('Zipper', () => {
   })
 
   it('moveByFindFirst', () => {
-    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 0)(_.make([], 0, [])), O.some(_.make([], 0, [])))
+    const zipper = _.make([], 0, [])
+    assert.deepStrictEqual(
+      pipe(
+        zipper,
+        _.moveByFindFirst((a) => a === 0),
+        O.exists((z) => z === zipper)
+      ),
+      true
+    )
     assert.deepStrictEqual(_.moveByFindFirst((a) => a === 1)(_.make([], 0, [])), O.none)
     assert.deepStrictEqual(_.moveByFindFirst((a) => a === 0)(_.make([0], 1, [])), O.some(_.make([], 0, [1])))
     assert.deepStrictEqual(_.moveByFindFirst((a) => a === 1)(_.make([], 0, [1])), O.some(_.make([0], 1, [])))
+    assert.deepStrictEqual(_.moveByFindFirst((a) => a === 1)(_.make([1], 0, [1])), O.some(_.make([], 1, [0, 1])))
   })
 })
