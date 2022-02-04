@@ -178,10 +178,24 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 
 /**
  * @category Monad
+ * @since 0.1.27
+ */
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => (ma) =>
+  T.chain(ma, (a) => T.fromM(f(a)))
+
+/**
+ * @category Monad
  * @since 0.1.18
  */
 export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A> = (f) => (ma) =>
   T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * @category Monad
+ * @since 0.1.27
+ */
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A> = (f) => (ma) =>
+  T.chain(ma, (a) => T.map(T.fromM(f(a)), () => a))
 
 /**
  * @category Monad
