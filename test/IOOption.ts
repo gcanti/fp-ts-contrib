@@ -40,10 +40,22 @@ describe('IOOption', () => {
       assert.deepStrictEqual(pipe(_.none, _.chain(f))(), O.none)
     })
 
+    it('chainIOK', () => {
+      const f = (n: number) => io.of(n + 1)
+      assert.deepStrictEqual(pipe(_.some(1), _.chainIOK(f))(), O.some(2))
+      assert.deepStrictEqual(pipe(_.none, _.chainIOK(f))(), O.none)
+    })
+
     it('chainFirst', () => {
       const f = (n: number) => _.of(n + 1)
       assert.deepStrictEqual(pipe(_.some(1), _.chainFirst(f))(), O.some(1))
       assert.deepStrictEqual(pipe(_.none, _.chainFirst(f))(), O.none)
+    })
+
+    it('chainFirstIOK', () => {
+      const f = (n: number) => io.of(n + 1)
+      assert.deepStrictEqual(pipe(_.some(1), _.chainFirstIOK(f))(), O.some(1))
+      assert.deepStrictEqual(pipe(_.none, _.chainFirstIOK(f))(), O.none)
     })
 
     it('chainOptionK', () => {

@@ -35,6 +35,8 @@ Added in v0.1.14
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [flatten](#flatten)
 - [combinators](#combinators)
@@ -245,6 +247,26 @@ export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOpti
 ```
 
 Added in v0.1.18
+
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A>
+```
+
+Added in v0.1.27
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.27
 
 ## chainOptionK
 
