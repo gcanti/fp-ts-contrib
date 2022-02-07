@@ -2,13 +2,11 @@ import * as assert from 'assert'
 import * as E from 'fp-ts/lib/Either'
 import { monoidSum } from 'fp-ts/lib/Monoid'
 import * as O from 'fp-ts/lib/Option'
-import * as IO from 'fp-ts/lib/IO'
+import { io } from 'fp-ts/lib/IO'
 import * as _ from '../src/IOOption'
 import * as IOE from 'fp-ts/lib/IOEither'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
-
-import io = IO.io
 
 describe('IOOption', () => {
   describe('pipeables', () => {
@@ -186,7 +184,7 @@ describe('IOOption', () => {
     })
 
     it('fromIOK', () => {
-      const f = (n: number) => IO.of(n % 10)
+      const f = (n: number) => io.of(n % 10)
       assert.deepStrictEqual(_.fromIOK(f)(12)(), O.some(2))
     })
 
