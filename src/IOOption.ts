@@ -59,6 +59,14 @@ export const fromIO: <A = never>(ma: IO<A>) => IOOption<A> = T.fromM
 
 /**
  * @category constructors
+ * @since 0.1.27
+ */
+export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> = (f) => (
+  ...a
+) => fromIO(f(...a))
+
+/**
+ * @category constructors
  * @since 0.1.14
  */
 export const fromOption: <A = never>(ma: Option<A>) => IOOption<A> = ioOf
@@ -180,8 +188,7 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
  * @category Monad
  * @since 0.1.27
  */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => (ma) =>
-  T.chain(ma, (a) => T.fromM(f(a)))
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => chain(fromIOK(f))
 
 /**
  * @category Monad
@@ -194,8 +201,8 @@ export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) =
  * @category Monad
  * @since 0.1.27
  */
-export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A> = (f) => (ma) =>
-  T.chain(ma, (a) => T.map(T.fromM(f(a)), () => a))
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A> = (f) =>
+  chainFirst(fromIOK(f))
 
 /**
  * @category Monad

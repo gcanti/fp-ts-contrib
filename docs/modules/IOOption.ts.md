@@ -44,6 +44,7 @@ Added in v0.1.14
 - [constructors](#constructors)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromIOK](#fromiok)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromOptionK](#fromoptionk)
@@ -321,6 +322,16 @@ export declare const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A>
 ```
 
 Added in v0.1.14
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A extends unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B>
+```
+
+Added in v0.1.27
 
 ## fromNullable
 
