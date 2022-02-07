@@ -1,6 +1,7 @@
 {
   "extends": "tslint-config-standard",
   "rules": {
+    "deprecation": false,
     "space-before-function-paren": false,
     "no-use-before-declare": false,
     "variable-name": false,
