@@ -19,7 +19,7 @@ describe('batchTraverse', () => {
       )
     )()
     assert.deepStrictEqual(actual, E.right([1, 2, 3, 4]))
-    assert.deepStrictEqual(log, ['Executing 2', 'Executing 1', 'Executing 4', 'Executing 3'])
+    assert.deepStrictEqual(log.sort(), ['Executing 1', 'Executing 2', 'Executing 3', 'Executing 4'])
   })
 
   it('should not stack overflow', async () => {
@@ -38,6 +38,6 @@ describe('batchTraverse', () => {
       )
     )()
     assert.deepStrictEqual(actual, E.left('Error: 3'))
-    assert.deepStrictEqual(log, ['Executing 2', 'Executing 1', 'Executing 4', 'Executing 3'])
+    assert.deepStrictEqual(log.sort(), ['Executing 1', 'Executing 2', 'Executing 3', 'Executing 4'])
   })
 })
