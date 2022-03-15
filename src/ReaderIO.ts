@@ -73,6 +73,23 @@ export const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A> = T.asks
  */
 export const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderIO<R, A>) => ReaderIO<Q, A> = (f) => (ma) => T.local(ma, f)
 
+/**
+ * Less strict version of [`asksReaderIO`](#asksreaderio).
+ *
+ * @category combinators
+ * @since 0.1.27
+ */
+// TODO: use R.asksReaderW when fp-ts version >= 2.11.0
+export const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = (f) => (r) => f(r)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 0.1.27
+ */
+export const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A> = asksReaderIOW
+
 // -------------------------------------------------------------------------------------
 // pipeables
 // -------------------------------------------------------------------------------------
