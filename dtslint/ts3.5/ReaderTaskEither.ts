@@ -52,6 +52,11 @@ pipe(
   _.chainReaderIOK(() => RIO.of(1))
 )
 
+pipe(
+  RTE.right<R1, string, number>(1),
+  _.chainReaderIOK(() => RIO.of<R2, boolean>(true)) // $ExpectError
+)
+
 //
 // chainFirstReaderIOKW
 //
@@ -70,4 +75,9 @@ pipe(
 pipe(
   RTE.right<R1, string, number>(1),
   _.chainFirstReaderIOK(() => RIO.of(true))
+)
+
+pipe(
+  RTE.right<R1, string, number>(1),
+  _.chainFirstReaderIOK(() => RIO.of<R2, boolean>(true)) // $ExpectError
 )
