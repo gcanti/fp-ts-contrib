@@ -56,7 +56,7 @@ export const chainReaderIOK: <A, R, B>(
  * @category combinators
  * @since 0.1.27
  */
-// TODO use RT.chainFirst when fp-ts version >= 2.11.0
+// TODO use RT.chainFirstW when fp-ts version >= 2.11.0
 export const chainFirstReaderIOKW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => RT.chainFirst(fromReaderIOK(f)) as any
