@@ -13,6 +13,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.27
+
+- **New Feature**
+  - `ReaderIO`
+    - add `asksReaderIO` / `asksReaderIOW`, #91 (@thewilkybarkid)
+  - `ReaderTaskEither`
+    - Add `ReaderIO` constructors / combinators, #90 (@thewilkybarkid)
+  - `ReaderTask`
+    - Add `ReaderIO` constructors / combinators, #92 (@thewilkybarkid)
+
 # 0.1.26
 
 - **New Feature**
