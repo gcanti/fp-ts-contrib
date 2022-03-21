@@ -26,6 +26,8 @@ Added in v0.1.0
   - [chainIOK](#chainiok)
   - [flatten](#flatten)
 - [combinators](#combinators)
+  - [asksReaderIO](#asksreaderio)
+  - [asksReaderIOW](#asksreaderiow)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -147,6 +149,30 @@ export declare const flatten: <E, A>(mma: ReaderIO<E, ReaderIO<E, A>>) => Reader
 Added in v0.1.18
 
 # combinators
+
+## asksReaderIO
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
+```
+
+Added in v0.1.27
+
+## asksReaderIOW
+
+Less strict version of [`asksReaderIO`](#asksreaderio).
+
+**Signature**
+
+```ts
+export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v0.1.27
 
 ## local
 
