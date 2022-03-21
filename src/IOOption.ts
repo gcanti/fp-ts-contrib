@@ -59,7 +59,7 @@ export const fromIO: <A = never>(ma: IO<A>) => IOOption<A> = T.fromM
 
 /**
  * @category constructors
- * @since 0.1.27
+ * @since 0.1.28
  */
 export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> = (f) => (
   ...a
@@ -186,7 +186,7 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 
 /**
  * @category Monad
- * @since 0.1.27
+ * @since 0.1.28
  */
 export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => chain(fromIOK(f))
 
@@ -199,7 +199,7 @@ export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) =
 
 /**
  * @category Monad
- * @since 0.1.27
+ * @since 0.1.28
  */
 export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A> = (f) =>
   chainFirst(fromIOK(f))
