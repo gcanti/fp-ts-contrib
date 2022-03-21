@@ -257,7 +257,7 @@ Added in v0.1.18
 export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A>
 ```
 
-Added in v0.1.27
+Added in v0.1.28
 
 ## chainIOK
 
@@ -267,7 +267,7 @@ Added in v0.1.27
 export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
-Added in v0.1.27
+Added in v0.1.28
 
 ## chainOptionK
 
@@ -331,7 +331,7 @@ Added in v0.1.14
 export declare const fromIOK: <A extends unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B>
 ```
 
-Added in v0.1.27
+Added in v0.1.28
 
 ## fromNullable
 
