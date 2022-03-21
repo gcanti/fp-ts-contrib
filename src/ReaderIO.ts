@@ -108,6 +108,16 @@ export const ap: <E, A>(fa: ReaderIO<E, A>) => <B>(fab: ReaderIO<E, (a: A) => B>
   T.ap(fab, fa)
 
 /**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 0.1.28
+ */
+export const apW: <R2, A>(
+  fa: ReaderIO<R2, A>
+) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> = ap as any
+
+/**
  * @category Apply
  * @since 0.1.18
  */
@@ -143,12 +153,34 @@ export const chain: <E, A, B>(f: (a: A) => ReaderIO<E, B>) => (ma: ReaderIO<E, A
   T.chain(ma, f)
 
 /**
+ * Less strict version of  [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 0.1.28
+ */
+export const chainW: <R2, A, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = chain as any
+
+/**
  * @category Monad
  * @since 0.1.18
  */
 export const chainFirst: <E, A, B>(f: (a: A) => ReaderIO<E, B>) => (ma: ReaderIO<E, A>) => ReaderIO<E, A> = (f) => (
   ma
 ) => T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 0.1.28
+ */
+export const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = chainFirst as any
 
 /**
  * @category Monad
@@ -158,10 +190,18 @@ export const chainIOK = <A, B>(f: (a: A) => IO<B>): (<R>(ma: ReaderIO<R, A>) => 
   chain<any, A, B>(fromIOK(f))
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category Monad
+ * @since 0.1.28
+ */
+export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = chainW(identity)
+
+/**
  * @category Monad
  * @since 0.1.18
  */
-export const flatten: <E, A>(mma: ReaderIO<E, ReaderIO<E, A>>) => ReaderIO<E, A> = (mma) => T.chain(mma, identity)
+export const flatten: <E, A>(mma: ReaderIO<E, ReaderIO<E, A>>) => ReaderIO<E, A> = flattenW
 
 // -------------------------------------------------------------------------------------
 // instances

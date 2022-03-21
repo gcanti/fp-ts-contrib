@@ -18,16 +18,20 @@ Added in v0.1.0
   - [ap](#ap)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [apW](#apw)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
+  - [chainW](#chainw)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
 - [combinators](#combinators)
   - [asksReaderIO](#asksreaderio)
   - [asksReaderIOW](#asksreaderiow)
+  - [chainFirstW](#chainfirstw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -94,6 +98,20 @@ export declare const apSecond: <E, B>(fb: ReaderIO<E, B>) => <A>(fa: ReaderIO<E,
 
 Added in v0.1.18
 
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <R2, A>(
+  fa: ReaderIO<R2, A>
+) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v0.1.28
+
 # Functor
 
 ## map
@@ -138,6 +156,20 @@ export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(ma: ReaderIO<
 
 Added in v0.1.10
 
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+**Signature**
+
+```ts
+export declare const chainW: <R2, A, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
+```
+
+Added in v0.1.28
+
 ## flatten
 
 **Signature**
@@ -147,6 +179,18 @@ export declare const flatten: <E, A>(mma: ReaderIO<E, ReaderIO<E, A>>) => Reader
 ```
 
 Added in v0.1.18
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v0.1.28
 
 # combinators
 
@@ -173,6 +217,22 @@ export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) 
 ```
 
 Added in v0.1.27
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
+```
+
+Added in v0.1.28
 
 ## local
 
