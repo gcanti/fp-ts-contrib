@@ -45,6 +45,16 @@ describe('ReaderIO', () => {
     )
   })
 
+  it('asksReaderIO', () => {
+    const f = (e: { count: number }) => _.of(e.count + 1)
+    assert.deepStrictEqual(_.asksReaderIO(f)({ count: 0 })(), 1)
+  })
+
+  it('asksReaderIOW', () => {
+    const f = (e: { count: number }) => _.of(e.count + 1)
+    assert.deepStrictEqual(_.asksReaderIOW(f)({ count: 0 })(), 1)
+  })
+
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
