@@ -174,6 +174,13 @@ describe('IOOption', () => {
   })
 
   describe('constructors', () => {
+    it('fromPredicate', async () => {
+      const p = (n: number): boolean => n > 2
+      const f = _.fromPredicate(p)
+      assert.deepStrictEqual(f(1)(), O.none)
+      assert.deepStrictEqual(f(3)(), O.some(3))
+    })
+
     it('fromNullable', () => {
       const ma1 = _.fromNullable(null)
       const ma2 = _.fromNullable(undefined)
