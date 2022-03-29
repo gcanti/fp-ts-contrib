@@ -174,7 +174,7 @@ describe('IOOption', () => {
   })
 
   describe('constructors', () => {
-    it('fromPredicate', async () => {
+    it('fromPredicate', () => {
       const p = (n: number): boolean => n > 2
       const f = _.fromPredicate(p)
       assert.deepStrictEqual(f(1)(), O.none)
