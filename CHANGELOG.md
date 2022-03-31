@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.29
+
+- **New Feature**
+  - `IOOption`
+    - add `fromPredicate`, #94 (@thewilkybarkid)
+
 # 0.1.28
 
 - **New Feature**
