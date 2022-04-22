@@ -1,5 +1,6 @@
 /**
  * @since 0.1.0
+ * @deprecated 0.1.27
  */
 import { Alternative1 } from 'fp-ts/lib/Alternative'
 import { Applicative1 } from 'fp-ts/lib/Applicative'
@@ -283,7 +284,7 @@ export const partitionMap: <A, B, C>(
  * @category instances
  * @since 0.1.0
  */
-const URI = 'TaskOption'
+const URI = 'TaskOptionContrib'
 
 /**
  * @category instances
@@ -293,7 +294,7 @@ export type URI = typeof URI
 
 declare module 'fp-ts/lib/HKT' {
   interface URItoKind<A> {
-    TaskOption: TaskOption<A>
+    TaskOptionContrib: TaskOption<A>
   }
 }
 

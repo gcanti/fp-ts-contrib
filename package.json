@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts-contrib",
   "peerDependencies": {
-    "fp-ts": "^2.1.2"
+    "fp-ts": "^2.11"
   },
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
@@ -48,7 +48,7 @@
     "docs-ts": "^0.6.9",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
-    "fp-ts": "^2.8.2",
+    "fp-ts": "^2.11.8",
     "import-path-rewrite": "github:gcanti/import-path-rewrite",
     "jest": "^24.9.0",
     "mocha": "^5.2.0",
