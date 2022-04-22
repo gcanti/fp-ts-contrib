@@ -35,6 +35,8 @@ Added in v0.1.14
 - [Monad](#monad)
   - [chain](#chain)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [flatten](#flatten)
 - [combinators](#combinators)
@@ -42,9 +44,11 @@ Added in v0.1.14
 - [constructors](#constructors)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromIOK](#fromiok)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromOptionK](#fromoptionk)
+  - [fromPredicate](#frompredicate)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -246,6 +250,26 @@ export declare const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOpti
 
 Added in v0.1.18
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A>
+```
+
+Added in v0.1.28
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B>
+```
+
+Added in v0.1.28
+
 ## chainOptionK
 
 **Signature**
@@ -300,6 +324,16 @@ export declare const fromIOEither: <A>(ma: IOEither<any, A>) => IOOption<A>
 
 Added in v0.1.14
 
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A extends unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B>
+```
+
+Added in v0.1.28
+
 ## fromNullable
 
 **Signature**
@@ -329,6 +363,20 @@ export declare const fromOptionK: <A extends unknown[], B>(f: (...a: A) => O.Opt
 ```
 
 Added in v0.1.14
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => IOOption<A>
+}
+```
+
+Added in v0.1.29
 
 ## none
 

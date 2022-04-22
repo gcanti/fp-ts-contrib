@@ -69,6 +69,11 @@ describe('ReaderIO', () => {
     assert.deepStrictEqual(pipe(_.of(f), _.ap(_.of(1)))({})(), 2)
   })
 
+  it('apW', () => {
+    const f = (n: number): number => n * 2
+    assert.deepStrictEqual(pipe(_.of(f), _.apW(_.of(1)))({})(), 2)
+  })
+
   it('apFirst', () => {
     assert.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))({})(), 'a')
   })
@@ -87,9 +92,19 @@ describe('ReaderIO', () => {
     assert.deepStrictEqual(_.Monad.chain(_.of('foo'), f)({})(), 3)
   })
 
+  it('chainW', () => {
+    const f = (a: string) => _.of(a.length)
+    assert.deepStrictEqual(pipe(_.of('foo'), _.chainW(f))({})(), 3)
+  })
+
   it('chainFirst', () => {
     const f = (a: string) => _.of(a.length)
     assert.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
+  })
+
+  it('chainFirstW', () => {
+    const f = (a: string) => _.of(a.length)
+    assert.deepStrictEqual(pipe(_.of('foo'), _.chainFirstW(f))({})(), 'foo')
   })
 
   it('chainIOK', () => {
@@ -99,6 +114,10 @@ describe('ReaderIO', () => {
 
   it('flatten', () => {
     assert.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({})(), 'a')
+  })
+
+  it('flattenW', () => {
+    assert.deepStrictEqual(pipe(_.of(_.of('a')), _.flattenW)({})(), 'a')
   })
 
   // -------------------------------------------------------------------------------------

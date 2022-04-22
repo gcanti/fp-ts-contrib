@@ -53,9 +53,28 @@ export const some: <A = never>(a: A) => IOOption<A> = T.of
 
 /**
  * @category constructors
+ * @since 0.1.29
+ */
+// TODO use OT.fromPredicate when fp-ts version >= 2.10.0
+export const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => IOOption<A>
+} = <A>(predicate: Predicate<A>) => (a: A) => (predicate(a) ? some(a) : none)
+
+/**
+ * @category constructors
  * @since 0.1.14
  */
 export const fromIO: <A = never>(ma: IO<A>) => IOOption<A> = T.fromM
+
+/**
+ * @category constructors
+ * @since 0.1.28
+ */
+export const fromIOK: <A extends Array<unknown>, B>(f: (...a: A) => IO<B>) => (...a: A) => IOOption<B> = (f) => (
+  ...a
+) => fromIO(f(...a))
 
 /**
  * @category constructors
@@ -178,10 +197,23 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
 
 /**
  * @category Monad
+ * @since 0.1.28
+ */
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<B> = (f) => chain(fromIOK(f))
+
+/**
+ * @category Monad
  * @since 0.1.18
  */
 export const chainFirst: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<A> = (f) => (ma) =>
   T.chain(ma, (a) => T.map(f(a), () => a))
+
+/**
+ * @category Monad
+ * @since 0.1.28
+ */
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (ma: IOOption<A>) => IOOption<A> = (f) =>
+  chainFirst(fromIOK(f))
 
 /**
  * @category Monad

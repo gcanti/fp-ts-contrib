@@ -40,10 +40,22 @@ describe('IOOption', () => {
       assert.deepStrictEqual(pipe(_.none, _.chain(f))(), O.none)
     })
 
+    it('chainIOK', () => {
+      const f = (n: number) => io.of(n + 1)
+      assert.deepStrictEqual(pipe(_.some(1), _.chainIOK(f))(), O.some(2))
+      assert.deepStrictEqual(pipe(_.none, _.chainIOK(f))(), O.none)
+    })
+
     it('chainFirst', () => {
       const f = (n: number) => _.of(n + 1)
       assert.deepStrictEqual(pipe(_.some(1), _.chainFirst(f))(), O.some(1))
       assert.deepStrictEqual(pipe(_.none, _.chainFirst(f))(), O.none)
+    })
+
+    it('chainFirstIOK', () => {
+      const f = (n: number) => io.of(n + 1)
+      assert.deepStrictEqual(pipe(_.some(1), _.chainFirstIOK(f))(), O.some(1))
+      assert.deepStrictEqual(pipe(_.none, _.chainFirstIOK(f))(), O.none)
     })
 
     it('chainOptionK', () => {
@@ -162,6 +174,13 @@ describe('IOOption', () => {
   })
 
   describe('constructors', () => {
+    it('fromPredicate', () => {
+      const p = (n: number): boolean => n > 2
+      const f = _.fromPredicate(p)
+      assert.deepStrictEqual(f(1)(), O.none)
+      assert.deepStrictEqual(f(3)(), O.some(3))
+    })
+
     it('fromNullable', () => {
       const ma1 = _.fromNullable(null)
       const ma2 = _.fromNullable(undefined)
@@ -169,6 +188,11 @@ describe('IOOption', () => {
       assert.deepStrictEqual(ma1(), O.none)
       assert.deepStrictEqual(ma2(), O.none)
       assert.deepStrictEqual(ma3(), O.some(42))
+    })
+
+    it('fromIOK', () => {
+      const f = (n: number) => io.of(n % 10)
+      assert.deepStrictEqual(_.fromIOK(f)(12)(), O.some(2))
     })
 
     it('fromOptionK', () => {

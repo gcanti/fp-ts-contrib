@@ -13,6 +13,25 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.29
+
+- **New Feature**
+  - `IOOption`
+    - add `fromPredicate`, #94 (@thewilkybarkid)
+
+# 0.1.28
+
+- **New Feature**
+  - `ReaderIO`
+    - add `apW`, #93 (@thewilkybarkid)
+    - add `chainW`, #93 (@thewilkybarkid)
+    - add `flattenW`, #93 (@thewilkybarkid)
+    - add `chainFirstW`, #93 (@thewilkybarkid)
+  - `IOOption`
+    - add `chainFirstIOK`, #88 (@thewilkybarkid)
+    - add `chainIOK`, #88 (@thewilkybarkid)
+    - add `fromIOK`, #88 (@thewilkybarkid)
+
 # 0.1.27
 
 - **New Feature**
